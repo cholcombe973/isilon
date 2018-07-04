@@ -44,11 +44,11 @@ impl JobStatisticsJobNodeMemory {
   }
 
 
-  pub fn set__virtual(&mut self, _virtual: ::models::JobStatisticsJobNodeMemoryVirtual) {
+  pub fn set_virtual(&mut self, _virtual: ::models::JobStatisticsJobNodeMemoryVirtual) {
     self._virtual = _virtual;
   }
 
-  pub fn with__virtual(mut self, _virtual: ::models::JobStatisticsJobNodeMemoryVirtual) -> JobStatisticsJobNodeMemory {
+  pub fn with_virtual(mut self, _virtual: ::models::JobStatisticsJobNodeMemoryVirtual) -> JobStatisticsJobNodeMemory {
     self._virtual = _virtual;
     self
   }

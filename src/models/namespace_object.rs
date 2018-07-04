@@ -449,11 +449,11 @@ impl NamespaceObject {
     self.stub = None;
   }
 
-  pub fn set__type(&mut self, _type: String) {
+  pub fn set_type(&mut self, _type: String) {
     self._type = Some(_type);
   }
 
-  pub fn with__type(mut self, _type: String) -> NamespaceObject {
+  pub fn with_type(mut self, _type: String) -> NamespaceObject {
     self._type = Some(_type);
     self
   }
@@ -462,7 +462,7 @@ impl NamespaceObject {
     self._type.as_ref()
   }
 
-  pub fn reset__type(&mut self) {
+  pub fn reset_type(&mut self) {
     self._type = None;
   }
 

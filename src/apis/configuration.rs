@@ -16,9 +16,9 @@ pub struct Configuration<C: hyper::client::Connect> {
 }
 
 impl<C: hyper::client::Connect> Configuration<C> {
-  pub fn new(client: hyper::client::Client<C>) -> Configuration<C> {
+  pub fn new(client: hyper::client::Client<C>, server: &str) -> Configuration<C> {
     Configuration {
-      base_path: "https://YOUR_CLUSTER_HOSTNAME_OR_NODE_IP:8080".to_owned(),
+      base_path: format!("https://{}:8080", server),
       client: client,
     }
   }

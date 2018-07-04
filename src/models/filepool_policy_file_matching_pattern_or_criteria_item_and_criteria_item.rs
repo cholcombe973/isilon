@@ -143,11 +143,11 @@ impl FilepoolPolicyFileMatchingPatternOrCriteriaItemAndCriteriaItem {
     self.operator = None;
   }
 
-  pub fn set__type(&mut self, _type: String) {
+  pub fn set_type(&mut self, _type: String) {
     self._type = _type;
   }
 
-  pub fn with__type(mut self, _type: String) -> FilepoolPolicyFileMatchingPatternOrCriteriaItemAndCriteriaItem {
+  pub fn with_type(mut self, _type: String) -> FilepoolPolicyFileMatchingPatternOrCriteriaItemAndCriteriaItem {
     self._type = _type;
     self
   }

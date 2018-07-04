@@ -42,11 +42,11 @@ impl MappingUsersRulesRuleOptionsExtended {
     }
   }
 
-  pub fn set__break(&mut self, _break: bool) {
+  pub fn set_break(&mut self, _break: bool) {
     self._break = Some(_break);
   }
 
-  pub fn with__break(mut self, _break: bool) -> MappingUsersRulesRuleOptionsExtended {
+  pub fn with_break(mut self, _break: bool) -> MappingUsersRulesRuleOptionsExtended {
     self._break = Some(_break);
     self
   }
@@ -55,7 +55,7 @@ impl MappingUsersRulesRuleOptionsExtended {
     self._break.as_ref()
   }
 
-  pub fn reset__break(&mut self) {
+  pub fn reset_break(&mut self) {
     self._break = None;
   }
 

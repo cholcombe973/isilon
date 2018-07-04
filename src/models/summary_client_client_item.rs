@@ -124,11 +124,11 @@ impl SummaryClientClientItem {
   }
 
 
-  pub fn set__in(&mut self, _in: f32) {
+  pub fn set_in(&mut self, _in: f32) {
     self._in = _in;
   }
 
-  pub fn with__in(mut self, _in: f32) -> SummaryClientClientItem {
+  pub fn with_in(mut self, _in: f32) -> SummaryClientClientItem {
     self._in = _in;
     self
   }

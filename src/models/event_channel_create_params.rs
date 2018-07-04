@@ -139,11 +139,11 @@ impl EventChannelCreateParams {
     self.system = None;
   }
 
-  pub fn set__type(&mut self, _type: String) {
+  pub fn set_type(&mut self, _type: String) {
     self._type = _type;
   }
 
-  pub fn with__type(mut self, _type: String) -> EventChannelCreateParams {
+  pub fn with_type(mut self, _type: String) -> EventChannelCreateParams {
     self._type = _type;
     self
   }

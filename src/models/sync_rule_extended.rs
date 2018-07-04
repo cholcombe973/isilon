@@ -119,11 +119,11 @@ impl SyncRuleExtended {
   }
 
 
-  pub fn set__type(&mut self, _type: String) {
+  pub fn set_type(&mut self, _type: String) {
     self._type = _type;
   }
 
-  pub fn with__type(mut self, _type: String) -> SyncRuleExtended {
+  pub fn with_type(mut self, _type: String) -> SyncRuleExtended {
     self._type = _type;
     self
   }

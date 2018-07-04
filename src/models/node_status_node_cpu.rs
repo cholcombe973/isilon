@@ -72,11 +72,11 @@ impl NodeStatusNodeCpu {
     self.overtemp = None;
   }
 
-  pub fn set__proc(&mut self, _proc: String) {
+  pub fn set_proc(&mut self, _proc: String) {
     self._proc = Some(_proc);
   }
 
-  pub fn with__proc(mut self, _proc: String) -> NodeStatusNodeCpu {
+  pub fn with_proc(mut self, _proc: String) -> NodeStatusNodeCpu {
     self._proc = Some(_proc);
     self
   }
@@ -85,7 +85,7 @@ impl NodeStatusNodeCpu {
     self._proc.as_ref()
   }
 
-  pub fn reset__proc(&mut self) {
+  pub fn reset_proc(&mut self) {
     self._proc = None;
   }
 

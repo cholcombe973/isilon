@@ -30,11 +30,11 @@ impl SummaryProtocolStatsProtocolStatsNetwork {
     }
   }
 
-  pub fn set__in(&mut self, _in: ::models::SummaryProtocolStatsProtocolStatsNetworkIn) {
+  pub fn set_in(&mut self, _in: ::models::SummaryProtocolStatsProtocolStatsNetworkIn) {
     self._in = Some(_in);
   }
 
-  pub fn with__in(mut self, _in: ::models::SummaryProtocolStatsProtocolStatsNetworkIn) -> SummaryProtocolStatsProtocolStatsNetwork {
+  pub fn with_in(mut self, _in: ::models::SummaryProtocolStatsProtocolStatsNetworkIn) -> SummaryProtocolStatsProtocolStatsNetwork {
     self._in = Some(_in);
     self
   }
@@ -43,7 +43,7 @@ impl SummaryProtocolStatsProtocolStatsNetwork {
     self._in.as_ref()
   }
 
-  pub fn reset__in(&mut self) {
+  pub fn reset_in(&mut self) {
     self._in = None;
   }
 

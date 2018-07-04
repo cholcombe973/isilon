@@ -34,11 +34,11 @@ impl SummaryProtocolStatsProtocolStatsOnefs {
     }
   }
 
-  pub fn set__in(&mut self, _in: f32) {
+  pub fn set_in(&mut self, _in: f32) {
     self._in = _in;
   }
 
-  pub fn with__in(mut self, _in: f32) -> SummaryProtocolStatsProtocolStatsOnefs {
+  pub fn with_in(mut self, _in: f32) -> SummaryProtocolStatsProtocolStatsOnefs {
     self._in = _in;
     self
   }

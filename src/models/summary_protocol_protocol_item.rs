@@ -120,11 +120,11 @@ impl SummaryProtocolProtocolItem {
   }
 
 
-  pub fn set__in(&mut self, _in: f32) {
+  pub fn set_in(&mut self, _in: f32) {
     self._in = _in;
   }
 
-  pub fn with__in(mut self, _in: f32) -> SummaryProtocolProtocolItem {
+  pub fn with_in(mut self, _in: f32) -> SummaryProtocolProtocolItem {
     self._in = _in;
     self
   }
