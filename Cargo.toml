@@ -1,0 +1,22 @@
+[package]
+name = "isilon"
+description = "Isilon rest api bindings"
+homepage = "https://github.com/cholcombe973/isilon"
+documentation = "https://docs.rs/isilon"
+repository = "https://github.com/cholcombe973/isilon"
+license = "MIT"
+version = "1.0.0"
+authors = ["xfactor973@gmail.com"]
+
+[dependencies]
+serde = "1.0"
+serde_derive = "1.0"
+serde_yaml = "0.7"
+serde_json = "1.0"
+base64 = "~0.7.0"
+futures = "0.1.16"
+hyper = "0.11.6"
+url = "1.5"
+
+[dev-dependencies]
+tokio-core = "*"

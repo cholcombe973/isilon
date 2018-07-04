@@ -1,0 +1,51 @@
+# ProvidersAdsItem
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**account** | **String** | Specifies the machine account name when creating a SAM account with Active Directory. The default cluster name is called &#39;default&#39;. | [optional] [default to null]
+**allocate_gids** | **bool** | Allocates an ID for an unmapped Active Directory (ADS) group. ADS groups without GIDs can be proactively assigned a GID by the ID mapper. If the ID mapper option is disabled, GIDs are not proactively assigned, and when a primary group for a user does not include a GID, the system may allocate one.  | [optional] [default to null]
+**allocate_uids** | **bool** | Allocates a user ID for an unmapped Active Directory (ADS) user. ADS users without UIDs can be proactively assigned a UID by the ID mapper. IF the ID mapper option is disabled, UIDs are not proactively assigned, and when an identify for a user does not include a UID, the system may allocate one. | [optional] [default to null]
+**assume_default_domain** | **bool** | Enables lookup of unqualified user names in the primary domain. | [optional] [default to null]
+**authentication** | **bool** | Enables authentication and identity management through the authentication provider. | [optional] [default to null]
+**check_online_interval** | **i32** | Specifies the time in seconds between provider online checks. | [optional] [default to null]
+**controller_time** | **i32** | Specifies the current time for the domain controllers. | [optional] [default to null]
+**create_home_directory** | **bool** | Automatically creates a home directory on the first login. | [optional] [default to null]
+**dns_domain** | **String** | Specifies the DNS search domain. Set this parameter if the DNS search domain has a unique name or address. | [optional] [default to null]
+**domain_offline_alerts** | **bool** | Sends an alert if the domain goes offline. | [optional] [default to null]
+**findable_groups** | **Vec<String>** | Sets list of groups that can be resolved. | [optional] [default to null]
+**findable_users** | **Vec<String>** | Sets list of users that can be resolved. | [optional] [default to null]
+**groupnet** | **String** | Groupnet identifier. | [optional] [default to null]
+**home_directory_template** | **String** | Specifies the path to the home directory template. | [optional] [default to null]
+**ignore_all_trusts** | **bool** | If set to true, ignores all trusted domains. | [optional] [default to null]
+**ignored_trusted_domains** | **Vec<String>** | Includes trusted domains when &#39;ignore_all_trusts&#39; is set to false. | [optional] [default to null]
+**include_trusted_domains** | **Vec<String>** | Includes trusted domains when &#39;ignore_all_trusts&#39; is set to true. | [optional] [default to null]
+**instance** | **String** | Specifies Active Directory provider instance. | [optional] [default to null]
+**kerberos_hdfs_spn** | **bool** | Determines if connecting through HDFS with Kerberos. | [optional] [default to null]
+**kerberos_nfs_spn** | **bool** | Determines if connecting through NFS with Kerberos. | [optional] [default to null]
+**ldap_sign_and_seal** | **bool** | Enables encryption and signing on LDAP requests. | [optional] [default to null]
+**login_shell** | **String** | Specifies the login shell path. | [optional] [default to null]
+**lookup_domains** | **Vec<String>** | Limits user and group lookups to the specified domains. | [optional] [default to null]
+**lookup_groups** | **bool** | Looks up AD groups in other providers before allocating a group ID. | [optional] [default to null]
+**lookup_normalize_groups** | **bool** | Normalizes AD group names to lowercase before look up. | [optional] [default to null]
+**lookup_normalize_users** | **bool** | Normalize AD user names to lowercase before look up. | [optional] [default to null]
+**lookup_users** | **bool** | Looks up AD users in other providers before allocating a user ID. | [optional] [default to null]
+**machine_name** | **String** | Specifies name to join AD as. | [optional] [default to null]
+**machine_password_changes** | **bool** | Enables periodic changes of the machine password for security. | [optional] [default to null]
+**machine_password_lifespan** | **i32** | Sets maximum age of a password in seconds. | [optional] [default to null]
+**name** | **String** | Specifies the Active Directory provider name. | [default to null]
+**node_dc_affinity** | **String** | Specifies the domain controller for which the node has affinity. | [optional] [default to null]
+**node_dc_affinity_timeout** | **i32** | Specifies the timeout for the domain controller for which the local node has affinity. | [optional] [default to null]
+**nss_enumeration** | **bool** | Enables the Active Directory provider to respond to &#39;getpwent&#39; and &#39;getgrent&#39; requests. | [optional] [default to null]
+**organizational_unit** | **String** | Specifies the organizational unit. | [optional] [default to null]
+**password** | **String** | Specifies the password used during domain join. | [default to null]
+**restrict_findable** | **bool** | Check the provider for filtered lists of findable and unfindable users and groups. | [optional] [default to null]
+**sfu_support** | **String** | Specifies whether to support RFC 2307 attributes on ADS domain controllers. | [optional] [default to null]
+**store_sfu_mappings** | **bool** | Stores SFU mappings permanently in the ID mapper. | [optional] [default to null]
+**unfindable_groups** | **Vec<String>** | Specifies groups that cannot be resolved by the provider. | [optional] [default to null]
+**unfindable_users** | **Vec<String>** | Specifies users that cannot be resolved by the provider. | [optional] [default to null]
+**user** | **String** | Specifies the user name that has permission to join a machine to the given domain. | [default to null]
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+
