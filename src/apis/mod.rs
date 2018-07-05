@@ -1,10 +1,25 @@
+use cookie;
 use hyper;
 use serde_json;
 
 #[derive(Debug)]
 pub enum Error {
+    E(String),
+    Cookie(cookie::ParseError),
     Hyper(hyper::Error),
     Serde(serde_json::Error),
+}
+
+impl From<String> for Error {
+    fn from(e: String) -> Self {
+        return Error::E(e)
+    }
+}
+
+impl From<cookie::ParseError> for Error {
+    fn from(e: cookie::ParseError) -> Self {
+        return Error::Cookie(e)
+    }
 }
 
 impl From<hyper::Error> for Error {
