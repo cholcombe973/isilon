@@ -13,107 +13,104 @@ use futures;
 use futures::{Future, IntoFuture, Stream};
 use hyper;
 use reqwest;
-use serde_json;
 
 use super::Error;
 
 pub struct Configuration<C: hyper::client::Connect> {
-    pub base_path: String,
-    pub client: hyper::client::Client<C>,
-    server: String,
-    cookie_jar: CookieJar,
+  pub base_path: String,
+  pub client: hyper::client::Client<C>,
+  cookie_jar: CookieJar,
 }
 
 impl<C: hyper::client::Connect> Configuration<C> {
-    pub fn new(client: hyper::client::Client<C>, server: &str) -> Configuration<C> {
-        Configuration {
-            base_path: format!("https://{}:8080", server),
-            client: client,
-            server: server.to_string(),
-            cookie_jar: CookieJar::new(),
-        }
+  pub fn new(client: hyper::client::Client<C>, server: &str) -> Configuration<C> {
+    Configuration {
+      base_path: format!("https://{}:8080", server),
+      client: client,
+      cookie_jar: CookieJar::new(),
     }
+  }
 
-    // Get the session cookie and set it on the request
-    pub(crate) fn set_session(&self, req: &mut hyper::Request) -> Result<(), Error> {
-        // Set the isisessid if available
-        match self.cookie_jar.get("isisessid") {
-            Some(t) => {
-                let isi_cookie = format!("{}={}", t.name(), t.value());
-                req.headers_mut().set_raw("Cookie", isi_cookie);
-                Ok(())
-            }
-            None => Err(Error::E("isisessid cookie missing.  cannot set".into())),
-        }
+  // Get the session cookie and set it on the request
+  pub(crate) fn set_session(&self, req: &mut hyper::Request) -> Result<(), Error> {
+    // Set the isisessid if available
+    match self.cookie_jar.get("isisessid") {
+      Some(t) => {
+        let isi_cookie = format!("{}={}", t.name(), t.value());
+        req.headers_mut().set_raw("Cookie", isi_cookie);
+        Ok(())
+      }
+      None => Err(Error::E("isisessid cookie missing.  cannot set".into())),
     }
+  }
 
-    /// Synchronous login function
-    pub fn login(&mut self, user: &str, password: &str, jar: &mut CookieJar) -> Result<(), Error> {
-        let client = reqwest::Client::new();
+  /// Synchronous login function
+  pub fn login(&mut self, user: &str, password: &str) -> Result<(), Error> {
+    let client = reqwest::Client::new();
 
-        // Parse the uri
-        let body = json!({
+    // Parse the uri
+    let body = json!({
         "username": user,
         "password": password,
         "services": ["platform", "namespace"],
     });
 
-        let s = client
-            .post(&format!("{}/session/1/session", self.base_path))
-            .json(&body)
-            .send()
-            .map_err(|e| e.to_string())?
-            .error_for_status()
-            .map_err(|e| e.to_string())?;
+    let s = client
+      .post(&format!("{}/session/1/session", self.base_path))
+      .json(&body)
+      .send()
+      .map_err(|e| e.to_string())?
+      .error_for_status()
+      .map_err(|e| e.to_string())?;
 
-        // Step 2. Obtain the isisessid value from the Set-Cookie header.
-        // From here we should get back a cookie
-        match s.headers().get::<reqwest::header::SetCookie>() {
-            Some(cookies) => match cookies.iter().next() {
-                Some(c) => {
-                    let parsed = Cookie::parse(c.clone())?;
-                    self.cookie_jar.add(parsed);
-                    Ok(())
-                }
-                None => Err(Error::E("Session cookie missing from server".into())),
-            },
-            None => Err(Error::E(
-                "Server responded 200 OK but session cookie not set.  Cannot proceed further"
-                    .into(),
-            )),
+    // Step 2. Obtain the isisessid value from the Set-Cookie header.
+    // From here we should get back a cookie
+    match s.headers().get::<reqwest::header::SetCookie>() {
+      Some(cookies) => match cookies.iter().next() {
+        Some(c) => {
+          let parsed = Cookie::parse(c.clone())?;
+          self.cookie_jar.add(parsed);
+          Ok(())
         }
+        None => Err(Error::E("Session cookie missing from server".into())),
+      },
+      None => Err(Error::E(
+        "Server responded 200 OK but session cookie not set.  Cannot proceed further".into(),
+      )),
     }
+  }
 
-    pub fn logout(&self) -> Box<Future<Item = (), Error = Error>> {
-        let method = hyper::Method::Delete;
+  pub fn logout(&self) -> Box<Future<Item = (), Error = Error>> {
+    let method = hyper::Method::Delete;
 
-        let uri_str = format!("{}/session/1/session", self.base_path);
-        let uri = uri_str.parse();
+    let uri_str = format!("{}/session/1/session", self.base_path);
+    let uri = uri_str.parse();
 
-        let mut req = hyper::Request::new(method, uri.unwrap());
+    let mut req = hyper::Request::new(method, uri.unwrap());
 
-        // Set the isisessid if available
-        match self.cookie_jar.get("isisessid") {
-            Some(t) => {
-                let isi_cookie = format!("{}={}", t.name(), t.value());
-                req.headers_mut().set_raw("Cookie", isi_cookie);
-            }
-            None => {
-                return Box::new(
-                    Err(Error::E(
-                        "Unable to find isisessid cookie from isilon server".to_string(),
-                    )).into_future(),
-                );
-            }
-        };
+    // Set the isisessid if available
+    match self.cookie_jar.get("isisessid") {
+      Some(t) => {
+        let isi_cookie = format!("{}={}", t.name(), t.value());
+        req.headers_mut().set_raw("Cookie", isi_cookie);
+      }
+      None => {
+        return Box::new(
+          Err(Error::E(
+            "Unable to find isisessid cookie from isilon server".to_string(),
+          )).into_future(),
+        );
+      }
+    };
 
-        // send request
-        Box::new(
-            self.client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
-    }
+    // send request
+    Box::new(
+      self
+        .client
+        .request(req)
+        .and_then(|res| res.body().concat2())
+        .map_err(|e| Error::from(e))
+        .and_then(|_| futures::future::ok(())),
+    )
+  }
 }

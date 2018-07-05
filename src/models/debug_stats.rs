@@ -17,10 +17,10 @@ use serde_json::Value;
 pub struct DebugStats {
   /// Per-method statistics.
   #[serde(rename = "DESCRIBE")]
-  DESCRIBE: Option<::models::DebugStatsUnknown>,
+  describe: Option<::models::DebugStatsUnknown>,
   /// Per-method statistics.
   #[serde(rename = "UNKNOWN")]
-  UNKNOWN: Option<::models::DebugStatsUnknown>,
+  unknown: Option<::models::DebugStatsUnknown>,
   #[serde(rename = "handlers")]
   handlers: Option<Vec<::models::DebugStatsHandler>>
 }
@@ -29,44 +29,44 @@ impl DebugStats {
   /// Statistics for all the methods of all URIs in the Platform API.
   pub fn new() -> DebugStats {
     DebugStats {
-      DESCRIBE: None,
-      UNKNOWN: None,
+      describe: None,
+      unknown: None,
       handlers: None
     }
   }
 
-  pub fn set_DESCRIBE(&mut self, DESCRIBE: ::models::DebugStatsUnknown) {
-    self.DESCRIBE = Some(DESCRIBE);
+  pub fn set_describe(&mut self, describe: ::models::DebugStatsUnknown) {
+    self.describe = Some(describe);
   }
 
-  pub fn with_DESCRIBE(mut self, DESCRIBE: ::models::DebugStatsUnknown) -> DebugStats {
-    self.DESCRIBE = Some(DESCRIBE);
+  pub fn with_describe(mut self, describe: ::models::DebugStatsUnknown) -> DebugStats {
+    self.describe = Some(describe);
     self
   }
 
-  pub fn DESCRIBE(&self) -> Option<&::models::DebugStatsUnknown> {
-    self.DESCRIBE.as_ref()
+  pub fn describe(&self) -> Option<&::models::DebugStatsUnknown> {
+    self.describe.as_ref()
   }
 
-  pub fn reset_DESCRIBE(&mut self) {
-    self.DESCRIBE = None;
+  pub fn reset_describe(&mut self) {
+    self.describe = None;
   }
 
-  pub fn set_UNKNOWN(&mut self, UNKNOWN: ::models::DebugStatsUnknown) {
-    self.UNKNOWN = Some(UNKNOWN);
+  pub fn set_unknown(&mut self, unknown: ::models::DebugStatsUnknown) {
+    self.unknown = Some(unknown);
   }
 
-  pub fn with_UNKNOWN(mut self, UNKNOWN: ::models::DebugStatsUnknown) -> DebugStats {
-    self.UNKNOWN = Some(UNKNOWN);
+  pub fn with_unknown(mut self, unknown: ::models::DebugStatsUnknown) -> DebugStats {
+    self.unknown = Some(unknown);
     self
   }
 
-  pub fn UNKNOWN(&self) -> Option<&::models::DebugStatsUnknown> {
-    self.UNKNOWN.as_ref()
+  pub fn unknown(&self) -> Option<&::models::DebugStatsUnknown> {
+    self.unknown.as_ref()
   }
 
-  pub fn reset_UNKNOWN(&mut self) {
-    self.UNKNOWN = None;
+  pub fn reset_unknown(&mut self) {
+    self.unknown = None;
   }
 
   pub fn set_handlers(&mut self, handlers: Vec<::models::DebugStatsHandler>) {

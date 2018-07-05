@@ -215,10 +215,8 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         let mut req = hyper::Request::new(method, uri.unwrap());
         configuration.set_session(&mut req).unwrap();
 
-        {
-            let mut headers = req.headers_mut();
-            headers.set_raw("x-isi-ifs-copy-source", x_isi_ifs_copy_source);
-        }
+        req.headers_mut()
+            .set_raw("x-isi-ifs-copy-source", x_isi_ifs_copy_source);
 
         // send request
         Box::new(
@@ -267,10 +265,8 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         let mut req = hyper::Request::new(method, uri.unwrap());
         configuration.set_session(&mut req).unwrap();
 
-        {
-            let mut headers = req.headers_mut();
-            headers.set_raw("x-isi-ifs-copy-source", x_isi_ifs_copy_source);
-        }
+        req.headers_mut()
+            .set_raw("x-isi-ifs-copy-source", x_isi_ifs_copy_source);
 
         // send request
         Box::new(
@@ -363,12 +359,12 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         let mut req = hyper::Request::new(method, uri.unwrap());
         configuration.set_session(&mut req).unwrap();
 
-        {
-            let mut headers = req.headers_mut();
-            headers.set_raw("x-isi-ifs-target-type", x_isi_ifs_target_type);
-            headers.set_raw("x-isi-ifs-access-control", x_isi_ifs_access_control);
-            headers.set_raw("x-isi-ifs-node-pool-name", x_isi_ifs_node_pool_name);
-        }
+        req.headers_mut()
+            .set_raw("x-isi-ifs-target-type", x_isi_ifs_target_type);
+        req.headers_mut()
+            .set_raw("x-isi-ifs-access-control", x_isi_ifs_access_control);
+        req.headers_mut()
+            .set_raw("x-isi-ifs-node-pool-name", x_isi_ifs_node_pool_name);
 
         // send request
         Box::new(
@@ -417,13 +413,13 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         let mut req = hyper::Request::new(method, uri.unwrap());
         configuration.set_session(&mut req).unwrap();
 
-        {
-            let mut headers = req.headers_mut();
-            headers.set_raw("x-isi-ifs-target-type", x_isi_ifs_target_type);
-            headers.set_raw("x-isi-ifs-access-control", x_isi_ifs_access_control);
-            headers.set_raw("Content-Encoding", content_encoding);
-            headers.set_raw("Content-Type", content_type);
-        }
+        req.headers_mut()
+            .set_raw("x-isi-ifs-target-type", x_isi_ifs_target_type);
+        req.headers_mut()
+            .set_raw("x-isi-ifs-access-control", x_isi_ifs_access_control);
+        req.headers_mut()
+            .set_raw("Content-Encoding", content_encoding);
+        req.headers_mut().set_raw("Content-Type", content_type);
 
         let serialized = serde_json::to_string(&file_contents).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -627,11 +623,10 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         let mut req = hyper::Request::new(method, uri.unwrap());
         configuration.set_session(&mut req).unwrap();
 
-        {
-            let mut headers = req.headers_mut();
-            headers.set_raw("If-Modified-Since", if_modified_since);
-            headers.set_raw("If-Unmodified-Since", if_unmodified_since);
-        }
+        req.headers_mut()
+            .set_raw("If-Modified-Since", if_modified_since);
+        req.headers_mut()
+            .set_raw("If-Unmodified-Since", if_unmodified_since);
 
         // send request
         Box::new(
@@ -770,11 +765,10 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         let mut req = hyper::Request::new(method, uri.unwrap());
         configuration.set_session(&mut req).unwrap();
 
-        {
-            let mut headers = req.headers_mut();
-            headers.set_raw("If-Modified-Since", if_modified_since);
-            headers.set_raw("If-Unmodified-Since", if_unmodified_since);
-        }
+        req.headers_mut()
+            .set_raw("If-Modified-Since", if_modified_since);
+        req.headers_mut()
+            .set_raw("If-Unmodified-Since", if_unmodified_since);
 
         // send request
         Box::new(
@@ -816,12 +810,11 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         let mut req = hyper::Request::new(method, uri.unwrap());
         configuration.set_session(&mut req).unwrap();
 
-        {
-            let mut headers = req.headers_mut();
-            headers.set_raw("Range", range);
-            headers.set_raw("If-Modified-Since", if_modified_since);
-            headers.set_raw("If-Unmodified-Since", if_unmodified_since);
-        }
+        req.headers_mut().set_raw("Range", range);
+        req.headers_mut()
+            .set_raw("If-Modified-Since", if_modified_since);
+        req.headers_mut()
+            .set_raw("If-Unmodified-Since", if_unmodified_since);
 
         // send request
         Box::new(
@@ -983,10 +976,8 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         let mut req = hyper::Request::new(method, uri.unwrap());
         configuration.set_session(&mut req).unwrap();
 
-        {
-            let mut headers = req.headers_mut();
-            headers.set_raw("x-isi-ifs-set-location", x_isi_ifs_set_location);
-        }
+        req.headers_mut()
+            .set_raw("x-isi-ifs-set-location", x_isi_ifs_set_location);
 
         // send request
         Box::new(
@@ -1026,10 +1017,8 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         let mut req = hyper::Request::new(method, uri.unwrap());
         configuration.set_session(&mut req).unwrap();
 
-        {
-            let mut headers = req.headers_mut();
-            headers.set_raw("x-isi-ifs-set-location", x_isi_ifs_set_location);
-        }
+        req.headers_mut()
+            .set_raw("x-isi-ifs-set-location", x_isi_ifs_set_location);
 
         // send request
         Box::new(

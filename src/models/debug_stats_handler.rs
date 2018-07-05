@@ -16,22 +16,22 @@ use serde_json::Value;
 pub struct DebugStatsHandler {
   /// Per-method statistics.
   #[serde(rename = "DELETE")]
-  DELETE: Option<::models::DebugStatsUnknown>,
+  delete: Option<::models::DebugStatsUnknown>,
   /// Per-method statistics.
   #[serde(rename = "GET")]
-  GET: Option<::models::DebugStatsUnknown>,
+  get: Option<::models::DebugStatsUnknown>,
   /// Per-method statistics.
   #[serde(rename = "HEAD")]
-  HEAD: Option<::models::DebugStatsUnknown>,
+  head: Option<::models::DebugStatsUnknown>,
   /// Per-method statistics.
   #[serde(rename = "POST")]
-  POST: Option<::models::DebugStatsUnknown>,
+  post: Option<::models::DebugStatsUnknown>,
   /// Per-method statistics.
   #[serde(rename = "PUT")]
-  PUT: Option<::models::DebugStatsUnknown>,
+  put: Option<::models::DebugStatsUnknown>,
   /// Per-method statistics.
   #[serde(rename = "UNSUPPORTED")]
-  UNSUPPORTED: Option<::models::DebugStatsUnknown>,
+  unsupported: Option<::models::DebugStatsUnknown>,
   /// The URI.
   #[serde(rename = "name")]
   name: Option<String>
@@ -40,116 +40,116 @@ pub struct DebugStatsHandler {
 impl DebugStatsHandler {
   pub fn new() -> DebugStatsHandler {
     DebugStatsHandler {
-      DELETE: None,
-      GET: None,
-      HEAD: None,
-      POST: None,
-      PUT: None,
-      UNSUPPORTED: None,
+      delete: None,
+      get: None,
+      head: None,
+      post: None,
+      put: None,
+      unsupported: None,
       name: None
     }
   }
 
-  pub fn set_DELETE(&mut self, DELETE: ::models::DebugStatsUnknown) {
-    self.DELETE = Some(DELETE);
+  pub fn set_delete(&mut self, delete: ::models::DebugStatsUnknown) {
+    self.delete = Some(delete);
   }
 
-  pub fn with_DELETE(mut self, DELETE: ::models::DebugStatsUnknown) -> DebugStatsHandler {
-    self.DELETE = Some(DELETE);
+  pub fn with_delete(mut self, delete: ::models::DebugStatsUnknown) -> DebugStatsHandler {
+    self.delete = Some(delete);
     self
   }
 
-  pub fn DELETE(&self) -> Option<&::models::DebugStatsUnknown> {
-    self.DELETE.as_ref()
+  pub fn delete(&self) -> Option<&::models::DebugStatsUnknown> {
+    self.delete.as_ref()
   }
 
-  pub fn reset_DELETE(&mut self) {
-    self.DELETE = None;
+  pub fn reset_delete(&mut self) {
+    self.delete = None;
   }
 
-  pub fn set_GET(&mut self, GET: ::models::DebugStatsUnknown) {
-    self.GET = Some(GET);
+  pub fn set_get(&mut self, get: ::models::DebugStatsUnknown) {
+    self.get = Some(get);
   }
 
-  pub fn with_GET(mut self, GET: ::models::DebugStatsUnknown) -> DebugStatsHandler {
-    self.GET = Some(GET);
+  pub fn with_get(mut self, get: ::models::DebugStatsUnknown) -> DebugStatsHandler {
+    self.get = Some(get);
     self
   }
 
-  pub fn GET(&self) -> Option<&::models::DebugStatsUnknown> {
-    self.GET.as_ref()
+  pub fn get(&self) -> Option<&::models::DebugStatsUnknown> {
+    self.get.as_ref()
   }
 
-  pub fn reset_GET(&mut self) {
-    self.GET = None;
+  pub fn reset_get(&mut self) {
+    self.get = None;
   }
 
-  pub fn set_HEAD(&mut self, HEAD: ::models::DebugStatsUnknown) {
-    self.HEAD = Some(HEAD);
+  pub fn set_head(&mut self, head: ::models::DebugStatsUnknown) {
+    self.head = Some(head);
   }
 
-  pub fn with_HEAD(mut self, HEAD: ::models::DebugStatsUnknown) -> DebugStatsHandler {
-    self.HEAD = Some(HEAD);
+  pub fn with_head(mut self, head: ::models::DebugStatsUnknown) -> DebugStatsHandler {
+    self.head = Some(head);
     self
   }
 
-  pub fn HEAD(&self) -> Option<&::models::DebugStatsUnknown> {
-    self.HEAD.as_ref()
+  pub fn head(&self) -> Option<&::models::DebugStatsUnknown> {
+    self.head.as_ref()
   }
 
-  pub fn reset_HEAD(&mut self) {
-    self.HEAD = None;
+  pub fn reset_head(&mut self) {
+    self.head = None;
   }
 
-  pub fn set_POST(&mut self, POST: ::models::DebugStatsUnknown) {
-    self.POST = Some(POST);
+  pub fn set_post(&mut self, post: ::models::DebugStatsUnknown) {
+    self.post = Some(post);
   }
 
-  pub fn with_POST(mut self, POST: ::models::DebugStatsUnknown) -> DebugStatsHandler {
-    self.POST = Some(POST);
+  pub fn with_post(mut self, post: ::models::DebugStatsUnknown) -> DebugStatsHandler {
+    self.post = Some(post);
     self
   }
 
-  pub fn POST(&self) -> Option<&::models::DebugStatsUnknown> {
-    self.POST.as_ref()
+  pub fn post(&self) -> Option<&::models::DebugStatsUnknown> {
+    self.post.as_ref()
   }
 
-  pub fn reset_POST(&mut self) {
-    self.POST = None;
+  pub fn reset_post(&mut self) {
+    self.post = None;
   }
 
-  pub fn set_PUT(&mut self, PUT: ::models::DebugStatsUnknown) {
-    self.PUT = Some(PUT);
+  pub fn set_put(&mut self, put: ::models::DebugStatsUnknown) {
+    self.put = Some(put);
   }
 
-  pub fn with_PUT(mut self, PUT: ::models::DebugStatsUnknown) -> DebugStatsHandler {
-    self.PUT = Some(PUT);
+  pub fn with_put(mut self, put: ::models::DebugStatsUnknown) -> DebugStatsHandler {
+    self.put = Some(put);
     self
   }
 
-  pub fn PUT(&self) -> Option<&::models::DebugStatsUnknown> {
-    self.PUT.as_ref()
+  pub fn put(&self) -> Option<&::models::DebugStatsUnknown> {
+    self.put.as_ref()
   }
 
-  pub fn reset_PUT(&mut self) {
-    self.PUT = None;
+  pub fn reset_put(&mut self) {
+    self.put = None;
   }
 
-  pub fn set_UNSUPPORTED(&mut self, UNSUPPORTED: ::models::DebugStatsUnknown) {
-    self.UNSUPPORTED = Some(UNSUPPORTED);
+  pub fn set_unsupported(&mut self, unsupported: ::models::DebugStatsUnknown) {
+    self.unsupported = Some(unsupported);
   }
 
-  pub fn with_UNSUPPORTED(mut self, UNSUPPORTED: ::models::DebugStatsUnknown) -> DebugStatsHandler {
-    self.UNSUPPORTED = Some(UNSUPPORTED);
+  pub fn with_unsupported(mut self, unsupported: ::models::DebugStatsUnknown) -> DebugStatsHandler {
+    self.unsupported = Some(unsupported);
     self
   }
 
-  pub fn UNSUPPORTED(&self) -> Option<&::models::DebugStatsUnknown> {
-    self.UNSUPPORTED.as_ref()
+  pub fn unsupported(&self) -> Option<&::models::DebugStatsUnknown> {
+    self.unsupported.as_ref()
   }
 
-  pub fn reset_UNSUPPORTED(&mut self) {
-    self.UNSUPPORTED = None;
+  pub fn reset_unsupported(&mut self) {
+    self.unsupported = None;
   }
 
   pub fn set_name(&mut self, name: String) {
