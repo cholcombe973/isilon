@@ -494,6 +494,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&auth_cache_item).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -543,6 +544,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&auth_group).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -581,6 +583,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&auth_refresh_item).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -622,6 +625,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&auth_role).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -668,6 +672,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&auth_user).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -717,6 +722,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&mapping_identity).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -767,6 +773,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&mapping_identity).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -806,6 +813,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&providers_ads_item).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -844,6 +852,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&providers_file_item).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -882,6 +891,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&providers_krb5_item).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -927,6 +937,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&providers_ldap_item).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -965,6 +976,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&providers_nis_item).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -1006,6 +1018,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&settings_krb5_domain).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -1047,6 +1060,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&settings_krb5_realm).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -1098,6 +1112,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1136,6 +1151,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1165,6 +1181,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1206,6 +1223,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1241,6 +1259,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1279,6 +1298,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1322,6 +1342,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1354,6 +1375,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1386,6 +1408,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1418,6 +1441,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1450,6 +1474,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1482,6 +1507,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1514,6 +1540,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1546,6 +1573,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1578,6 +1606,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1621,6 +1650,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1670,6 +1700,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1699,6 +1730,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1735,6 +1767,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1767,6 +1800,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1797,6 +1831,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1844,6 +1879,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1873,6 +1909,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1914,6 +1951,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1943,6 +1981,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -1992,6 +2031,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2033,6 +2073,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2062,6 +2103,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2102,6 +2144,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2145,6 +2188,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2201,6 +2245,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2240,6 +2285,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2282,6 +2328,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2323,6 +2370,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2364,6 +2412,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2405,6 +2454,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2443,6 +2493,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2484,6 +2535,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2525,6 +2577,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2565,6 +2618,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2604,6 +2658,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2644,6 +2699,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2678,6 +2734,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2715,6 +2772,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2752,6 +2810,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2793,6 +2852,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2848,6 +2908,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2892,6 +2953,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2944,6 +3006,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -2983,6 +3046,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -3022,6 +3086,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -3060,6 +3125,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -3099,6 +3165,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -3137,6 +3204,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -3172,6 +3240,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -3207,6 +3276,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         // send request
         Box::new(
@@ -3254,6 +3324,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&auth_group).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -3288,6 +3359,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&auth_log_level).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -3327,6 +3399,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&auth_role).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -3375,6 +3448,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&auth_user).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -3418,6 +3492,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&mapping_import).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -3459,6 +3534,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&mapping_users_rules).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -3498,6 +3574,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&providers_ads_id_params).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -3537,6 +3614,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&providers_file_id_params).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -3576,6 +3654,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&providers_krb5_id_params).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -3620,6 +3699,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&providers_ldap_id_params).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -3659,6 +3739,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&providers_local_id_params).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -3698,6 +3779,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&providers_nis_id_params).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -3732,6 +3814,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&settings_acls).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -3773,6 +3856,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&settings_global).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -3810,6 +3894,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&settings_krb5_defaults).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -3849,6 +3934,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&settings_krb5_domain).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -3888,6 +3974,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&settings_krb5_realm).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
@@ -3929,6 +4016,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+        configuration.set_session(&mut req).unwrap();
 
         let serialized = serde_json::to_string(&settings_mapping).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
