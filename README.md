@@ -1,4 +1,4 @@
-# Rust API client for swagger
+# Rust API client for Isilon
 
 Isilon SDK - Language bindings for the OneFS API
 
