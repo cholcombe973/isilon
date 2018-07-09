@@ -1,12 +1,17 @@
 use cookie;
 use hyper;
+use reqwest;
 use serde_json;
+
+use std::io;
 
 #[derive(Debug)]
 pub enum Error {
     E(String),
     Cookie(cookie::ParseError),
     Hyper(hyper::Error),
+    Io(io::Error),
+    Reqwest(reqwest::Error),
     Serde(serde_json::Error),
 }
 
@@ -25,6 +30,18 @@ impl From<cookie::ParseError> for Error {
 impl From<hyper::Error> for Error {
     fn from(e: hyper::Error) -> Self {
         return Error::Hyper(e);
+    }
+}
+
+impl From<io::Error> for Error {
+    fn from(e: io::Error) -> Self {
+        return Error::Io(e);
+    }
+}
+
+impl From<reqwest::Error> for Error {
+    fn from(e: reqwest::Error) -> Self {
+        return Error::Reqwest(e);
     }
 }
 

@@ -15,6 +15,7 @@ use hyper;
 use reqwest;
 
 use super::Error;
+use std::io::Read;
 
 pub struct Configuration<C: hyper::client::Connect> {
   pub base_path: String,
@@ -45,8 +46,28 @@ impl<C: hyper::client::Connect> Configuration<C> {
   }
 
   /// Synchronous login function
-  pub fn login(&mut self, user: &str, password: &str) -> Result<(), Error> {
-    let client = reqwest::Client::new();
+  pub fn login(
+    &mut self,
+    user: &str,
+    password: &str,
+    ssl_cert: Option<&::std::path::Path>,
+  ) -> Result<(), Error> {
+    let client = match ssl_cert {
+      Some(cert_path) => {
+        let mut buf = Vec::new();
+        ::std::fs::File::open(cert_path)?.read_to_end(&mut buf)?;
+        let cert = reqwest::Certificate::from_der(&buf)?;
+
+        reqwest::Client::builder()
+          .add_root_certificate(cert)
+          .danger_disable_hostname_verification()
+          .timeout(::std::time::Duration::from_secs(300))
+          .build()?
+      }
+      None => reqwest::Client::builder()
+        .timeout(::std::time::Duration::from_secs(300))
+        .build()?,
+    };
 
     // Parse the uri
     let body = json!({
