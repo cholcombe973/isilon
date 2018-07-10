@@ -1,11 +1,8 @@
-
-
 #[allow(unused_imports)]
 use serde_json::Value;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LicenseLicenses {
-  #[serde(rename = "licenses")]
-  licenses: Option<Vec<::models::LicenseLicense>>
+    #[serde(rename = "licenses")]
+    pub licenses: Option<Vec<::models::LicenseLicense>>,
 }
-
