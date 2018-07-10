@@ -17,31 +17,31 @@ use serde_json::Value;
 pub struct ClusterStatfs {
   /// The number of free blocks available to non-superuser.
   #[serde(rename = "f_bavail")]
-  f_bavail: i32,
+  f_bavail: u64,
   /// The number of free blocks in the filesystem.
   #[serde(rename = "f_bfree")]
-  f_bfree: i32,
+  f_bfree: u64,
   /// The total number of data blocks in the filesystem.
   #[serde(rename = "f_blocks")]
-  f_blocks: i32,
+  f_blocks: u64,
   /// The filesystem fragment size.
   #[serde(rename = "f_bsize")]
-  f_bsize: i32,
+  f_bsize: u64,
   /// The number of free nodes available to non-superuser.
   #[serde(rename = "f_ffree")]
-  f_ffree: i32,
+  f_ffree: u64,
   /// The total number of file nodes in the filesystem.
   #[serde(rename = "f_files")]
-  f_files: i32,
+  f_files: u64,
   /// A copy of the mount exported flags.
   #[serde(rename = "f_flags")]
-  f_flags: i32,
+  f_flags: u64,
   /// The filesystem type name.
   #[serde(rename = "f_fstypename")]
   f_fstypename: String,
   /// The optimal transfer block size.
   #[serde(rename = "f_iosize")]
-  f_iosize: i32,
+  f_iosize: u64,
   /// The name of the mounted filesystem.
   #[serde(rename = "f_mntfromname")]
   f_mntfromname: String,
@@ -50,21 +50,21 @@ pub struct ClusterStatfs {
   f_mntonname: String,
   /// The maximum length of a file name.
   #[serde(rename = "f_namemax")]
-  f_namemax: i32,
+  f_namemax: u64,
   /// The ID of the user that mounted the filesystem.
   #[serde(rename = "f_owner")]
-  f_owner: i32,
+  f_owner: u64,
   /// The type of the filesystem.
   #[serde(rename = "f_type")]
-  f_type: i32,
+  f_type: u64,
   /// The structure version number.
   #[serde(rename = "f_version")]
-  f_version: i32
+  f_version: u64
 }
 
 impl ClusterStatfs {
   /// Filesystem statistics
-  pub fn new(f_bavail: i32, f_bfree: i32, f_blocks: i32, f_bsize: i32, f_ffree: i32, f_files: i32, f_flags: i32, f_fstypename: String, f_iosize: i32, f_mntfromname: String, f_mntonname: String, f_namemax: i32, f_owner: i32, f_type: i32, f_version: i32) -> ClusterStatfs {
+  pub fn new(f_bavail: u64, f_bfree: u64, f_blocks: u64, f_bsize: u64, f_ffree: u64, f_files: u64, f_flags: u64, f_fstypename: String, f_iosize: u64, f_mntfromname: String, f_mntonname: String, f_namemax: u64, f_owner: u64, f_type: u64, f_version: u64) -> ClusterStatfs {
     ClusterStatfs {
       f_bavail: f_bavail,
       f_bfree: f_bfree,
@@ -84,100 +84,100 @@ impl ClusterStatfs {
     }
   }
 
-  pub fn set_f_bavail(&mut self, f_bavail: i32) {
+  pub fn set_f_bavail(&mut self, f_bavail: u64) {
     self.f_bavail = f_bavail;
   }
 
-  pub fn with_f_bavail(mut self, f_bavail: i32) -> ClusterStatfs {
+  pub fn with_f_bavail(mut self, f_bavail: u64) -> ClusterStatfs {
     self.f_bavail = f_bavail;
     self
   }
 
-  pub fn f_bavail(&self) -> &i32 {
+  pub fn f_bavail(&self) -> &u64 {
     &self.f_bavail
   }
 
 
-  pub fn set_f_bfree(&mut self, f_bfree: i32) {
+  pub fn set_f_bfree(&mut self, f_bfree: u64) {
     self.f_bfree = f_bfree;
   }
 
-  pub fn with_f_bfree(mut self, f_bfree: i32) -> ClusterStatfs {
+  pub fn with_f_bfree(mut self, f_bfree: u64) -> ClusterStatfs {
     self.f_bfree = f_bfree;
     self
   }
 
-  pub fn f_bfree(&self) -> &i32 {
+  pub fn f_bfree(&self) -> &u64 {
     &self.f_bfree
   }
 
 
-  pub fn set_f_blocks(&mut self, f_blocks: i32) {
+  pub fn set_f_blocks(&mut self, f_blocks: u64) {
     self.f_blocks = f_blocks;
   }
 
-  pub fn with_f_blocks(mut self, f_blocks: i32) -> ClusterStatfs {
+  pub fn with_f_blocks(mut self, f_blocks: u64) -> ClusterStatfs {
     self.f_blocks = f_blocks;
     self
   }
 
-  pub fn f_blocks(&self) -> &i32 {
+  pub fn f_blocks(&self) -> &u64 {
     &self.f_blocks
   }
 
 
-  pub fn set_f_bsize(&mut self, f_bsize: i32) {
+  pub fn set_f_bsize(&mut self, f_bsize: u64) {
     self.f_bsize = f_bsize;
   }
 
-  pub fn with_f_bsize(mut self, f_bsize: i32) -> ClusterStatfs {
+  pub fn with_f_bsize(mut self, f_bsize: u64) -> ClusterStatfs {
     self.f_bsize = f_bsize;
     self
   }
 
-  pub fn f_bsize(&self) -> &i32 {
+  pub fn f_bsize(&self) -> &u64 {
     &self.f_bsize
   }
 
 
-  pub fn set_f_ffree(&mut self, f_ffree: i32) {
+  pub fn set_f_ffree(&mut self, f_ffree: u64) {
     self.f_ffree = f_ffree;
   }
 
-  pub fn with_f_ffree(mut self, f_ffree: i32) -> ClusterStatfs {
+  pub fn with_f_ffree(mut self, f_ffree: u64) -> ClusterStatfs {
     self.f_ffree = f_ffree;
     self
   }
 
-  pub fn f_ffree(&self) -> &i32 {
+  pub fn f_ffree(&self) -> &u64 {
     &self.f_ffree
   }
 
 
-  pub fn set_f_files(&mut self, f_files: i32) {
+  pub fn set_f_files(&mut self, f_files: u64) {
     self.f_files = f_files;
   }
 
-  pub fn with_f_files(mut self, f_files: i32) -> ClusterStatfs {
+  pub fn with_f_files(mut self, f_files: u64) -> ClusterStatfs {
     self.f_files = f_files;
     self
   }
 
-  pub fn f_files(&self) -> &i32 {
+  pub fn f_files(&self) -> &u64 {
     &self.f_files
   }
 
 
-  pub fn set_f_flags(&mut self, f_flags: i32) {
+  pub fn set_f_flags(&mut self, f_flags: u64) {
     self.f_flags = f_flags;
   }
 
-  pub fn with_f_flags(mut self, f_flags: i32) -> ClusterStatfs {
+  pub fn with_f_flags(mut self, f_flags: u64) -> ClusterStatfs {
     self.f_flags = f_flags;
     self
   }
 
-  pub fn f_flags(&self) -> &i32 {
+  pub fn f_flags(&self) -> &u64 {
     &self.f_flags
   }
 
@@ -196,16 +196,16 @@ impl ClusterStatfs {
   }
 
 
-  pub fn set_f_iosize(&mut self, f_iosize: i32) {
+  pub fn set_f_iosize(&mut self, f_iosize: u64) {
     self.f_iosize = f_iosize;
   }
 
-  pub fn with_f_iosize(mut self, f_iosize: i32) -> ClusterStatfs {
+  pub fn with_f_iosize(mut self, f_iosize: u64) -> ClusterStatfs {
     self.f_iosize = f_iosize;
     self
   }
 
-  pub fn f_iosize(&self) -> &i32 {
+  pub fn f_iosize(&self) -> &u64 {
     &self.f_iosize
   }
 
@@ -238,58 +238,58 @@ impl ClusterStatfs {
   }
 
 
-  pub fn set_f_namemax(&mut self, f_namemax: i32) {
+  pub fn set_f_namemax(&mut self, f_namemax: u64) {
     self.f_namemax = f_namemax;
   }
 
-  pub fn with_f_namemax(mut self, f_namemax: i32) -> ClusterStatfs {
+  pub fn with_f_namemax(mut self, f_namemax: u64) -> ClusterStatfs {
     self.f_namemax = f_namemax;
     self
   }
 
-  pub fn f_namemax(&self) -> &i32 {
+  pub fn f_namemax(&self) -> &u64 {
     &self.f_namemax
   }
 
 
-  pub fn set_f_owner(&mut self, f_owner: i32) {
+  pub fn set_f_owner(&mut self, f_owner: u64) {
     self.f_owner = f_owner;
   }
 
-  pub fn with_f_owner(mut self, f_owner: i32) -> ClusterStatfs {
+  pub fn with_f_owner(mut self, f_owner: u64) -> ClusterStatfs {
     self.f_owner = f_owner;
     self
   }
 
-  pub fn f_owner(&self) -> &i32 {
+  pub fn f_owner(&self) -> &u64 {
     &self.f_owner
   }
 
 
-  pub fn set_f_type(&mut self, f_type: i32) {
+  pub fn set_f_type(&mut self, f_type: u64) {
     self.f_type = f_type;
   }
 
-  pub fn with_f_type(mut self, f_type: i32) -> ClusterStatfs {
+  pub fn with_f_type(mut self, f_type: u64) -> ClusterStatfs {
     self.f_type = f_type;
     self
   }
 
-  pub fn f_type(&self) -> &i32 {
+  pub fn f_type(&self) -> &u64 {
     &self.f_type
   }
 
 
-  pub fn set_f_version(&mut self, f_version: i32) {
+  pub fn set_f_version(&mut self, f_version: u64) {
     self.f_version = f_version;
   }
 
-  pub fn with_f_version(mut self, f_version: i32) -> ClusterStatfs {
+  pub fn with_f_version(mut self, f_version: u64) -> ClusterStatfs {
     self.f_version = f_version;
     self
   }
 
-  pub fn f_version(&self) -> &i32 {
+  pub fn f_version(&self) -> &u64 {
     &self.f_version
   }
 
