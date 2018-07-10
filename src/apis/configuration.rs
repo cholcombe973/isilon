@@ -71,7 +71,7 @@ impl<C: hyper::client::Connect> Configuration<C> {
   }
 
   // Get the session cookie and set it on the request
-  pub(crate) fn set_session(&mut self, req: &mut hyper::Request) -> Result<(), Error> {
+  pub(crate) fn set_session(&self, req: &mut hyper::Request) -> Result<(), Error> {
     // If we're going to use basic auth then set that
     if self.basic_auth {
       self.set_login_header(req);
@@ -80,7 +80,8 @@ impl<C: hyper::client::Connect> Configuration<C> {
 
       // Check expiration of session tokens and login if they're old
       if self.timed_out() {
-        self.login()?;
+        //TODO: I can't modify self without creating tons of problems
+        return Err(Error::SessionExpired);
       }
 
       // Set the isisessid if available
@@ -145,7 +146,7 @@ impl<C: hyper::client::Connect> Configuration<C> {
   }
 
   /// Synchronous login function
-  fn login(&mut self) -> Result<(), Error> {
+  pub fn login(&mut self) -> Result<(), Error> {
     let client = match self.ssl_cert {
       Some(ref cert_path) => {
         let mut buf = Vec::new();

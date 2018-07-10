@@ -13,6 +13,8 @@ pub enum Error {
     Io(io::Error),
     Reqwest(reqwest::Error),
     Serde(serde_json::Error),
+    /// Session token needs to be recreated.  Call Configuration::login
+    SessionExpired,
 }
 
 impl From<String> for Error {
