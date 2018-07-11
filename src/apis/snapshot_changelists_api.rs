@@ -65,7 +65,7 @@ impl<C: hyper::client::Connect> SnapshotChangelistsApi for SnapshotChangelistsAp
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/snapshot/changelists/{Changelist}/lins/{ChangelistLinId}{}",
+            "{}/platform/1/snapshot/changelists/{Changelist}/lins/{ChangelistLinId}?{}",
             configuration.base_path,
             query,
             ChangelistLinId = changelist_lin_id,
@@ -110,7 +110,7 @@ impl<C: hyper::client::Connect> SnapshotChangelistsApi for SnapshotChangelistsAp
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/snapshot/changelists/{Changelist}/lins{}",
+            "{}/platform/1/snapshot/changelists/{Changelist}/lins?{}",
             configuration.base_path,
             query,
             Changelist = changelist

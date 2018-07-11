@@ -234,7 +234,7 @@ impl<C: hyper::client::Connect> SnapshotSnapshotsApi for SnapshotSnapshotsApiCli
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/snapshot/snapshots/{Sid}/locks{}",
+            "{}/platform/1/snapshot/snapshots/{Sid}/locks?{}",
             configuration.base_path,
             query,
             Sid = sid

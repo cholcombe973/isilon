@@ -107,7 +107,7 @@ impl<C: hyper::client::Connect> DedupeApi for DedupeApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/dedupe/reports/{DedupeReportId}{}",
+            "{}/platform/1/dedupe/reports/{DedupeReportId}?{}",
             configuration.base_path,
             query,
             DedupeReportId = dedupe_report_id
@@ -162,7 +162,7 @@ impl<C: hyper::client::Connect> DedupeApi for DedupeApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/dedupe/reports{}",
+            "{}/platform/1/dedupe/reports?{}",
             configuration.base_path, query
         );
 

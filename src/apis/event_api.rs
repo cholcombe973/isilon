@@ -314,7 +314,7 @@ impl<C: hyper::client::Connect> EventApi for EventApiClient<C> {
             .append_pair("channel", &channel.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/event/alert-conditions{}",
+            "{}/platform/4/event/alert-conditions?{}",
             configuration.base_path, query
         );
 
@@ -422,7 +422,7 @@ impl<C: hyper::client::Connect> EventApi for EventApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/event/categories{}",
+            "{}/platform/3/event/categories?{}",
             configuration.base_path, query
         );
 
@@ -579,7 +579,7 @@ impl<C: hyper::client::Connect> EventApi for EventApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/event/eventgroup-definitions{}",
+            "{}/platform/4/event/eventgroup-definitions?{}",
             configuration.base_path, query
         );
 
@@ -679,7 +679,7 @@ impl<C: hyper::client::Connect> EventApi for EventApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/event/eventgroup-occurrences{}",
+            "{}/platform/3/event/eventgroup-occurrences?{}",
             configuration.base_path, query
         );
 
@@ -763,7 +763,7 @@ impl<C: hyper::client::Connect> EventApi for EventApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/event/eventlists{}",
+            "{}/platform/3/event/eventlists?{}",
             configuration.base_path, query
         );
 
@@ -841,7 +841,7 @@ impl<C: hyper::client::Connect> EventApi for EventApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/event/alert-conditions{}",
+            "{}/platform/4/event/alert-conditions?{}",
             configuration.base_path, query
         );
 
@@ -889,7 +889,7 @@ impl<C: hyper::client::Connect> EventApi for EventApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/event/channels{}",
+            "{}/platform/3/event/channels?{}",
             configuration.base_path, query
         );
 

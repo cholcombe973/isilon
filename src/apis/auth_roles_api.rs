@@ -234,7 +234,7 @@ impl<C: hyper::client::Connect> AuthRolesApi for AuthRolesApiClient<C> {
             .append_pair("resolve_names", &resolve_names.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/roles/{Role}/members{}",
+            "{}/platform/1/auth/roles/{Role}/members?{}",
             configuration.base_path,
             query,
             Role = role

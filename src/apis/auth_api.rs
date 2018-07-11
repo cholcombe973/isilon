@@ -486,7 +486,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         let query = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
-        let uri_str = format!("{}/platform/4/auth/cache{}", configuration.base_path, query);
+        let uri_str = format!("{}/platform/4/auth/cache?{}", configuration.base_path, query);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -534,7 +534,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/groups{}",
+            "{}/platform/1/auth/groups?{}",
             configuration.base_path, query
         );
 
@@ -664,7 +664,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .append_pair("provider", &provider.to_string())
             .finish();
-        let uri_str = format!("{}/platform/1/auth/users{}", configuration.base_path, query);
+        let uri_str = format!("{}/platform/1/auth/users?{}", configuration.base_path, query);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -712,7 +712,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("replace", &replace.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/mapping/identities{}",
+            "{}/platform/1/auth/mapping/identities?{}",
             configuration.base_path, query
         );
 
@@ -761,7 +761,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/mapping/identities/{MappingIdentityId}{}",
+            "{}/platform/1/auth/mapping/identities/{MappingIdentityId}?{}",
             configuration.base_path,
             query,
             MappingIdentityId = mapping_identity_id
@@ -927,7 +927,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/auth/providers/ldap{}",
+            "{}/platform/4/auth/providers/ldap?{}",
             configuration.base_path, query
         );
 
@@ -1100,7 +1100,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/groups/{AuthGroupId}{}",
+            "{}/platform/1/auth/groups/{AuthGroupId}?{}",
             configuration.base_path,
             query,
             AuthGroupId = auth_group_id
@@ -1141,7 +1141,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/groups{}",
+            "{}/platform/1/auth/groups?{}",
             configuration.base_path, query
         );
 
@@ -1211,7 +1211,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/users/{AuthUserId}{}",
+            "{}/platform/1/auth/users/{AuthUserId}?{}",
             configuration.base_path,
             query,
             AuthUserId = auth_user_id
@@ -1251,7 +1251,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .append_pair("provider", &provider.to_string())
             .finish();
-        let uri_str = format!("{}/platform/1/auth/users{}", configuration.base_path, query);
+        let uri_str = format!("{}/platform/1/auth/users?{}", configuration.base_path, query);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -1288,7 +1288,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("remove", &remove.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/mapping/identities{}",
+            "{}/platform/1/auth/mapping/identities?{}",
             configuration.base_path, query
         );
 
@@ -1330,7 +1330,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("remove", &remove.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/mapping/identities/{MappingIdentityId}{}",
+            "{}/platform/1/auth/mapping/identities/{MappingIdentityId}?{}",
             configuration.base_path,
             query,
             MappingIdentityId = mapping_identity_id
@@ -1638,7 +1638,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("numeric", &numeric.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/access/{AuthAccessUser}{}",
+            "{}/platform/1/auth/access/{AuthAccessUser}?{}",
             configuration.base_path,
             query,
             AuthAccessUser = auth_access_user
@@ -1688,7 +1688,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/groups/{AuthGroupId}{}",
+            "{}/platform/1/auth/groups/{AuthGroupId}?{}",
             configuration.base_path,
             query,
             AuthGroupId = auth_group_id
@@ -1867,7 +1867,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/netgroups/{AuthNetgroupId}{}",
+            "{}/platform/1/auth/netgroups/{AuthNetgroupId}?{}",
             configuration.base_path,
             query,
             AuthNetgroupId = auth_netgroup_id
@@ -1939,7 +1939,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("resolve_names", &resolve_names.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/roles/{AuthRoleId}{}",
+            "{}/platform/1/auth/roles/{AuthRoleId}?{}",
             configuration.base_path,
             query,
             AuthRoleId = auth_role_id
@@ -2019,7 +2019,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/users/{AuthUserId}{}",
+            "{}/platform/1/auth/users/{AuthUserId}?{}",
             configuration.base_path,
             query,
             AuthUserId = auth_user_id
@@ -2061,7 +2061,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/wellknowns/{AuthWellknownId}{}",
+            "{}/platform/1/auth/wellknowns/{AuthWellknownId}?{}",
             configuration.base_path,
             query,
             AuthWellknownId = auth_wellknown_id
@@ -2134,7 +2134,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/auth/mapping/dump{}",
+            "{}/platform/3/auth/mapping/dump?{}",
             configuration.base_path, query
         );
 
@@ -2176,7 +2176,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/mapping/identities/{MappingIdentityId}{}",
+            "{}/platform/1/auth/mapping/identities/{MappingIdentityId}?{}",
             configuration.base_path,
             query,
             MappingIdentityId = mapping_identity_id
@@ -2235,7 +2235,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("kerberos_principal", &kerberos_principal.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/mapping/users/lookup{}",
+            "{}/platform/1/auth/mapping/users/lookup?{}",
             configuration.base_path, query
         );
 
@@ -2275,7 +2275,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/mapping/users/rules{}",
+            "{}/platform/1/auth/mapping/users/rules?{}",
             configuration.base_path, query
         );
 
@@ -2316,7 +2316,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/auth/providers/ads/{ProvidersAdsId}{}",
+            "{}/platform/3/auth/providers/ads/{ProvidersAdsId}?{}",
             configuration.base_path,
             query,
             ProvidersAdsId = providers_ads_id
@@ -2358,7 +2358,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/providers/file/{ProvidersFileId}{}",
+            "{}/platform/1/auth/providers/file/{ProvidersFileId}?{}",
             configuration.base_path,
             query,
             ProvidersFileId = providers_file_id
@@ -2400,7 +2400,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/auth/providers/krb5/{ProvidersKrb5Id}{}",
+            "{}/platform/3/auth/providers/krb5/{ProvidersKrb5Id}?{}",
             configuration.base_path,
             query,
             ProvidersKrb5Id = providers_krb5_id
@@ -2442,7 +2442,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/auth/providers/ldap/{ProvidersLdapId}{}",
+            "{}/platform/4/auth/providers/ldap/{ProvidersLdapId}?{}",
             configuration.base_path,
             query,
             ProvidersLdapId = providers_ldap_id
@@ -2483,7 +2483,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/providers/local{}",
+            "{}/platform/1/auth/providers/local?{}",
             configuration.base_path, query
         );
 
@@ -2523,7 +2523,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/providers/local/{ProvidersLocalId}{}",
+            "{}/platform/1/auth/providers/local/{ProvidersLocalId}?{}",
             configuration.base_path,
             query,
             ProvidersLocalId = providers_local_id
@@ -2565,7 +2565,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/auth/providers/nis/{ProvidersNisId}{}",
+            "{}/platform/3/auth/providers/nis/{ProvidersNisId}?{}",
             configuration.base_path,
             query,
             ProvidersNisId = providers_nis_id
@@ -2608,7 +2608,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/auth/providers/summary{}",
+            "{}/platform/3/auth/providers/summary?{}",
             configuration.base_path, query
         );
 
@@ -2648,7 +2648,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("preset", &preset.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/auth/settings/acls{}",
+            "{}/platform/3/auth/settings/acls?{}",
             configuration.base_path, query
         );
 
@@ -2689,7 +2689,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/settings/global{}",
+            "{}/platform/1/auth/settings/global?{}",
             configuration.base_path, query
         );
 
@@ -2842,7 +2842,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/settings/mapping{}",
+            "{}/platform/1/auth/settings/mapping?{}",
             configuration.base_path, query
         );
 
@@ -2898,7 +2898,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("query_member_of", &query_member_of.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/groups{}",
+            "{}/platform/1/auth/groups?{}",
             configuration.base_path, query
         );
 
@@ -2945,7 +2945,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .append_pair("resume", &resume.to_string())
             .finish();
-        let uri_str = format!("{}/platform/1/auth/roles{}", configuration.base_path, query);
+        let uri_str = format!("{}/platform/1/auth/roles?{}", configuration.base_path, query);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -2998,7 +2998,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("provider", &provider.to_string())
             .append_pair("query_member_of", &query_member_of.to_string())
             .finish();
-        let uri_str = format!("{}/platform/1/auth/users{}", configuration.base_path, query);
+        let uri_str = format!("{}/platform/1/auth/users?{}", configuration.base_path, query);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -3036,7 +3036,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/auth/providers/ads{}",
+            "{}/platform/3/auth/providers/ads?{}",
             configuration.base_path, query
         );
 
@@ -3076,7 +3076,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/providers/file{}",
+            "{}/platform/1/auth/providers/file?{}",
             configuration.base_path, query
         );
 
@@ -3115,7 +3115,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/auth/providers/krb5{}",
+            "{}/platform/3/auth/providers/krb5?{}",
             configuration.base_path, query
         );
 
@@ -3155,7 +3155,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/auth/providers/ldap{}",
+            "{}/platform/4/auth/providers/ldap?{}",
             configuration.base_path, query
         );
 
@@ -3194,7 +3194,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/auth/providers/nis{}",
+            "{}/platform/3/auth/providers/nis?{}",
             configuration.base_path, query
         );
 
@@ -3312,7 +3312,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/groups/{AuthGroupId}{}",
+            "{}/platform/1/auth/groups/{AuthGroupId}?{}",
             configuration.base_path,
             query,
             AuthGroupId = auth_group_id
@@ -3436,7 +3436,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/users/{AuthUserId}{}",
+            "{}/platform/1/auth/users/{AuthUserId}?{}",
             configuration.base_path,
             query,
             AuthUserId = auth_user_id
@@ -3482,7 +3482,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("replace", &replace.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/auth/mapping/import{}",
+            "{}/platform/3/auth/mapping/import?{}",
             configuration.base_path, query
         );
 
@@ -3524,7 +3524,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/mapping/users/rules{}",
+            "{}/platform/1/auth/mapping/users/rules?{}",
             configuration.base_path, query
         );
 
@@ -3687,7 +3687,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/auth/providers/ldap/{ProvidersLdapId}{}",
+            "{}/platform/4/auth/providers/ldap/{ProvidersLdapId}?{}",
             configuration.base_path,
             query,
             ProvidersLdapId = providers_ldap_id
@@ -3846,7 +3846,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/settings/global{}",
+            "{}/platform/1/auth/settings/global?{}",
             configuration.base_path, query
         );
 
@@ -4006,7 +4006,7 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/settings/mapping{}",
+            "{}/platform/1/auth/settings/mapping?{}",
             configuration.base_path, query
         );
 

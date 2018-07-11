@@ -364,7 +364,7 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/sync/policies{}",
+            "{}/platform/3/sync/policies?{}",
             configuration.base_path, query
         );
 
@@ -402,7 +402,7 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/sync/policies/{SyncPolicyId}{}",
+            "{}/platform/3/sync/policies/{SyncPolicyId}?{}",
             configuration.base_path,
             query,
             SyncPolicyId = sync_policy_id
@@ -465,7 +465,7 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
         let query = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("type", &_type.to_string())
             .finish();
-        let uri_str = format!("{}/platform/3/sync/rules{}", configuration.base_path, query);
+        let uri_str = format!("{}/platform/3/sync/rules?{}", configuration.base_path, query);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -499,7 +499,7 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/sync/target/policies/{TargetPolicyId}{}",
+            "{}/platform/1/sync/target/policies/{TargetPolicyId}?{}",
             configuration.base_path,
             query,
             TargetPolicyId = target_policy_id
@@ -538,7 +538,7 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .append_pair("end", &end.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/sync/history/cpu{}",
+            "{}/platform/3/sync/history/cpu?{}",
             configuration.base_path, query
         );
 
@@ -579,7 +579,7 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .append_pair("end", &end.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/sync/history/file{}",
+            "{}/platform/1/sync/history/file?{}",
             configuration.base_path, query
         );
 
@@ -620,7 +620,7 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .append_pair("end", &end.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/sync/history/network{}",
+            "{}/platform/1/sync/history/network?{}",
             configuration.base_path, query
         );
 
@@ -661,7 +661,7 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .append_pair("end", &end.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/sync/history/worker{}",
+            "{}/platform/3/sync/history/worker?{}",
             configuration.base_path, query
         );
 
@@ -855,7 +855,7 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/sync/reports{}",
+            "{}/platform/4/sync/reports?{}",
             configuration.base_path, query
         );
 
@@ -970,7 +970,7 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/sync/target/policies{}",
+            "{}/platform/1/sync/target/policies?{}",
             configuration.base_path, query
         );
 
@@ -1098,7 +1098,7 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/sync/target/reports{}",
+            "{}/platform/4/sync/target/reports?{}",
             configuration.base_path, query
         );
 
@@ -1145,7 +1145,7 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .append_pair("resume", &resume.to_string())
             .finish();
-        let uri_str = format!("{}/platform/3/sync/jobs{}", configuration.base_path, query);
+        let uri_str = format!("{}/platform/3/sync/jobs?{}", configuration.base_path, query);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -1193,7 +1193,7 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/sync/policies{}",
+            "{}/platform/3/sync/policies?{}",
             configuration.base_path, query
         );
 
@@ -1273,7 +1273,7 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .append_pair("resume", &resume.to_string())
             .finish();
-        let uri_str = format!("{}/platform/3/sync/rules{}", configuration.base_path, query);
+        let uri_str = format!("{}/platform/3/sync/rules?{}", configuration.base_path, query);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error

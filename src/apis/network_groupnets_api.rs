@@ -162,7 +162,7 @@ impl<C: hyper::client::Connect> NetworkGroupnetsApi for NetworkGroupnetsApiClien
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools{}",
+            "{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools?{}",
             configuration.base_path,
             query,
             Groupnet = groupnet,
@@ -212,7 +212,7 @@ impl<C: hyper::client::Connect> NetworkGroupnetsApi for NetworkGroupnetsApiClien
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/network/groupnets/{Groupnet}/subnets/{GroupnetSubnetId}{}",
+            "{}/platform/4/network/groupnets/{Groupnet}/subnets/{GroupnetSubnetId}?{}",
             configuration.base_path,
             query,
             GroupnetSubnetId = groupnet_subnet_id,
@@ -364,7 +364,7 @@ impl<C: hyper::client::Connect> NetworkGroupnetsApi for NetworkGroupnetsApiClien
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/network/groupnets/{Groupnet}/subnets{}",
+            "{}/platform/4/network/groupnets/{Groupnet}/subnets?{}",
             configuration.base_path,
             query,
             Groupnet = groupnet
@@ -418,7 +418,7 @@ impl<C: hyper::client::Connect> NetworkGroupnetsApi for NetworkGroupnetsApiClien
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools{}",
+            "{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools?{}",
             configuration.base_path,
             query,
             Groupnet = groupnet,
@@ -464,7 +464,7 @@ impl<C: hyper::client::Connect> NetworkGroupnetsApi for NetworkGroupnetsApiClien
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/network/groupnets/{Groupnet}/subnets/{GroupnetSubnetId}{}",
+            "{}/platform/4/network/groupnets/{Groupnet}/subnets/{GroupnetSubnetId}?{}",
             configuration.base_path,
             query,
             GroupnetSubnetId = groupnet_subnet_id,
@@ -511,7 +511,7 @@ impl<C: hyper::client::Connect> NetworkGroupnetsApi for NetworkGroupnetsApiClien
         let query = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .finish();
-        let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{SubnetsSubnetPoolId}{}", configuration.base_path, query, SubnetsSubnetPoolId=subnets_subnet_pool_id, Groupnet=groupnet, Subnet=subnet);
+        let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{SubnetsSubnetPoolId}?{}", configuration.base_path, query, SubnetsSubnetPoolId=subnets_subnet_pool_id, Groupnet=groupnet, Subnet=subnet);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error

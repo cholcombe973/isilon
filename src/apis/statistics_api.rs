@@ -194,7 +194,7 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .append_pair("nodes", &nodes.join(",").to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/statistics/current{}",
+            "{}/platform/1/statistics/current?{}",
             configuration.base_path, query
         );
 
@@ -264,7 +264,7 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .append_pair("nodes", &nodes.join(",").to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/statistics/history{}",
+            "{}/platform/1/statistics/history?{}",
             configuration.base_path, query
         );
 
@@ -347,7 +347,7 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/statistics/keys{}",
+            "{}/platform/1/statistics/keys?{}",
             configuration.base_path, query
         );
 
@@ -387,7 +387,7 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .append_pair("protocols", &protocols.join(",").to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/statistics/operations{}",
+            "{}/platform/3/statistics/operations?{}",
             configuration.base_path, query
         );
 
@@ -427,7 +427,7 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .append_pair("type", &_type.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/statistics/protocols{}",
+            "{}/platform/1/statistics/protocols?{}",
             configuration.base_path, query
         );
 
@@ -493,7 +493,7 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .append_pair("protocols", &protocols.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/statistics/summary/client{}",
+            "{}/platform/3/statistics/summary/client?{}",
             configuration.base_path, query
         );
 
@@ -540,7 +540,7 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .append_pair("timeout", &timeout.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/statistics/summary/drive{}",
+            "{}/platform/3/statistics/summary/drive?{}",
             configuration.base_path, query
         );
 
@@ -599,7 +599,7 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .append_pair("degraded", &degraded.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/statistics/summary/heat{}",
+            "{}/platform/3/statistics/summary/heat?{}",
             configuration.base_path, query
         );
 
@@ -654,7 +654,7 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .append_pair("protocols", &protocols.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/statistics/summary/protocol{}",
+            "{}/platform/3/statistics/summary/protocol?{}",
             configuration.base_path, query
         );
 
@@ -706,9 +706,10 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
         let query = query.finish();
 
         let uri_str = format!(
-            "{}/platform/3/statistics/summary/protocol-stats{}",
+            "{}/platform/3/statistics/summary/protocol-stats?{}",
             configuration.base_path, query
         );
+        debug!("summary_protocol uri_str: {}", uri_str);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -754,7 +755,7 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .append_pair("timeout", &timeout.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/statistics/summary/system{}",
+            "{}/platform/3/statistics/summary/system?{}",
             configuration.base_path, query
         );
 
@@ -805,7 +806,7 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .append_pair("system_names", &system_names.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/statistics/summary/workload{}",
+            "{}/platform/4/statistics/summary/workload?{}",
             configuration.base_path, query
         );
 

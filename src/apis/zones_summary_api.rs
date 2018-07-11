@@ -54,7 +54,7 @@ impl<C: hyper::client::Connect> ZonesSummaryApi for ZonesSummaryApiClient<C> {
             .append_pair("groupnet", &groupnet.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/zones-summary{}",
+            "{}/platform/1/zones-summary?{}",
             configuration.base_path, query
         );
 

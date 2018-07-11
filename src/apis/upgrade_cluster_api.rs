@@ -104,7 +104,7 @@ impl<C: hyper::client::Connect> UpgradeClusterApi for UpgradeClusterApiClient<C>
             .append_pair("package", &package.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/upgrade/cluster/nodes/{Lnn}/firmware/status{}",
+            "{}/platform/3/upgrade/cluster/nodes/{Lnn}/firmware/status?{}",
             configuration.base_path,
             query,
             Lnn = lnn

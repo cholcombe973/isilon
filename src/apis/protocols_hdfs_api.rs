@@ -72,7 +72,7 @@ impl<C: hyper::client::Connect> ProtocolsHdfsApi for ProtocolsHdfsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/protocols/hdfs/proxyusers/{Name}/members{}",
+            "{}/platform/1/protocols/hdfs/proxyusers/{Name}/members?{}",
             configuration.base_path,
             query,
             Name = name
@@ -121,7 +121,7 @@ impl<C: hyper::client::Connect> ProtocolsHdfsApi for ProtocolsHdfsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/protocols/hdfs/proxyusers/{Name}/members/{ProxyusersNameMemberId}{}",
+            "{}/platform/1/protocols/hdfs/proxyusers/{Name}/members/{ProxyusersNameMemberId}?{}",
             configuration.base_path,
             query,
             ProxyusersNameMemberId = proxyusers_name_member_id,
@@ -160,7 +160,7 @@ impl<C: hyper::client::Connect> ProtocolsHdfsApi for ProtocolsHdfsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/protocols/hdfs/proxyusers/{Name}/members{}",
+            "{}/platform/1/protocols/hdfs/proxyusers/{Name}/members?{}",
             configuration.base_path,
             query,
             Name = name
@@ -204,7 +204,7 @@ impl<C: hyper::client::Connect> ProtocolsHdfsApi for ProtocolsHdfsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/protocols/hdfs/proxyusers/{Name}/members/{ProxyusersNameMemberId}{}",
+            "{}/platform/1/protocols/hdfs/proxyusers/{Name}/members/{ProxyusersNameMemberId}?{}",
             configuration.base_path,
             query,
             ProxyusersNameMemberId = proxyusers_name_member_id,

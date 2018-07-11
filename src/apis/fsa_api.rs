@@ -190,7 +190,7 @@ impl<C: hyper::client::Connect> FsaApi for FsaApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/fsa/settings{}",
+            "{}/platform/1/fsa/settings?{}",
             configuration.base_path, query
         );
 

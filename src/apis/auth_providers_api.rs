@@ -75,7 +75,7 @@ impl<C: hyper::client::Connect> AuthProvidersApi for AuthProvidersApiClient<C> {
             .append_pair("groupnet", &groupnet.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/auth/providers/ads/{Id}/controllers{}",
+            "{}/platform/3/auth/providers/ads/{Id}/controllers?{}",
             configuration.base_path,
             query,
             Id = id
@@ -158,7 +158,7 @@ impl<C: hyper::client::Connect> AuthProvidersApi for AuthProvidersApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/auth/providers/ads/{Id}/domains{}",
+            "{}/platform/3/auth/providers/ads/{Id}/domains?{}",
             configuration.base_path,
             query,
             Id = id
@@ -217,7 +217,7 @@ impl<C: hyper::client::Connect> AuthProvidersApi for AuthProvidersApiClient<C> {
             .append_pair("search_groups", &search_groups.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/providers/ads/{Id}/search{}",
+            "{}/platform/1/auth/providers/ads/{Id}/search?{}",
             configuration.base_path,
             query,
             Id = id

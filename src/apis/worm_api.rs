@@ -184,7 +184,7 @@ impl<C: hyper::client::Connect> WormApi for WormApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/worm/domains{}",
+            "{}/platform/1/worm/domains?{}",
             configuration.base_path, query
         );
 

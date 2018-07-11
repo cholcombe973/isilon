@@ -336,7 +336,7 @@ impl<C: hyper::client::Connect> NetworkGroupnetsSubnetsApi for NetworkGroupnetsS
             .append_pair("lnns", &lnns.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/interfaces{}",
+            "{}/platform/4/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/interfaces?{}",
             configuration.base_path,
             query,
             Groupnet = groupnet,
@@ -425,7 +425,7 @@ impl<C: hyper::client::Connect> NetworkGroupnetsSubnetsApi for NetworkGroupnetsS
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/rules{}",
+            "{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/rules?{}",
             configuration.base_path,
             query,
             Groupnet = groupnet,

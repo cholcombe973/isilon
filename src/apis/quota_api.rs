@@ -161,7 +161,7 @@ impl<C: hyper::client::Connect> QuotaApi for QuotaApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/quota/quotas{}",
+            "{}/platform/1/quota/quotas?{}",
             configuration.base_path, query
         );
 
@@ -374,7 +374,7 @@ impl<C: hyper::client::Connect> QuotaApi for QuotaApiClient<C> {
             .append_pair("type", &_type.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/quota/quotas{}",
+            "{}/platform/1/quota/quotas?{}",
             configuration.base_path, query
         );
 
@@ -596,7 +596,7 @@ impl<C: hyper::client::Connect> QuotaApi for QuotaApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/quota/quotas/{QuotaQuotaId}{}",
+            "{}/platform/1/quota/quotas/{QuotaQuotaId}?{}",
             configuration.base_path,
             query,
             QuotaQuotaId = quota_quota_id
@@ -674,7 +674,7 @@ impl<C: hyper::client::Connect> QuotaApi for QuotaApiClient<C> {
             .append_pair("contents", &contents.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/quota/reports/{QuotaReportId}{}",
+            "{}/platform/1/quota/reports/{QuotaReportId}?{}",
             configuration.base_path,
             query,
             QuotaReportId = quota_report_id
@@ -849,7 +849,7 @@ impl<C: hyper::client::Connect> QuotaApi for QuotaApiClient<C> {
             .append_pair("report_id", &report_id.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/quota/quotas{}",
+            "{}/platform/1/quota/quotas?{}",
             configuration.base_path, query
         );
 
@@ -899,7 +899,7 @@ impl<C: hyper::client::Connect> QuotaApi for QuotaApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/quota/reports{}",
+            "{}/platform/1/quota/reports?{}",
             configuration.base_path, query
         );
 

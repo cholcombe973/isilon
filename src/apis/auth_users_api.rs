@@ -77,7 +77,7 @@ impl<C: hyper::client::Connect> AuthUsersApi for AuthUsersApiClient<C> {
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/auth/users/{User}/member-of{}",
+            "{}/platform/3/auth/users/{User}/member-of?{}",
             configuration.base_path,
             query,
             User = user
@@ -128,7 +128,7 @@ impl<C: hyper::client::Connect> AuthUsersApi for AuthUsersApiClient<C> {
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/auth/users/{User}/member-of/{UserMemberOfMemberOf}{}",
+            "{}/platform/3/auth/users/{User}/member-of/{UserMemberOfMemberOf}?{}",
             configuration.base_path,
             query,
             UserMemberOfMemberOf = user_member_of_member_of,
@@ -171,7 +171,7 @@ impl<C: hyper::client::Connect> AuthUsersApi for AuthUsersApiClient<C> {
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/auth/users/{User}/member-of{}",
+            "{}/platform/3/auth/users/{User}/member-of?{}",
             configuration.base_path,
             query,
             User = user
@@ -214,7 +214,7 @@ impl<C: hyper::client::Connect> AuthUsersApi for AuthUsersApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/auth/users/{User}/change-password{}",
+            "{}/platform/3/auth/users/{User}/change-password?{}",
             configuration.base_path,
             query,
             User = user

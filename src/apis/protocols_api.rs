@@ -632,7 +632,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/protocols/hdfs/proxyusers{}",
+            "{}/platform/1/protocols/hdfs/proxyusers?{}",
             configuration.base_path, query
         );
 
@@ -678,7 +678,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/protocols/hdfs/racks{}",
+            "{}/platform/1/protocols/hdfs/racks?{}",
             configuration.base_path, query
         );
 
@@ -852,7 +852,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/2/protocols/nfs/aliases{}",
+            "{}/platform/2/protocols/nfs/aliases?{}",
             configuration.base_path, query
         );
 
@@ -912,7 +912,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("ignore_bad_auth", &ignore_bad_auth.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/protocols/nfs/exports{}",
+            "{}/platform/4/protocols/nfs/exports?{}",
             configuration.base_path, query
         );
 
@@ -959,7 +959,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("host", &host.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/nfs/netgroup/check{}",
+            "{}/platform/3/protocols/nfs/netgroup/check?{}",
             configuration.base_path, query
         );
 
@@ -1005,7 +1005,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("host", &host.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/nfs/netgroup/flush{}",
+            "{}/platform/3/protocols/nfs/netgroup/flush?{}",
             configuration.base_path, query
         );
 
@@ -1053,7 +1053,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/nfs/nlm/sessions-check{}",
+            "{}/platform/3/protocols/nfs/nlm/sessions-check?{}",
             configuration.base_path, query
         );
 
@@ -1102,7 +1102,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/nfs/reload{}",
+            "{}/platform/3/protocols/nfs/reload?{}",
             configuration.base_path, query
         );
 
@@ -1235,7 +1235,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/protocols/smb/shares{}",
+            "{}/platform/4/protocols/smb/shares?{}",
             configuration.base_path, query
         );
 
@@ -1281,7 +1281,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/swift/accounts{}",
+            "{}/platform/3/protocols/swift/accounts?{}",
             configuration.base_path, query
         );
 
@@ -1327,7 +1327,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/protocols/hdfs/proxyusers/{HdfsProxyuserId}{}",
+            "{}/platform/1/protocols/hdfs/proxyusers/{HdfsProxyuserId}?{}",
             configuration.base_path,
             query,
             HdfsProxyuserId = hdfs_proxyuser_id
@@ -1365,7 +1365,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/protocols/hdfs/racks/{HdfsRackId}{}",
+            "{}/platform/1/protocols/hdfs/racks/{HdfsRackId}?{}",
             configuration.base_path,
             query,
             HdfsRackId = hdfs_rack_id
@@ -1502,7 +1502,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("level", &level.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/ndmp/dumpdates/{NdmpDumpdateId}{}",
+            "{}/platform/3/protocols/ndmp/dumpdates/{NdmpDumpdateId}?{}",
             configuration.base_path,
             query,
             NdmpDumpdateId = ndmp_dumpdate_id
@@ -1540,7 +1540,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("lnn", &lnn.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/ndmp/sessions/{NdmpSessionId}{}",
+            "{}/platform/3/protocols/ndmp/sessions/{NdmpSessionId}?{}",
             configuration.base_path,
             query,
             NdmpSessionId = ndmp_session_id
@@ -1611,7 +1611,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("name", &name.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/ndmp/settings/variables/{NdmpSettingsVariableId}{}",
+            "{}/platform/3/protocols/ndmp/settings/variables/{NdmpSettingsVariableId}?{}",
             configuration.base_path,
             query,
             NdmpSettingsVariableId = ndmp_settings_variable_id
@@ -1679,7 +1679,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/2/protocols/nfs/aliases/{NfsAliasId}{}",
+            "{}/platform/2/protocols/nfs/aliases/{NfsAliasId}?{}",
             configuration.base_path,
             query,
             NfsAliasId = nfs_alias_id
@@ -1717,7 +1717,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/protocols/nfs/exports/{NfsExportId}{}",
+            "{}/platform/4/protocols/nfs/exports/{NfsExportId}?{}",
             configuration.base_path,
             query,
             NfsExportId = nfs_export_id
@@ -1759,7 +1759,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("refresh", &refresh.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/nfs/nlm/sessions/{NfsNlmSessionId}{}",
+            "{}/platform/3/protocols/nfs/nlm/sessions/{NfsNlmSessionId}?{}",
             configuration.base_path,
             query,
             NfsNlmSessionId = nfs_nlm_session_id
@@ -1885,7 +1885,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("level", &level.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/smb/log-level/filters{}",
+            "{}/platform/3/protocols/smb/log-level/filters?{}",
             configuration.base_path, query
         );
 
@@ -2016,7 +2016,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/protocols/smb/shares/{SmbShareId}{}",
+            "{}/platform/4/protocols/smb/shares/{SmbShareId}?{}",
             configuration.base_path,
             query,
             SmbShareId = smb_share_id
@@ -2083,7 +2083,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/swift/accounts/{SwiftAccountId}{}",
+            "{}/platform/3/protocols/swift/accounts/{SwiftAccountId}?{}",
             configuration.base_path,
             query,
             SwiftAccountId = swift_account_id
@@ -2187,7 +2187,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/protocols/hdfs/proxyusers/{HdfsProxyuserId}{}",
+            "{}/platform/1/protocols/hdfs/proxyusers/{HdfsProxyuserId}?{}",
             configuration.base_path,
             query,
             HdfsProxyuserId = hdfs_proxyuser_id
@@ -2229,7 +2229,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/protocols/hdfs/racks/{HdfsRackId}{}",
+            "{}/platform/1/protocols/hdfs/racks/{HdfsRackId}?{}",
             configuration.base_path,
             query,
             HdfsRackId = hdfs_rack_id
@@ -2270,7 +2270,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/protocols/hdfs/ranger-plugin/settings{}",
+            "{}/platform/4/protocols/hdfs/ranger-plugin/settings?{}",
             configuration.base_path, query
         );
 
@@ -2310,7 +2310,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/protocols/hdfs/settings{}",
+            "{}/platform/4/protocols/hdfs/settings?{}",
             configuration.base_path, query
         );
 
@@ -2384,7 +2384,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/ndmp/contexts/backup{}",
+            "{}/platform/3/protocols/ndmp/contexts/backup?{}",
             configuration.base_path, query
         );
 
@@ -2464,7 +2464,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/ndmp/contexts/bre{}",
+            "{}/platform/3/protocols/ndmp/contexts/bre?{}",
             configuration.base_path, query
         );
 
@@ -2544,7 +2544,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/ndmp/contexts/restore{}",
+            "{}/platform/3/protocols/ndmp/contexts/restore?{}",
             configuration.base_path, query
         );
 
@@ -2667,7 +2667,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/ndmp/dumpdates/{NdmpDumpdateId}{}",
+            "{}/platform/3/protocols/ndmp/dumpdates/{NdmpDumpdateId}?{}",
             configuration.base_path,
             query,
             NdmpDumpdateId = ndmp_dumpdate_id
@@ -2712,7 +2712,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("pagesize", &pagesize.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/ndmp/logs{}",
+            "{}/platform/3/protocols/ndmp/logs?{}",
             configuration.base_path, query
         );
 
@@ -2752,7 +2752,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("lnn", &lnn.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/ndmp/sessions/{NdmpSessionId}{}",
+            "{}/platform/3/protocols/ndmp/sessions/{NdmpSessionId}?{}",
             configuration.base_path,
             query,
             NdmpSessionId = ndmp_session_id
@@ -2801,7 +2801,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/ndmp/sessions{}",
+            "{}/platform/3/protocols/ndmp/sessions?{}",
             configuration.base_path, query
         );
 
@@ -2956,7 +2956,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/ndmp/settings/variables/{NdmpSettingsVariableId}{}",
+            "{}/platform/3/protocols/ndmp/settings/variables/{NdmpSettingsVariableId}?{}",
             configuration.base_path,
             query,
             NdmpSettingsVariableId = ndmp_settings_variable_id
@@ -3040,7 +3040,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/2/protocols/nfs/aliases/{NfsAliasId}{}",
+            "{}/platform/2/protocols/nfs/aliases/{NfsAliasId}?{}",
             configuration.base_path,
             query,
             NfsAliasId = nfs_alias_id
@@ -3090,7 +3090,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             )
             .finish();
         let uri_str = format!(
-            "{}/platform/2/protocols/nfs/check{}",
+            "{}/platform/2/protocols/nfs/check?{}",
             configuration.base_path, query
         );
 
@@ -3133,7 +3133,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/protocols/nfs/exports/{NfsExportId}{}",
+            "{}/platform/4/protocols/nfs/exports/{NfsExportId}?{}",
             configuration.base_path,
             query,
             NfsExportId = nfs_export_id
@@ -3174,7 +3174,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/2/protocols/nfs/exports-summary{}",
+            "{}/platform/2/protocols/nfs/exports-summary?{}",
             configuration.base_path, query
         );
 
@@ -3247,7 +3247,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("host", &host.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/nfs/netgroup{}",
+            "{}/platform/3/protocols/nfs/netgroup?{}",
             configuration.base_path, query
         );
 
@@ -3302,7 +3302,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/2/protocols/nfs/nlm/locks{}",
+            "{}/platform/2/protocols/nfs/nlm/locks?{}",
             configuration.base_path, query
         );
 
@@ -3344,7 +3344,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/nfs/nlm/sessions/{NfsNlmSessionId}{}",
+            "{}/platform/3/protocols/nfs/nlm/sessions/{NfsNlmSessionId}?{}",
             configuration.base_path,
             query,
             NfsNlmSessionId = nfs_nlm_session_id
@@ -3393,7 +3393,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/nfs/nlm/sessions{}",
+            "{}/platform/3/protocols/nfs/nlm/sessions?{}",
             configuration.base_path, query
         );
 
@@ -3439,7 +3439,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/2/protocols/nfs/nlm/waiters{}",
+            "{}/platform/2/protocols/nfs/nlm/waiters?{}",
             configuration.base_path, query
         );
 
@@ -3480,7 +3480,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/2/protocols/nfs/settings/export{}",
+            "{}/platform/2/protocols/nfs/settings/export?{}",
             configuration.base_path, query
         );
 
@@ -3520,7 +3520,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/nfs/settings/global{}",
+            "{}/platform/3/protocols/nfs/settings/global?{}",
             configuration.base_path, query
         );
 
@@ -3560,7 +3560,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/2/protocols/nfs/settings/zone{}",
+            "{}/platform/2/protocols/nfs/settings/zone?{}",
             configuration.base_path, query
         );
 
@@ -3747,7 +3747,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/protocols/smb/openfiles{}",
+            "{}/platform/1/protocols/smb/openfiles?{}",
             configuration.base_path, query
         );
 
@@ -3792,7 +3792,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/protocols/smb/sessions{}",
+            "{}/platform/1/protocols/smb/sessions?{}",
             configuration.base_path, query
         );
 
@@ -3831,7 +3831,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/smb/settings/global{}",
+            "{}/platform/3/protocols/smb/settings/global?{}",
             configuration.base_path, query
         );
 
@@ -3873,7 +3873,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/smb/settings/share{}",
+            "{}/platform/3/protocols/smb/settings/share?{}",
             configuration.base_path, query
         );
 
@@ -3918,7 +3918,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/protocols/smb/shares/{SmbShareId}{}",
+            "{}/platform/4/protocols/smb/shares/{SmbShareId}?{}",
             configuration.base_path,
             query,
             SmbShareId = smb_share_id
@@ -3959,7 +3959,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/protocols/smb/shares-summary{}",
+            "{}/platform/1/protocols/smb/shares-summary?{}",
             configuration.base_path, query
         );
 
@@ -4033,7 +4033,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/swift/accounts/{SwiftAccountId}{}",
+            "{}/platform/3/protocols/swift/accounts/{SwiftAccountId}?{}",
             configuration.base_path,
             query,
             SwiftAccountId = swift_account_id
@@ -4074,7 +4074,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/protocols/hdfs/proxyusers{}",
+            "{}/platform/1/protocols/hdfs/proxyusers?{}",
             configuration.base_path, query
         );
 
@@ -4113,7 +4113,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/protocols/hdfs/racks{}",
+            "{}/platform/1/protocols/hdfs/racks?{}",
             configuration.base_path, query
         );
 
@@ -4155,7 +4155,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/protocols/ndmp/settings/preferred-ips{}",
+            "{}/platform/4/protocols/ndmp/settings/preferred-ips?{}",
             configuration.base_path, query
         );
 
@@ -4239,7 +4239,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/2/protocols/nfs/aliases{}",
+            "{}/platform/2/protocols/nfs/aliases?{}",
             configuration.base_path, query
         );
 
@@ -4295,7 +4295,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/protocols/nfs/exports{}",
+            "{}/platform/4/protocols/nfs/exports?{}",
             configuration.base_path, query
         );
 
@@ -4341,7 +4341,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/ntp/servers{}",
+            "{}/platform/3/protocols/ntp/servers?{}",
             configuration.base_path, query
         );
 
@@ -4385,7 +4385,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("level", &level.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/smb/log-level/filters{}",
+            "{}/platform/3/protocols/smb/log-level/filters?{}",
             configuration.base_path, query
         );
 
@@ -4439,7 +4439,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/protocols/smb/shares{}",
+            "{}/platform/4/protocols/smb/shares?{}",
             configuration.base_path, query
         );
 
@@ -4479,7 +4479,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/swift/accounts{}",
+            "{}/platform/3/protocols/swift/accounts?{}",
             configuration.base_path, query
         );
 
@@ -4597,7 +4597,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/protocols/hdfs/proxyusers/{HdfsProxyuserId}{}",
+            "{}/platform/1/protocols/hdfs/proxyusers/{HdfsProxyuserId}?{}",
             configuration.base_path,
             query,
             HdfsProxyuserId = hdfs_proxyuser_id
@@ -4642,7 +4642,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/protocols/hdfs/racks/{HdfsRackId}{}",
+            "{}/platform/1/protocols/hdfs/racks/{HdfsRackId}?{}",
             configuration.base_path,
             query,
             HdfsRackId = hdfs_rack_id
@@ -4686,7 +4686,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/protocols/hdfs/ranger-plugin/settings{}",
+            "{}/platform/4/protocols/hdfs/ranger-plugin/settings?{}",
             configuration.base_path, query
         );
 
@@ -4728,7 +4728,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/protocols/hdfs/settings{}",
+            "{}/platform/4/protocols/hdfs/settings?{}",
             configuration.base_path, query
         );
 
@@ -4925,7 +4925,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("name", &name.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/ndmp/settings/variables/{NdmpSettingsVariableId}{}",
+            "{}/platform/3/protocols/ndmp/settings/variables/{NdmpSettingsVariableId}?{}",
             configuration.base_path,
             query,
             NdmpSettingsVariableId = ndmp_settings_variable_id
@@ -5010,7 +5010,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/2/protocols/nfs/aliases/{NfsAliasId}{}",
+            "{}/platform/2/protocols/nfs/aliases/{NfsAliasId}?{}",
             configuration.base_path,
             query,
             NfsAliasId = nfs_alias_id
@@ -5068,7 +5068,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("ignore_bad_auth", &ignore_bad_auth.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/protocols/nfs/exports/{NfsExportId}{}",
+            "{}/platform/4/protocols/nfs/exports/{NfsExportId}?{}",
             configuration.base_path,
             query,
             NfsExportId = nfs_export_id
@@ -5150,7 +5150,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("host", &host.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/nfs/netgroup{}",
+            "{}/platform/3/protocols/nfs/netgroup?{}",
             configuration.base_path, query
         );
 
@@ -5192,7 +5192,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/2/protocols/nfs/settings/export{}",
+            "{}/platform/2/protocols/nfs/settings/export?{}",
             configuration.base_path, query
         );
 
@@ -5234,7 +5234,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/nfs/settings/global{}",
+            "{}/platform/3/protocols/nfs/settings/global?{}",
             configuration.base_path, query
         );
 
@@ -5276,7 +5276,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/2/protocols/nfs/settings/zone{}",
+            "{}/platform/2/protocols/nfs/settings/zone?{}",
             configuration.base_path, query
         );
 
@@ -5472,7 +5472,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/smb/settings/share{}",
+            "{}/platform/3/protocols/smb/settings/share?{}",
             configuration.base_path, query
         );
 
@@ -5515,7 +5515,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/protocols/smb/shares/{SmbShareId}{}",
+            "{}/platform/4/protocols/smb/shares/{SmbShareId}?{}",
             configuration.base_path,
             query,
             SmbShareId = smb_share_id
@@ -5598,7 +5598,7 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/protocols/swift/accounts/{SwiftAccountId}{}",
+            "{}/platform/3/protocols/swift/accounts/{SwiftAccountId}?{}",
             configuration.base_path,
             query,
             SwiftAccountId = swift_account_id

@@ -499,7 +499,7 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
             )
             .finish();
         let uri_str = format!(
-            "{}/platform/4/cloud/accounts/{CloudAccountId}{}",
+            "{}/platform/4/cloud/accounts/{CloudAccountId}?{}",
             configuration.base_path,
             query,
             CloudAccountId = cloud_account_id
@@ -540,7 +540,7 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
             )
             .finish();
         let uri_str = format!(
-            "{}/platform/3/cloud/pools/{CloudPoolId}{}",
+            "{}/platform/3/cloud/pools/{CloudPoolId}?{}",
             configuration.base_path,
             query,
             CloudPoolId = cloud_pool_id
@@ -758,7 +758,7 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/cloud/jobs-files/{CloudJobsFileId}{}",
+            "{}/platform/3/cloud/jobs-files/{CloudJobsFileId}?{}",
             configuration.base_path,
             query,
             CloudJobsFileId = cloud_jobs_file_id
@@ -907,7 +907,7 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/cloud/access{}",
+            "{}/platform/3/cloud/access?{}",
             configuration.base_path, query
         );
 
@@ -951,7 +951,7 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/cloud/accounts{}",
+            "{}/platform/4/cloud/accounts?{}",
             configuration.base_path, query
         );
 
@@ -994,7 +994,7 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
             .finish();
-        let uri_str = format!("{}/platform/3/cloud/jobs{}", configuration.base_path, query);
+        let uri_str = format!("{}/platform/3/cloud/jobs?{}", configuration.base_path, query);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -1036,7 +1036,7 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/cloud/pools{}",
+            "{}/platform/3/cloud/pools?{}",
             configuration.base_path, query
         );
 
@@ -1080,7 +1080,7 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/cloud/proxies{}",
+            "{}/platform/4/cloud/proxies?{}",
             configuration.base_path, query
         );
 

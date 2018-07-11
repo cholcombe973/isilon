@@ -615,7 +615,7 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
             .append_pair("schedule", &schedule.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/snapshot/snapshots{}",
+            "{}/platform/1/snapshot/snapshots?{}",
             configuration.base_path, query
         );
 
@@ -691,7 +691,7 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/snapshot/changelists/{SnapshotChangelistId}{}",
+            "{}/platform/1/snapshot/changelists/{SnapshotChangelistId}?{}",
             configuration.base_path,
             query,
             SnapshotChangelistId = snapshot_changelist_id
@@ -771,7 +771,7 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/snapshot/pending{}",
+            "{}/platform/1/snapshot/pending?{}",
             configuration.base_path, query
         );
 
@@ -814,7 +814,7 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/snapshot/repstates/{SnapshotRepstateId}{}",
+            "{}/platform/1/snapshot/repstates/{SnapshotRepstateId}?{}",
             configuration.base_path,
             query,
             SnapshotRepstateId = snapshot_repstate_id
@@ -1007,7 +1007,7 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/snapshot/aliases{}",
+            "{}/platform/1/snapshot/aliases?{}",
             configuration.base_path, query
         );
 
@@ -1049,7 +1049,7 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/snapshot/changelists{}",
+            "{}/platform/1/snapshot/changelists?{}",
             configuration.base_path, query
         );
 
@@ -1093,7 +1093,7 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/snapshot/repstates{}",
+            "{}/platform/1/snapshot/repstates?{}",
             configuration.base_path, query
         );
 
@@ -1139,7 +1139,7 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/snapshot/schedules{}",
+            "{}/platform/3/snapshot/schedules?{}",
             configuration.base_path, query
         );
 
@@ -1191,7 +1191,7 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/snapshot/snapshots{}",
+            "{}/platform/1/snapshot/snapshots?{}",
             configuration.base_path, query
         );
 

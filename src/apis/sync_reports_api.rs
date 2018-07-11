@@ -112,7 +112,7 @@ impl<C: hyper::client::Connect> SyncReportsApi for SyncReportsApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/sync/reports/{Rid}/subreports{}",
+            "{}/platform/4/sync/reports/{Rid}/subreports?{}",
             configuration.base_path,
             query,
             Rid = rid

@@ -159,7 +159,7 @@ impl<C: hyper::client::Connect> StoragepoolApi for StoragepoolApiClient<C> {
             .append_pair("assess", &assess.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/storagepool/compatibilities/class/active{}",
+            "{}/platform/1/storagepool/compatibilities/class/active?{}",
             configuration.base_path, query
         );
 
@@ -209,7 +209,7 @@ impl<C: hyper::client::Connect> StoragepoolApi for StoragepoolApiClient<C> {
             .append_pair("assess", &assess.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/storagepool/compatibilities/ssd/active{}",
+            "{}/platform/3/storagepool/compatibilities/ssd/active?{}",
             configuration.base_path, query
         );
 
@@ -344,7 +344,7 @@ impl<C: hyper::client::Connect> StoragepoolApi for StoragepoolApiClient<C> {
         let query = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("assess", &assess.to_string())
             .finish();
-        let uri_str = format!("{}/platform/1/storagepool/compatibilities/class/active/{CompatibilitiesClassActiveId}{}", configuration.base_path, query, CompatibilitiesClassActiveId=compatibilities_class_active_id);
+        let uri_str = format!("{}/platform/1/storagepool/compatibilities/class/active/{CompatibilitiesClassActiveId}?{}", configuration.base_path, query, CompatibilitiesClassActiveId=compatibilities_class_active_id);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -378,7 +378,7 @@ impl<C: hyper::client::Connect> StoragepoolApi for StoragepoolApiClient<C> {
             .append_pair("assess", &assess.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/storagepool/compatibilities/ssd/active/{CompatibilitiesSsdActiveId}{}",
+            "{}/platform/3/storagepool/compatibilities/ssd/active/{CompatibilitiesSsdActiveId}?{}",
             configuration.base_path,
             query,
             CompatibilitiesSsdActiveId = compatibilities_ssd_active_id
@@ -799,7 +799,7 @@ impl<C: hyper::client::Connect> StoragepoolApi for StoragepoolApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/storagepool/storagepools{}",
+            "{}/platform/3/storagepool/storagepools?{}",
             configuration.base_path, query
         );
 
@@ -1102,7 +1102,7 @@ impl<C: hyper::client::Connect> StoragepoolApi for StoragepoolApiClient<C> {
             .append_pair("assess", &assess.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/storagepool/compatibilities/ssd/active/{CompatibilitiesSsdActiveId}{}",
+            "{}/platform/3/storagepool/compatibilities/ssd/active/{CompatibilitiesSsdActiveId}?{}",
             configuration.base_path,
             query,
             CompatibilitiesSsdActiveId = compatibilities_ssd_active_id

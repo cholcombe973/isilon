@@ -483,7 +483,7 @@ impl<C: hyper::client::Connect> ClusterApi for ClusterApiClient<C> {
             .append_pair("timeout", &timeout.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/5/cluster/nodes/{ClusterNodeId}{}",
+            "{}/platform/5/cluster/nodes/{ClusterNodeId}?{}",
             configuration.base_path,
             query,
             ClusterNodeId = cluster_node_id
@@ -527,7 +527,7 @@ impl<C: hyper::client::Connect> ClusterApi for ClusterApiClient<C> {
             .append_pair("timeout", &timeout.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/5/cluster/nodes{}",
+            "{}/platform/5/cluster/nodes?{}",
             configuration.base_path, query
         );
 
@@ -985,7 +985,7 @@ impl<C: hyper::client::Connect> ClusterApi for ClusterApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/cluster/timezone/regions/{TimezoneRegionId}{}",
+            "{}/platform/3/cluster/timezone/regions/{TimezoneRegionId}?{}",
             configuration.base_path,
             query,
             TimezoneRegionId = timezone_region_id

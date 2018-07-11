@@ -109,7 +109,7 @@ impl<C: hyper::client::Connect> LicenseApi for LicenseApiClient<C> {
             .append_pair("only_these_licenses", &only_these_licenses.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/5/license/generate{}",
+            "{}/platform/5/license/generate?{}",
             configuration.base_path, query
         );
 

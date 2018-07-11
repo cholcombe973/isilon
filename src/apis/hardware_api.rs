@@ -98,7 +98,7 @@ impl<C: hyper::client::Connect> HardwareApi for HardwareApiClient<C> {
             .append_pair("reconcile", &reconcile.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/hardware/tape/{HardwareTapeName}{}",
+            "{}/platform/3/hardware/tape/{HardwareTapeName}?{}",
             configuration.base_path,
             query,
             HardwareTapeName = hardware_tape_name2
@@ -182,7 +182,7 @@ impl<C: hyper::client::Connect> HardwareApi for HardwareApiClient<C> {
             .append_pair("lnn", &lnn.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/hardware/fcports/{HardwareFcportId}{}",
+            "{}/platform/3/hardware/fcports/{HardwareFcportId}?{}",
             configuration.base_path,
             query,
             HardwareFcportId = hardware_fcport_id
@@ -228,7 +228,7 @@ impl<C: hyper::client::Connect> HardwareApi for HardwareApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/hardware/fcports{}",
+            "{}/platform/3/hardware/fcports?{}",
             configuration.base_path, query
         );
 
@@ -278,7 +278,7 @@ impl<C: hyper::client::Connect> HardwareApi for HardwareApiClient<C> {
             .append_pair("type", &_type.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/hardware/tapes{}",
+            "{}/platform/3/hardware/tapes?{}",
             configuration.base_path, query
         );
 
@@ -319,7 +319,7 @@ impl<C: hyper::client::Connect> HardwareApi for HardwareApiClient<C> {
             .append_pair("lnn", &lnn.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/hardware/fcports/{HardwareFcportId}{}",
+            "{}/platform/3/hardware/fcports/{HardwareFcportId}?{}",
             configuration.base_path,
             query,
             HardwareFcportId = hardware_fcport_id

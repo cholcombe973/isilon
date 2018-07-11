@@ -201,7 +201,7 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
             .append_pair("continue", &_continue.to_string())
             .finish();
         let uri_str = format!(
-            "{}/namespace/{DirectoryCopyTarget}{}",
+            "{}/namespace/{DirectoryCopyTarget}?{}",
             configuration.base_path,
             query,
             DirectoryCopyTarget = directory_copy_target
@@ -251,7 +251,7 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
             .append_pair("overwrite", &overwrite.to_string())
             .finish();
         let uri_str = format!(
-            "{}/namespace/{FileCopyTarget}{}",
+            "{}/namespace/{FileCopyTarget}?{}",
             configuration.base_path,
             query,
             FileCopyTarget = file_copy_target
@@ -345,7 +345,7 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
             .append_pair("overwrite", &overwrite.to_string())
             .finish();
         let uri_str = format!(
-            "{}/namespace/{DirectoryPath}{}",
+            "{}/namespace/{DirectoryPath}?{}",
             configuration.base_path,
             query,
             DirectoryPath = directory_path
@@ -399,7 +399,7 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
             .append_pair("overwrite", &overwrite.to_string())
             .finish();
         let uri_str = format!(
-            "{}/namespace/{FilePath}{}",
+            "{}/namespace/{FilePath}?{}",
             configuration.base_path,
             query,
             FilePath = file_path
@@ -492,7 +492,7 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
             .append_pair("recursive", &recursive.to_string())
             .finish();
         let uri_str = format!(
-            "{}/namespace/{DirectoryPath}{}",
+            "{}/namespace/{DirectoryPath}?{}",
             configuration.base_path,
             query,
             DirectoryPath = directory_path
@@ -570,7 +570,7 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
             .append_pair("nsaccess", &nsaccess.to_string())
             .finish();
         let uri_str = format!(
-            "{}/namespace/{NamespacePath}{}",
+            "{}/namespace/{NamespacePath}?{}",
             configuration.base_path,
             query,
             NamespacePath = namespace_path
@@ -668,7 +668,7 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
             .append_pair("hidden", &hidden.to_string())
             .finish();
         let uri_str = format!(
-            "{}/namespace/{DirectoryPath}{}",
+            "{}/namespace/{DirectoryPath}?{}",
             configuration.base_path,
             query,
             DirectoryPath = directory_path
@@ -711,7 +711,7 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
             .append_pair("metadata", &metadata.to_string())
             .finish();
         let uri_str = format!(
-            "{}/namespace/{DirectoryMetadataPath}{}",
+            "{}/namespace/{DirectoryMetadataPath}?{}",
             configuration.base_path,
             query,
             DirectoryMetadataPath = directory_metadata_path
@@ -844,7 +844,7 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
             .append_pair("metadata", &metadata.to_string())
             .finish();
         let uri_str = format!(
-            "{}/namespace/{FileMetadataPath}{}",
+            "{}/namespace/{FileMetadataPath}?{}",
             configuration.base_path,
             query,
             FileMetadataPath = file_metadata_path
@@ -887,7 +887,7 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
             .append_pair("worm", &worm.to_string())
             .finish();
         let uri_str = format!(
-            "{}/namespace/{WormFilePath}{}",
+            "{}/namespace/{WormFilePath}?{}",
             configuration.base_path,
             query,
             WormFilePath = worm_file_path
@@ -927,7 +927,7 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         let query = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("versions", &versions.to_string())
             .finish();
-        let uri_str = format!("{}/namespace{}", configuration.base_path, query);
+        let uri_str = format!("{}/namespace?{}", configuration.base_path, query);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -1055,7 +1055,7 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
             .append_pair("max-depth", &max_depth.to_string())
             .finish();
         let uri_str = format!(
-            "{}/namespace/{QueryPath}{}",
+            "{}/namespace/{QueryPath}?{}",
             configuration.base_path,
             query,
             QueryPath = query_path
@@ -1107,7 +1107,7 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
             .append_pair("nsaccess", &nsaccess.to_string())
             .finish();
         let uri_str = format!(
-            "{}/namespace/{NamespacePath}{}",
+            "{}/namespace/{NamespacePath}?{}",
             configuration.base_path,
             query,
             NamespacePath = namespace_path
@@ -1156,7 +1156,7 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
             .append_pair("metadata", &metadata.to_string())
             .finish();
         let uri_str = format!(
-            "{}/namespace/{DirectoryMetadataPath}{}",
+            "{}/namespace/{DirectoryMetadataPath}?{}",
             configuration.base_path,
             query,
             DirectoryMetadataPath = directory_metadata_path
@@ -1205,7 +1205,7 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
             .append_pair("metadata", &metadata.to_string())
             .finish();
         let uri_str = format!(
-            "{}/namespace/{FileMetadataPath}{}",
+            "{}/namespace/{FileMetadataPath}?{}",
             configuration.base_path,
             query,
             FileMetadataPath = file_metadata_path
@@ -1254,7 +1254,7 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
             .append_pair("worm", &worm.to_string())
             .finish();
         let uri_str = format!(
-            "{}/namespace/{WormFilePath}{}",
+            "{}/namespace/{WormFilePath}?{}",
             configuration.base_path,
             query,
             WormFilePath = worm_file_path

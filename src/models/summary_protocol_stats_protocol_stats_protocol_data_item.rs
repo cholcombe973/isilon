@@ -8,5 +8,5 @@ pub struct SummaryProtocolStatsProtocolStatsProtocolDataItem {
     pub name: String,
     /// Protocol specific operations per second. This is a variable number of output fields depending on the protocol being displayed.
     #[serde(rename = "value")]
-    pub value: String,
+    pub value: Value,
 }

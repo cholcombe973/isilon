@@ -395,7 +395,7 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/network/interfaces{}",
+            "{}/platform/4/network/interfaces?{}",
             configuration.base_path, query
         );
 
@@ -449,7 +449,7 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/network/pools{}",
+            "{}/platform/3/network/pools?{}",
             configuration.base_path, query
         );
 
@@ -500,7 +500,7 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
             .append_pair("pool", &pool.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/network/rules{}",
+            "{}/platform/3/network/rules?{}",
             configuration.base_path, query
         );
 
@@ -548,7 +548,7 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/network/subnets{}",
+            "{}/platform/4/network/subnets?{}",
             configuration.base_path, query
         );
 
@@ -594,7 +594,7 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/network/groupnets{}",
+            "{}/platform/3/network/groupnets?{}",
             configuration.base_path, query
         );
 

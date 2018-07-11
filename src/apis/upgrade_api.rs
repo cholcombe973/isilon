@@ -439,7 +439,7 @@ impl<C: hyper::client::Connect> UpgradeApi for UpgradeApiClient<C> {
             .append_pair("rolling", &rolling.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/upgrade/cluster/patch/patches{}",
+            "{}/platform/3/upgrade/cluster/patch/patches?{}",
             configuration.base_path, query
         );
 
@@ -689,7 +689,7 @@ impl<C: hyper::client::Connect> UpgradeApi for UpgradeApiClient<C> {
             .append_pair("rolling", &rolling.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/upgrade/cluster/patch/patches/{ClusterPatchPatchId}{}",
+            "{}/platform/3/upgrade/cluster/patch/patches/{ClusterPatchPatchId}?{}",
             configuration.base_path,
             query,
             ClusterPatchPatchId = cluster_patch_patch_id
@@ -764,7 +764,7 @@ impl<C: hyper::client::Connect> UpgradeApi for UpgradeApiClient<C> {
             .append_pair("package", &package.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/upgrade/cluster/firmware/status{}",
+            "{}/platform/3/upgrade/cluster/firmware/status?{}",
             configuration.base_path, query
         );
 
@@ -880,7 +880,7 @@ impl<C: hyper::client::Connect> UpgradeApi for UpgradeApiClient<C> {
             .append_pair("location", &location.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/upgrade/cluster/patch/patches/{ClusterPatchPatchId}{}",
+            "{}/platform/3/upgrade/cluster/patch/patches/{ClusterPatchPatchId}?{}",
             configuration.base_path,
             query,
             ClusterPatchPatchId = cluster_patch_patch_id
@@ -995,7 +995,7 @@ impl<C: hyper::client::Connect> UpgradeApi for UpgradeApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/upgrade/cluster/patch/patches{}",
+            "{}/platform/3/upgrade/cluster/patch/patches?{}",
             configuration.base_path, query
         );
 

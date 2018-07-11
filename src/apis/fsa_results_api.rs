@@ -200,7 +200,7 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
             .append_pair("atime_filter", &atime_filter.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/fsa/results/{Id}/histogram/{Stat}/by/{HistogramStatByBreakout}{}",
+            "{}/platform/3/fsa/results/{Id}/histogram/{Stat}/by/{HistogramStatByBreakout}?{}",
             configuration.base_path,
             query,
             HistogramStatByBreakout = histogram_stat_by_breakout,
@@ -253,7 +253,7 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/fsa/results/{Id}/directories{}",
+            "{}/platform/3/fsa/results/{Id}/directories?{}",
             configuration.base_path,
             query,
             Id = id
@@ -303,7 +303,7 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/fsa/results/{Id}/directories/{ResultDirectoryId}{}",
+            "{}/platform/3/fsa/results/{Id}/directories/{ResultDirectoryId}?{}",
             configuration.base_path,
             query,
             ResultDirectoryId = result_directory_id,
@@ -406,7 +406,7 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
             .append_pair("atime_filter", &atime_filter.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/fsa/results/{Id}/histogram/{ResultHistogramStat}{}",
+            "{}/platform/3/fsa/results/{Id}/histogram/{ResultHistogramStat}?{}",
             configuration.base_path,
             query,
             ResultHistogramStat = result_histogram_stat,
@@ -459,7 +459,7 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/fsa/results/{Id}/top-dirs/{ResultTopDirId}{}",
+            "{}/platform/3/fsa/results/{Id}/top-dirs/{ResultTopDirId}?{}",
             configuration.base_path,
             query,
             ResultTopDirId = result_top_dir_id,
@@ -548,7 +548,7 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/fsa/results/{Id}/top-files/{ResultTopFileId}{}",
+            "{}/platform/3/fsa/results/{Id}/top-files/{ResultTopFileId}?{}",
             configuration.base_path,
             query,
             ResultTopFileId = result_top_file_id,

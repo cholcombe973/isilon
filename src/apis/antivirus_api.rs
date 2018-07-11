@@ -410,7 +410,7 @@ impl<C: hyper::client::Connect> AntivirusApi for AntivirusApiClient<C> {
             .append_pair("age", &age.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/antivirus/reports/scans{}",
+            "{}/platform/3/antivirus/reports/scans?{}",
             configuration.base_path, query
         );
 
@@ -639,7 +639,7 @@ impl<C: hyper::client::Connect> AntivirusApi for AntivirusApiClient<C> {
             .append_pair("policy_id", &policy_id.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/antivirus/reports/scans{}",
+            "{}/platform/3/antivirus/reports/scans?{}",
             configuration.base_path, query
         );
 
@@ -728,7 +728,7 @@ impl<C: hyper::client::Connect> AntivirusApi for AntivirusApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/antivirus/reports/threats{}",
+            "{}/platform/3/antivirus/reports/threats?{}",
             configuration.base_path, query
         );
 
@@ -774,7 +774,7 @@ impl<C: hyper::client::Connect> AntivirusApi for AntivirusApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/antivirus/policies{}",
+            "{}/platform/3/antivirus/policies?{}",
             configuration.base_path, query
         );
 
@@ -820,7 +820,7 @@ impl<C: hyper::client::Connect> AntivirusApi for AntivirusApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/antivirus/servers{}",
+            "{}/platform/3/antivirus/servers?{}",
             configuration.base_path, query
         );
 

@@ -186,7 +186,7 @@ impl<C: hyper::client::Connect> CertificateApi for CertificateApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/certificate/server{}",
+            "{}/platform/4/certificate/server?{}",
             configuration.base_path, query
         );
 

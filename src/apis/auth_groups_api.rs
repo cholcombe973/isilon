@@ -73,7 +73,7 @@ impl<C: hyper::client::Connect> AuthGroupsApi for AuthGroupsApiClient<C> {
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/groups/{Group}/members{}",
+            "{}/platform/1/auth/groups/{Group}/members?{}",
             configuration.base_path,
             query,
             Group = group
@@ -124,7 +124,7 @@ impl<C: hyper::client::Connect> AuthGroupsApi for AuthGroupsApiClient<C> {
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/groups/{Group}/members/{GroupMemberId}{}",
+            "{}/platform/1/auth/groups/{Group}/members/{GroupMemberId}?{}",
             configuration.base_path,
             query,
             GroupMemberId = group_member_id,
@@ -171,7 +171,7 @@ impl<C: hyper::client::Connect> AuthGroupsApi for AuthGroupsApiClient<C> {
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/auth/groups/{Group}/members{}",
+            "{}/platform/1/auth/groups/{Group}/members?{}",
             configuration.base_path,
             query,
             Group = group

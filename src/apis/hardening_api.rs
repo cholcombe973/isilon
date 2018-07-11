@@ -105,7 +105,7 @@ impl<C: hyper::client::Connect> HardeningApi for HardeningApiClient<C> {
             .append_pair("accept", &accept.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/hardening/resolve{}",
+            "{}/platform/3/hardening/resolve?{}",
             configuration.base_path, query
         );
 
@@ -154,7 +154,7 @@ impl<C: hyper::client::Connect> HardeningApi for HardeningApiClient<C> {
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/hardening/revert{}",
+            "{}/platform/3/hardening/revert?{}",
             configuration.base_path, query
         );
 

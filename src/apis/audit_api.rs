@@ -152,7 +152,7 @@ impl<C: hyper::client::Connect> AuditApi for AuditApiClient<C> {
             .append_pair("lnn", &lnn.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/audit/progress{}",
+            "{}/platform/4/audit/progress?{}",
             configuration.base_path, query
         );
 
@@ -191,7 +191,7 @@ impl<C: hyper::client::Connect> AuditApi for AuditApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/audit/settings{}",
+            "{}/platform/3/audit/settings?{}",
             configuration.base_path, query
         );
 
@@ -370,7 +370,7 @@ impl<C: hyper::client::Connect> AuditApi for AuditApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/audit/settings{}",
+            "{}/platform/3/audit/settings?{}",
             configuration.base_path, query
         );
 

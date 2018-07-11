@@ -520,7 +520,7 @@ impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/5/cluster/nodes/{Lnn}/reboot{}",
+            "{}/platform/5/cluster/nodes/{Lnn}/reboot?{}",
             configuration.base_path,
             query,
             Lnn = lnn
@@ -569,7 +569,7 @@ impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/5/cluster/nodes/{Lnn}/shutdown{}",
+            "{}/platform/5/cluster/nodes/{Lnn}/shutdown?{}",
             configuration.base_path,
             query,
             Lnn = lnn
@@ -658,7 +658,7 @@ impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
             .append_pair("timeout", &timeout.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/5/cluster/nodes/{Lnn}/drives/{NodeDriveId}{}",
+            "{}/platform/5/cluster/nodes/{Lnn}/drives/{NodeDriveId}?{}",
             configuration.base_path,
             query,
             NodeDriveId = node_drive_id,
@@ -701,7 +701,7 @@ impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
             .append_pair("timeout", &timeout.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/5/cluster/nodes/{Lnn}/driveconfig{}",
+            "{}/platform/5/cluster/nodes/{Lnn}/driveconfig?{}",
             configuration.base_path,
             query,
             Lnn = lnn
@@ -744,7 +744,7 @@ impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
             .append_pair("timeout", &timeout.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/5/cluster/nodes/{Lnn}/drives{}",
+            "{}/platform/5/cluster/nodes/{Lnn}/drives?{}",
             configuration.base_path,
             query,
             Lnn = lnn
@@ -824,7 +824,7 @@ impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
             .append_pair("timeout", &timeout.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/5/cluster/nodes/{Lnn}/hardware{}",
+            "{}/platform/5/cluster/nodes/{Lnn}/hardware?{}",
             configuration.base_path,
             query,
             Lnn = lnn
@@ -979,7 +979,7 @@ impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
             .append_pair("timeout", &timeout.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/5/cluster/nodes/{Lnn}/sleds/{NodeSledId}{}",
+            "{}/platform/5/cluster/nodes/{Lnn}/sleds/{NodeSledId}?{}",
             configuration.base_path,
             query,
             NodeSledId = node_sled_id,
@@ -1022,7 +1022,7 @@ impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
             .append_pair("timeout", &timeout.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/5/cluster/nodes/{Lnn}/sleds{}",
+            "{}/platform/5/cluster/nodes/{Lnn}/sleds?{}",
             configuration.base_path,
             query,
             Lnn = lnn

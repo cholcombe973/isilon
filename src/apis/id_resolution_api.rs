@@ -104,7 +104,7 @@ impl<C: hyper::client::Connect> IdResolutionApi for IdResolutionApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/4/id-resolution/paths{}",
+            "{}/platform/4/id-resolution/paths?{}",
             configuration.base_path, query
         );
 

@@ -261,7 +261,7 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
             .append_pair("limit", &limit.to_string())
             .append_pair("key", &key.to_string())
             .finish();
-        let uri_str = format!("{}/platform/3/job/events{}", configuration.base_path, query);
+        let uri_str = format!("{}/platform/3/job/events?{}", configuration.base_path, query);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -403,7 +403,7 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
             .append_pair("timeout_ms", &timeout_ms.to_string())
             .append_pair("limit", &limit.to_string())
             .finish();
-        let uri_str = format!("{}/platform/3/job/recent{}", configuration.base_path, query);
+        let uri_str = format!("{}/platform/3/job/recent?{}", configuration.base_path, query);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -456,7 +456,7 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
             .append_pair("verbose", &verbose.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/3/job/reports{}",
+            "{}/platform/3/job/reports?{}",
             configuration.base_path, query
         );
 
@@ -497,7 +497,7 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
             .append_pair("job_id", &job_id.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/job/statistics{}",
+            "{}/platform/1/job/statistics?{}",
             configuration.base_path, query
         );
 
@@ -576,7 +576,7 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
             .append_pair("show_all", &show_all.to_string())
             .append_pair("dir", &dir.to_string())
             .finish();
-        let uri_str = format!("{}/platform/1/job/types{}", configuration.base_path, query);
+        let uri_str = format!("{}/platform/1/job/types?{}", configuration.base_path, query);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -623,7 +623,7 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
             .finish();
-        let uri_str = format!("{}/platform/3/job/jobs{}", configuration.base_path, query);
+        let uri_str = format!("{}/platform/3/job/jobs?{}", configuration.base_path, query);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -667,7 +667,7 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
-            "{}/platform/1/job/policies{}",
+            "{}/platform/1/job/policies?{}",
             configuration.base_path, query
         );
 
