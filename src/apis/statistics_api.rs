@@ -137,8 +137,8 @@ pub trait StatisticsApi {
     fn get_summary_protocol_stats(
         &self,
         degraded: bool,
-        protocol: &str,
-        nodes: &str,
+        protocol: Option<&str>,
+        nodes: Option<&str>,
         timeout: i32,
     ) -> Box<Future<Item = ::models::SummaryProtocolStats, Error = Error>>;
     fn get_summary_system(
@@ -685,20 +685,26 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
     fn get_summary_protocol_stats(
         &self,
         degraded: bool,
-        protocol: &str,
-        nodes: &str,
+        protocol: Option<&str>,
+        nodes: Option<&str>,
         timeout: i32,
     ) -> Box<Future<Item = ::models::SummaryProtocolStats, Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Get;
 
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
-            .append_pair("degraded", &degraded.to_string())
-            .append_pair("protocol", &protocol.to_string())
-            .append_pair("nodes", &nodes.to_string())
-            .append_pair("timeout", &timeout.to_string())
-            .finish();
+        let mut buff = String::new();
+        let mut query = ::url::form_urlencoded::Serializer::new(buff);
+        query.append_pair("degraded", &degraded.to_string());
+        query.append_pair("timeout", &timeout.to_string());
+        if let Some(protocol) = protocol {
+            query.append_pair("protocol", &protocol.to_string());
+        }
+        if let Some(nodes) = nodes {
+            query.append_pair("nodes", &nodes.to_string());
+        }
+        let query = query.finish();
+
         let uri_str = format!(
             "{}/platform/3/statistics/summary/protocol-stats{}",
             configuration.base_path, query
