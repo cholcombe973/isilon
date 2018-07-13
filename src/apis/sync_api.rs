@@ -465,7 +465,10 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
         let query = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("type", &_type.to_string())
             .finish();
-        let uri_str = format!("{}/platform/3/sync/rules?{}", configuration.base_path, query);
+        let uri_str = format!(
+            "{}/platform/3/sync/rules?{}",
+            configuration.base_path, query
+        );
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -1273,7 +1276,10 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .append_pair("resume", &resume.to_string())
             .finish();
-        let uri_str = format!("{}/platform/3/sync/rules?{}", configuration.base_path, query);
+        let uri_str = format!(
+            "{}/platform/3/sync/rules?{}",
+            configuration.base_path, query
+        );
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error

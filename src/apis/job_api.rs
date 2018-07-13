@@ -261,7 +261,10 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
             .append_pair("limit", &limit.to_string())
             .append_pair("key", &key.to_string())
             .finish();
-        let uri_str = format!("{}/platform/3/job/events?{}", configuration.base_path, query);
+        let uri_str = format!(
+            "{}/platform/3/job/events?{}",
+            configuration.base_path, query
+        );
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -403,7 +406,10 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
             .append_pair("timeout_ms", &timeout_ms.to_string())
             .append_pair("limit", &limit.to_string())
             .finish();
-        let uri_str = format!("{}/platform/3/job/recent?{}", configuration.base_path, query);
+        let uri_str = format!(
+            "{}/platform/3/job/recent?{}",
+            configuration.base_path, query
+        );
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error

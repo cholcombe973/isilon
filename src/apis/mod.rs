@@ -3,6 +3,7 @@ use hyper;
 use reqwest;
 use serde_json;
 
+use std::error::Error as err;
 use std::io;
 
 #[derive(Debug)]
@@ -15,6 +16,38 @@ pub enum Error {
     Serde(serde_json::Error),
     /// Session token needs to be recreated.  Call Configuration::login
     SessionExpired,
+}
+
+impl ::std::fmt::Display for Error {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.write_str(self.description())
+    }
+}
+
+impl err for Error {
+    fn description(&self) -> &str {
+        match *self {
+            Error::E(ref s) => s,
+            Error::Cookie(ref e) => e.description(),
+            Error::Hyper(ref e) => e.description(),
+            Error::Io(ref e) => e.description(),
+            Error::Reqwest(ref e) => e.description(),
+            Error::Serde(ref e) => e.description(),
+            Error::SessionExpired => "Session Expired",
+        }
+    }
+
+    fn cause(&self) -> Option<&::std::error::Error> {
+        match *self {
+            Error::E(_) => None,
+            Error::Cookie(ref e) => e.cause(),
+            Error::Hyper(ref e) => e.cause(),
+            Error::Io(ref e) => e.cause(),
+            Error::Reqwest(ref e) => e.cause(),
+            Error::Serde(ref e) => e.cause(),
+            Error::SessionExpired => None,
+        }
+    }
 }
 
 impl From<String> for Error {

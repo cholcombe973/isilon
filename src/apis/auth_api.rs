@@ -486,7 +486,10 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         let query = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
-        let uri_str = format!("{}/platform/4/auth/cache?{}", configuration.base_path, query);
+        let uri_str = format!(
+            "{}/platform/4/auth/cache?{}",
+            configuration.base_path, query
+        );
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -664,7 +667,10 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .append_pair("provider", &provider.to_string())
             .finish();
-        let uri_str = format!("{}/platform/1/auth/users?{}", configuration.base_path, query);
+        let uri_str = format!(
+            "{}/platform/1/auth/users?{}",
+            configuration.base_path, query
+        );
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -1251,7 +1257,10 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("zone", &zone.to_string())
             .append_pair("provider", &provider.to_string())
             .finish();
-        let uri_str = format!("{}/platform/1/auth/users?{}", configuration.base_path, query);
+        let uri_str = format!(
+            "{}/platform/1/auth/users?{}",
+            configuration.base_path, query
+        );
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -2945,7 +2954,10 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("dir", &dir.to_string())
             .append_pair("resume", &resume.to_string())
             .finish();
-        let uri_str = format!("{}/platform/1/auth/roles?{}", configuration.base_path, query);
+        let uri_str = format!(
+            "{}/platform/1/auth/roles?{}",
+            configuration.base_path, query
+        );
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -2998,7 +3010,10 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .append_pair("provider", &provider.to_string())
             .append_pair("query_member_of", &query_member_of.to_string())
             .finish();
-        let uri_str = format!("{}/platform/1/auth/users?{}", configuration.base_path, query);
+        let uri_str = format!(
+            "{}/platform/1/auth/users?{}",
+            configuration.base_path, query
+        );
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error

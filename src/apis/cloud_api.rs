@@ -994,7 +994,10 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
             .finish();
-        let uri_str = format!("{}/platform/3/cloud/jobs?{}", configuration.base_path, query);
+        let uri_str = format!(
+            "{}/platform/3/cloud/jobs?{}",
+            configuration.base_path, query
+        );
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
