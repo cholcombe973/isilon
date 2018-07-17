@@ -106,7 +106,7 @@ impl<C: hyper::client::Connect> Configuration<C> {
                 }
             };
             req.headers_mut().set_raw("Origin", self.server.clone());
-            req.headers_mut().set(::hyper::header::Referer::new("localhost"));
+            req.headers_mut().set(::hyper::header::Referer::new("https://localhost"));
         }
 
         Ok(())
