@@ -97,7 +97,7 @@ impl<C: hyper::client::Connect> Configuration<C> {
             // Possible Cross Site Request Forgery cookie will be set
             match self.cookie_jar.get("isicsrf") {
                 Some(t) => {
-                    let csrf_cookie = format!("{}={}", t.name(), t.value());
+                    let csrf_cookie = format!("{}:{}", t.name(), t.value());
                     debug!("Setting csrf-token: {}", csrf_cookie);
                     req.headers_mut().set_raw("X-CSRF-Token", t.value());
                 }
@@ -106,6 +106,7 @@ impl<C: hyper::client::Connect> Configuration<C> {
                 }
             };
             req.headers_mut().set_raw("Origin", self.server.clone());
+            req.headers_mut().set(::hyper::header::Referer::new("https://localhost"));
         }
 
         Ok(())
