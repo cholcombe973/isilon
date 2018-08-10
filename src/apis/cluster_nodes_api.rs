@@ -151,7 +151,10 @@ pub trait ClusterNodesApi {
         &self,
         lnn: i32,
     ) -> Box<Future<Item = ::models::NodeStateSmartfail, Error = Error>>;
-    fn get_node_status(&self, lnn: i32) -> Box<Future<Item = ::models::NodeStatus, Error = Error>>;
+    fn get_node_status(
+        &self,
+        lnn: Option<i32>,
+    ) -> Box<Future<Item = ::models::NodeStatus, Error = Error>>;
     fn get_node_status_batterystatus(
         &self,
         lnn: i32,
@@ -1199,16 +1202,25 @@ impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
         )
     }
 
-    fn get_node_status(&self, lnn: i32) -> Box<Future<Item = ::models::NodeStatus, Error = Error>> {
+    fn get_node_status(
+        &self,
+        lnn: Option<i32>,
+    ) -> Box<Future<Item = ::models::NodeStatus, Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Get;
 
-        let uri_str = format!(
-            "{}/platform/3/cluster/nodes/{Lnn}/status",
-            configuration.base_path,
-            Lnn = lnn
-        );
+        let uri_str = match lnn {
+            Some(lnn) => format!(
+                "{}/platform/3/cluster/nodes/{Lnn}/status",
+                configuration.base_path,
+                Lnn = lnn
+            ),
+            None => format!(
+                "{}/platform/3/cluster/nodes/All/status",
+                configuration.base_path,
+            ),
+        };
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
