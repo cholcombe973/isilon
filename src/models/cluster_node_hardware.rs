@@ -92,7 +92,7 @@ pub struct ClusterNodeHardware {
     pub product: Option<String>,
     /// Size of RAM in bytes.
     #[serde(rename = "ram")]
-    pub ram: Option<i32>,
+    pub ram: Option<u64>,
     /// Serial number of this node.
     #[serde(rename = "serial_number")]
     pub serial_number: Option<String>,

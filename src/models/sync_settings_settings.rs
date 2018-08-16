@@ -5,10 +5,10 @@ use serde_json::Value;
 pub struct SyncSettingsSettings {
     /// The per-worker burst socket memory constraint, in bytes.
     #[serde(rename = "burst_memory_constraint")]
-    pub burst_memory_constraint: Option<i32>,
+    pub burst_memory_constraint: Option<u64>,
     /// The per-worker burst socket buffer coalesced data, in bytes.
     #[serde(rename = "burst_socket_buffer_size")]
-    pub burst_socket_buffer_size: Option<i32>,
+    pub burst_socket_buffer_size: Option<u64>,
     /// NOTE: This field should not be changed without the help of Isilon support.  Default for the \"force_interface\" property that will be applied to each new sync policy unless otherwise specified at the time of policy creation.  Determines whether data is sent only through the subnet and pool specified in the \"source_network\" field. This option can be useful if there are multiple interfaces for the given source subnet.
     #[serde(rename = "force_interface")]
     pub force_interface: Option<bool>,

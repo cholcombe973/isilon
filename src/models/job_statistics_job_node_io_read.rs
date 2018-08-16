@@ -5,8 +5,8 @@ use serde_json::Value;
 pub struct JobStatisticsJobNodeIoRead {
     /// The number of bytes recently read by this job on this node.
     #[serde(rename = "bytes")]
-    pub bytes: i32,
+    pub bytes: u64,
     /// The number of read operations recently performed by this job on this node.
     #[serde(rename = "ops")]
-    pub ops: i32,
+    pub ops: u64,
 }

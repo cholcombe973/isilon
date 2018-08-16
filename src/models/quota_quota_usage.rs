@@ -5,11 +5,11 @@ use serde_json::Value;
 pub struct QuotaQuotaUsage {
     /// Number of inodes (filesystem entities) used by governed data.
     #[serde(rename = "inodes")]
-    pub inodes: i32,
+    pub inodes: u64,
     /// Apparent bytes used by governed data.
     #[serde(rename = "logical")]
-    pub logical: i32,
+    pub logical: u64,
     /// Bytes used for governed data and filesystem overhead.
     #[serde(rename = "physical")]
-    pub physical: i32,
+    pub physical: u64,
 }

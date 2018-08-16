@@ -5,7 +5,7 @@ use serde_json::Value;
 pub struct DedupeDedupeSummarySummary {
     /// Size in bytes of a filesystem block.
     #[serde(rename = "block_size")]
-    pub block_size: f32,
+    pub block_size: u64,
     /// Estimated number of physical blocks deduped.
     #[serde(rename = "estimated_physical_blocks")]
     pub estimated_physical_blocks: f32,

@@ -17,10 +17,10 @@ pub struct ResultDirectoriesTotalUsage {
     pub lin: i32,
     /// Logical size directory in bytes.
     #[serde(rename = "log_size_sum")]
-    pub log_size_sum: i32,
+    pub log_size_sum: u64,
     /// Logical size sum of overflow in bytes.
     #[serde(rename = "log_size_sum_overflow")]
-    pub log_size_sum_overflow: i32,
+    pub log_size_sum_overflow: u64,
     /// Name of directory.
     #[serde(rename = "name")]
     pub name: String,
@@ -32,5 +32,5 @@ pub struct ResultDirectoriesTotalUsage {
     pub parent: i32,
     /// Physical size directory in bytes.
     #[serde(rename = "phys_size_sum")]
-    pub phys_size_sum: i32,
+    pub phys_size_sum: u64,
 }

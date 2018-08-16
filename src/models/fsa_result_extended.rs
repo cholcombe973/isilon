@@ -32,7 +32,7 @@ pub struct FsaResultExtended {
     pub properties_link: String,
     /// Size of the result set database in bytes.
     #[serde(rename = "size")]
-    pub size: i32,
+    pub size: u64,
     /// FSA version used to create result set.
     #[serde(rename = "version")]
     pub version: i32,

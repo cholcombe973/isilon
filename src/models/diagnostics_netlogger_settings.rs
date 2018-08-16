@@ -26,5 +26,5 @@ pub struct DiagnosticsNetloggerSettings {
     pub protocols: Option<String>,
     /// Amount of bytes per packet to capture
     #[serde(rename = "snaplength")]
-    pub snaplength: Option<i32>,
+    pub snaplength: Option<u64>,
 }

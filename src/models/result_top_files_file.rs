@@ -14,11 +14,11 @@ pub struct ResultTopFilesFile {
     pub ctime: i32,
     /// Logical file size in bytes.
     #[serde(rename = "log_size")]
-    pub log_size: i32,
+    pub log_size: u64,
     /// Relative file path under /ifs/.
     #[serde(rename = "path")]
     pub path: String,
     /// Physical file size in bytes.
     #[serde(rename = "phys_size")]
-    pub phys_size: i32,
+    pub phys_size: u64,
 }

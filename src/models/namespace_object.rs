@@ -59,7 +59,7 @@ pub struct NamespaceObject {
     pub owner: Option<String>,
     /// Specifies the size of the object in bytes.
     #[serde(rename = "size")]
-    pub size: Option<i32>,
+    pub size: Option<u64>,
     #[serde(rename = "stub")]
     pub stub: Option<bool>,
     /// Specifies the object type, which can be one of the following values: container, object, pipe, character_device, block_device, symbolic_link, socket, or whiteout_file.

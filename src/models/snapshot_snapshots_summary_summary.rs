@@ -23,8 +23,8 @@ pub struct SnapshotSnapshotsSummarySummary {
     pub deleting_size: i32,
     /// Sum of shadow bytes of all snapshots.
     #[serde(rename = "shadow_bytes")]
-    pub shadow_bytes: i32,
+    pub shadow_bytes: u64,
     /// Sum of sizes in bytes of all snapshots.
     #[serde(rename = "size")]
-    pub size: i32,
+    pub size: u64,
 }

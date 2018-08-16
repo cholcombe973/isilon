@@ -5,7 +5,7 @@ use serde_json::Value;
 pub struct NdmpSessionExtended {
     /// Bytes transferred to/from the filesystem
     #[serde(rename = "data_bytes_transferred")]
-    pub data_bytes_transferred: i32,
+    pub data_bytes_transferred: u64,
     /// State of the NDMP Data Service
     #[serde(rename = "data_state")]
     pub data_state: String,
@@ -23,7 +23,7 @@ pub struct NdmpSessionExtended {
     pub id: String,
     /// Bytes transferred to/from tape or remote writer
     #[serde(rename = "mover_bytes_transferred")]
-    pub mover_bytes_transferred: i32,
+    pub mover_bytes_transferred: u64,
     /// State of the NDMP Mover Service
     #[serde(rename = "mover_state")]
     pub mover_state: String,

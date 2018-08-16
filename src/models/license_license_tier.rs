@@ -9,7 +9,7 @@ pub struct LicenseLicenseTier {
         Option<Vec<::models::LicenseLicenseTierEntitlementsExceededAlert>>,
     /// Licensed terabyte (TB, 10^12 bytes) drive capacity allocated as storage associated with tier. Included if tier is not NONINF and license is not a base only license.
     #[serde(rename = "licensed_drive_capacity")]
-    pub licensed_drive_capacity: Option<i32>,
+    pub licensed_drive_capacity: Option<u64>,
     /// Licensed number of nodes in this tier.
     #[serde(rename = "licensed_node_count")]
     pub licensed_node_count: Option<i32>,
@@ -21,7 +21,7 @@ pub struct LicenseLicenseTier {
     pub tier: Option<String>,
     /// Actual terabyte (TB, 10^12 bytes) drive capacity allocated as storage space associated with tier. Included if tier is not NONINF and license is not a base only license.
     #[serde(rename = "used_drive_capacity")]
-    pub used_drive_capacity: Option<i32>,
+    pub used_drive_capacity: Option<u64>,
     /// Actual number of nodes in this tier.
     #[serde(rename = "used_node_count")]
     pub used_node_count: Option<i32>,

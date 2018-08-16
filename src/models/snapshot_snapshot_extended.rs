@@ -35,10 +35,10 @@ pub struct SnapshotSnapshotExtended {
     pub schedule: Option<String>,
     /// The amount of shadow bytes referred to by this snapshot.
     #[serde(rename = "shadow_bytes")]
-    pub shadow_bytes: i32,
+    pub shadow_bytes: u64,
     /// The amount of storage in bytes used to store this snapshot.
     #[serde(rename = "size")]
-    pub size: i32,
+    pub size: u64,
     /// Snapshot state.
     #[serde(rename = "state")]
     pub state: String,

@@ -26,7 +26,7 @@ pub struct NodeStatusNodeNvram {
     pub present_flash: Option<bool>,
     /// The size of the NVRAM, in bytes.
     #[serde(rename = "present_size")]
-    pub present_size: Option<i32>,
+    pub present_size: Option<u64>,
     /// This node's NVRAM type.
     #[serde(rename = "present_type")]
     pub present_type: Option<String>,
