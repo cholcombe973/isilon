@@ -41,7 +41,7 @@ pub struct NodeStatusNodeNvram {
     pub supported_flash: Option<bool>,
     /// The maximum size of the NVRAM, in bytes.
     #[serde(rename = "supported_size")]
-    pub supported_size: Option<i32>,
+    pub supported_size: Option<u64>,
     /// This node's supported NVRAM type.
     #[serde(rename = "supported_type")]
     pub supported_type: Option<String>,

@@ -5,7 +5,7 @@ use serde_json::Value;
 pub struct NodeStatusNodeCapacityItem {
     /// Total device storage bytes.
     #[serde(rename = "bytes")]
-    pub bytes: Option<i32>,
+    pub bytes: Option<u64>,
     /// Total device count.
     #[serde(rename = "count")]
     pub count: Option<i32>,
