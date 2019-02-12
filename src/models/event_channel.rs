@@ -16,7 +16,7 @@ pub struct EventChannel {
     pub excluded_nodes: Option<Vec<i32>>,
     /// Parameters to be used for an smtp channel
     #[serde(rename = "parameters")]
-    pub parameters: Option<::models::EventChannelParameters>,
+    pub parameters: Option <crate::models::EventChannelParameters>,
     /// Channel is a pre-defined system channel
     #[serde(rename = "system")]
     pub system: Option<bool>,

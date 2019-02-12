@@ -38,7 +38,7 @@ Method | HTTP request | Description
 
 
 # **create_drives_drive_add_item**
-> ::models::Empty create_drives_drive_add_item(ctx, drives_drive_add_item, lnn, driveid)
+>crate::models::Empty create_drives_drive_add_item(ctx, drives_drive_add_item, lnn, driveid)
 
 
 Add a drive to a node.
@@ -68,7 +68,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_drives_drive_firmware_update_item**
-> ::models::Empty create_drives_drive_firmware_update_item(ctx, drives_drive_firmware_update_item, lnn, driveid)
+>crate::models::Empty create_drives_drive_firmware_update_item(ctx, drives_drive_firmware_update_item, lnn, driveid)
 
 
 Start a drive firmware update.
@@ -98,7 +98,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_drives_drive_format_item**
-> ::models::Empty create_drives_drive_format_item(ctx, drives_drive_format_item, lnn, driveid)
+>crate::models::Empty create_drives_drive_format_item(ctx, drives_drive_format_item, lnn, driveid)
 
 
 Format a drive for use by OneFS.
@@ -128,7 +128,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_drives_drive_purpose_item**
-> ::models::Empty create_drives_drive_purpose_item(ctx, drives_drive_purpose_item, lnn, driveid)
+>crate::models::Empty create_drives_drive_purpose_item(ctx, drives_drive_purpose_item, lnn, driveid)
 
 
 Assign a drive to a specific use case.
@@ -158,7 +158,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_drives_drive_smartfail_item**
-> ::models::Empty create_drives_drive_smartfail_item(ctx, drives_drive_smartfail_item, lnn, driveid)
+>crate::models::Empty create_drives_drive_smartfail_item(ctx, drives_drive_smartfail_item, lnn, driveid)
 
 
 Remove a drive from use by OneFS.
@@ -188,7 +188,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_drives_drive_stopfail_item**
-> ::models::Empty create_drives_drive_stopfail_item(ctx, drives_drive_stopfail_item, lnn, driveid)
+>crate::models::Empty create_drives_drive_stopfail_item(ctx, drives_drive_stopfail_item, lnn, driveid)
 
 
 Stop restriping from a smartfailing drive.
@@ -218,7 +218,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_drives_drive_suspend_item**
-> ::models::Empty create_drives_drive_suspend_item(ctx, drives_drive_suspend_item, lnn, driveid)
+>crate::models::Empty create_drives_drive_suspend_item(ctx, drives_drive_suspend_item, lnn, driveid)
 
 
 Temporarily remove a drive from use by OneFS.
@@ -248,7 +248,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_node_reboot_item**
-> ::models::Empty create_node_reboot_item(ctx, node_reboot_item, lnn, optional)
+>crate::models::Empty create_node_reboot_item(ctx, node_reboot_item, lnn, optional)
 
 
 Reboot the node specified by <LNN>.
@@ -287,7 +287,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_node_shutdown_item**
-> ::models::Empty create_node_shutdown_item(ctx, node_shutdown_item, lnn, optional)
+>crate::models::Empty create_node_shutdown_item(ctx, node_shutdown_item, lnn, optional)
 
 
 Shutdown the node specified by <LNN>.
@@ -326,7 +326,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_drives_drive_firmware**
-> ::models::DrivesDriveFirmware get_drives_drive_firmware(ctx, lnn, driveid)
+>crate::models::DrivesDriveFirmware get_drives_drive_firmware(ctx, lnn, driveid)
 
 
 Retrieve drive firmware information.
@@ -355,7 +355,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_node_drive**
-> ::models::NodeDrives get_node_drive(ctx, node_drive_id, lnn, optional)
+>crate::models::NodeDrives get_node_drive(ctx, node_drive_id, lnn, optional)
 
 
 Retrieve drive information.
@@ -394,7 +394,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_node_driveconfig**
-> ::models::NodeDriveconfig get_node_driveconfig(ctx, lnn, optional)
+>crate::models::NodeDriveconfig get_node_driveconfig(ctx, lnn, optional)
 
 
 View a node's drive subsystem XML configuration file.
@@ -431,7 +431,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_node_drives**
-> ::models::NodeDrives get_node_drives(ctx, lnn, optional)
+>crate::models::NodeDrives get_node_drives(ctx, lnn, optional)
 
 
 List the drives on this node.
@@ -468,7 +468,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_node_drives_purposelist**
-> ::models::NodeDrivesPurposelist get_node_drives_purposelist(ctx, lnn)
+>crate::models::NodeDrivesPurposelist get_node_drives_purposelist(ctx, lnn)
 
 
 Lists the available purposes for drives in this node.
@@ -496,7 +496,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_node_hardware**
-> ::models::NodeHardware get_node_hardware(ctx, lnn, optional)
+>crate::models::NodeHardware get_node_hardware(ctx, lnn, optional)
 
 
 Retrieve node hardware identity information.
@@ -533,7 +533,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_node_hardware_fast**
-> ::models::NodeHardwareFast get_node_hardware_fast(ctx, lnn)
+>crate::models::NodeHardwareFast get_node_hardware_fast(ctx, lnn)
 
 
 Quickly retrieve a subset of node hardware identity information.
@@ -561,7 +561,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_node_partitions**
-> ::models::NodePartitions get_node_partitions(ctx, lnn)
+>crate::models::NodePartitions get_node_partitions(ctx, lnn)
 
 
 Retrieve node partition information.
@@ -589,7 +589,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_node_sensors**
-> ::models::NodeSensors get_node_sensors(ctx, lnn)
+>crate::models::NodeSensors get_node_sensors(ctx, lnn)
 
 
 Retrieve node sensor information.
@@ -617,7 +617,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_node_sled**
-> ::models::NodeSleds get_node_sled(ctx, node_sled_id, lnn, optional)
+>crate::models::NodeSleds get_node_sled(ctx, node_sled_id, lnn, optional)
 
 
 Get detailed information for the sled specified by <SLEDID>, or all sleds in the case where <SLEDID> is 'all', in the node specified by <LNN>.  Accepts <sledid> in either 'sled' or 'all' formats.
@@ -656,7 +656,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_node_sleds**
-> ::models::NodeSleds get_node_sleds(ctx, lnn, optional)
+>crate::models::NodeSleds get_node_sleds(ctx, lnn, optional)
 
 
 Get detailed information for all sleds in this node. Equivalent to /5/cluster/nodes/<lnn>/sleds/all.
@@ -693,7 +693,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_node_state**
-> ::models::NodeState get_node_state(ctx, lnn)
+>crate::models::NodeState get_node_state(ctx, lnn)
 
 
 Retrieve node state information.
@@ -721,7 +721,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_node_state_readonly**
-> ::models::NodeStateReadonly get_node_state_readonly(ctx, lnn)
+>crate::models::NodeStateReadonly get_node_state_readonly(ctx, lnn)
 
 
 Retrieve node readonly state information.
@@ -749,7 +749,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_node_state_servicelight**
-> ::models::NodeStateServicelight get_node_state_servicelight(ctx, lnn)
+>crate::models::NodeStateServicelight get_node_state_servicelight(ctx, lnn)
 
 
 Retrieve node service light state information.
@@ -777,7 +777,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_node_state_smartfail**
-> ::models::NodeStateSmartfail get_node_state_smartfail(ctx, lnn)
+>crate::models::NodeStateSmartfail get_node_state_smartfail(ctx, lnn)
 
 
 Retrieve node smartfail state information.
@@ -805,7 +805,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_node_status**
-> ::models::NodeStatus get_node_status(ctx, lnn)
+>crate::models::NodeStatus get_node_status(ctx, lnn)
 
 
 Retrieve node status information.
@@ -833,7 +833,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_node_status_batterystatus**
-> ::models::NodeStatusBatterystatus get_node_status_batterystatus(ctx, lnn)
+>crate::models::NodeStatusBatterystatus get_node_status_batterystatus(ctx, lnn)
 
 
 Retrieve node battery status information.
@@ -861,7 +861,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_drives_drive_firmware_update**
-> ::models::DrivesDriveFirmwareUpdate list_drives_drive_firmware_update(ctx, lnn, driveid)
+>crate::models::DrivesDriveFirmwareUpdate list_drives_drive_firmware_update(ctx, lnn, driveid)
 
 
 Retrieve firmware update information.

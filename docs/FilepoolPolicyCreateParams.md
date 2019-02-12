@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**actions** | [**Vec<::models::FilepoolDefaultPolicyAction>**](FilepoolDefaultPolicyAction.md) | A list of actions to be taken for matching files | [optional] [default to null]
+**actions** | [**Vec <crate::models::FilepoolDefaultPolicyAction>**](FilepoolDefaultPolicyAction.md) | A list of actions to be taken for matching files | [optional] [default to null]
 **apply_order** | **i32** | The order in which this policy should be applied (relative to other policies) | [optional] [default to null]
 **description** | **String** | A description for this policy | [optional] [default to null]
 **file_matching_pattern** | [***::models::FilepoolPolicyFileMatchingPattern**](FilepoolPolicyFileMatchingPattern.md) | The file matching rules for this policy | [default to null]

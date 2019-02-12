@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, put, query, Error};
 
-pub struct FilesystemApiClient<C: hyper::client::Connect> {
+pub struct FilesystemApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> FilesystemApiClient<C> {
+impl<C: hyper::client::connect::Connect> FilesystemApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> FilesystemApiClient<C> {
         FilesystemApiClient {
             configuration: configuration,
@@ -33,166 +32,74 @@ impl<C: hyper::client::Connect> FilesystemApiClient<C> {
 pub trait FilesystemApi {
     fn get_settings_access_time(
         &self,
-    ) -> Box<Future<Item = ::models::SettingsAccessTime, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SettingsAccessTime, Error = Error>>;
     fn get_settings_character_encodings(
         &self,
-    ) -> Box<Future<Item = ::models::SettingsCharacterEncodings, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SettingsCharacterEncodings, Error = Error>>;
     fn update_settings_access_time(
         &self,
-        settings_access_time: ::models::SettingsAccessTimeExtended,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        settings_access_time: crate::models::SettingsAccessTimeExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_settings_character_encodings(
         &self,
-        settings_character_encodings: ::models::SettingsCharacterEncodingsExtended,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        settings_character_encodings: crate::models::SettingsCharacterEncodingsExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> FilesystemApi for FilesystemApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> FilesystemApi for FilesystemApiClient<C> {
     fn get_settings_access_time(
         &self,
-    ) -> Box<Future<Item = ::models::SettingsAccessTime, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SettingsAccessTime, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/filesystem/settings/access-time",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SettingsAccessTime, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_settings_character_encodings(
         &self,
-    ) -> Box<Future<Item = ::models::SettingsCharacterEncodings, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SettingsCharacterEncodings, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/filesystem/settings/character-encodings",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SettingsCharacterEncodings, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn update_settings_access_time(
         &self,
-        settings_access_time: ::models::SettingsAccessTimeExtended,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+        settings_access_time: crate::models::SettingsAccessTimeExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/filesystem/settings/access-time",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&settings_access_time).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &settings_access_time)
     }
 
     fn update_settings_character_encodings(
         &self,
-        settings_character_encodings: ::models::SettingsCharacterEncodingsExtended,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+        settings_character_encodings: crate::models::SettingsCharacterEncodingsExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/filesystem/settings/character-encodings",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&settings_character_encodings).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        put(
+            self.configuration.borrow(),
+            &uri_str,
+            &settings_character_encodings,
         )
     }
 }

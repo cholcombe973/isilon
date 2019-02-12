@@ -7,7 +7,7 @@ use serde_json::Value;
 pub struct MappingIdentityCreateParams {
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "source")]
-    pub source: ::models::AuthAccessAccessItemFileGroup,
+    pub source:crate::models::AuthAccessAccessItemFileGroup,
     #[serde(rename = "targets")]
-    pub targets: Vec<::models::MappingIdentityTargetCreateParams>,
+    pub targets: Vec <crate::models::MappingIdentityTargetCreateParams>,
 }

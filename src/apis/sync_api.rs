@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, put, query, Error};
 
-pub struct SyncApiClient<C: hyper::client::Connect> {
+pub struct SyncApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> SyncApiClient<C> {
+impl<C: hyper::client::connect::Connect> SyncApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> SyncApiClient<C> {
         SyncApiClient {
             configuration: configuration,
@@ -33,71 +32,73 @@ impl<C: hyper::client::Connect> SyncApiClient<C> {
 pub trait SyncApi {
     fn create_sync_job(
         &self,
-        sync_job: ::models::SyncJobCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+        sync_job: crate::models::SyncJobCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_sync_policy(
         &self,
-        sync_policy: ::models::SyncPolicyCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+        sync_policy: crate::models::SyncPolicyCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_sync_reports_rotate_item(
         &self,
-        sync_reports_rotate_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::CreateSyncReportsRotateItemResponse, Error = Error>>;
+        sync_reports_rotate_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::CreateSyncReportsRotateItemResponse, Error = Error>>;
     fn create_sync_rule(
         &self,
-        sync_rule: ::models::SyncRuleCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+        sync_rule: crate::models::SyncRuleCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn delete_sync_policies(
         &self,
         local_only: bool,
         force: bool,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_sync_policy(
         &self,
         sync_policy_id: &str,
         local_only: bool,
         force: bool,
-    ) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_sync_rule(&self, sync_rule_id: &str) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_sync_rules(&self, _type: &str) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_sync_rule(&self, sync_rule_id: &str) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_sync_rules(&self, _type: &str) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_target_policy(
         &self,
         target_policy_id: &str,
         force: bool,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn get_history_cpu(
         &self,
         begin: i32,
         end: i32,
-    ) -> Box<Future<Item = ::models::HistoryFile, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::HistoryFile, Error = Error>>;
     fn get_history_file(
         &self,
         begin: i32,
         end: i32,
-    ) -> Box<Future<Item = ::models::HistoryFile, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::HistoryFile, Error = Error>>;
     fn get_history_network(
         &self,
         begin: i32,
         end: i32,
-    ) -> Box<Future<Item = ::models::HistoryFile, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::HistoryFile, Error = Error>>;
     fn get_history_worker(
         &self,
         begin: i32,
         end: i32,
-    ) -> Box<Future<Item = ::models::HistoryFile, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::HistoryFile, Error = Error>>;
     fn get_sync_job(
         &self,
         sync_job_id: &str,
-    ) -> Box<Future<Item = ::models::SyncJobs, Error = Error>>;
-    fn get_sync_license(&self) -> Box<Future<Item = ::models::LicenseLicense, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SyncJobs, Error = Error>>;
+    fn get_sync_license(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::LicenseLicense, Error = Error>>;
     fn get_sync_policy(
         &self,
         sync_policy_id: &str,
-    ) -> Box<Future<Item = ::models::SyncPolicies, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SyncPolicies, Error = Error>>;
     fn get_sync_report(
         &self,
         sync_report_id: &str,
-    ) -> Box<Future<Item = ::models::SyncReports, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SyncReports, Error = Error>>;
     fn get_sync_reports(
         &self,
         sort: &str,
@@ -108,12 +109,14 @@ pub trait SyncApi {
         limit: i32,
         reports_per_policy: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::SyncReportsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SyncReportsExtended, Error = Error>>;
     fn get_sync_rule(
         &self,
         sync_rule_id: &str,
-    ) -> Box<Future<Item = ::models::SyncRules, Error = Error>>;
-    fn get_sync_settings(&self) -> Box<Future<Item = ::models::SyncSettings, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SyncRules, Error = Error>>;
+    fn get_sync_settings(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::SyncSettings, Error = Error>>;
     fn get_target_policies(
         &self,
         sort: &str,
@@ -121,15 +124,15 @@ pub trait SyncApi {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::TargetPoliciesExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::TargetPoliciesExtended, Error = Error>>;
     fn get_target_policy(
         &self,
         target_policy_id: &str,
-    ) -> Box<Future<Item = ::models::TargetPolicies, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::TargetPolicies, Error = Error>>;
     fn get_target_report(
         &self,
         target_report_id: &str,
-    ) -> Box<Future<Item = ::models::TargetReports, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::TargetReports, Error = Error>>;
     fn get_target_reports(
         &self,
         sort: &str,
@@ -140,7 +143,7 @@ pub trait SyncApi {
         limit: i32,
         reports_per_policy: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::TargetReportsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::TargetReportsExtended, Error = Error>>;
     fn list_sync_jobs(
         &self,
         sort: &str,
@@ -148,7 +151,7 @@ pub trait SyncApi {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SyncJobsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SyncJobsExtended, Error = Error>>;
     fn list_sync_policies(
         &self,
         sort: &str,
@@ -157,10 +160,10 @@ pub trait SyncApi {
         limit: i32,
         scope: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::SyncPoliciesExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SyncPoliciesExtended, Error = Error>>;
     fn list_sync_reports_rotate(
         &self,
-    ) -> Box<Future<Item = ::models::SyncReportsRotate, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SyncReportsRotate, Error = Error>>;
     fn list_sync_rules(
         &self,
         sort: &str,
@@ -168,185 +171,82 @@ pub trait SyncApi {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SyncRulesExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SyncRulesExtended, Error = Error>>;
     fn update_sync_job(
         &self,
-        sync_job: ::models::SyncJob,
+        sync_job: crate::models::SyncJob,
         sync_job_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_sync_policy(
         &self,
-        sync_policy: ::models::SyncPolicy,
+        sync_policy: crate::models::SyncPolicy,
         sync_policy_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_sync_rule(
         &self,
-        sync_rule: ::models::SyncRule,
+        sync_rule: crate::models::SyncRule,
         sync_rule_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_sync_settings(
         &self,
-        sync_settings: ::models::SyncSettingsExtended,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        sync_settings: crate::models::SyncSettingsExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> SyncApi for SyncApiClient<C> {
     fn create_sync_job(
         &self,
-        sync_job: ::models::SyncJobCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/sync/jobs", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&sync_job).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        sync_job: crate::models::SyncJobCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let uri_str = format!("{}/platform/3/sync/jobs", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &sync_job,
+            hyper::Method::POST,
         )
     }
 
     fn create_sync_policy(
         &self,
-        sync_policy: ::models::SyncPolicyCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/sync/policies", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&sync_policy).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        sync_policy: crate::models::SyncPolicyCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let uri_str = format!("{}/platform/3/sync/policies", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &sync_policy,
+            hyper::Method::POST,
         )
     }
 
     fn create_sync_reports_rotate_item(
         &self,
-        sync_reports_rotate_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::CreateSyncReportsRotateItemResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/1/sync/reports-rotate", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&sync_reports_rotate_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CreateSyncReportsRotateItemResponse,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        sync_reports_rotate_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::CreateSyncReportsRotateItemResponse, Error = Error>>
+    {
+        let uri_str = format!(
+            "{}/platform/1/sync/reports-rotate",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &sync_reports_rotate_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_sync_rule(
         &self,
-        sync_rule: ::models::SyncRuleCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/sync/rules", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&sync_rule).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        sync_rule: crate::models::SyncRuleCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let uri_str = format!("{}/platform/3/sync/rules", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &sync_rule,
+            hyper::Method::POST,
         )
     }
 
@@ -354,36 +254,20 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
         &self,
         local_only: bool,
         force: bool,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("local_only", &local_only.to_string())
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/sync/policies?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -392,100 +276,52 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
         sync_policy_id: &str,
         local_only: bool,
         force: bool,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("local_only", &local_only.to_string())
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/sync/policies/{SyncPolicyId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             SyncPolicyId = sync_policy_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_sync_rule(&self, sync_rule_id: &str) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_sync_rule(&self, sync_rule_id: &str) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/sync/rules/{SyncRuleId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SyncRuleId = sync_rule_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_sync_rules(&self, _type: &str) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    fn delete_sync_rules(&self, _type: &str) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("type", &_type.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/sync/rules?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -493,37 +329,21 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
         &self,
         target_policy_id: &str,
         force: bool,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/sync/target/policies/{TargetPolicyId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             TargetPolicyId = target_policy_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -531,40 +351,20 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
         &self,
         begin: i32,
         end: i32,
-    ) -> Box<Future<Item = ::models::HistoryFile, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::HistoryFile, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("begin", &begin.to_string())
             .append_pair("end", &end.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/sync/history/cpu?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::HistoryFile, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -572,40 +372,20 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
         &self,
         begin: i32,
         end: i32,
-    ) -> Box<Future<Item = ::models::HistoryFile, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::HistoryFile, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("begin", &begin.to_string())
             .append_pair("end", &end.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/sync/history/file?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::HistoryFile, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -613,40 +393,20 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
         &self,
         begin: i32,
         end: i32,
-    ) -> Box<Future<Item = ::models::HistoryFile, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::HistoryFile, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("begin", &begin.to_string())
             .append_pair("end", &end.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/sync/history/network?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::HistoryFile, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -654,181 +414,83 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
         &self,
         begin: i32,
         end: i32,
-    ) -> Box<Future<Item = ::models::HistoryFile, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::HistoryFile, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("begin", &begin.to_string())
             .append_pair("end", &end.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/sync/history/worker?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::HistoryFile, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_sync_job(
         &self,
         sync_job_id: &str,
-    ) -> Box<Future<Item = ::models::SyncJobs, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SyncJobs, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/sync/jobs/{SyncJobId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SyncJobId = sync_job_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SyncJobs, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_sync_license(&self) -> Box<Future<Item = ::models::LicenseLicense, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/5/sync/license", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::LicenseLicense, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn get_sync_license(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::LicenseLicense, Error = Error>> {
+        let uri_str = format!("{}/platform/5/sync/license", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_sync_policy(
         &self,
         sync_policy_id: &str,
-    ) -> Box<Future<Item = ::models::SyncPolicies, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SyncPolicies, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/sync/policies/{SyncPolicyId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SyncPolicyId = sync_policy_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SyncPolicies, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_sync_report(
         &self,
         sync_report_id: &str,
-    ) -> Box<Future<Item = ::models::SyncReports, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SyncReports, Error = Error>> {
         let uri_str = format!(
             "{}/platform/4/sync/reports/{SyncReportId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SyncReportId = sync_report_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SyncReports, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -842,12 +504,8 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
         limit: i32,
         reports_per_policy: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::SyncReportsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SyncReportsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("resume", &resume.to_string())
             .append_pair("newer_than", &newer_than.to_string())
@@ -859,97 +517,42 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/4/sync/reports?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SyncReportsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_sync_rule(
         &self,
         sync_rule_id: &str,
-    ) -> Box<Future<Item = ::models::SyncRules, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SyncRules, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/sync/rules/{SyncRuleId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SyncRuleId = sync_rule_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SyncRules, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_sync_settings(&self) -> Box<Future<Item = ::models::SyncSettings, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/3/sync/settings", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SyncSettings, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn get_sync_settings(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::SyncSettings, Error = Error>> {
+        let uri_str = format!("{}/platform/3/sync/settings", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -960,12 +563,8 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::TargetPoliciesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::TargetPoliciesExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("target_path", &target_path.to_string())
             .append_pair("limit", &limit.to_string())
@@ -974,104 +573,47 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/sync/target/policies?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::TargetPoliciesExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_target_policy(
         &self,
         target_policy_id: &str,
-    ) -> Box<Future<Item = ::models::TargetPolicies, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::TargetPolicies, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/sync/target/policies/{TargetPolicyId}",
-            configuration.base_path,
+            self.configuration.base_path,
             TargetPolicyId = target_policy_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::TargetPolicies, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_target_report(
         &self,
         target_report_id: &str,
-    ) -> Box<Future<Item = ::models::TargetReports, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::TargetReports, Error = Error>> {
         let uri_str = format!(
             "{}/platform/4/sync/target/reports/{TargetReportId}",
-            configuration.base_path,
+            self.configuration.base_path,
             TargetReportId = target_report_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::TargetReports, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -1085,12 +627,8 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
         limit: i32,
         reports_per_policy: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::TargetReportsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::TargetReportsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("resume", &resume.to_string())
             .append_pair("newer_than", &newer_than.to_string())
@@ -1102,30 +640,13 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/4/sync/target/reports?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::TargetReportsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -1136,41 +657,23 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SyncJobsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SyncJobsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("state", &state.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
             .append_pair("resume", &resume.to_string())
             .finish();
-        let uri_str = format!("{}/platform/3/sync/jobs?{}", configuration.base_path, query);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SyncJobsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        let uri_str = format!(
+            "{}/platform/3/sync/jobs?{}",
+            self.configuration.base_path, q
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -1182,12 +685,8 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
         limit: i32,
         scope: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::SyncPoliciesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SyncPoliciesExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("resume", &resume.to_string())
             .append_pair("summary", &summary.to_string())
@@ -1197,63 +696,28 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/sync/policies?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SyncPoliciesExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_sync_reports_rotate(
         &self,
-    ) -> Box<Future<Item = ::models::SyncReportsRotate, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/1/sync/reports-rotate", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SyncReportsRotate, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    ) -> Box<dyn Future<Item = crate::models::SyncReportsRotate, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/1/sync/reports-rotate",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -1264,12 +728,8 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SyncRulesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SyncRulesExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("type", &_type.to_string())
             .append_pair("limit", &limit.to_string())
@@ -1278,185 +738,60 @@ impl<C: hyper::client::Connect> SyncApi for SyncApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/sync/rules?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SyncRulesExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn update_sync_job(
         &self,
-        sync_job: ::models::SyncJob,
+        sync_job: crate::models::SyncJob,
         sync_job_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/sync/jobs/{SyncJobId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SyncJobId = sync_job_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&sync_job).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &sync_job)
     }
 
     fn update_sync_policy(
         &self,
-        sync_policy: ::models::SyncPolicy,
+        sync_policy: crate::models::SyncPolicy,
         sync_policy_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/sync/policies/{SyncPolicyId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SyncPolicyId = sync_policy_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&sync_policy).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &sync_policy)
     }
 
     fn update_sync_rule(
         &self,
-        sync_rule: ::models::SyncRule,
+        sync_rule: crate::models::SyncRule,
         sync_rule_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/sync/rules/{SyncRuleId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SyncRuleId = sync_rule_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&sync_rule).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &sync_rule)
     }
 
     fn update_sync_settings(
         &self,
-        sync_settings: ::models::SyncSettingsExtended,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!("{}/platform/3/sync/settings", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&sync_settings).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        sync_settings: crate::models::SyncSettingsExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri_str = format!("{}/platform/3/sync/settings", self.configuration.base_path);
+        put(self.configuration.borrow(), &uri_str, &sync_settings)
     }
 }

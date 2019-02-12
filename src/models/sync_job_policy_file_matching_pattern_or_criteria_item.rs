@@ -6,5 +6,5 @@ pub struct SyncJobPolicyFileMatchingPatternOrCriteriaItem {
     /// An array containing individual file criterion objects each describing one criterion.  These are logically AND'ed together to form a set of criteria.
     #[serde(rename = "and_criteria")]
     pub and_criteria:
-        Option<Vec<::models::SyncJobPolicyFileMatchingPatternOrCriteriaItemAndCriteriaItem>>,
+        Option<Vec <crate::models::SyncJobPolicyFileMatchingPatternOrCriteriaItemAndCriteriaItem>>,
 }

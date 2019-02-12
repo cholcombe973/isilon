@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct AuditProgress {
     /// Lists the current audit log times.
     #[serde(rename = "progress")]
-    pub progress: Option<::models::AuditProgressProgress>,
+    pub progress: Option <crate::models::AuditProgressProgress>,
 }

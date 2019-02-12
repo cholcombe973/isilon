@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct NdmpSettingsGlobal {
     ///
     #[serde(rename = "global")]
-    pub global: Option<::models::NdmpSettingsGlobalGlobal>,
+    pub global: Option <crate::models::NdmpSettingsGlobalGlobal>,
 }

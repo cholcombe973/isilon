@@ -7,5 +7,5 @@ use serde_json::Value;
 pub struct FilepoolDefaultPolicy {
     /// A default filepool policy object
     #[serde(rename = "default-policy")]
-    pub default_policy: Option<::models::FilepoolDefaultPolicyDefaultPolicy>,
+    pub default_policy: Option<crate::models::FilepoolDefaultPolicyDefaultPolicy>,
 }

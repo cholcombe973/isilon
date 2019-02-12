@@ -9,7 +9,7 @@ pub struct ClusterConfig {
     #[serde(rename = "description")]
     pub description: String,
     #[serde(rename = "devices")]
-    pub devices: Vec<::models::ClusterConfigDevice>,
+    pub devices: Vec <crate::models::ClusterConfigDevice>,
     /// Default encoding.
     #[serde(rename = "encoding")]
     pub encoding: String,
@@ -45,10 +45,10 @@ pub struct ClusterConfig {
     pub name: String,
     ///
     #[serde(rename = "onefs_version")]
-    pub onefs_version: Option<::models::ClusterConfigOnefsVersion>,
+    pub onefs_version: Option <crate::models::ClusterConfigOnefsVersion>,
     /// The cluster timezone settings.
     #[serde(rename = "timezone")]
-    pub timezone: Option<::models::ClusterConfigTimezone>,
+    pub timezone: Option <crate::models::ClusterConfigTimezone>,
     #[serde(rename = "upgrade_type")]
     pub upgrade_type: Option<String>,
 }

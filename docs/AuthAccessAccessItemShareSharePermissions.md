@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **impersonate_guest** | **bool** | Returns whether impersonate guest setting is enabled for the user on the share. | [optional] [default to null]
 **impersonate_user** | **bool** | Returns whether impersonate user setting is enabled on the share | [optional] [default to null]
 **run_as_root** | **bool** | Returns whether run as root is enabled for the user on the share | [optional] [default to null]
-**share_relevant_aces** | [**Vec<::models::AuthAccessAccessItemShareSharePermissionsShareRelevantAce>**](AuthAccessAccessItemShareSharePermissionsShareRelevantAce.md) | Specifies a list of the relevant Access Control Entries withrespect to the user in the share. | [optional] [default to null]
+**share_relevant_aces** | [**Vec <crate::models::AuthAccessAccessItemShareSharePermissionsShareRelevantAce>**](AuthAccessAccessItemShareSharePermissionsShareRelevantAce.md) | Specifies a list of the relevant Access Control Entries withrespect to the user in the share. | [optional] [default to null]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

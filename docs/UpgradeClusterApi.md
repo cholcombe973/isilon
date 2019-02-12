@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **create_nodes_node_patch_sync_item**
-> ::models::Empty create_nodes_node_patch_sync_item(ctx, nodes_node_patch_sync_item, lnn)
+>crate::models::Empty create_nodes_node_patch_sync_item(ctx, nodes_node_patch_sync_item, lnn)
 
 
 Retry any pending patch sync operations.
@@ -38,7 +38,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_nodes_node_firmware_status**
-> ::models::NodesNodeFirmwareStatus get_nodes_node_firmware_status(ctx, lnn, optional)
+>crate::models::NodesNodeFirmwareStatus get_nodes_node_firmware_status(ctx, lnn, optional)
 
 
 The firmware status for the node.

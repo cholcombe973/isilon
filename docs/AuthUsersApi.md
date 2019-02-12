@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **create_user_member_of_item**
-> ::models::CreateResponse create_user_member_of_item(ctx, user_member_of_item, user, optional)
+>crate::models::CreateResponse create_user_member_of_item(ctx, user_member_of_item, user, optional)
 
 
 Add the user to a group.
@@ -91,7 +91,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_user_member_of**
-> ::models::UserMemberOf list_user_member_of(ctx, user, optional)
+>crate::models::UserMemberOf list_user_member_of(ctx, user, optional)
 
 
 List all groups the user is a member of.

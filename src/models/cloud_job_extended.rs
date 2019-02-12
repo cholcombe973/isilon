@@ -17,13 +17,13 @@ pub struct CloudJobExtended {
     pub effective_state: Option<String>,
     /// The files and filters addressed by this job
     #[serde(rename = "files")]
-    pub files: Option<::models::CloudJobFiles>,
+    pub files: Option <crate::models::CloudJobFiles>,
     /// The job's ID
     #[serde(rename = "id")]
     pub id: Option<i32>,
     /// Information about the related job engine job if there is one
     #[serde(rename = "job_engine_job")]
-    pub job_engine_job: Option<::models::CloudJobJobEngineJob>,
+    pub job_engine_job: Option <crate::models::CloudJobJobEngineJob>,
     /// The current state of the job
     #[serde(rename = "job_state")]
     pub job_state: Option<String>,

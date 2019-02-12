@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct FilepoolDefaultPolicyDefaultPolicy {
     /// A list of actions to be taken for matching files
     #[serde(rename = "actions")]
-    pub actions: Option<Vec<::models::FilepoolDefaultPolicyDefaultPolicyAction>>,
+    pub actions: Option<Vec <crate::models::FilepoolDefaultPolicyDefaultPolicyAction>>,
 }

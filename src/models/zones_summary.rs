@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct ZonesSummary {
     /// The summary of a collection of objects.
     #[serde(rename = "summary")]
-    pub summary: Option<::models::ZonesSummarySummary>,
+    pub summary: Option <crate::models::ZonesSummarySummary>,
 }

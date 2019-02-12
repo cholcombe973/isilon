@@ -20,7 +20,7 @@ pub struct PoolsPoolInterfacesInterface {
     pub nic_name: String,
     /// List of owners (membership)
     #[serde(rename = "owners")]
-    pub owners: Vec<::models::PoolsPoolInterfacesInterfaceOwner>,
+    pub owners: Vec <crate::models::PoolsPoolInterfacesInterfaceOwner>,
     /// Status of the interface
     #[serde(rename = "status")]
     pub status: String,

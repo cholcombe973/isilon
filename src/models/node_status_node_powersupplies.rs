@@ -17,7 +17,7 @@ pub struct NodeStatusNodePowersupplies {
     pub status: Option<String>,
     /// List of this node's power supplies.
     #[serde(rename = "supplies")]
-    pub supplies: Option<Vec<::models::NodeStatusNodePowersuppliesSupply>>,
+    pub supplies: Option<Vec <crate::models::NodeStatusNodePowersuppliesSupply>>,
     /// Does this node support CFF power supplies.
     #[serde(rename = "supports_cff")]
     pub supports_cff: Option<bool>,

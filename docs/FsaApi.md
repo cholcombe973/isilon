@@ -66,7 +66,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_fsa_result**
-> ::models::FsaResults get_fsa_result(ctx, fsa_result_id)
+>crate::models::FsaResults get_fsa_result(ctx, fsa_result_id)
 
 
 Retrieve result set information.
@@ -94,7 +94,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_fsa_results**
-> ::models::FsaResultsExtended get_fsa_results(ctx, )
+>crate::models::FsaResultsExtended get_fsa_results(ctx, )
 
 
 List all results.
@@ -118,7 +118,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_fsa_settings**
-> ::models::FsaSettings get_fsa_settings(ctx, optional)
+>crate::models::FsaSettings get_fsa_settings(ctx, optional)
 
 
 List all settings.

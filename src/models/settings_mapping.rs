@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct SettingsMapping {
     /// Specifies the properties for global authentication setting.
     #[serde(rename = "mapping_settings")]
-    pub mapping_settings: Option<::models::SettingsMappingMappingSettings>,
+    pub mapping_settings: Option <crate::models::SettingsMappingMappingSettings>,
 }

@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**aliases** | [**Vec<::models::SnapshotAliasExtended>**](SnapshotAliasExtended.md) |  | [optional] [default to null]
+**aliases** | [**Vec <crate::models::SnapshotAliasExtended>**](SnapshotAliasExtended.md) |  | [optional] [default to null]
 **resume** | **String** | Resume token value to use in subsequent calls for continuation. | [optional] [default to null]
 **total** | **i32** | Total number of items available. | [optional] [default to null]
 

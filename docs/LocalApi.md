@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **get_cluster_time**
-> ::models::ClusterTimeExtendedExtended get_cluster_time(ctx, )
+>crate::models::ClusterTimeExtendedExtended get_cluster_time(ctx, )
 
 
 Get the current time on the local node.

@@ -6,5 +6,5 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NfsCheckExtended {
     #[serde(rename = "checks")]
-    pub checks: Option<Vec<::models::NfsCheck>>,
+    pub checks: Option<Vec <crate::models::NfsCheck>>,
 }

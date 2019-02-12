@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct QuotaQuotasSummary {
     ///
     #[serde(rename = "summary")]
-    pub summary: Option<::models::QuotaQuotasSummarySummary>,
+    pub summary: Option <crate::models::QuotaQuotasSummarySummary>,
 }

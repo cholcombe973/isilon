@@ -14,7 +14,7 @@ pub struct NodeDrivesPurposelistNode {
     pub lnn: Option<i32>,
     /// List of the drive purposes available on this node.
     #[serde(rename = "purposes")]
-    pub purposes: Option<Vec<::models::NodeDrivesPurposelistNodePurpose>>,
+    pub purposes: Option<Vec<crate::models::NodeDrivesPurposelistNodePurpose>>,
     /// Status of the HTTP response from this node if not 200.  If 200, this field does not appear.
     #[serde(rename = "status")]
     pub status: Option<i32>,

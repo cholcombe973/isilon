@@ -6,7 +6,7 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NdmpSettingsPreferredIps {
     #[serde(rename = "preferences")]
-    pub preferences: Option<Vec<::models::NdmpSettingsPreferredIpsPreference>>,
+    pub preferences: Option<Vec <crate::models::NdmpSettingsPreferredIpsPreference>>,
     /// Resume string returned by previous query.
     #[serde(rename = "resume")]
     pub resume: Option<String>,

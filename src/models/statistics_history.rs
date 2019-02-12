@@ -4,5 +4,5 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct StatisticsHistory {
     #[serde(rename = "stats")]
-    pub stats: Option<Vec<::models::StatisticsHistoryStat>>,
+    pub stats: Option<Vec <crate::models::StatisticsHistoryStat>>,
 }

@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct FileFilterSettings {
     ///
     #[serde(rename = "settings")]
-    pub settings: ::models::FileFilterSettingsSettings,
+    pub settings:crate::models::FileFilterSettingsSettings,
 }

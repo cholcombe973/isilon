@@ -7,5 +7,5 @@ use serde_json::Value;
 pub struct ClusterTimezoneExtended {
     ///
     #[serde(rename = "settings")]
-    pub settings: Option<::models::ClusterTimezoneSettingsExtended>,
+    pub settings: Option <crate::models::ClusterTimezoneSettingsExtended>,
 }

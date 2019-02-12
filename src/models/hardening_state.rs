@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct HardeningState {
     /// The state of hardening operation on the cluster.
     #[serde(rename = "state")]
-    pub state: Option<::models::HardeningStateState>,
+    pub state: Option <crate::models::HardeningStateState>,
 }

@@ -14,7 +14,7 @@ pub struct NodeSledsNode {
     pub lnn: Option<i32>,
     /// List of the sleds in this node.
     #[serde(rename = "sleds")]
-    pub sleds: Option<Vec<::models::NodeSledsNodeSled>>,
+    pub sleds: Option<Vec <crate::models::NodeSledsNodeSled>>,
     /// Status of the HTTP response from this node if not 200.  If 200, this field does not appear.
     #[serde(rename = "status")]
     pub status: Option<i32>,

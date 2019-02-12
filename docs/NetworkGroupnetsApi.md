@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 
 # **create_groupnet_subnet**
-> ::models::CreateResponse create_groupnet_subnet(ctx, groupnet_subnet, groupnet)
+>crate::models::CreateResponse create_groupnet_subnet(ctx, groupnet_subnet, groupnet)
 
 
 Create a new subnet.
@@ -46,7 +46,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_subnets_subnet_pool**
-> ::models::CreateResponse create_subnets_subnet_pool(ctx, subnets_subnet_pool, groupnet, subnet, optional)
+>crate::models::CreateResponse create_subnets_subnet_pool(ctx, subnets_subnet_pool, groupnet, subnet, optional)
 
 
 Create a new pool.
@@ -156,7 +156,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_groupnet_subnet**
-> ::models::GroupnetSubnets get_groupnet_subnet(ctx, groupnet_subnet_id, groupnet)
+>crate::models::GroupnetSubnets get_groupnet_subnet(ctx, groupnet_subnet_id, groupnet)
 
 
 View a network subnet.
@@ -185,7 +185,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_subnets_subnet_pool**
-> ::models::SubnetsSubnetPools get_subnets_subnet_pool(ctx, subnets_subnet_pool_id, groupnet, subnet)
+>crate::models::SubnetsSubnetPools get_subnets_subnet_pool(ctx, subnets_subnet_pool_id, groupnet, subnet)
 
 
 View a single network pool.
@@ -215,7 +215,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_groupnet_subnets**
-> ::models::GroupnetSubnetsExtended list_groupnet_subnets(ctx, groupnet, optional)
+>crate::models::GroupnetSubnetsExtended list_groupnet_subnets(ctx, groupnet, optional)
 
 
 Get a list of subnets.
@@ -255,7 +255,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_subnets_subnet_pools**
-> ::models::SubnetsSubnetPoolsExtended list_subnets_subnet_pools(ctx, groupnet, subnet, optional)
+>crate::models::SubnetsSubnetPoolsExtended list_subnets_subnet_pools(ctx, groupnet, subnet, optional)
 
 
 Get a list of network pools.

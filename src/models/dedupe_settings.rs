@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct DedupeSettings {
     /// Dedupe settings.
     #[serde(rename = "settings")]
-    pub settings: Option<::models::DedupeSettingsSettings>,
+    pub settings: Option <crate::models::DedupeSettingsSettings>,
 }

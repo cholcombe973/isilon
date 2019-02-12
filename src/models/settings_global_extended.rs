@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct SettingsGlobalExtended {
     /// Settings for Audit.
     #[serde(rename = "settings")]
-    pub settings: Option<::models::SettingsGlobalSettings>,
+    pub settings: Option <crate::models::SettingsGlobalSettings>,
 }

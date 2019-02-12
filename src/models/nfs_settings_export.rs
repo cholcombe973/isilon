@@ -7,5 +7,5 @@ use serde_json::Value;
 pub struct NfsSettingsExport {
     /// Specifies configuration values for NFS exports.
     #[serde(rename = "settings")]
-    pub settings: Option<::models::NfsSettingsExportSettings>,
+    pub settings: Option<crate::models::NfsSettingsExportSettings>,
 }

@@ -8,7 +8,7 @@ pub struct HardwareFcportsNode {
     pub error: Option<String>,
     /// A list of the FC ports on this node.
     #[serde(rename = "fcports")]
-    pub fcports: Option<Vec<::models::HardwareFcportsNodeFcport>>,
+    pub fcports: Option<Vec <crate::models::HardwareFcportsNodeFcport>>,
     /// Node ID of the node reporting this information.
     #[serde(rename = "id")]
     pub id: Option<i32>,

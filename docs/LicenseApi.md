@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **create_license_license**
-> ::models::Empty create_license_license(ctx, license_license)
+>crate::models::Empty create_license_license(ctx, license_license)
 
 
 Install a new license file and/or activate evaluation licenses.
@@ -39,7 +39,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_license_generate**
-> ::models::LicenseGenerate get_license_generate(ctx, optional)
+>crate::models::LicenseGenerate get_license_generate(ctx, optional)
 
 
 Generate license activation file.
@@ -77,7 +77,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_license_license**
-> ::models::LicenseLicenses get_license_license(ctx, license_license_id)
+>crate::models::LicenseLicenses get_license_license(ctx, license_license_id)
 
 
 Retrieve license information for the feature.
@@ -105,7 +105,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_license_licenses**
-> ::models::LicenseLicensesExtended list_license_licenses(ctx, )
+>crate::models::LicenseLicensesExtended list_license_licenses(ctx, )
 
 
 Retrieve license information for all licensable products.

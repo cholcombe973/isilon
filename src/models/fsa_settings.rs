@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct FsaSettings {
     ///
     #[serde(rename = "settings")]
-    pub settings: Option<::models::FsaSettingsSettings>,
+    pub settings: Option<crate::models::FsaSettingsSettings>,
 }

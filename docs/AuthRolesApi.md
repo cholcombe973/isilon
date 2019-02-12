@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **create_role_member**
-> ::models::CreateResponse create_role_member(ctx, role_member, role)
+>crate::models::CreateResponse create_role_member(ctx, role_member, role)
 
 
 Add a member to the role.
@@ -42,7 +42,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_role_privilege**
-> ::models::CreateResponse create_role_privilege(ctx, role_privilege, role)
+>crate::models::CreateResponse create_role_privilege(ctx, role_privilege, role)
 
 
 Add a privilege to the role.
@@ -129,7 +129,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_role_members**
-> ::models::GroupMembers list_role_members(ctx, role, optional)
+>crate::models::GroupMembers list_role_members(ctx, role, optional)
 
 
 List all the members of the role.
@@ -166,7 +166,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_role_privileges**
-> ::models::RolePrivileges list_role_privileges(ctx, role)
+>crate::models::RolePrivileges list_role_privileges(ctx, role)
 
 
 List all privileges in the role.

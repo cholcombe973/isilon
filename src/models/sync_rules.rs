@@ -4,5 +4,5 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SyncRules {
     #[serde(rename = "rules")]
-    pub rules: Option<Vec<::models::SyncRuleExtended>>,
+    pub rules: Option<Vec <crate::models::SyncRuleExtended>>,
 }

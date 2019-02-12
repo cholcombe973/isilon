@@ -20,5 +20,5 @@ pub struct StatisticsHistoryStat {
     pub resolution: i32,
     /// Time-series values.
     #[serde(rename = "values")]
-    pub values: Option<Vec<::models::StatisticsHistoryStatValue>>,
+    pub values: Option<Vec <crate::models::StatisticsHistoryStatValue>>,
 }

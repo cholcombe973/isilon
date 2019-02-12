@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 
 # **create_zone**
-> ::models::CreateResponse create_zone(ctx, zone)
+>crate::models::CreateResponse create_zone(ctx, zone)
 
 
 Create a new access zone.
@@ -68,7 +68,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_zone**
-> ::models::Zones get_zone(ctx, zone_id)
+>crate::models::Zones get_zone(ctx, zone_id)
 
 
 Retrieve the access zone information.
@@ -96,7 +96,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_zones**
-> ::models::ZonesExtended list_zones(ctx, )
+>crate::models::ZonesExtended list_zones(ctx, )
 
 
 List all access zones.

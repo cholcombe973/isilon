@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, query, Error};
 
-pub struct LocalApiClient<C: hyper::client::Connect> {
+pub struct LocalApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> LocalApiClient<C> {
+impl<C: hyper::client::connect::Connect> LocalApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> LocalApiClient<C> {
         LocalApiClient {
             configuration: configuration,
@@ -33,42 +32,22 @@ impl<C: hyper::client::Connect> LocalApiClient<C> {
 pub trait LocalApi {
     fn get_cluster_time(
         &self,
-    ) -> Box<Future<Item = ::models::ClusterTimeExtendedExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ClusterTimeExtendedExtended, Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> LocalApi for LocalApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> LocalApi for LocalApiClient<C> {
     fn get_cluster_time(
         &self,
-    ) -> Box<Future<Item = ::models::ClusterTimeExtendedExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/3/local/cluster/time", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::ClusterTimeExtendedExtended,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    ) -> Box<dyn Future<Item = crate::models::ClusterTimeExtendedExtended, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/3/local/cluster/time",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 }

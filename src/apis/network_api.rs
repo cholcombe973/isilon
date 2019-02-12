@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, put, query, Error};
 
-pub struct NetworkApiClient<C: hyper::client::Connect> {
+pub struct NetworkApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> NetworkApiClient<C> {
+impl<C: hyper::client::connect::Connect> NetworkApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> NetworkApiClient<C> {
         NetworkApiClient {
             configuration: configuration,
@@ -33,26 +32,30 @@ impl<C: hyper::client::Connect> NetworkApiClient<C> {
 pub trait NetworkApi {
     fn create_dnscache_flush_item(
         &self,
-        dnscache_flush_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        dnscache_flush_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_network_groupnet(
         &self,
-        network_groupnet: ::models::NetworkGroupnetCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+        network_groupnet: crate::models::NetworkGroupnetCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_network_sc_rebalance_all_item(
         &self,
-        network_sc_rebalance_all_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        network_sc_rebalance_all_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn delete_network_groupnet(
         &self,
         network_groupnet_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
-    fn get_network_dnscache(&self) -> Box<Future<Item = ::models::NetworkDnscache, Error = Error>>;
-    fn get_network_external(&self) -> Box<Future<Item = ::models::NetworkExternal, Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn get_network_dnscache(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::NetworkDnscache, Error = Error>>;
+    fn get_network_external(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::NetworkExternal, Error = Error>>;
     fn get_network_groupnet(
         &self,
         network_groupnet_id: &str,
-    ) -> Box<Future<Item = ::models::NetworkGroupnets, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NetworkGroupnets, Error = Error>>;
     fn get_network_interfaces(
         &self,
         sort: &str,
@@ -62,7 +65,7 @@ pub trait NetworkApi {
         alloc_method: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::PoolsPoolInterfaces, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::PoolsPoolInterfaces, Error = Error>>;
     fn get_network_pools(
         &self,
         sort: &str,
@@ -73,7 +76,7 @@ pub trait NetworkApi {
         limit: i32,
         groupnet: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::NetworkPools, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NetworkPools, Error = Error>>;
     fn get_network_rules(
         &self,
         sort: &str,
@@ -83,7 +86,7 @@ pub trait NetworkApi {
         dir: &str,
         groupnet: &str,
         pool: &str,
-    ) -> Box<Future<Item = ::models::PoolsPoolRulesExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::PoolsPoolRulesExtended, Error = Error>>;
     fn get_network_subnets(
         &self,
         sort: &str,
@@ -91,283 +94,139 @@ pub trait NetworkApi {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::GroupnetSubnetsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::GroupnetSubnetsExtended, Error = Error>>;
     fn list_network_groupnets(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NetworkGroupnetsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NetworkGroupnetsExtended, Error = Error>>;
     fn update_network_dnscache(
         &self,
-        network_dnscache: ::models::NetworkDnscacheExtended,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        network_dnscache: crate::models::NetworkDnscacheExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_network_external(
         &self,
-        network_external: ::models::NetworkExternalExtended,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        network_external: crate::models::NetworkExternalExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_network_groupnet(
         &self,
-        network_groupnet: ::models::NetworkGroupnet,
+        network_groupnet: crate::models::NetworkGroupnet,
         network_groupnet_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> NetworkApi for NetworkApiClient<C> {
     fn create_dnscache_flush_item(
         &self,
-        dnscache_flush_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        dnscache_flush_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/network/dnscache/flush",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&dnscache_flush_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &dnscache_flush_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_network_groupnet(
         &self,
-        network_groupnet: ::models::NetworkGroupnetCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/network/groupnets", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&network_groupnet).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        network_groupnet: crate::models::NetworkGroupnetCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/3/network/groupnets",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &network_groupnet,
+            hyper::Method::POST,
         )
     }
 
     fn create_network_sc_rebalance_all_item(
         &self,
-        network_sc_rebalance_all_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        network_sc_rebalance_all_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/network/sc-rebalance-all",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&network_sc_rebalance_all_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &network_sc_rebalance_all_item,
+            hyper::Method::POST,
         )
     }
 
     fn delete_network_groupnet(
         &self,
         network_groupnet_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/network/groupnets/{NetworkGroupnetId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NetworkGroupnetId = network_groupnet_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn get_network_dnscache(&self) -> Box<Future<Item = ::models::NetworkDnscache, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/3/network/dnscache", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NetworkDnscache, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn get_network_dnscache(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::NetworkDnscache, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/3/network/dnscache",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_network_external(&self) -> Box<Future<Item = ::models::NetworkExternal, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/3/network/external", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NetworkExternal, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn get_network_external(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::NetworkExternal, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/3/network/external",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_network_groupnet(
         &self,
         network_groupnet_id: &str,
-    ) -> Box<Future<Item = ::models::NetworkGroupnets, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NetworkGroupnets, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/network/groupnets/{NetworkGroupnetId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NetworkGroupnetId = network_groupnet_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NetworkGroupnets, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -380,12 +239,8 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
         alloc_method: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::PoolsPoolInterfaces, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::PoolsPoolInterfaces, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("network", &network.to_string())
             .append_pair("resume", &resume.to_string())
@@ -396,30 +251,13 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/4/network/interfaces?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::PoolsPoolInterfaces, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -433,12 +271,8 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
         limit: i32,
         groupnet: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::NetworkPools, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NetworkPools, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("subnet", &subnet.to_string())
             .append_pair("resume", &resume.to_string())
@@ -450,29 +284,13 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/network/pools?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NetworkPools, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -485,12 +303,8 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
         dir: &str,
         groupnet: &str,
         pool: &str,
-    ) -> Box<Future<Item = ::models::PoolsPoolRulesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::PoolsPoolRulesExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("subnet", &subnet.to_string())
             .append_pair("resume", &resume.to_string())
@@ -501,30 +315,13 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/network/rules?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::PoolsPoolRulesExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -535,12 +332,8 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::GroupnetSubnetsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::GroupnetSubnetsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("groupnet", &groupnet.to_string())
             .append_pair("limit", &limit.to_string())
@@ -549,30 +342,13 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/4/network/subnets?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::GroupnetSubnetsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -582,12 +358,8 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NetworkGroupnetsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NetworkGroupnetsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
@@ -595,140 +367,48 @@ impl<C: hyper::client::Connect> NetworkApi for NetworkApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/network/groupnets?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NetworkGroupnetsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn update_network_dnscache(
         &self,
-        network_dnscache: ::models::NetworkDnscacheExtended,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!("{}/platform/3/network/dnscache", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&network_dnscache).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        network_dnscache: crate::models::NetworkDnscacheExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/3/network/dnscache",
+            self.configuration.base_path
+        );
+        put(self.configuration.borrow(), &uri_str, &network_dnscache)
     }
 
     fn update_network_external(
         &self,
-        network_external: ::models::NetworkExternalExtended,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!("{}/platform/3/network/external", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&network_external).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        network_external: crate::models::NetworkExternalExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/3/network/external",
+            self.configuration.base_path
+        );
+        put(self.configuration.borrow(), &uri_str, &network_external)
     }
 
     fn update_network_groupnet(
         &self,
-        network_groupnet: ::models::NetworkGroupnet,
+        network_groupnet: crate::models::NetworkGroupnet,
         network_groupnet_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/network/groupnets/{NetworkGroupnetId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NetworkGroupnetId = network_groupnet_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&network_groupnet).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &network_groupnet)
     }
 }

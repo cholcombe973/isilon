@@ -11,7 +11,7 @@ pub struct EventEventlist {
     pub eventgroup_instance: Option<String>,
     /// list of all events linked to this eventgroup in chronological order.
     #[serde(rename = "events")]
-    pub events: Option<Vec<::models::EventEventlistEvent>>,
+    pub events: Option<Vec <crate::models::EventEventlistEvent>>,
     /// Same as eventgroup_instance.
     #[serde(rename = "id")]
     pub id: Option<String>,

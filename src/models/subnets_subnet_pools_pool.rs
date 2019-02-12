@@ -26,13 +26,13 @@ pub struct SubnetsSubnetPoolsPool {
     pub id: String,
     /// List of interface members in this pool.
     #[serde(rename = "ifaces")]
-    pub ifaces: Vec<::models::SubnetsSubnetPoolIface>,
+    pub ifaces: Vec <crate::models::SubnetsSubnetPoolIface>,
     /// The name of the pool. It must be unique throughout the given subnet.It's a required field with POST method.
     #[serde(rename = "name")]
     pub name: String,
     /// List of IP address ranges in this pool.
     #[serde(rename = "ranges")]
-    pub ranges: Vec<::models::SubnetsSubnetPoolRange>,
+    pub ranges: Vec <crate::models::SubnetsSubnetPoolRange>,
     /// Rebalance policy..
     #[serde(rename = "rebalance_policy")]
     pub rebalance_policy: String,
@@ -65,7 +65,7 @@ pub struct SubnetsSubnetPoolsPool {
     pub sc_ttl: i32,
     /// List of interface members in this pool.
     #[serde(rename = "static_routes")]
-    pub static_routes: Vec<::models::SubnetsSubnetPoolStaticRoute>,
+    pub static_routes: Vec <crate::models::SubnetsSubnetPoolStaticRoute>,
     /// The name of the subnet.
     #[serde(rename = "subnet")]
     pub subnet: String,

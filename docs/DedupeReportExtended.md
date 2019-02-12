@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **id** | **i32** | An unique identifier for this report. | [optional] [default to null]
 **job_id** | **i32** | The job id this report refers to. | [optional] [default to null]
 **job_type** | **String** | The type of dedupe job this report refers to. | [optional] [default to null]
-**reports** | [**Vec<::models::DedupeReport>**](DedupeReport.md) | A list of report entries for this dedupe job. | [optional] [default to null]
+**reports** | [**Vec <crate::models::DedupeReport>**](DedupeReport.md) | A list of report entries for this dedupe job. | [optional] [default to null]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

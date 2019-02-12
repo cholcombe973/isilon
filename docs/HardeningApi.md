@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 
 # **create_hardening_apply_item**
-> ::models::CreateHardeningApplyItemResponse create_hardening_apply_item(ctx, hardening_apply_item)
+>crate::models::CreateHardeningApplyItemResponse create_hardening_apply_item(ctx, hardening_apply_item)
 
 
 Apply hardening on the cluster.
@@ -40,7 +40,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_hardening_resolve_item**
-> ::models::CreateHardeningResolveItemResponse create_hardening_resolve_item(ctx, hardening_resolve_item, optional)
+>crate::models::CreateHardeningResolveItemResponse create_hardening_resolve_item(ctx, hardening_resolve_item, optional)
 
 
 Resolve issues related to hardening, found in current cluster configuration.
@@ -77,7 +77,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_hardening_revert_item**
-> ::models::CreateHardeningRevertItemResponse create_hardening_revert_item(ctx, hardening_revert_item, optional)
+>crate::models::CreateHardeningRevertItemResponse create_hardening_revert_item(ctx, hardening_revert_item, optional)
 
 
 Revert hardening on the cluster.
@@ -114,7 +114,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_hardening_state**
-> ::models::HardeningState get_hardening_state(ctx, )
+>crate::models::HardeningState get_hardening_state(ctx, )
 
 
 Get the state of the current hardening operation, if one is happening.  Note that this is different from the /status resource, which returns the overall hardening status of the cluster.
@@ -138,7 +138,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_hardening_status**
-> ::models::HardeningStatus get_hardening_status(ctx, )
+>crate::models::HardeningStatus get_hardening_status(ctx, )
 
 
 Get a message indicating whether or not the cluster is hardened. Note that this is different from the /state resource, which returns the state of a specific hardening operation (apply or revert).

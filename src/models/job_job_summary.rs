@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct JobJobSummary {
     ///
     #[serde(rename = "summary")]
-    pub summary: Option<::models::JobJobSummarySummary>,
+    pub summary: Option <crate::models::JobJobSummarySummary>,
 }

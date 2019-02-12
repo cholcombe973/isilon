@@ -5,9 +5,9 @@ use serde_json::Value;
 pub struct CloudJobFiles {
     /// The file filtering logic to find files for this job
     #[serde(rename = "file_matching_pattern")]
-    pub file_matching_pattern: Option<::models::Empty>,
+    pub file_matching_pattern: Option <crate::models::Empty>,
     #[serde(rename = "names")]
-    pub names: Option<Vec<::models::CloudJobFilesName>>,
+    pub names: Option<Vec <crate::models::CloudJobFilesName>>,
     /// The total number of files addressed by this job
     #[serde(rename = "total")]
     pub total: Option<i32>,

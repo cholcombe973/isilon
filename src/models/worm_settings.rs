@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct WormSettings {
     /// Specifies global SmartLock (WORM) settings.
     #[serde(rename = "settings")]
-    pub settings: Option<::models::WormSettingsSettings>,
+    pub settings: Option <crate::models::WormSettingsSettings>,
 }

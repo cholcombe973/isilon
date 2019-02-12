@@ -40,7 +40,7 @@ Method | HTTP request | Description
 
 
 # **create_cluster_add_node_item**
-> ::models::Empty create_cluster_add_node_item(ctx, cluster_add_node_item)
+>crate::models::Empty create_cluster_add_node_item(ctx, cluster_add_node_item)
 
 
 Serial number and arguments of node to add.
@@ -68,7 +68,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_diagnostics_gather_start_item**
-> ::models::Empty create_diagnostics_gather_start_item(ctx, diagnostics_gather_start_item)
+>crate::models::Empty create_diagnostics_gather_start_item(ctx, diagnostics_gather_start_item)
 
 
 Start a new gather
@@ -96,7 +96,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_diagnostics_gather_stop_item**
-> ::models::Empty create_diagnostics_gather_stop_item(ctx, diagnostics_gather_stop_item)
+>crate::models::Empty create_diagnostics_gather_stop_item(ctx, diagnostics_gather_stop_item)
 
 
 Stop a running gather
@@ -124,7 +124,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_diagnostics_netlogger_start_item**
-> ::models::Empty create_diagnostics_netlogger_start_item(ctx, diagnostics_netlogger_start_item)
+>crate::models::Empty create_diagnostics_netlogger_start_item(ctx, diagnostics_netlogger_start_item)
 
 
 Start a new packet caputre
@@ -152,7 +152,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_diagnostics_netlogger_stop_item**
-> ::models::Empty create_diagnostics_netlogger_stop_item(ctx, diagnostics_netlogger_stop_item)
+>crate::models::Empty create_diagnostics_netlogger_stop_item(ctx, diagnostics_netlogger_stop_item)
 
 
 Stop a running packet capture
@@ -180,7 +180,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cluster_config**
-> ::models::ClusterConfig get_cluster_config(ctx, )
+>crate::models::ClusterConfig get_cluster_config(ctx, )
 
 
 Retrieve the cluster information.
@@ -204,7 +204,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cluster_email**
-> ::models::ClusterEmail get_cluster_email(ctx, )
+>crate::models::ClusterEmail get_cluster_email(ctx, )
 
 
 Get the cluster email notification settings.
@@ -252,7 +252,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cluster_identity**
-> ::models::ClusterIdentity get_cluster_identity(ctx, )
+>crate::models::ClusterIdentity get_cluster_identity(ctx, )
 
 
 Retrieve the login information.
@@ -276,7 +276,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cluster_node**
-> ::models::ClusterNodesExtendedExtended get_cluster_node(ctx, cluster_node_id, optional)
+>crate::models::ClusterNodesExtendedExtended get_cluster_node(ctx, cluster_node_id, optional)
 
 
 Retrieve node information.
@@ -313,7 +313,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cluster_nodes**
-> ::models::ClusterNodesExtendedExtended get_cluster_nodes(ctx, optional)
+>crate::models::ClusterNodesExtendedExtended get_cluster_nodes(ctx, optional)
 
 
 List the nodes on this cluster.
@@ -348,7 +348,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cluster_nodes_available**
-> ::models::ClusterNodesAvailable get_cluster_nodes_available(ctx, )
+>crate::models::ClusterNodesAvailable get_cluster_nodes_available(ctx, )
 
 
 List all nodes that are available to add to this cluster.
@@ -372,7 +372,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cluster_owner**
-> ::models::ClusterOwner get_cluster_owner(ctx, )
+>crate::models::ClusterOwner get_cluster_owner(ctx, )
 
 
 Get the cluster contact info settings
@@ -396,7 +396,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cluster_statfs**
-> ::models::ClusterStatfs get_cluster_statfs(ctx, )
+>crate::models::ClusterStatfs get_cluster_statfs(ctx, )
 
 
 Retrieve the filesystem statistics.
@@ -420,7 +420,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cluster_time**
-> ::models::ClusterTime get_cluster_time(ctx, )
+>crate::models::ClusterTime get_cluster_time(ctx, )
 
 
 Retrieve the current time as reported by each node.
@@ -444,7 +444,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cluster_timezone**
-> ::models::ClusterTimezone get_cluster_timezone(ctx, )
+>crate::models::ClusterTimezone get_cluster_timezone(ctx, )
 
 
 Get the cluster timezone.
@@ -468,7 +468,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cluster_version**
-> ::models::ClusterVersion get_cluster_version(ctx, )
+>crate::models::ClusterVersion get_cluster_version(ctx, )
 
 
 Retrieve the OneFS version as reported by each node.
@@ -492,7 +492,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_diagnostics_gather**
-> ::models::DiagnosticsGatherStatus get_diagnostics_gather(ctx, )
+>crate::models::DiagnosticsGatherStatus get_diagnostics_gather(ctx, )
 
 
 Get the status of isi_gather_info.
@@ -516,7 +516,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_diagnostics_gather_settings**
-> ::models::DiagnosticsGatherSettings get_diagnostics_gather_settings(ctx, )
+>crate::models::DiagnosticsGatherSettings get_diagnostics_gather_settings(ctx, )
 
 
 Get the default options for isi_gather_info.
@@ -540,7 +540,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_diagnostics_gather_status**
-> ::models::DiagnosticsGatherStatus get_diagnostics_gather_status(ctx, )
+>crate::models::DiagnosticsGatherStatus get_diagnostics_gather_status(ctx, )
 
 
 Get the status of isi_gather_info.
@@ -564,7 +564,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_diagnostics_netlogger**
-> ::models::DiagnosticsNetloggerStatus get_diagnostics_netlogger(ctx, )
+>crate::models::DiagnosticsNetloggerStatus get_diagnostics_netlogger(ctx, )
 
 
 Get the status of isi_netlogger.
@@ -588,7 +588,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_diagnostics_netlogger_settings**
-> ::models::DiagnosticsNetloggerSettings get_diagnostics_netlogger_settings(ctx, )
+>crate::models::DiagnosticsNetloggerSettings get_diagnostics_netlogger_settings(ctx, )
 
 
 Get the default options for isi_netlogger.
@@ -612,7 +612,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_diagnostics_netlogger_status**
-> ::models::DiagnosticsNetloggerStatus get_diagnostics_netlogger_status(ctx, )
+>crate::models::DiagnosticsNetloggerStatus get_diagnostics_netlogger_status(ctx, )
 
 
 Get the status of isi_netlogger.
@@ -636,7 +636,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_timezone_region**
-> ::models::TimezoneRegions get_timezone_region(ctx, timezone_region_id, optional)
+>crate::models::TimezoneRegions get_timezone_region(ctx, timezone_region_id, optional)
 
 
 List timezone regions.
@@ -678,7 +678,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_timezone_settings**
-> ::models::TimezoneSettings get_timezone_settings(ctx, )
+>crate::models::TimezoneSettings get_timezone_settings(ctx, )
 
 
 Retrieve the cluster timezone.

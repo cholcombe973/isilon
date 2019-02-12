@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct AntivirusSettings {
     /// Antivirus settings.
     #[serde(rename = "settings")]
-    pub settings: Option<::models::AntivirusSettingsSettings>,
+    pub settings: Option <crate::models::AntivirusSettingsSettings>,
 }

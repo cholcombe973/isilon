@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct TimezoneSettings {
     /// A timezone.
     #[serde(rename = "settings")]
-    pub settings: Option<::models::TimezoneRegionTimezone>,
+    pub settings: Option <crate::models::TimezoneRegionTimezone>,
 }

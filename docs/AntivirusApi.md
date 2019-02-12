@@ -30,7 +30,7 @@ Method | HTTP request | Description
 
 
 # **create_antivirus_policy**
-> ::models::CreateResponse create_antivirus_policy(ctx, antivirus_policy)
+>crate::models::CreateResponse create_antivirus_policy(ctx, antivirus_policy)
 
 
 Create new antivirus scan policies.
@@ -58,7 +58,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_antivirus_scan_item**
-> ::models::CreateAntivirusScanItemResponse create_antivirus_scan_item(ctx, antivirus_scan_item)
+>crate::models::CreateAntivirusScanItemResponse create_antivirus_scan_item(ctx, antivirus_scan_item)
 
 
 Manually scan a file.
@@ -86,7 +86,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_antivirus_server**
-> ::models::CreateResponse create_antivirus_server(ctx, antivirus_server)
+>crate::models::CreateResponse create_antivirus_server(ctx, antivirus_server)
 
 
 Create new antivirus servers.
@@ -281,7 +281,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_antivirus_policy**
-> ::models::AntivirusPolicies get_antivirus_policy(ctx, antivirus_policy_id)
+>crate::models::AntivirusPolicies get_antivirus_policy(ctx, antivirus_policy_id)
 
 
 Retrieve one antivirus scan policy.
@@ -309,7 +309,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_antivirus_quarantine_path**
-> ::models::AntivirusQuarantine get_antivirus_quarantine_path(ctx, antivirus_quarantine_path)
+>crate::models::AntivirusQuarantine get_antivirus_quarantine_path(ctx, antivirus_quarantine_path)
 
 
 Retrieve the quarantine status of the file at the specified path.
@@ -337,7 +337,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_antivirus_server**
-> ::models::AntivirusServers get_antivirus_server(ctx, antivirus_server_id)
+>crate::models::AntivirusServers get_antivirus_server(ctx, antivirus_server_id)
 
 
 Retrieve one antivirus server entry.
@@ -365,7 +365,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_antivirus_settings**
-> ::models::AntivirusSettings get_antivirus_settings(ctx, )
+>crate::models::AntivirusSettings get_antivirus_settings(ctx, )
 
 
 Retrieve the Antivirus settings.
@@ -389,7 +389,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_reports_scan**
-> ::models::ReportsScans get_reports_scan(ctx, reports_scan_id)
+>crate::models::ReportsScans get_reports_scan(ctx, reports_scan_id)
 
 
 Retrieve one antivirus scan report.
@@ -417,7 +417,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_reports_scans**
-> ::models::ReportsScansExtended get_reports_scans(ctx, optional)
+>crate::models::ReportsScansExtended get_reports_scans(ctx, optional)
 
 
 List antivirus scan reports.
@@ -457,7 +457,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_reports_threat**
-> ::models::ReportsThreats get_reports_threat(ctx, reports_threat_id)
+>crate::models::ReportsThreats get_reports_threat(ctx, reports_threat_id)
 
 
 Retrieve one antivirus threat report.
@@ -485,7 +485,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_reports_threats**
-> ::models::ReportsThreatsExtended get_reports_threats(ctx, optional)
+>crate::models::ReportsThreatsExtended get_reports_threats(ctx, optional)
 
 
 List antivirus threat reports.
@@ -526,7 +526,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_antivirus_policies**
-> ::models::AntivirusPoliciesExtended list_antivirus_policies(ctx, optional)
+>crate::models::AntivirusPoliciesExtended list_antivirus_policies(ctx, optional)
 
 
 List antivirus scan policies.
@@ -564,7 +564,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_antivirus_servers**
-> ::models::AntivirusServersExtended list_antivirus_servers(ctx, optional)
+>crate::models::AntivirusServersExtended list_antivirus_servers(ctx, optional)
 
 
 List antivirus servers.

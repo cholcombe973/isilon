@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**drives** | [**Vec<::models::NodeDrivesNodeDrive>**](NodeDrivesNodeDrive.md) | List of the drives in this node. | [optional] [default to null]
+**drives** | [**Vec <crate::models::NodeDrivesNodeDrive>**](NodeDrivesNodeDrive.md) | List of the drives in this node. | [optional] [default to null]
 **error** | **String** | Error message, if the HTTP status returned from this node was not 200. | [optional] [default to null]
 **id** | **i32** | Node ID of the node reporting this information. | [optional] [default to null]
 **lnn** | **i32** | Logical node number of the node reporting this information. | [optional] [default to null]

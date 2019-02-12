@@ -8,5 +8,5 @@ pub struct ClusterNodePartitions {
     pub count: Option<i32>,
     /// Partition information.
     #[serde(rename = "partitions")]
-    pub partitions: Option<Vec<::models::NodePartitionsNodePartition>>,
+    pub partitions: Option<Vec <crate::models::NodePartitionsNodePartition>>,
 }

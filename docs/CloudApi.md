@@ -37,7 +37,7 @@ Method | HTTP request | Description
 
 
 # **create_cloud_access_item**
-> ::models::Empty create_cloud_access_item(ctx, cloud_access_item)
+>crate::models::Empty create_cloud_access_item(ctx, cloud_access_item)
 
 
 Add a cluster identifier to access list.
@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_cloud_account**
-> ::models::CreateCloudAccountResponse create_cloud_account(ctx, cloud_account)
+>crate::models::CreateCloudAccountResponse create_cloud_account(ctx, cloud_account)
 
 
 Create a new account.
@@ -93,7 +93,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_cloud_job**
-> ::models::CreateCloudJobResponse create_cloud_job(ctx, cloud_job)
+>crate::models::CreateCloudJobResponse create_cloud_job(ctx, cloud_job)
 
 
 Create a new job.
@@ -121,7 +121,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_cloud_pool**
-> ::models::CreateCloudPoolResponse create_cloud_pool(ctx, cloud_pool)
+>crate::models::CreateCloudPoolResponse create_cloud_pool(ctx, cloud_pool)
 
 
 Create a new pool.
@@ -149,7 +149,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_cloud_proxy**
-> ::models::CreateCloudProxyResponse create_cloud_proxy(ctx, cloud_proxy)
+>crate::models::CreateCloudProxyResponse create_cloud_proxy(ctx, cloud_proxy)
 
 
 Create a new proxy.
@@ -177,7 +177,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_settings_encryption_key_item**
-> ::models::Empty create_settings_encryption_key_item(ctx, settings_encryption_key_item)
+>crate::models::Empty create_settings_encryption_key_item(ctx, settings_encryption_key_item)
 
 
 Regenerate master encryption key.
@@ -205,7 +205,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_settings_reporting_eula_item**
-> ::models::SettingsReportingEulaItem create_settings_reporting_eula_item(ctx, settings_reporting_eula_item)
+>crate::models::SettingsReportingEulaItem create_settings_reporting_eula_item(ctx, settings_reporting_eula_item)
 
 
 Accept telemetry collection EULA.
@@ -387,7 +387,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cloud_access_guid**
-> ::models::CloudAccess get_cloud_access_guid(ctx, cloud_access_guid)
+>crate::models::CloudAccess get_cloud_access_guid(ctx, cloud_access_guid)
 
 
 Retrieve cloud access information.
@@ -415,7 +415,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cloud_account**
-> ::models::CloudAccounts get_cloud_account(ctx, cloud_account_id)
+>crate::models::CloudAccounts get_cloud_account(ctx, cloud_account_id)
 
 
 Retrieve cloud account information.
@@ -443,7 +443,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cloud_job**
-> ::models::CloudJobs get_cloud_job(ctx, cloud_job_id)
+>crate::models::CloudJobs get_cloud_job(ctx, cloud_job_id)
 
 
 Retrieve cloudpool job information.
@@ -471,7 +471,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cloud_jobs_file**
-> ::models::CloudJobsFiles get_cloud_jobs_file(ctx, cloud_jobs_file_id, optional)
+>crate::models::CloudJobsFiles get_cloud_jobs_file(ctx, cloud_jobs_file_id, optional)
 
 
 Retrieve files associated with a cloudpool job.
@@ -513,7 +513,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cloud_pool**
-> ::models::CloudPools get_cloud_pool(ctx, cloud_pool_id)
+>crate::models::CloudPools get_cloud_pool(ctx, cloud_pool_id)
 
 
 Retrieve cloud pool information
@@ -541,7 +541,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cloud_proxy**
-> ::models::CloudProxies get_cloud_proxy(ctx, cloud_proxy_id)
+>crate::models::CloudProxies get_cloud_proxy(ctx, cloud_proxy_id)
 
 
 Retrieve cloud account information.
@@ -569,7 +569,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cloud_settings**
-> ::models::CloudSettings get_cloud_settings(ctx, )
+>crate::models::CloudSettings get_cloud_settings(ctx, )
 
 
 List all cloud settings.
@@ -593,7 +593,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_cloud_access**
-> ::models::CloudAccessExtended list_cloud_access(ctx, optional)
+>crate::models::CloudAccessExtended list_cloud_access(ctx, optional)
 
 
 List all accessible cluster identifiers.
@@ -630,7 +630,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_cloud_accounts**
-> ::models::CloudAccountsExtended list_cloud_accounts(ctx, optional)
+>crate::models::CloudAccountsExtended list_cloud_accounts(ctx, optional)
 
 
 List all accounts.
@@ -667,7 +667,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_cloud_jobs**
-> ::models::CloudJobsExtended list_cloud_jobs(ctx, optional)
+>crate::models::CloudJobsExtended list_cloud_jobs(ctx, optional)
 
 
 List all cloudpools jobs.
@@ -704,7 +704,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_cloud_pools**
-> ::models::CloudPoolsExtended list_cloud_pools(ctx, optional)
+>crate::models::CloudPoolsExtended list_cloud_pools(ctx, optional)
 
 
 List all pools.
@@ -741,7 +741,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_cloud_proxies**
-> ::models::CloudProxiesExtended list_cloud_proxies(ctx, optional)
+>crate::models::CloudProxiesExtended list_cloud_proxies(ctx, optional)
 
 
 List all proxies.
@@ -778,7 +778,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_settings_reporting_eula**
-> ::models::SettingsReportingEulaItem list_settings_reporting_eula(ctx, )
+>crate::models::SettingsReportingEulaItem list_settings_reporting_eula(ctx, )
 
 
 View telemetry collection EULA acceptance and content URI.

@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**affected** | [**Vec<::models::StoragepoolStatusUnhealthyItemAffectedItem>**](StoragepoolStatusUnhealthyItemAffectedItem.md) | The affected nodes and/or drives. | [default to null]
+**affected** | [**Vec <crate::models::StoragepoolStatusUnhealthyItemAffectedItem>**](StoragepoolStatusUnhealthyItemAffectedItem.md) | The affected nodes and/or drives. | [default to null]
 **diskpool** | [***::models::StoragepoolStatusUnhealthyItemDiskpool**](StoragepoolStatusUnhealthyItemDiskpool.md) |  | [optional] [default to null]
 **health_flags** | **Vec<String>** | An array of containing any health issues with this pool.  If the pool is healthy, the list is empty. | [optional] [default to null]
 

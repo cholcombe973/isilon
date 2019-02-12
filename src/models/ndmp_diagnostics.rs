@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct NdmpDiagnostics {
     ///
     #[serde(rename = "diagnostics")]
-    pub diagnostics: Option<::models::NdmpDiagnosticsDiagnostics>,
+    pub diagnostics: Option <crate::models::NdmpDiagnosticsDiagnostics>,
 }

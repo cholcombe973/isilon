@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, put, query, Error};
 
-pub struct JobApiClient<C: hyper::client::Connect> {
+pub struct JobApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> JobApiClient<C> {
+impl<C: hyper::client::connect::Connect> JobApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> JobApiClient<C> {
         JobApiClient {
             configuration: configuration,
@@ -33,13 +32,13 @@ impl<C: hyper::client::Connect> JobApiClient<C> {
 pub trait JobApi {
     fn create_job_job(
         &self,
-        job_job: ::models::JobJobCreateParams,
-    ) -> Box<Future<Item = ::models::CreateJobJobResponse, Error = Error>>;
+        job_job: crate::models::JobJobCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateJobJobResponse, Error = Error>>;
     fn create_job_policy(
         &self,
-        job_policy: ::models::JobPolicyCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
-    fn delete_job_policy(&self, job_policy_id: &str) -> Box<Future<Item = (), Error = Error>>;
+        job_policy: crate::models::JobPolicyCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
+    fn delete_job_policy(&self, job_policy_id: &str) -> Box<dyn Future<Item = (), Error = Error>>;
     fn get_job_events(
         &self,
         begin: i32,
@@ -51,19 +50,23 @@ pub trait JobApi {
         state: &str,
         limit: i32,
         key: &str,
-    ) -> Box<Future<Item = ::models::JobEvents, Error = Error>>;
-    fn get_job_job(&self, job_job_id: &str)
-        -> Box<Future<Item = ::models::JobJobs, Error = Error>>;
-    fn get_job_job_summary(&self) -> Box<Future<Item = ::models::JobJobSummary, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::JobEvents, Error = Error>>;
+    fn get_job_job(
+        &self,
+        job_job_id: &str,
+    ) -> Box<dyn Future<Item = crate::models::JobJobs, Error = Error>>;
+    fn get_job_job_summary(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::JobJobSummary, Error = Error>>;
     fn get_job_policy(
         &self,
         job_policy_id: &str,
-    ) -> Box<Future<Item = ::models::JobPolicies, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::JobPolicies, Error = Error>>;
     fn get_job_recent(
         &self,
         timeout_ms: i32,
         limit: i32,
-    ) -> Box<Future<Item = ::models::JobRecent, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::JobRecent, Error = Error>>;
     fn get_job_reports(
         &self,
         begin: i32,
@@ -75,22 +78,22 @@ pub trait JobApi {
         limit: i32,
         key: &str,
         verbose: bool,
-    ) -> Box<Future<Item = ::models::JobReports, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::JobReports, Error = Error>>;
     fn get_job_statistics(
         &self,
         devid: i32,
         job_id: i32,
-    ) -> Box<Future<Item = ::models::JobStatistics, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::JobStatistics, Error = Error>>;
     fn get_job_type(
         &self,
         job_type_id: &str,
-    ) -> Box<Future<Item = ::models::JobTypes, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::JobTypes, Error = Error>>;
     fn get_job_types(
         &self,
         sort: &str,
         show_all: bool,
         dir: &str,
-    ) -> Box<Future<Item = ::models::JobTypesExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::JobTypesExtended, Error = Error>>;
     fn list_job_jobs(
         &self,
         sort: &str,
@@ -99,138 +102,69 @@ pub trait JobApi {
         state: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::JobJobsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::JobJobsExtended, Error = Error>>;
     fn list_job_policies(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::JobPoliciesExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::JobPoliciesExtended, Error = Error>>;
     fn update_job_job(
         &self,
-        job_job: ::models::JobJob,
+        job_job: crate::models::JobJob,
         job_job_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_job_policy(
         &self,
-        job_policy: ::models::JobPolicy,
+        job_policy: crate::models::JobPolicy,
         job_policy_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_job_type(
         &self,
-        job_type: ::models::JobType,
+        job_type: crate::models::JobType,
         job_type_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> JobApi for JobApiClient<C> {
     fn create_job_job(
         &self,
-        job_job: ::models::JobJobCreateParams,
-    ) -> Box<Future<Item = ::models::CreateJobJobResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/job/jobs", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&job_job).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateJobJobResponse, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        job_job: crate::models::JobJobCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateJobJobResponse, Error = Error>> {
+        let uri_str = format!("{}/platform/3/job/jobs", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &job_job,
+            hyper::Method::POST,
         )
     }
 
     fn create_job_policy(
         &self,
-        job_policy: ::models::JobPolicyCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/1/job/policies", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&job_policy).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        job_policy: crate::models::JobPolicyCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let uri_str = format!("{}/platform/1/job/policies", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &job_policy,
+            hyper::Method::POST,
         )
     }
 
-    fn delete_job_policy(&self, job_policy_id: &str) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_job_policy(&self, job_policy_id: &str) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/job/policies/{JobPolicyId}",
-            configuration.base_path,
+            self.configuration.base_path,
             JobPolicyId = job_policy_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -245,12 +179,8 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
         state: &str,
         limit: i32,
         key: &str,
-    ) -> Box<Future<Item = ::models::JobEvents, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::JobEvents, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("begin", &begin.to_string())
             .append_pair("end", &end.to_string())
             .append_pair("job_id", &job_id.to_string())
@@ -263,133 +193,62 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/job/events?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::JobEvents, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_job_job(
         &self,
         job_job_id: &str,
-    ) -> Box<Future<Item = ::models::JobJobs, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::JobJobs, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/job/jobs/{JobJobId}",
-            configuration.base_path,
+            self.configuration.base_path,
             JobJobId = job_job_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::JobJobs, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_job_job_summary(&self) -> Box<Future<Item = ::models::JobJobSummary, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/1/job/job-summary", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::JobJobSummary, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn get_job_job_summary(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::JobJobSummary, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/1/job/job-summary",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_job_policy(
         &self,
         job_policy_id: &str,
-    ) -> Box<Future<Item = ::models::JobPolicies, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::JobPolicies, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/job/policies/{JobPolicyId}",
-            configuration.base_path,
+            self.configuration.base_path,
             JobPolicyId = job_policy_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::JobPolicies, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -397,40 +256,20 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
         &self,
         timeout_ms: i32,
         limit: i32,
-    ) -> Box<Future<Item = ::models::JobRecent, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::JobRecent, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("timeout_ms", &timeout_ms.to_string())
             .append_pair("limit", &limit.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/job/recent?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::JobRecent, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -445,12 +284,8 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
         limit: i32,
         key: &str,
         verbose: bool,
-    ) -> Box<Future<Item = ::models::JobReports, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::JobReports, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("begin", &begin.to_string())
             .append_pair("end", &end.to_string())
             .append_pair("job_id", &job_id.to_string())
@@ -463,29 +298,13 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/job/reports?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::JobReports, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -493,77 +312,37 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
         &self,
         devid: i32,
         job_id: i32,
-    ) -> Box<Future<Item = ::models::JobStatistics, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::JobStatistics, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("devid", &devid.to_string())
             .append_pair("job_id", &job_id.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/job/statistics?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::JobStatistics, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_job_type(
         &self,
         job_type_id: &str,
-    ) -> Box<Future<Item = ::models::JobTypes, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::JobTypes, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/job/types/{JobTypeId}",
-            configuration.base_path,
+            self.configuration.base_path,
             JobTypeId = job_type_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::JobTypes, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -572,39 +351,21 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
         sort: &str,
         show_all: bool,
         dir: &str,
-    ) -> Box<Future<Item = ::models::JobTypesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::JobTypesExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("show_all", &show_all.to_string())
             .append_pair("dir", &dir.to_string())
             .finish();
-        let uri_str = format!("{}/platform/1/job/types?{}", configuration.base_path, query);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::JobTypesExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        let uri_str = format!(
+            "{}/platform/1/job/types?{}",
+            self.configuration.base_path, q
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -616,12 +377,8 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
         state: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::JobJobsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::JobJobsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("resume", &resume.to_string())
             .append_pair("batch", &batch.to_string())
@@ -629,29 +386,12 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
             .finish();
-        let uri_str = format!("{}/platform/3/job/jobs?{}", configuration.base_path, query);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::JobJobsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        let uri_str = format!("{}/platform/3/job/jobs?{}", self.configuration.base_path, q);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -661,12 +401,8 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::JobPoliciesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::JobPoliciesExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
@@ -674,150 +410,52 @@ impl<C: hyper::client::Connect> JobApi for JobApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/job/policies?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::JobPoliciesExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn update_job_job(
         &self,
-        job_job: ::models::JobJob,
+        job_job: crate::models::JobJob,
         job_job_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/job/jobs/{JobJobId}",
-            configuration.base_path,
+            self.configuration.base_path,
             JobJobId = job_job_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&job_job).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &job_job)
     }
 
     fn update_job_policy(
         &self,
-        job_policy: ::models::JobPolicy,
+        job_policy: crate::models::JobPolicy,
         job_policy_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/job/policies/{JobPolicyId}",
-            configuration.base_path,
+            self.configuration.base_path,
             JobPolicyId = job_policy_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&job_policy).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &job_policy)
     }
 
     fn update_job_type(
         &self,
-        job_type: ::models::JobType,
+        job_type: crate::models::JobType,
         job_type_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/job/types/{JobTypeId}",
-            configuration.base_path,
+            self.configuration.base_path,
             JobTypeId = job_type_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&job_type).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &job_type)
     }
 }

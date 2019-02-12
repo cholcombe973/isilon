@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **expected** | **String** | Specifies the Access Control Entry (ACE) for the user. | [optional] [default to null]
 **mode** | **String** | Specifies the mode bits on the file. | [optional] [default to null]
 **ownership** | **String** | Returns a status message if the user owns the file. | [optional] [default to null]
-**relevant_aces** | [**Vec<::models::AuthAccessAccessItemShareSharePermissionsShareRelevantAce>**](AuthAccessAccessItemShareSharePermissionsShareRelevantAce.md) | Specifies a list of the relevant Access Control Entrieswith respect to the user in the share. | [optional] [default to null]
+**relevant_aces** | [**Vec <crate::models::AuthAccessAccessItemShareSharePermissionsShareRelevantAce>**](AuthAccessAccessItemShareSharePermissionsShareRelevantAce.md) | Specifies a list of the relevant Access Control Entrieswith respect to the user in the share. | [optional] [default to null]
 **relevant_mode** | **String** | Specifies the mode bits that are related to the user. | [optional] [default to null]
 **sticky** | **String** | Returns a status message if the user owns the file. | [optional] [default to null]
 

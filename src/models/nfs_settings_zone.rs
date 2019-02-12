@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct NfsSettingsZone {
     /// Specifies the per-zone NFS configuration settings.
     #[serde(rename = "settings")]
-    pub settings: Option<::models::NfsSettingsZoneSettings>,
+    pub settings: Option <crate::models::NfsSettingsZoneSettings>,
 }

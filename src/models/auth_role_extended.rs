@@ -8,13 +8,13 @@ pub struct AuthRoleExtended {
     pub description: Option<String>,
     /// Specifies the users or groups that have this role.
     #[serde(rename = "members")]
-    pub members: Vec<::models::AuthAccessAccessItemFileGroup>,
+    pub members: Vec <crate::models::AuthAccessAccessItemFileGroup>,
     /// Specifies the name of the role.
     #[serde(rename = "name")]
     pub name: String,
     /// Specifies the privileges granted by this role.
     #[serde(rename = "privileges")]
-    pub privileges: Vec<::models::AuthIdNtokenPrivilegeItem>,
+    pub privileges: Vec <crate::models::AuthIdNtokenPrivilegeItem>,
     /// Specifies the ID of the role.
     #[serde(rename = "id")]
     pub id: String,

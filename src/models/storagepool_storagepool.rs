@@ -41,5 +41,5 @@ pub struct StoragepoolStoragepool {
     pub _type: String,
     /// Total pool usage.
     #[serde(rename = "usage")]
-    pub usage: ::models::StoragepoolTierUsage,
+    pub usage:crate::models::StoragepoolTierUsage,
 }

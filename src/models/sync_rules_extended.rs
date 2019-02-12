@@ -7,7 +7,7 @@ pub struct SyncRulesExtended {
     #[serde(rename = "resume")]
     pub resume: Option<String>,
     #[serde(rename = "rules")]
-    pub rules: Vec<::models::SyncRuleExtendedExtended>,
+    pub rules: Vec <crate::models::SyncRuleExtendedExtended>,
     /// Total number of items available.
     #[serde(rename = "total")]
     pub total: i32,

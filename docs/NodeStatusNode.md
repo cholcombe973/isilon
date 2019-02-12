@@ -4,7 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **batterystatus** | [***::models::NodeStatusNodeBatterystatus**](NodeStatusNodeBatterystatus.md) | Battery status information. | [optional] [default to null]
-**capacity** | [**Vec<::models::NodeStatusNodeCapacityItem>**](NodeStatusNodeCapacityItem.md) | Storage capacity of this node. | [optional] [default to null]
+**capacity** | [**Vec <crate::models::NodeStatusNodeCapacityItem>**](NodeStatusNodeCapacityItem.md) | Storage capacity of this node. | [optional] [default to null]
 **cpu** | [***::models::NodeStatusNodeCpu**](NodeStatusNodeCpu.md) | CPU status information for this node. | [optional] [default to null]
 **error** | **String** | Error message, if the HTTP status returned from this node was not 200. | [optional] [default to null]
 **id** | **i32** | Node ID of the node reporting this information. | [optional] [default to null]

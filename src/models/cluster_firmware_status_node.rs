@@ -5,7 +5,7 @@ use serde_json::Value;
 pub struct ClusterFirmwareStatusNode {
     /// List of the firmware status for hardware components on the node.
     #[serde(rename = "devices")]
-    pub devices: Option<Vec<::models::ClusterFirmwareStatusNodeDevice>>,
+    pub devices: Option<Vec <crate::models::ClusterFirmwareStatusNodeDevice>>,
     /// The lnn of the node.
     #[serde(rename = "lnn")]
     pub lnn: Option<i32>,
@@ -14,5 +14,5 @@ pub struct ClusterFirmwareStatusNode {
     pub node_unavailable: Option<bool>,
     /// List of the firmware binary information for the installed firmware package.
     #[serde(rename = "package")]
-    pub package: Option<Vec<::models::ClusterFirmwareStatusNodePackageItem>>,
+    pub package: Option<Vec <crate::models::ClusterFirmwareStatusNodePackageItem>>,
 }

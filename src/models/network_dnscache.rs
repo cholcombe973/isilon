@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct NetworkDnscache {
     ///
     #[serde(rename = "settings")]
-    pub settings: Option<::models::NetworkDnscacheSettings>,
+    pub settings: Option <crate::models::NetworkDnscacheSettings>,
 }

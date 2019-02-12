@@ -16,5 +16,5 @@ pub struct SyncRule {
     pub limit: Option<i32>,
     /// A schedule defining when during a week this performance rule is in effect.  If unspecified or null, the schedule will always be in effect.
     #[serde(rename = "schedule")]
-    pub schedule: Option<::models::SyncRuleSchedule>,
+    pub schedule: Option <crate::models::SyncRuleSchedule>,
 }

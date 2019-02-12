@@ -7,7 +7,7 @@ pub struct JobPolicyCreateParams {
     #[serde(rename = "description")]
     pub description: Option<String>,
     #[serde(rename = "intervals")]
-    pub intervals: Option<Vec<::models::JobPolicyInterval>>,
+    pub intervals: Option<Vec <crate::models::JobPolicyInterval>>,
     /// The name of the impact policy.
     #[serde(rename = "name")]
     pub name: String,

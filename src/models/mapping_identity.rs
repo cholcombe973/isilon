@@ -8,7 +8,7 @@ pub struct MappingIdentity {
     pub id: String,
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "source")]
-    pub source: Option<::models::AuthAccessAccessItemFileGroup>,
+    pub source: Option <crate::models::AuthAccessAccessItemFileGroup>,
     #[serde(rename = "targets")]
-    pub targets: Vec<::models::MappingIdentityTarget>,
+    pub targets: Vec <crate::models::MappingIdentityTarget>,
 }

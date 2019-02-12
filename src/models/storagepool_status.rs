@@ -5,8 +5,8 @@ use serde_json::Value;
 pub struct StoragepoolStatus {
     /// Disk pools which are currently unhealthy.
     #[serde(rename = "unhealthy")]
-    pub unhealthy: Vec<::models::StoragepoolStatusUnhealthyItem>,
+    pub unhealthy: Vec <crate::models::StoragepoolStatusUnhealthyItem>,
     /// Drives which are not currently provisioned into a disk pool.
     #[serde(rename = "unprovisioned")]
-    pub unprovisioned: Vec<::models::StoragepoolStatusUnprovisionedItem>,
+    pub unprovisioned: Vec <crate::models::StoragepoolStatusUnprovisionedItem>,
 }

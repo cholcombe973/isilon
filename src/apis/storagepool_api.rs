@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, put, query, Error};
 
-pub struct StoragepoolApiClient<C: hyper::client::Connect> {
+pub struct StoragepoolApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> StoragepoolApiClient<C> {
+impl<C: hyper::client::connect::Connect> StoragepoolApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> StoragepoolApiClient<C> {
         StoragepoolApiClient {
             configuration: configuration,
@@ -33,302 +32,207 @@ impl<C: hyper::client::Connect> StoragepoolApiClient<C> {
 pub trait StoragepoolApi {
     fn create_compatibilities_class_active_item(
         &self,
-        compatibilities_class_active_item: ::models::CompatibilitiesClassActiveItem,
+        compatibilities_class_active_item: crate::models::CompatibilitiesClassActiveItem,
         assess: bool,
-    ) -> Box<Future<Item = ::models::CreateCompatibilitiesClassActiveItemResponse, Error = Error>>;
+    ) -> Box<
+        dyn Future<
+            Item = crate::models::CreateCompatibilitiesClassActiveItemResponse,
+            Error = Error,
+        >,
+    >;
     fn create_compatibilities_ssd_active_item(
         &self,
-        compatibilities_ssd_active_item: ::models::CompatibilitiesSsdActiveItem,
+        compatibilities_ssd_active_item: crate::models::CompatibilitiesSsdActiveItem,
         assess: bool,
-    ) -> Box<Future<Item = ::models::CreateCompatibilitiesClassActiveItemResponse, Error = Error>>;
+    ) -> Box<
+        dyn Future<
+            Item = crate::models::CreateCompatibilitiesClassActiveItemResponse,
+            Error = Error,
+        >,
+    >;
     fn create_storagepool_nodepool(
         &self,
-        storagepool_nodepool: ::models::StoragepoolNodepoolCreateParams,
-    ) -> Box<Future<Item = ::models::CreateStoragepoolTierResponse, Error = Error>>;
+        storagepool_nodepool: crate::models::StoragepoolNodepoolCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateStoragepoolTierResponse, Error = Error>>;
     fn create_storagepool_tier(
         &self,
-        storagepool_tier: ::models::StoragepoolTierCreateParams,
-    ) -> Box<Future<Item = ::models::CreateStoragepoolTierResponse, Error = Error>>;
+        storagepool_tier: crate::models::StoragepoolTierCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateStoragepoolTierResponse, Error = Error>>;
     fn delete_compatibilities_class_active_by_id(
         &self,
         compatibilities_class_active_id: &str,
         assess: bool,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_compatibilities_ssd_active_by_id(
         &self,
         compatibilities_ssd_active_id: &str,
         assess: bool,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_storagepool_nodepool(
         &self,
         storagepool_nodepool_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_storagepool_nodepools(&self) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_storagepool_nodepools(&self) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_storagepool_tier(
         &self,
         storagepool_tier_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_storagepool_tiers(&self) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_storagepool_tiers(&self) -> Box<dyn Future<Item = (), Error = Error>>;
     fn get_compatibilities_class_active_by_id(
         &self,
         compatibilities_class_active_id: &str,
-    ) -> Box<Future<Item = ::models::CompatibilitiesClassActive, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CompatibilitiesClassActive, Error = Error>>;
     fn get_compatibilities_class_available(
         &self,
-    ) -> Box<Future<Item = ::models::CompatibilitiesClassAvailable, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CompatibilitiesClassAvailable, Error = Error>>;
     fn get_compatibilities_ssd_active_by_id(
         &self,
         compatibilities_ssd_active_id: &str,
-    ) -> Box<Future<Item = ::models::CompatibilitiesSsdActive, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CompatibilitiesSsdActive, Error = Error>>;
     fn get_compatibilities_ssd_available(
         &self,
-    ) -> Box<Future<Item = ::models::CompatibilitiesSsdAvailable, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CompatibilitiesSsdAvailable, Error = Error>>;
     fn get_storagepool_nodepool(
         &self,
         storagepool_nodepool_id: &str,
-    ) -> Box<Future<Item = ::models::StoragepoolNodepools, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolNodepools, Error = Error>>;
     fn get_storagepool_settings(
         &self,
-    ) -> Box<Future<Item = ::models::StoragepoolSettings, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolSettings, Error = Error>>;
     fn get_storagepool_status(
         &self,
-    ) -> Box<Future<Item = ::models::StoragepoolStatus, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolStatus, Error = Error>>;
     fn get_storagepool_storagepools(
         &self,
         sort: &str,
         toplevels: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::StoragepoolStoragepools, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolStoragepools, Error = Error>>;
     fn get_storagepool_suggested_protection_nid(
         &self,
         storagepool_suggested_protection_nid: &str,
-    ) -> Box<Future<Item = ::models::StoragepoolSuggestedProtection, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolSuggestedProtection, Error = Error>>;
     fn get_storagepool_tier(
         &self,
         storagepool_tier_id: &str,
-    ) -> Box<Future<Item = ::models::StoragepoolTiers, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolTiers, Error = Error>>;
     fn get_storagepool_unprovisioned(
         &self,
-    ) -> Box<Future<Item = ::models::StoragepoolUnprovisioned, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolUnprovisioned, Error = Error>>;
     fn list_compatibilities_class_active(
         &self,
-    ) -> Box<Future<Item = ::models::CompatibilitiesClassActiveExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CompatibilitiesClassActiveExtended, Error = Error>>;
     fn list_compatibilities_ssd_active(
         &self,
-    ) -> Box<Future<Item = ::models::CompatibilitiesSsdActiveExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CompatibilitiesSsdActiveExtended, Error = Error>>;
     fn list_storagepool_nodepools(
         &self,
-    ) -> Box<Future<Item = ::models::StoragepoolNodepoolsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolNodepoolsExtended, Error = Error>>;
     fn list_storagepool_tiers(
         &self,
-    ) -> Box<Future<Item = ::models::StoragepoolTiersExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolTiersExtended, Error = Error>>;
     fn update_compatibilities_ssd_active_by_id(
         &self,
-        compatibilities_ssd_active_id_params: ::models::CompatibilitiesSsdActiveIdParams,
+        compatibilities_ssd_active_id_params: crate::models::CompatibilitiesSsdActiveIdParams,
         compatibilities_ssd_active_id: &str,
         assess: bool,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_storagepool_nodepool(
         &self,
-        storagepool_nodepool: ::models::StoragepoolNodepool,
+        storagepool_nodepool: crate::models::StoragepoolNodepool,
         storagepool_nodepool_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_storagepool_settings(
         &self,
-        storagepool_settings: ::models::StoragepoolSettingsExtended,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        storagepool_settings: crate::models::StoragepoolSettingsExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_storagepool_tier(
         &self,
-        storagepool_tier: ::models::StoragepoolTier,
+        storagepool_tier: crate::models::StoragepoolTier,
         storagepool_tier_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> StoragepoolApi for StoragepoolApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> StoragepoolApi for StoragepoolApiClient<C> {
     fn create_compatibilities_class_active_item(
         &self,
-        compatibilities_class_active_item: ::models::CompatibilitiesClassActiveItem,
+        compatibilities_class_active_item: crate::models::CompatibilitiesClassActiveItem,
         assess: bool,
-    ) -> Box<Future<Item = ::models::CreateCompatibilitiesClassActiveItemResponse, Error = Error>>
-    {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<
+        dyn Future<
+            Item = crate::models::CreateCompatibilitiesClassActiveItemResponse,
+            Error = Error,
+        >,
+    > {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("assess", &assess.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/storagepool/compatibilities/class/active?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&compatibilities_class_active_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CreateCompatibilitiesClassActiveItemResponse,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &compatibilities_class_active_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_compatibilities_ssd_active_item(
         &self,
-        compatibilities_ssd_active_item: ::models::CompatibilitiesSsdActiveItem,
+        compatibilities_ssd_active_item: crate::models::CompatibilitiesSsdActiveItem,
         assess: bool,
-    ) -> Box<Future<Item = ::models::CreateCompatibilitiesClassActiveItemResponse, Error = Error>>
-    {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<
+        dyn Future<
+            Item = crate::models::CreateCompatibilitiesClassActiveItemResponse,
+            Error = Error,
+        >,
+    > {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("assess", &assess.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/storagepool/compatibilities/ssd/active?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&compatibilities_ssd_active_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CreateCompatibilitiesClassActiveItemResponse,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &compatibilities_ssd_active_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_storagepool_nodepool(
         &self,
-        storagepool_nodepool: ::models::StoragepoolNodepoolCreateParams,
-    ) -> Box<Future<Item = ::models::CreateStoragepoolTierResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        storagepool_nodepool: crate::models::StoragepoolNodepoolCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateStoragepoolTierResponse, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/storagepool/nodepools",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&storagepool_nodepool).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CreateStoragepoolTierResponse,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &storagepool_nodepool,
+            hyper::Method::POST,
         )
     }
 
     fn create_storagepool_tier(
         &self,
-        storagepool_tier: ::models::StoragepoolTierCreateParams,
-    ) -> Box<Future<Item = ::models::CreateStoragepoolTierResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/1/storagepool/tiers", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&storagepool_tier).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CreateStoragepoolTierResponse,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        storagepool_tier: crate::models::StoragepoolTierCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateStoragepoolTierResponse, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/1/storagepool/tiers",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &storagepool_tier,
+            hyper::Method::POST,
         )
     }
 
@@ -336,32 +240,16 @@ impl<C: hyper::client::Connect> StoragepoolApi for StoragepoolApiClient<C> {
         &self,
         compatibilities_class_active_id: &str,
         assess: bool,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("assess", &assess.to_string())
             .finish();
-        let uri_str = format!("{}/platform/1/storagepool/compatibilities/class/active/{CompatibilitiesClassActiveId}?{}", configuration.base_path, query, CompatibilitiesClassActiveId=compatibilities_class_active_id);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        let uri_str = format!("{}/platform/1/storagepool/compatibilities/class/active/{CompatibilitiesClassActiveId}?{}", self.configuration.base_path, q, CompatibilitiesClassActiveId=compatibilities_class_active_id);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -369,417 +257,192 @@ impl<C: hyper::client::Connect> StoragepoolApi for StoragepoolApiClient<C> {
         &self,
         compatibilities_ssd_active_id: &str,
         assess: bool,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("assess", &assess.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/storagepool/compatibilities/ssd/active/{CompatibilitiesSsdActiveId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             CompatibilitiesSsdActiveId = compatibilities_ssd_active_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_storagepool_nodepool(
         &self,
         storagepool_nodepool_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/storagepool/nodepools/{StoragepoolNodepoolId}",
-            configuration.base_path,
+            self.configuration.base_path,
             StoragepoolNodepoolId = storagepool_nodepool_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_storagepool_nodepools(&self) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_storagepool_nodepools(&self) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/storagepool/nodepools",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_storagepool_tier(
         &self,
         storagepool_tier_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/storagepool/tiers/{StoragepoolTierId}",
-            configuration.base_path,
+            self.configuration.base_path,
             StoragepoolTierId = storagepool_tier_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_storagepool_tiers(&self) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let uri_str = format!("{}/platform/1/storagepool/tiers", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+    fn delete_storagepool_tiers(&self) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/1/storagepool/tiers",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn get_compatibilities_class_active_by_id(
         &self,
         compatibilities_class_active_id: &str,
-    ) -> Box<Future<Item = ::models::CompatibilitiesClassActive, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::CompatibilitiesClassActive, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/storagepool/compatibilities/class/active/{CompatibilitiesClassActiveId}",
-            configuration.base_path,
+            self.configuration.base_path,
             CompatibilitiesClassActiveId = compatibilities_class_active_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CompatibilitiesClassActive, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_compatibilities_class_available(
         &self,
-    ) -> Box<Future<Item = ::models::CompatibilitiesClassAvailable, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::CompatibilitiesClassAvailable, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/storagepool/compatibilities/class/available",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CompatibilitiesClassAvailable,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_compatibilities_ssd_active_by_id(
         &self,
         compatibilities_ssd_active_id: &str,
-    ) -> Box<Future<Item = ::models::CompatibilitiesSsdActive, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::CompatibilitiesSsdActive, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/storagepool/compatibilities/ssd/active/{CompatibilitiesSsdActiveId}",
-            configuration.base_path,
+            self.configuration.base_path,
             CompatibilitiesSsdActiveId = compatibilities_ssd_active_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CompatibilitiesSsdActive, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_compatibilities_ssd_available(
         &self,
-    ) -> Box<Future<Item = ::models::CompatibilitiesSsdAvailable, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::CompatibilitiesSsdAvailable, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/storagepool/compatibilities/ssd/available",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CompatibilitiesSsdAvailable,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_storagepool_nodepool(
         &self,
         storagepool_nodepool_id: &str,
-    ) -> Box<Future<Item = ::models::StoragepoolNodepools, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolNodepools, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/storagepool/nodepools/{StoragepoolNodepoolId}",
-            configuration.base_path,
+            self.configuration.base_path,
             StoragepoolNodepoolId = storagepool_nodepool_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::StoragepoolNodepools, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_storagepool_settings(
         &self,
-    ) -> Box<Future<Item = ::models::StoragepoolSettings, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolSettings, Error = Error>> {
         let uri_str = format!(
             "{}/platform/5/storagepool/settings",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::StoragepoolSettings, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_storagepool_status(
         &self,
-    ) -> Box<Future<Item = ::models::StoragepoolStatus, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/1/storagepool/status", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::StoragepoolStatus, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolStatus, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/1/storagepool/status",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -788,466 +451,191 @@ impl<C: hyper::client::Connect> StoragepoolApi for StoragepoolApiClient<C> {
         sort: &str,
         toplevels: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::StoragepoolStoragepools, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolStoragepools, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("toplevels", &toplevels.to_string())
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/storagepool/storagepools?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::StoragepoolStoragepools, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_storagepool_suggested_protection_nid(
         &self,
         storagepool_suggested_protection_nid: &str,
-    ) -> Box<Future<Item = ::models::StoragepoolSuggestedProtection, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolSuggestedProtection, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/storagepool/suggested-protection/{StoragepoolSuggestedProtectionNid}",
-            configuration.base_path,
+            self.configuration.base_path,
             StoragepoolSuggestedProtectionNid = storagepool_suggested_protection_nid
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::StoragepoolSuggestedProtection,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_storagepool_tier(
         &self,
         storagepool_tier_id: &str,
-    ) -> Box<Future<Item = ::models::StoragepoolTiers, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolTiers, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/storagepool/tiers/{StoragepoolTierId}",
-            configuration.base_path,
+            self.configuration.base_path,
             StoragepoolTierId = storagepool_tier_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::StoragepoolTiers, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_storagepool_unprovisioned(
         &self,
-    ) -> Box<Future<Item = ::models::StoragepoolUnprovisioned, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolUnprovisioned, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/storagepool/unprovisioned",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::StoragepoolUnprovisioned, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_compatibilities_class_active(
         &self,
-    ) -> Box<Future<Item = ::models::CompatibilitiesClassActiveExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::CompatibilitiesClassActiveExtended, Error = Error>>
+    {
         let uri_str = format!(
             "{}/platform/1/storagepool/compatibilities/class/active",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CompatibilitiesClassActiveExtended,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_compatibilities_ssd_active(
         &self,
-    ) -> Box<Future<Item = ::models::CompatibilitiesSsdActiveExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::CompatibilitiesSsdActiveExtended, Error = Error>>
+    {
         let uri_str = format!(
             "{}/platform/3/storagepool/compatibilities/ssd/active",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CompatibilitiesSsdActiveExtended,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_storagepool_nodepools(
         &self,
-    ) -> Box<Future<Item = ::models::StoragepoolNodepoolsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolNodepoolsExtended, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/storagepool/nodepools",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::StoragepoolNodepoolsExtended,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_storagepool_tiers(
         &self,
-    ) -> Box<Future<Item = ::models::StoragepoolTiersExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/1/storagepool/tiers", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::StoragepoolTiersExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    ) -> Box<dyn Future<Item = crate::models::StoragepoolTiersExtended, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/1/storagepool/tiers",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn update_compatibilities_ssd_active_by_id(
         &self,
-        compatibilities_ssd_active_id_params: ::models::CompatibilitiesSsdActiveIdParams,
+        compatibilities_ssd_active_id_params: crate::models::CompatibilitiesSsdActiveIdParams,
         compatibilities_ssd_active_id: &str,
         assess: bool,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("assess", &assess.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/storagepool/compatibilities/ssd/active/{CompatibilitiesSsdActiveId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             CompatibilitiesSsdActiveId = compatibilities_ssd_active_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&compatibilities_ssd_active_id_params).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        put(
+            self.configuration.borrow(),
+            &uri_str,
+            &compatibilities_ssd_active_id_params,
         )
     }
 
     fn update_storagepool_nodepool(
         &self,
-        storagepool_nodepool: ::models::StoragepoolNodepool,
+        storagepool_nodepool: crate::models::StoragepoolNodepool,
         storagepool_nodepool_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/storagepool/nodepools/{StoragepoolNodepoolId}",
-            configuration.base_path,
+            self.configuration.base_path,
             StoragepoolNodepoolId = storagepool_nodepool_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&storagepool_nodepool).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &storagepool_nodepool)
     }
 
     fn update_storagepool_settings(
         &self,
-        storagepool_settings: ::models::StoragepoolSettingsExtended,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+        storagepool_settings: crate::models::StoragepoolSettingsExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/5/storagepool/settings",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&storagepool_settings).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &storagepool_settings)
     }
 
     fn update_storagepool_tier(
         &self,
-        storagepool_tier: ::models::StoragepoolTier,
+        storagepool_tier: crate::models::StoragepoolTier,
         storagepool_tier_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/storagepool/tiers/{StoragepoolTierId}",
-            configuration.base_path,
+            self.configuration.base_path,
             StoragepoolTierId = storagepool_tier_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&storagepool_tier).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &storagepool_tier)
     }
 }

@@ -14,5 +14,5 @@ pub struct DrivesDriveFirmwareUpdateNode {
     pub lnn: Option<i32>,
     /// Drive firmware update status information.
     #[serde(rename = "status")]
-    pub status: Option<::models::DrivesDriveFirmwareUpdateNodeStatus>,
+    pub status: Option <crate::models::DrivesDriveFirmwareUpdateNodeStatus>,
 }

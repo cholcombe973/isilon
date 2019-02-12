@@ -6,5 +6,5 @@ pub struct NamespaceMetadata {
     #[serde(rename = "action")]
     pub action: Option<String>,
     #[serde(rename = "attrs")]
-    pub attrs: Option<Vec<::models::NamespaceMetadataAttrs>>,
+    pub attrs: Option<Vec <crate::models::NamespaceMetadataAttrs>>,
 }

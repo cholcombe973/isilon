@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct SnmpSettings {
     /// SNMP settings.
     #[serde(rename = "settings")]
-    pub settings: Option<::models::SnmpSettingsSettings>,
+    pub settings: Option <crate::models::SnmpSettingsSettings>,
 }

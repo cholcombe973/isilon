@@ -6,5 +6,5 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NdmpSessions {
     #[serde(rename = "sessions")]
-    pub sessions: Option<Vec<::models::NdmpSession>>,
+    pub sessions: Option<Vec <crate::models::NdmpSession>>,
 }

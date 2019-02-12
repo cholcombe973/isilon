@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, put, query, Error};
 
-pub struct SnapshotApiClient<C: hyper::client::Connect> {
+pub struct SnapshotApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> SnapshotApiClient<C> {
+impl<C: hyper::client::connect::Connect> SnapshotApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> SnapshotApiClient<C> {
         SnapshotApiClient {
             configuration: configuration,
@@ -33,62 +32,64 @@ impl<C: hyper::client::Connect> SnapshotApiClient<C> {
 pub trait SnapshotApi {
     fn create_snapshot_alias(
         &self,
-        snapshot_alias: ::models::SnapshotAliasCreateParams,
-    ) -> Box<Future<Item = ::models::CreateSnapshotAliasResponse, Error = Error>>;
+        snapshot_alias: crate::models::SnapshotAliasCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotAliasResponse, Error = Error>>;
     fn create_snapshot_changelist(
         &self,
-        snapshot_changelist: ::models::SnapshotChangelists,
-    ) -> Box<Future<Item = ::models::CreateSnapshotChangelistResponse, Error = Error>>;
+        snapshot_changelist: crate::models::SnapshotChangelists,
+    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotChangelistResponse, Error = Error>>;
     fn create_snapshot_repstate(
         &self,
-        snapshot_repstate: ::models::SnapshotRepstates,
-    ) -> Box<Future<Item = ::models::CreateSnapshotRepstateResponse, Error = Error>>;
+        snapshot_repstate: crate::models::SnapshotRepstates,
+    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotRepstateResponse, Error = Error>>;
     fn create_snapshot_schedule(
         &self,
-        snapshot_schedule: ::models::SnapshotScheduleCreateParams,
-    ) -> Box<Future<Item = ::models::CreateSnapshotScheduleResponse, Error = Error>>;
+        snapshot_schedule: crate::models::SnapshotScheduleCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotScheduleResponse, Error = Error>>;
     fn create_snapshot_snapshot(
         &self,
-        snapshot_snapshot: ::models::SnapshotSnapshotCreateParams,
-    ) -> Box<Future<Item = ::models::SnapshotSnapshotExtended, Error = Error>>;
+        snapshot_snapshot: crate::models::SnapshotSnapshotCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::SnapshotSnapshotExtended, Error = Error>>;
     fn delete_snapshot_alias(
         &self,
         snapshot_alias_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_snapshot_aliases(&self) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_snapshot_aliases(&self) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_snapshot_changelist(
         &self,
         snapshot_changelist_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_snapshot_repstate(
         &self,
         snapshot_repstate_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_snapshot_schedule(
         &self,
         snapshot_schedule_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_snapshot_schedules(&self) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_snapshot_schedules(&self) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_snapshot_snapshot(
         &self,
         snapshot_snapshot_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_snapshot_snapshots(
         &self,
         _type: &str,
         schedule: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn get_snapshot_alias(
         &self,
         snapshot_alias_id: &str,
-    ) -> Box<Future<Item = ::models::SnapshotAliases, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SnapshotAliases, Error = Error>>;
     fn get_snapshot_changelist(
         &self,
         snapshot_changelist_id: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SnapshotChangelists, Error = Error>>;
-    fn get_snapshot_license(&self) -> Box<Future<Item = ::models::LicenseLicense, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SnapshotChangelists, Error = Error>>;
+    fn get_snapshot_license(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::LicenseLicense, Error = Error>>;
     fn get_snapshot_pending(
         &self,
         limit: i32,
@@ -96,51 +97,51 @@ pub trait SnapshotApi {
         schedule: &str,
         end: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SnapshotPending, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SnapshotPending, Error = Error>>;
     fn get_snapshot_repstate(
         &self,
         snapshot_repstate_id: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SnapshotRepstates, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SnapshotRepstates, Error = Error>>;
     fn get_snapshot_schedule(
         &self,
         snapshot_schedule_id: &str,
-    ) -> Box<Future<Item = ::models::SnapshotSchedules, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SnapshotSchedules, Error = Error>>;
     fn get_snapshot_settings(
         &self,
-    ) -> Box<Future<Item = ::models::SnapshotSettings, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SnapshotSettings, Error = Error>>;
     fn get_snapshot_snapshot(
         &self,
         snapshot_snapshot_id: &str,
-    ) -> Box<Future<Item = ::models::SnapshotSnapshots, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SnapshotSnapshots, Error = Error>>;
     fn get_snapshot_snapshots_summary(
         &self,
-    ) -> Box<Future<Item = ::models::SnapshotSnapshotsSummary, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SnapshotSnapshotsSummary, Error = Error>>;
     fn list_snapshot_aliases(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SnapshotAliasesExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SnapshotAliasesExtended, Error = Error>>;
     fn list_snapshot_changelists(
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SnapshotChangelistsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SnapshotChangelistsExtended, Error = Error>>;
     fn list_snapshot_repstates(
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SnapshotRepstatesExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SnapshotRepstatesExtended, Error = Error>>;
     fn list_snapshot_schedules(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SnapshotSchedulesExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SnapshotSchedulesExtended, Error = Error>>;
     fn list_snapshot_snapshots(
         &self,
         sort: &str,
@@ -150,454 +151,218 @@ pub trait SnapshotApi {
         limit: i32,
         _type: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::SnapshotSnapshotsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SnapshotSnapshotsExtended, Error = Error>>;
     fn update_snapshot_alias(
         &self,
-        snapshot_alias: ::models::SnapshotAlias,
+        snapshot_alias: crate::models::SnapshotAlias,
         snapshot_alias_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_snapshot_schedule(
         &self,
-        snapshot_schedule: ::models::SnapshotSchedule,
+        snapshot_schedule: crate::models::SnapshotSchedule,
         snapshot_schedule_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_snapshot_settings(
         &self,
-        snapshot_settings: ::models::SnapshotSettingsExtended,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        snapshot_settings: crate::models::SnapshotSettingsExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_snapshot_snapshot(
         &self,
-        snapshot_snapshot: ::models::SnapshotSnapshot,
+        snapshot_snapshot: crate::models::SnapshotSnapshot,
         snapshot_snapshot_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiClient<C> {
     fn create_snapshot_alias(
         &self,
-        snapshot_alias: ::models::SnapshotAliasCreateParams,
-    ) -> Box<Future<Item = ::models::CreateSnapshotAliasResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/1/snapshot/aliases", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&snapshot_alias).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CreateSnapshotAliasResponse,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        snapshot_alias: crate::models::SnapshotAliasCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotAliasResponse, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/1/snapshot/aliases",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &snapshot_alias,
+            hyper::Method::POST,
         )
     }
 
     fn create_snapshot_changelist(
         &self,
-        snapshot_changelist: ::models::SnapshotChangelists,
-    ) -> Box<Future<Item = ::models::CreateSnapshotChangelistResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        snapshot_changelist: crate::models::SnapshotChangelists,
+    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotChangelistResponse, Error = Error>>
+    {
         let uri_str = format!(
             "{}/platform/1/snapshot/changelists",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&snapshot_changelist).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CreateSnapshotChangelistResponse,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &snapshot_changelist,
+            hyper::Method::POST,
         )
     }
 
     fn create_snapshot_repstate(
         &self,
-        snapshot_repstate: ::models::SnapshotRepstates,
-    ) -> Box<Future<Item = ::models::CreateSnapshotRepstateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/1/snapshot/repstates", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&snapshot_repstate).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CreateSnapshotRepstateResponse,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        snapshot_repstate: crate::models::SnapshotRepstates,
+    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotRepstateResponse, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/1/snapshot/repstates",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &snapshot_repstate,
+            hyper::Method::POST,
         )
     }
 
     fn create_snapshot_schedule(
         &self,
-        snapshot_schedule: ::models::SnapshotScheduleCreateParams,
-    ) -> Box<Future<Item = ::models::CreateSnapshotScheduleResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/snapshot/schedules", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&snapshot_schedule).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CreateSnapshotScheduleResponse,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        snapshot_schedule: crate::models::SnapshotScheduleCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotScheduleResponse, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/3/snapshot/schedules",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &snapshot_schedule,
+            hyper::Method::POST,
         )
     }
 
     fn create_snapshot_snapshot(
         &self,
-        snapshot_snapshot: ::models::SnapshotSnapshotCreateParams,
-    ) -> Box<Future<Item = ::models::SnapshotSnapshotExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/1/snapshot/snapshots", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&snapshot_snapshot).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SnapshotSnapshotExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        snapshot_snapshot: crate::models::SnapshotSnapshotCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::SnapshotSnapshotExtended, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/1/snapshot/snapshots",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &snapshot_snapshot,
+            hyper::Method::POST,
         )
     }
 
     fn delete_snapshot_alias(
         &self,
         snapshot_alias_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/snapshot/aliases/{SnapshotAliasId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SnapshotAliasId = snapshot_alias_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_snapshot_aliases(&self) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let uri_str = format!("{}/platform/1/snapshot/aliases", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+    fn delete_snapshot_aliases(&self) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/1/snapshot/aliases",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_snapshot_changelist(
         &self,
         snapshot_changelist_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/snapshot/changelists/{SnapshotChangelistId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SnapshotChangelistId = snapshot_changelist_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_snapshot_repstate(
         &self,
         snapshot_repstate_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/snapshot/repstates/{SnapshotRepstateId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SnapshotRepstateId = snapshot_repstate_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_snapshot_schedule(
         &self,
         snapshot_schedule_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/snapshot/schedules/{SnapshotScheduleId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SnapshotScheduleId = snapshot_schedule_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_snapshot_schedules(&self) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let uri_str = format!("{}/platform/3/snapshot/schedules", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+    fn delete_snapshot_schedules(&self) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/3/snapshot/schedules",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_snapshot_snapshot(
         &self,
         snapshot_snapshot_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/snapshot/snapshots/{SnapshotSnapshotId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SnapshotSnapshotId = snapshot_snapshot_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -605,74 +370,37 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
         &self,
         _type: &str,
         schedule: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("type", &_type.to_string())
             .append_pair("schedule", &schedule.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/snapshot/snapshots?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn get_snapshot_alias(
         &self,
         snapshot_alias_id: &str,
-    ) -> Box<Future<Item = ::models::SnapshotAliases, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SnapshotAliases, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/snapshot/aliases/{SnapshotAliasId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SnapshotAliasId = snapshot_alias_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SnapshotAliases, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -681,73 +409,37 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
         snapshot_changelist_id: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SnapshotChangelists, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SnapshotChangelists, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("limit", &limit.to_string())
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/snapshot/changelists/{SnapshotChangelistId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             SnapshotChangelistId = snapshot_changelist_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SnapshotChangelists, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_snapshot_license(&self) -> Box<Future<Item = ::models::LicenseLicense, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/5/snapshot/license", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::LicenseLicense, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn get_snapshot_license(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::LicenseLicense, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/5/snapshot/license",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -758,12 +450,8 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
         schedule: &str,
         end: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SnapshotPending, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SnapshotPending, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("limit", &limit.to_string())
             .append_pair("begin", &begin.to_string())
             .append_pair("schedule", &schedule.to_string())
@@ -772,30 +460,13 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/snapshot/pending?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SnapshotPending, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -804,188 +475,86 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
         snapshot_repstate_id: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SnapshotRepstates, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SnapshotRepstates, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("limit", &limit.to_string())
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/snapshot/repstates/{SnapshotRepstateId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             SnapshotRepstateId = snapshot_repstate_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SnapshotRepstates, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_snapshot_schedule(
         &self,
         snapshot_schedule_id: &str,
-    ) -> Box<Future<Item = ::models::SnapshotSchedules, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SnapshotSchedules, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/snapshot/schedules/{SnapshotScheduleId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SnapshotScheduleId = snapshot_schedule_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SnapshotSchedules, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_snapshot_settings(
         &self,
-    ) -> Box<Future<Item = ::models::SnapshotSettings, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/1/snapshot/settings", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SnapshotSettings, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    ) -> Box<dyn Future<Item = crate::models::SnapshotSettings, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/1/snapshot/settings",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_snapshot_snapshot(
         &self,
         snapshot_snapshot_id: &str,
-    ) -> Box<Future<Item = ::models::SnapshotSnapshots, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SnapshotSnapshots, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/snapshot/snapshots/{SnapshotSnapshotId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SnapshotSnapshotId = snapshot_snapshot_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SnapshotSnapshots, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_snapshot_snapshots_summary(
         &self,
-    ) -> Box<Future<Item = ::models::SnapshotSnapshotsSummary, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SnapshotSnapshotsSummary, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/snapshot/snapshots-summary",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SnapshotSnapshotsSummary, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -995,12 +564,8 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SnapshotAliasesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SnapshotAliasesExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
@@ -1008,30 +573,13 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/snapshot/aliases?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SnapshotAliasesExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -1039,43 +587,20 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SnapshotChangelistsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SnapshotChangelistsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("limit", &limit.to_string())
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/snapshot/changelists?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::SnapshotChangelistsExtended,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -1083,41 +608,20 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SnapshotRepstatesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SnapshotRepstatesExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("limit", &limit.to_string())
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/snapshot/repstates?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SnapshotRepstatesExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -1127,12 +631,8 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SnapshotSchedulesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SnapshotSchedulesExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
@@ -1140,30 +640,13 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/snapshot/schedules?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SnapshotSchedulesExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -1176,12 +659,8 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
         limit: i32,
         _type: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::SnapshotSnapshotsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SnapshotSnapshotsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("schedule", &schedule.to_string())
             .append_pair("resume", &resume.to_string())
@@ -1192,185 +671,63 @@ impl<C: hyper::client::Connect> SnapshotApi for SnapshotApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/snapshot/snapshots?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SnapshotSnapshotsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn update_snapshot_alias(
         &self,
-        snapshot_alias: ::models::SnapshotAlias,
+        snapshot_alias: crate::models::SnapshotAlias,
         snapshot_alias_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/1/snapshot/aliases/{SnapshotAliasId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SnapshotAliasId = snapshot_alias_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&snapshot_alias).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &snapshot_alias)
     }
 
     fn update_snapshot_schedule(
         &self,
-        snapshot_schedule: ::models::SnapshotSchedule,
+        snapshot_schedule: crate::models::SnapshotSchedule,
         snapshot_schedule_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/3/snapshot/schedules/{SnapshotScheduleId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SnapshotScheduleId = snapshot_schedule_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&snapshot_schedule).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &snapshot_schedule)
     }
 
     fn update_snapshot_settings(
         &self,
-        snapshot_settings: ::models::SnapshotSettingsExtended,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!("{}/platform/1/snapshot/settings", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&snapshot_settings).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        snapshot_settings: crate::models::SnapshotSettingsExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
+            "{}/platform/1/snapshot/settings",
+            self.configuration.base_path
+        );
+        put(self.configuration.borrow(), &uri, &snapshot_settings)
     }
 
     fn update_snapshot_snapshot(
         &self,
-        snapshot_snapshot: ::models::SnapshotSnapshot,
+        snapshot_snapshot: crate::models::SnapshotSnapshot,
         snapshot_snapshot_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/1/snapshot/snapshots/{SnapshotSnapshotId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SnapshotSnapshotId = snapshot_snapshot_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&snapshot_snapshot).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &snapshot_snapshot)
     }
 }

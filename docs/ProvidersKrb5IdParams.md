@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**keytab_entries** | [**Vec<::models::ProvidersKrb5IdParamsKeytabEntry>**](ProvidersKrb5IdParamsKeytabEntry.md) | Specifies the key information for the Kerberos SPNs. | [optional] [default to null]
+**keytab_entries** | [**Vec <crate::models::ProvidersKrb5IdParamsKeytabEntry>**](ProvidersKrb5IdParamsKeytabEntry.md) | Specifies the key information for the Kerberos SPNs. | [optional] [default to null]
 **keytab_file** | **String** | Specifies the path to a keytab file to import. | [optional] [default to null]
 **manual_keying** | **bool** | If true, keys are managed manually. If false, keys are managed through kadmin. | [optional] [default to null]
 **name** | **String** | Specifies the Kerberos provider name. | [optional] [default to null]

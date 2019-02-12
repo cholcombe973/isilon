@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 
 # **get_dedupe_dedupe_summary**
-> ::models::DedupeDedupeSummary get_dedupe_dedupe_summary(ctx, )
+>crate::models::DedupeDedupeSummary get_dedupe_dedupe_summary(ctx, )
 
 
 Return summary information about dedupe.
@@ -36,7 +36,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_dedupe_report**
-> ::models::DedupeReports get_dedupe_report(ctx, dedupe_report_id, optional)
+>crate::models::DedupeReports get_dedupe_report(ctx, dedupe_report_id, optional)
 
 
 Retrieve a report for a single dedupe job.
@@ -73,7 +73,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_dedupe_reports**
-> ::models::DedupeReportsExtended get_dedupe_reports(ctx, optional)
+>crate::models::DedupeReportsExtended get_dedupe_reports(ctx, optional)
 
 
 List dedupe reports.
@@ -115,7 +115,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_dedupe_settings**
-> ::models::DedupeSettings get_dedupe_settings(ctx, )
+>crate::models::DedupeSettings get_dedupe_settings(ctx, )
 
 
 Retrieve the dedupe settings.

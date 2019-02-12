@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct CloudSettings {
     ///
     #[serde(rename = "settings")]
-    pub settings: Option<::models::CloudSettingsSettings>,
+    pub settings: Option <crate::models::CloudSettingsSettings>,
 }

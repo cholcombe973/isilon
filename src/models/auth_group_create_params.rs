@@ -8,7 +8,7 @@ pub struct AuthGroupCreateParams {
     pub gid: Option<i32>,
     /// Specifies the members of the group.
     #[serde(rename = "members")]
-    pub members: Option<Vec<::models::AuthAccessAccessItemFileGroup>>,
+    pub members: Option<Vec <crate::models::AuthAccessAccessItemFileGroup>>,
     /// Specifies the group name.
     #[serde(rename = "name")]
     pub name: String,

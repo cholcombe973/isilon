@@ -5,13 +5,13 @@ use serde_json::Value;
 pub struct JobStatisticsJobNode {
     ///
     #[serde(rename = "cpu")]
-    pub cpu: ::models::JobStatisticsJobNodeCpu,
+    pub cpu:crate::models::JobStatisticsJobNodeCpu,
     ///
     #[serde(rename = "io")]
-    pub io: ::models::JobStatisticsJobNodeIo,
+    pub io:crate::models::JobStatisticsJobNodeIo,
     ///
     #[serde(rename = "memory")]
-    pub memory: ::models::JobStatisticsJobNodeMemory,
+    pub memory:crate::models::JobStatisticsJobNodeMemory,
     /// The devid of the node.
     #[serde(rename = "node")]
     pub node: i32,
@@ -22,5 +22,5 @@ pub struct JobStatisticsJobNode {
     #[serde(rename = "total_workers")]
     pub total_workers: i32,
     #[serde(rename = "workers")]
-    pub workers: Vec<::models::JobStatisticsJobNodeWorker>,
+    pub workers: Vec <crate::models::JobStatisticsJobNodeWorker>,
 }

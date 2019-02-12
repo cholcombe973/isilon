@@ -10,7 +10,7 @@ pub struct ProvidersKrb5Item {
     pub groupnet: Option<String>,
     /// Specifies the key information for the Kerberos SPN.
     #[serde(rename = "keytab_entries")]
-    pub keytab_entries: Option<Vec<::models::ProvidersKrb5IdParamsKeytabEntry>>,
+    pub keytab_entries: Option<Vec <crate::models::ProvidersKrb5IdParamsKeytabEntry>>,
     /// Specifies the path to a keytab file to import.
     #[serde(rename = "keytab_file")]
     pub keytab_file: Option<String>,

@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **get_zones_summary**
-> ::models::ZonesSummaryExtended get_zones_summary(ctx, optional)
+>crate::models::ZonesSummaryExtended get_zones_summary(ctx, optional)
 
 
 Retrieve access zone summary information.
@@ -44,7 +44,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_zones_summary_zone**
-> ::models::ZonesSummary get_zones_summary_zone(ctx, zones_summary_zone)
+>crate::models::ZonesSummary get_zones_summary_zone(ctx, zones_summary_zone)
 
 
 Retrieve non-privileged access zone information.

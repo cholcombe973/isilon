@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct SnapshotSettings {
     ///
     #[serde(rename = "settings")]
-    pub settings: Option<::models::SnapshotSettingsSettings>,
+    pub settings: Option <crate::models::SnapshotSettingsSettings>,
 }

@@ -4,7 +4,7 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct JobEvents {
     #[serde(rename = "events")]
-    pub events: Option<Vec<::models::JobEvent>>,
+    pub events: Option<Vec <crate::models::JobEvent>>,
     /// Continue returning results from previous call using this token (token should come from the previous call, resume cannot be used with other options).
     #[serde(rename = "resume")]
     pub resume: Option<String>,

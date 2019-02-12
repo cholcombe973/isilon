@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**types** | [**Vec<::models::JobTypeExtended>**](JobTypeExtended.md) |  | [optional] [default to null]
+**types** | [**Vec <crate::models::JobTypeExtended>**](JobTypeExtended.md) |  | [optional] [default to null]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

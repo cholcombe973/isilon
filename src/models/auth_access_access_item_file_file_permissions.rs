@@ -21,7 +21,7 @@ pub struct AuthAccessAccessItemFileFilePermissions {
     /// Specifies a list of the relevant Access Control Entrieswith respect to the user in the share.
     #[serde(rename = "relevant_aces")]
     pub relevant_aces:
-        Option<Vec<::models::AuthAccessAccessItemShareSharePermissionsShareRelevantAce>>,
+        Option<Vec <crate::models::AuthAccessAccessItemShareSharePermissionsShareRelevantAce>>,
     /// Specifies the mode bits that are related to the user.
     #[serde(rename = "relevant_mode")]
     pub relevant_mode: Option<String>,

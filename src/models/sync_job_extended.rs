@@ -128,10 +128,10 @@ pub struct SyncJobExtended {
     pub num_retransmitted_files: u64,
     /// Data for each phase of this job.
     #[serde(rename = "phases")]
-    pub phases: Vec<::models::SyncJobPhase>,
+    pub phases: Vec <crate::models::SyncJobPhase>,
     /// The policy associated with this job, or null if there is currently no policy associated with this job (this can happen if the job is newly created and not yet fully populated in the underlying database).
     #[serde(rename = "policy")]
-    pub policy: Option<::models::SyncJobPolicy>,
+    pub policy: Option <crate::models::SyncJobPolicy>,
     /// This is the action the policy is configured to perform.
     #[serde(rename = "policy_action")]
     pub policy_action: String,
@@ -263,5 +263,5 @@ pub struct SyncJobExtended {
     pub warnings: Vec<String>,
     /// A list of workers for this job.
     #[serde(rename = "workers")]
-    pub workers: Vec<::models::SyncJobWorker>,
+    pub workers: Vec <crate::models::SyncJobWorker>,
 }

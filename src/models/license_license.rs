@@ -29,5 +29,5 @@ pub struct LicenseLicense {
     pub status: String,
     /// Tiered License details.
     #[serde(rename = "tiers")]
-    pub tiers: Vec<::models::LicenseLicenseTier>,
+    pub tiers: Vec <crate::models::LicenseLicenseTier>,
 }

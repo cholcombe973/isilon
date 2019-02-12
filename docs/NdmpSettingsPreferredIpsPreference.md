@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**data_subnets** | [**Vec<::models::NdmpSettingsPreferredIpDataSubnet>**](NdmpSettingsPreferredIpDataSubnet.md) |  | [optional] [default to null]
+**data_subnets** | [**Vec <crate::models::NdmpSettingsPreferredIpDataSubnet>**](NdmpSettingsPreferredIpDataSubnet.md) |  | [optional] [default to null]
 **id** | **String** | The unique display id, same as scope | [optional] [default to null]
 **scope** | **String** | Either cluster or a network subnet defined in OneFS. | [optional] [default to null]
 

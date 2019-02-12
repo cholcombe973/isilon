@@ -5,8 +5,8 @@ use serde_json::Value;
 pub struct JobStatisticsJobNodeMemory {
     ///
     #[serde(rename = "physical")]
-    pub physical: ::models::JobStatisticsJobNodeMemoryPhysical,
+    pub physical:crate::models::JobStatisticsJobNodeMemoryPhysical,
     ///
     #[serde(rename = "virtual")]
-    pub _virtual: ::models::JobStatisticsJobNodeMemoryVirtual,
+    pub _virtual:crate::models::JobStatisticsJobNodeMemoryVirtual,
 }

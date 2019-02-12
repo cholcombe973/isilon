@@ -6,7 +6,7 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NdmpDumpdates {
     #[serde(rename = "dumpdates")]
-    pub dumpdates: Option<Vec<::models::NdmpDumpdate>>,
+    pub dumpdates: Option<Vec <crate::models::NdmpDumpdate>>,
     /// Resume string returned by previous query.
     #[serde(rename = "resume")]
     pub resume: Option<String>,

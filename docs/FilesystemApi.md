@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **get_settings_access_time**
-> ::models::SettingsAccessTime get_settings_access_time(ctx, )
+>crate::models::SettingsAccessTime get_settings_access_time(ctx, )
 
 
 Retrieve settings for access time.
@@ -35,7 +35,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_settings_character_encodings**
-> ::models::SettingsCharacterEncodings get_settings_character_encodings(ctx, )
+>crate::models::SettingsCharacterEncodings get_settings_character_encodings(ctx, )
 
 
 Retrieve current cluster character encoding settings.

@@ -7,7 +7,7 @@ pub struct JobPolicyExtended {
     #[serde(rename = "description")]
     pub description: String,
     #[serde(rename = "intervals")]
-    pub intervals: Vec<::models::JobPolicyInterval>,
+    pub intervals: Vec <crate::models::JobPolicyInterval>,
     /// The ID of the impact policy.
     #[serde(rename = "id")]
     pub id: String,

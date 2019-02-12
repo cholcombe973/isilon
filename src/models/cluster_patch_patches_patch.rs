@@ -17,7 +17,7 @@ pub struct ClusterPatchPatchesPatch {
     pub description: Option<String>,
     /// The files contained in this patch.
     #[serde(rename = "files")]
-    pub files: Option<Vec<::models::ClusterPatchPatchesPatchFile>>,
+    pub files: Option<Vec <crate::models::ClusterPatchPatchesPatchFile>>,
     /// A unique identifier for the patch.
     #[serde(rename = "id")]
     pub id: Option<String>,
@@ -32,7 +32,7 @@ pub struct ClusterPatchPatchesPatch {
     pub reboot: Option<String>,
     /// The services affected during the patch deployment
     #[serde(rename = "services")]
-    pub services: Option<Vec<::models::ClusterPatchPatchesPatchService>>,
+    pub services: Option<Vec <crate::models::ClusterPatchPatchesPatchService>>,
     /// The intallation status of this patch on the cluster.
     #[serde(rename = "status")]
     pub status: Option<String>,

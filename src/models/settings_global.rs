@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct SettingsGlobal {
     /// Specifies the properties for global authentication settings.
     #[serde(rename = "global_settings")]
-    pub global_settings: Option<::models::SettingsGlobalGlobalSettings>,
+    pub global_settings: Option <crate::models::SettingsGlobalGlobalSettings>,
 }

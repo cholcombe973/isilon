@@ -10,5 +10,5 @@ pub struct NfsNlmWaiters {
     #[serde(rename = "total")]
     pub total: Option<i32>,
     #[serde(rename = "waiters")]
-    pub waiters: Option<Vec<::models::NfsNlmLocksLock>>,
+    pub waiters: Option<Vec <crate::models::NfsNlmLocksLock>>,
 }

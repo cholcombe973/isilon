@@ -38,7 +38,7 @@ Method | HTTP request | Description
 
 
 # **create_snapshot_alias**
-> ::models::CreateSnapshotAliasResponse create_snapshot_alias(ctx, snapshot_alias)
+>crate::models::CreateSnapshotAliasResponse create_snapshot_alias(ctx, snapshot_alias)
 
 
 Create a new snapshot alias.
@@ -66,7 +66,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_snapshot_changelist**
-> ::models::CreateSnapshotChangelistResponse create_snapshot_changelist(ctx, snapshot_changelist)
+>crate::models::CreateSnapshotChangelistResponse create_snapshot_changelist(ctx, snapshot_changelist)
 
 
 Create a new changelist.
@@ -94,7 +94,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_snapshot_repstate**
-> ::models::CreateSnapshotRepstateResponse create_snapshot_repstate(ctx, snapshot_repstate)
+>crate::models::CreateSnapshotRepstateResponse create_snapshot_repstate(ctx, snapshot_repstate)
 
 
 Create a new repstates.
@@ -122,7 +122,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_snapshot_schedule**
-> ::models::CreateSnapshotScheduleResponse create_snapshot_schedule(ctx, snapshot_schedule)
+>crate::models::CreateSnapshotScheduleResponse create_snapshot_schedule(ctx, snapshot_schedule)
 
 
 Create a new schedule.
@@ -150,7 +150,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_snapshot_snapshot**
-> ::models::SnapshotSnapshotExtended create_snapshot_snapshot(ctx, snapshot_snapshot)
+>crate::models::SnapshotSnapshotExtended create_snapshot_snapshot(ctx, snapshot_snapshot)
 
 
 Create a new snapshot.
@@ -402,7 +402,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_snapshot_alias**
-> ::models::SnapshotAliases get_snapshot_alias(ctx, snapshot_alias_id)
+>crate::models::SnapshotAliases get_snapshot_alias(ctx, snapshot_alias_id)
 
 
 Retrieve snapshot alias information.
@@ -430,7 +430,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_snapshot_changelist**
-> ::models::SnapshotChangelists get_snapshot_changelist(ctx, snapshot_changelist_id, optional)
+>crate::models::SnapshotChangelists get_snapshot_changelist(ctx, snapshot_changelist_id, optional)
 
 
 Retrieve basic information on a changelist.
@@ -468,7 +468,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_snapshot_license**
-> ::models::LicenseLicense get_snapshot_license(ctx, )
+>crate::models::LicenseLicense get_snapshot_license(ctx, )
 
 
 Retrieve license information.
@@ -492,7 +492,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_snapshot_pending**
-> ::models::SnapshotPending get_snapshot_pending(ctx, optional)
+>crate::models::SnapshotPending get_snapshot_pending(ctx, optional)
 
 
 Return list of snapshots to be taken.
@@ -531,7 +531,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_snapshot_repstate**
-> ::models::SnapshotRepstates get_snapshot_repstate(ctx, snapshot_repstate_id, optional)
+>crate::models::SnapshotRepstates get_snapshot_repstate(ctx, snapshot_repstate_id, optional)
 
 
 Retrieve basic information on a repstate.
@@ -569,7 +569,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_snapshot_schedule**
-> ::models::SnapshotSchedules get_snapshot_schedule(ctx, snapshot_schedule_id)
+>crate::models::SnapshotSchedules get_snapshot_schedule(ctx, snapshot_schedule_id)
 
 
 Retrieve the schedule.
@@ -597,7 +597,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_snapshot_settings**
-> ::models::SnapshotSettings get_snapshot_settings(ctx, )
+>crate::models::SnapshotSettings get_snapshot_settings(ctx, )
 
 
 List all settings
@@ -621,7 +621,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_snapshot_snapshot**
-> ::models::SnapshotSnapshots get_snapshot_snapshot(ctx, snapshot_snapshot_id)
+>crate::models::SnapshotSnapshots get_snapshot_snapshot(ctx, snapshot_snapshot_id)
 
 
 Retrieve snapshot information.
@@ -649,7 +649,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_snapshot_snapshots_summary**
-> ::models::SnapshotSnapshotsSummary get_snapshot_snapshots_summary(ctx, )
+>crate::models::SnapshotSnapshotsSummary get_snapshot_snapshots_summary(ctx, )
 
 
 Return summary information about snapshots.
@@ -673,7 +673,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_snapshot_aliases**
-> ::models::SnapshotAliasesExtended list_snapshot_aliases(ctx, optional)
+>crate::models::SnapshotAliasesExtended list_snapshot_aliases(ctx, optional)
 
 
 List all or matching snapshot aliases.
@@ -711,7 +711,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_snapshot_changelists**
-> ::models::SnapshotChangelistsExtended list_snapshot_changelists(ctx, optional)
+>crate::models::SnapshotChangelistsExtended list_snapshot_changelists(ctx, optional)
 
 
 List all changelists.
@@ -747,7 +747,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_snapshot_repstates**
-> ::models::SnapshotRepstatesExtended list_snapshot_repstates(ctx, optional)
+>crate::models::SnapshotRepstatesExtended list_snapshot_repstates(ctx, optional)
 
 
 List all repstates.
@@ -783,7 +783,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_snapshot_schedules**
-> ::models::SnapshotSchedulesExtended list_snapshot_schedules(ctx, optional)
+>crate::models::SnapshotSchedulesExtended list_snapshot_schedules(ctx, optional)
 
 
 List all or matching schedules.
@@ -821,7 +821,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_snapshot_snapshots**
-> ::models::SnapshotSnapshotsExtended list_snapshot_snapshots(ctx, optional)
+>crate::models::SnapshotSnapshotsExtended list_snapshot_snapshots(ctx, optional)
 
 
 List all or matching snapshots.

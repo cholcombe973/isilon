@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **get_changelist_lin**
-> ::models::ChangelistLins get_changelist_lin(ctx, changelist_lin_id, changelist, optional)
+>crate::models::ChangelistLins get_changelist_lin(ctx, changelist_lin_id, changelist, optional)
 
 
 Get a single entry from the changelist.
@@ -49,7 +49,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_changelist_lins**
-> ::models::ChangelistLinsExtended get_changelist_lins(ctx, changelist, optional)
+>crate::models::ChangelistLinsExtended get_changelist_lins(ctx, changelist, optional)
 
 
 Get entries from a changelist.

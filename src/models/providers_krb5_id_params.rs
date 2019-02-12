@@ -7,7 +7,7 @@ use serde_json::Value;
 pub struct ProvidersKrb5IdParams {
     /// Specifies the key information for the Kerberos SPNs.
     #[serde(rename = "keytab_entries")]
-    pub keytab_entries: Option<Vec<::models::ProvidersKrb5IdParamsKeytabEntry>>,
+    pub keytab_entries: Option<Vec <crate::models::ProvidersKrb5IdParamsKeytabEntry>>,
     /// Specifies the path to a keytab file to import.
     #[serde(rename = "keytab_file")]
     pub keytab_file: Option<String>,

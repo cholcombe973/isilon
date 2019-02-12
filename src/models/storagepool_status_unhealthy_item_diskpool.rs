@@ -5,7 +5,7 @@ use serde_json::Value;
 pub struct StoragepoolStatusUnhealthyItemDiskpool {
     /// The drives that are part of this disk pool.
     #[serde(rename = "drives")]
-    pub drives: Vec<::models::StoragepoolStatusUnprovisionedItem>,
+    pub drives: Vec <crate::models::StoragepoolStatusUnprovisionedItem>,
     /// The system ID given to the disk pool.
     #[serde(rename = "id")]
     pub id: i32,
@@ -20,5 +20,5 @@ pub struct StoragepoolStatusUnhealthyItemDiskpool {
     pub protection_policy: String,
     /// The SSDs that are part of this disk pool.
     #[serde(rename = "ssd_drives")]
-    pub ssd_drives: Vec<::models::StoragepoolStatusUnprovisionedItem>,
+    pub ssd_drives: Vec <crate::models::StoragepoolStatusUnprovisionedItem>,
 }

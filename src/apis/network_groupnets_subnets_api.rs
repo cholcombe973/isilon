@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, put, query, Error};
 
-pub struct NetworkGroupnetsSubnetsApiClient<C: hyper::client::Connect> {
+pub struct NetworkGroupnetsSubnetsApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> NetworkGroupnetsSubnetsApiClient<C> {
+impl<C: hyper::client::connect::Connect> NetworkGroupnetsSubnetsApiClient<C> {
     pub fn new(
         configuration: Rc<configuration::Configuration<C>>,
     ) -> NetworkGroupnetsSubnetsApiClient<C> {
@@ -35,39 +34,39 @@ impl<C: hyper::client::Connect> NetworkGroupnetsSubnetsApiClient<C> {
 pub trait NetworkGroupnetsSubnetsApi {
     fn create_pools_pool_rebalance_ip(
         &self,
-        pools_pool_rebalance_ip: ::models::Empty,
+        pools_pool_rebalance_ip: crate::models::Empty,
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_pools_pool_rule(
         &self,
-        pools_pool_rule: ::models::PoolsPoolRuleCreateParams,
+        pools_pool_rule: crate::models::PoolsPoolRuleCreateParams,
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_pools_pool_sc_resume_node(
         &self,
-        pools_pool_sc_resume_node: ::models::PoolsPoolScResumeNode,
+        pools_pool_sc_resume_node: crate::models::PoolsPoolScResumeNode,
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_pools_pool_sc_suspend_node(
         &self,
-        pools_pool_sc_suspend_node: ::models::PoolsPoolScResumeNode,
+        pools_pool_sc_suspend_node: crate::models::PoolsPoolScResumeNode,
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn delete_pools_pool_rule(
         &self,
         pools_pool_rule_id: &str,
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn get_pools_pool_interfaces(
         &self,
         groupnet: &str,
@@ -78,14 +77,14 @@ pub trait NetworkGroupnetsSubnetsApi {
         limit: i32,
         dir: &str,
         lnns: &str,
-    ) -> Box<Future<Item = ::models::PoolsPoolInterfaces, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::PoolsPoolInterfaces, Error = Error>>;
     fn get_pools_pool_rule(
         &self,
         pools_pool_rule_id: &str,
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<Future<Item = ::models::PoolsPoolRules, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::PoolsPoolRules, Error = Error>>;
     fn list_pools_pool_rules(
         &self,
         groupnet: &str,
@@ -95,189 +94,87 @@ pub trait NetworkGroupnetsSubnetsApi {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::PoolsPoolRulesExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::PoolsPoolRulesExtended, Error = Error>>;
     fn update_pools_pool_rule(
         &self,
-        pools_pool_rule: ::models::PoolsPoolRule,
+        pools_pool_rule: crate::models::PoolsPoolRule,
         pools_pool_rule_id: &str,
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> NetworkGroupnetsSubnetsApi for NetworkGroupnetsSubnetsApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsSubnetsApi
+    for NetworkGroupnetsSubnetsApiClient<C>
+{
     fn create_pools_pool_rebalance_ip(
         &self,
-        pools_pool_rebalance_ip: ::models::Empty,
+        pools_pool_rebalance_ip: crate::models::Empty,
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/rebalance-ips", configuration.base_path, Groupnet=groupnet, Subnet=subnet, Pool=pool);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&pools_pool_rebalance_ip).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/rebalance-ips" , self.configuration.base_path, Groupnet=groupnet, Subnet=subnet, Pool=pool);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &pools_pool_rebalance_ip,
+            hyper::Method::POST,
         )
     }
 
     fn create_pools_pool_rule(
         &self,
-        pools_pool_rule: ::models::PoolsPoolRuleCreateParams,
+        pools_pool_rule: crate::models::PoolsPoolRuleCreateParams,
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/rules",
-            configuration.base_path,
+            self.configuration.base_path,
             Groupnet = groupnet,
             Subnet = subnet,
             Pool = pool
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&pools_pool_rule).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &pools_pool_rule,
+            hyper::Method::POST,
         )
     }
 
     fn create_pools_pool_sc_resume_node(
         &self,
-        pools_pool_sc_resume_node: ::models::PoolsPoolScResumeNode,
+        pools_pool_sc_resume_node: crate::models::PoolsPoolScResumeNode,
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/sc-resume-nodes", configuration.base_path, Groupnet=groupnet, Subnet=subnet, Pool=pool);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&pools_pool_sc_resume_node).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/sc-resume-nodes" , self.configuration.base_path, Groupnet=groupnet, Subnet=subnet, Pool=pool);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &pools_pool_sc_resume_node,
+            hyper::Method::POST,
         )
     }
 
     fn create_pools_pool_sc_suspend_node(
         &self,
-        pools_pool_sc_suspend_node: ::models::PoolsPoolScResumeNode,
+        pools_pool_sc_suspend_node: crate::models::PoolsPoolScResumeNode,
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/sc-suspend-nodes", configuration.base_path, Groupnet=groupnet, Subnet=subnet, Pool=pool);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&pools_pool_sc_suspend_node).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/sc-suspend-nodes" , self.configuration.base_path, Groupnet=groupnet, Subnet=subnet, Pool=pool);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &pools_pool_sc_suspend_node,
+            hyper::Method::POST,
         )
     }
 
@@ -287,29 +184,13 @@ impl<C: hyper::client::Connect> NetworkGroupnetsSubnetsApi for NetworkGroupnetsS
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/rules/{PoolsPoolRuleId}", configuration.base_path, PoolsPoolRuleId=pools_pool_rule_id, Groupnet=groupnet, Subnet=subnet, Pool=pool);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/rules/{PoolsPoolRuleId}" , self.configuration.base_path, PoolsPoolRuleId=pools_pool_rule_id, Groupnet=groupnet, Subnet=subnet, Pool=pool);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -323,12 +204,8 @@ impl<C: hyper::client::Connect> NetworkGroupnetsSubnetsApi for NetworkGroupnetsS
         limit: i32,
         dir: &str,
         lnns: &str,
-    ) -> Box<Future<Item = ::models::PoolsPoolInterfaces, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::PoolsPoolInterfaces, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("resume", &resume.to_string())
             .append_pair("limit", &limit.to_string())
@@ -337,34 +214,17 @@ impl<C: hyper::client::Connect> NetworkGroupnetsSubnetsApi for NetworkGroupnetsS
             .finish();
         let uri_str = format!(
             "{}/platform/4/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/interfaces?{}",
-            configuration.base_path,
-            query,
+           self.configuration.base_path,
+            q,
             Groupnet = groupnet,
             Subnet = subnet,
             Pool = pool
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::PoolsPoolInterfaces, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -374,33 +234,13 @@ impl<C: hyper::client::Connect> NetworkGroupnetsSubnetsApi for NetworkGroupnetsS
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<Future<Item = ::models::PoolsPoolRules, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/rules/{PoolsPoolRuleId}", configuration.base_path, PoolsPoolRuleId=pools_pool_rule_id, Groupnet=groupnet, Subnet=subnet, Pool=pool);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::PoolsPoolRules, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    ) -> Box<dyn Future<Item = crate::models::PoolsPoolRules, Error = Error>> {
+        let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/rules/{PoolsPoolRuleId}" , self.configuration.base_path, PoolsPoolRuleId=pools_pool_rule_id, Groupnet=groupnet, Subnet=subnet, Pool=pool);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -413,12 +253,8 @@ impl<C: hyper::client::Connect> NetworkGroupnetsSubnetsApi for NetworkGroupnetsS
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::PoolsPoolRulesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::PoolsPoolRulesExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
@@ -426,73 +262,29 @@ impl<C: hyper::client::Connect> NetworkGroupnetsSubnetsApi for NetworkGroupnetsS
             .finish();
         let uri_str = format!(
             "{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/rules?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             Groupnet = groupnet,
             Subnet = subnet,
             Pool = pool
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::PoolsPoolRulesExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn update_pools_pool_rule(
         &self,
-        pools_pool_rule: ::models::PoolsPoolRule,
+        pools_pool_rule: crate::models::PoolsPoolRule,
         pools_pool_rule_id: &str,
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/rules/{PoolsPoolRuleId}", configuration.base_path, PoolsPoolRuleId=pools_pool_rule_id, Groupnet=groupnet, Subnet=subnet, Pool=pool);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&pools_pool_rule).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/rules/{PoolsPoolRuleId}" , self.configuration.base_path, PoolsPoolRuleId=pools_pool_rule_id, Groupnet=groupnet, Subnet=subnet, Pool=pool);
+        put(self.configuration.borrow(), &uri_str, &pools_pool_rule)
     }
 }

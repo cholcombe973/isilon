@@ -19,7 +19,7 @@ pub struct NdmpContextsBre {
     pub create_time: Option<i32>,
     /// List of environment variables for restartable backup
     #[serde(rename = "env_variables")]
-    pub env_variables: Option<Vec<::models::NdmpContextsBreEnvVariable>>,
+    pub env_variables: Option<Vec <crate::models::NdmpContextsBreEnvVariable>>,
     /// Unique display id.
     #[serde(rename = "id")]
     pub id: Option<String>,

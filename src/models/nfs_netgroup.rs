@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct NfsNetgroup {
     /// NFS netgroup cache settings.
     #[serde(rename = "settings")]
-    pub settings: Option<::models::NfsNetgroupSettings>,
+    pub settings: Option <crate::models::NfsNetgroupSettings>,
 }

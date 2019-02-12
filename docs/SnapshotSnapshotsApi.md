@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **create_snapshot_lock**
-> ::models::CreateSnapshotLockResponse create_snapshot_lock(ctx, snapshot_lock, sid)
+>crate::models::CreateSnapshotLockResponse create_snapshot_lock(ctx, snapshot_lock, sid)
 
 
 Create a new lock on this snapshot.
@@ -99,7 +99,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_snapshot_lock**
-> ::models::SnapshotLocks get_snapshot_lock(ctx, snapshot_lock_id, sid)
+>crate::models::SnapshotLocks get_snapshot_lock(ctx, snapshot_lock_id, sid)
 
 
 Retrieve lock information.
@@ -128,7 +128,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_snapshot_locks**
-> ::models::SnapshotLocksExtended list_snapshot_locks(ctx, sid, optional)
+>crate::models::SnapshotLocksExtended list_snapshot_locks(ctx, sid, optional)
 
 
 List all locks.

@@ -44,7 +44,7 @@ pub struct EventEventgroupOccurrencesEventgroup {
     pub severity: Option<String>,
     /// A collection of parameters defined per eventgroup_id.
     #[serde(rename = "specifier")]
-    pub specifier: Option<::models::Empty>,
+    pub specifier: Option <crate::models::Empty>,
     /// Time of first event linked to this eventgroup.
     #[serde(rename = "time_noticed")]
     pub time_noticed: Option<i32>,

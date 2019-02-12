@@ -7,7 +7,7 @@ pub struct FilepoolTemplates {
     #[serde(rename = "resume")]
     pub resume: Option<String>,
     #[serde(rename = "templates")]
-    pub templates: Option<Vec<::models::FilepoolTemplate>>,
+    pub templates: Option<Vec <crate::models::FilepoolTemplate>>,
     /// Total number of items available.
     #[serde(rename = "total")]
     pub total: Option<i32>,

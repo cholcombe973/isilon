@@ -8,7 +8,7 @@ pub struct CloudSettingsSettingsCloudPolicyDefaults {
     pub archive_snapshot_files: Option<bool>,
     /// Specifies default cloudpool cache settings for new filepool policies.
     #[serde(rename = "cache")]
-    pub cache: Option<::models::CloudSettingsSettingsCloudPolicyDefaultsCache>,
+    pub cache: Option <crate::models::CloudSettingsSettingsCloudPolicyDefaultsCache>,
     /// Specifies if files should be compressed.
     #[serde(rename = "compression")]
     pub compression: Option<bool>,

@@ -36,7 +36,7 @@ Method | HTTP request | Description
 
 
 # **create_compatibilities_class_active_item**
-> ::models::CreateCompatibilitiesClassActiveItemResponse create_compatibilities_class_active_item(ctx, compatibilities_class_active_item, optional)
+>crate::models::CreateCompatibilitiesClassActiveItemResponse create_compatibilities_class_active_item(ctx, compatibilities_class_active_item, optional)
 
 
 Create a new compatibility
@@ -73,7 +73,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_compatibilities_ssd_active_item**
-> ::models::CreateCompatibilitiesClassActiveItemResponse create_compatibilities_ssd_active_item(ctx, compatibilities_ssd_active_item, optional)
+>crate::models::CreateCompatibilitiesClassActiveItemResponse create_compatibilities_ssd_active_item(ctx, compatibilities_ssd_active_item, optional)
 
 
 Create a new ssd compatibility
@@ -110,7 +110,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_storagepool_nodepool**
-> ::models::CreateStoragepoolTierResponse create_storagepool_nodepool(ctx, storagepool_nodepool)
+>crate::models::CreateStoragepoolTierResponse create_storagepool_nodepool(ctx, storagepool_nodepool)
 
 
 Create a new node pool.
@@ -138,7 +138,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_storagepool_tier**
-> ::models::CreateStoragepoolTierResponse create_storagepool_tier(ctx, storagepool_tier)
+>crate::models::CreateStoragepoolTierResponse create_storagepool_tier(ctx, storagepool_tier)
 
 
 Create a new tier.
@@ -344,7 +344,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_compatibilities_class_active_by_id**
-> ::models::CompatibilitiesClassActive get_compatibilities_class_active_by_id(ctx, compatibilities_class_active_id)
+>crate::models::CompatibilitiesClassActive get_compatibilities_class_active_by_id(ctx, compatibilities_class_active_id)
 
 
 Get an active compatibilities by id
@@ -372,7 +372,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_compatibilities_class_available**
-> ::models::CompatibilitiesClassAvailable get_compatibilities_class_available(ctx, )
+>crate::models::CompatibilitiesClassAvailable get_compatibilities_class_available(ctx, )
 
 
 Get a list of available compatibilities
@@ -396,7 +396,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_compatibilities_ssd_active_by_id**
-> ::models::CompatibilitiesSsdActive get_compatibilities_ssd_active_by_id(ctx, compatibilities_ssd_active_id)
+>crate::models::CompatibilitiesSsdActive get_compatibilities_ssd_active_by_id(ctx, compatibilities_ssd_active_id)
 
 
 Get a active ssd compatibilities by id
@@ -424,7 +424,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_compatibilities_ssd_available**
-> ::models::CompatibilitiesSsdAvailable get_compatibilities_ssd_available(ctx, )
+>crate::models::CompatibilitiesSsdAvailable get_compatibilities_ssd_available(ctx, )
 
 
 Get a list of available ssd compatibilities
@@ -448,7 +448,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_storagepool_nodepool**
-> ::models::StoragepoolNodepools get_storagepool_nodepool(ctx, storagepool_nodepool_id)
+>crate::models::StoragepoolNodepools get_storagepool_nodepool(ctx, storagepool_nodepool_id)
 
 
 Retrieve node pool information.
@@ -476,7 +476,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_storagepool_settings**
-> ::models::StoragepoolSettings get_storagepool_settings(ctx, )
+>crate::models::StoragepoolSettings get_storagepool_settings(ctx, )
 
 
 List all storagepool settings.
@@ -500,7 +500,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_storagepool_status**
-> ::models::StoragepoolStatus get_storagepool_status(ctx, )
+>crate::models::StoragepoolStatus get_storagepool_status(ctx, )
 
 
 List any health conditions detected.
@@ -524,7 +524,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_storagepool_storagepools**
-> ::models::StoragepoolStoragepools get_storagepool_storagepools(ctx, optional)
+>crate::models::StoragepoolStoragepools get_storagepool_storagepools(ctx, optional)
 
 
 List all storage pools.
@@ -561,7 +561,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_storagepool_suggested_protection_nid**
-> ::models::StoragepoolSuggestedProtection get_storagepool_suggested_protection_nid(ctx, storagepool_suggested_protection_nid)
+>crate::models::StoragepoolSuggestedProtection get_storagepool_suggested_protection_nid(ctx, storagepool_suggested_protection_nid)
 
 
 Retrieve the suggested protection policy.
@@ -589,7 +589,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_storagepool_tier**
-> ::models::StoragepoolTiers get_storagepool_tier(ctx, storagepool_tier_id)
+>crate::models::StoragepoolTiers get_storagepool_tier(ctx, storagepool_tier_id)
 
 
 Retrieve tier information.
@@ -617,7 +617,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_storagepool_unprovisioned**
-> ::models::StoragepoolUnprovisioned get_storagepool_unprovisioned(ctx, )
+>crate::models::StoragepoolUnprovisioned get_storagepool_unprovisioned(ctx, )
 
 
 Get the unprovisioned nodes and drives
@@ -641,7 +641,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_compatibilities_class_active**
-> ::models::CompatibilitiesClassActiveExtended list_compatibilities_class_active(ctx, )
+>crate::models::CompatibilitiesClassActiveExtended list_compatibilities_class_active(ctx, )
 
 
 Get a list of active compatibilities
@@ -665,7 +665,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_compatibilities_ssd_active**
-> ::models::CompatibilitiesSsdActiveExtended list_compatibilities_ssd_active(ctx, )
+>crate::models::CompatibilitiesSsdActiveExtended list_compatibilities_ssd_active(ctx, )
 
 
 Get a list of active ssd compatibilities
@@ -689,7 +689,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_storagepool_nodepools**
-> ::models::StoragepoolNodepoolsExtended list_storagepool_nodepools(ctx, )
+>crate::models::StoragepoolNodepoolsExtended list_storagepool_nodepools(ctx, )
 
 
 List all node pools.
@@ -713,7 +713,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_storagepool_tiers**
-> ::models::StoragepoolTiersExtended list_storagepool_tiers(ctx, )
+>crate::models::StoragepoolTiersExtended list_storagepool_tiers(ctx, )
 
 
 List all tiers.

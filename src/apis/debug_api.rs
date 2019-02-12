@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, query, Error};
 
-pub struct DebugApiClient<C: hyper::client::Connect> {
+pub struct DebugApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> DebugApiClient<C> {
+impl<C: hyper::client::connect::Connect> DebugApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> DebugApiClient<C> {
         DebugApiClient {
             configuration: configuration,
@@ -31,64 +30,28 @@ impl<C: hyper::client::Connect> DebugApiClient<C> {
 }
 
 pub trait DebugApi {
-    fn delete_debug_stats(&self) -> Box<Future<Item = (), Error = Error>>;
-    fn get_debug_stats(&self) -> Box<Future<Item = ::models::DebugStats, Error = Error>>;
+    fn delete_debug_stats(&self) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn get_debug_stats(&self) -> Box<dyn Future<Item = crate::models::DebugStats, Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> DebugApi for DebugApiClient<C> {
-    fn delete_debug_stats(&self) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let uri_str = format!("{}/platform/1/debug/stats", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+impl<C: hyper::client::connect::Connect + 'static> DebugApi for DebugApiClient<C> {
+    fn delete_debug_stats(&self) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri_str = format!("{}/platform/1/debug/stats", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn get_debug_stats(&self) -> Box<Future<Item = ::models::DebugStats, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/1/debug/stats", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::DebugStats, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn get_debug_stats(&self) -> Box<dyn Future<Item = crate::models::DebugStats, Error = Error>> {
+        let uri_str = format!("{}/platform/1/debug/stats", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 }

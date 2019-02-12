@@ -8,11 +8,11 @@ pub struct NfsSettingsExportSettingsMapAll {
     pub enabled: Option<bool>,
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "primary_group")]
-    pub primary_group: Option<::models::AuthAccessAccessItemFileGroup>,
+    pub primary_group: Option <crate::models::AuthAccessAccessItemFileGroup>,
     /// Specifies persona properties for the secondary user group. A persona consists of either a type and name, or an ID.
     #[serde(rename = "secondary_groups")]
-    pub secondary_groups: Option<Vec<::models::NfsSettingsExportSettingsMapAllSecondaryGroups>>,
+    pub secondary_groups: Option<Vec <crate::models::NfsSettingsExportSettingsMapAllSecondaryGroups>>,
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "user")]
-    pub user: Option<::models::AuthAccessAccessItemFileGroup>,
+    pub user: Option <crate::models::AuthAccessAccessItemFileGroup>,
 }

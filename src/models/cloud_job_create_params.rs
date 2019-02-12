@@ -16,7 +16,7 @@ pub struct CloudJobCreateParams {
     pub expiration_date: Option<i32>,
     /// The file filtering logic to find files for this job. (Only applicable for 'recall' jobs)
     #[serde(rename = "file_matching_pattern")]
-    pub file_matching_pattern: Option<::models::Empty>,
+    pub file_matching_pattern: Option <crate::models::Empty>,
     /// Filenames addressed by this job
     #[serde(rename = "files")]
     pub files: Option<Vec<String>>,

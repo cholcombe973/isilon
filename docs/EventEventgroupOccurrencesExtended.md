@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**eventgroups** | [**Vec<::models::EventEventgroupOccurrencesEventgroup>**](EventEventgroupOccurrencesEventgroup.md) |  | [optional] [default to null]
+**eventgroups** | [**Vec <crate::models::EventEventgroupOccurrencesEventgroup>**](EventEventgroupOccurrencesEventgroup.md) |  | [optional] [default to null]
 **resume** | **String** | Continue returning results from previous call using this token (token should come from the previous call, resume cannot be used with other options). | [optional] [default to null]
 **total** | **i32** | Total number of items available. | [optional] [default to null]
 

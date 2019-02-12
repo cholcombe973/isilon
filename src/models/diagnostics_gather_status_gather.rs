@@ -7,5 +7,5 @@ pub struct DiagnosticsGatherStatusGather {
     pub path: Option<String>,
     ///
     #[serde(rename = "status")]
-    pub status: Option<::models::DiagnosticsGatherStatusGatherStatus>,
+    pub status: Option <crate::models::DiagnosticsGatherStatusGatherStatus>,
 }

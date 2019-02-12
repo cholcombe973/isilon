@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, query, Error};
 
-pub struct HardeningApiClient<C: hyper::client::Connect> {
+pub struct HardeningApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> HardeningApiClient<C> {
+impl<C: hyper::client::connect::Connect> HardeningApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> HardeningApiClient<C> {
         HardeningApiClient {
             configuration: configuration,
@@ -33,221 +32,113 @@ impl<C: hyper::client::Connect> HardeningApiClient<C> {
 pub trait HardeningApi {
     fn create_hardening_apply_item(
         &self,
-        hardening_apply_item: ::models::HardeningApplyItem,
-    ) -> Box<Future<Item = ::models::CreateHardeningApplyItemResponse, Error = Error>>;
+        hardening_apply_item: crate::models::HardeningApplyItem,
+    ) -> Box<dyn Future<Item = crate::models::CreateHardeningApplyItemResponse, Error = Error>>;
     fn create_hardening_resolve_item(
         &self,
-        hardening_resolve_item: ::models::HardeningResolveItem,
+        hardening_resolve_item: crate::models::HardeningResolveItem,
         accept: bool,
-    ) -> Box<Future<Item = ::models::CreateHardeningResolveItemResponse, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateHardeningResolveItemResponse, Error = Error>>;
     fn create_hardening_revert_item(
         &self,
-        hardening_revert_item: ::models::Empty,
+        hardening_revert_item: crate::models::Empty,
         force: bool,
-    ) -> Box<Future<Item = ::models::CreateHardeningRevertItemResponse, Error = Error>>;
-    fn get_hardening_state(&self) -> Box<Future<Item = ::models::HardeningState, Error = Error>>;
-    fn get_hardening_status(&self) -> Box<Future<Item = ::models::HardeningStatus, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateHardeningRevertItemResponse, Error = Error>>;
+    fn get_hardening_state(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::HardeningState, Error = Error>>;
+    fn get_hardening_status(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::HardeningStatus, Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> HardeningApi for HardeningApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> HardeningApi for HardeningApiClient<C> {
     fn create_hardening_apply_item(
         &self,
-        hardening_apply_item: ::models::HardeningApplyItem,
-    ) -> Box<Future<Item = ::models::CreateHardeningApplyItemResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/hardening/apply", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&hardening_apply_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CreateHardeningApplyItemResponse,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        hardening_apply_item: crate::models::HardeningApplyItem,
+    ) -> Box<dyn Future<Item = crate::models::CreateHardeningApplyItemResponse, Error = Error>>
+    {
+        let uri_str = format!(
+            "{}/platform/3/hardening/apply",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &hardening_apply_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_hardening_resolve_item(
         &self,
-        hardening_resolve_item: ::models::HardeningResolveItem,
+        hardening_resolve_item: crate::models::HardeningResolveItem,
         accept: bool,
-    ) -> Box<Future<Item = ::models::CreateHardeningResolveItemResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CreateHardeningResolveItemResponse, Error = Error>>
+    {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("accept", &accept.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/hardening/resolve?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&hardening_resolve_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CreateHardeningResolveItemResponse,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &hardening_resolve_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_hardening_revert_item(
         &self,
-        hardening_revert_item: ::models::Empty,
+        hardening_revert_item: crate::models::Empty,
         force: bool,
-    ) -> Box<Future<Item = ::models::CreateHardeningRevertItemResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CreateHardeningRevertItemResponse, Error = Error>>
+    {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/hardening/revert?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&hardening_revert_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CreateHardeningRevertItemResponse,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &hardening_revert_item,
+            hyper::Method::POST,
         )
     }
 
-    fn get_hardening_state(&self) -> Box<Future<Item = ::models::HardeningState, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/3/hardening/state", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::HardeningState, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn get_hardening_state(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::HardeningState, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/3/hardening/state",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_hardening_status(&self) -> Box<Future<Item = ::models::HardeningStatus, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/3/hardening/status", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::HardeningStatus, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn get_hardening_status(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::HardeningStatus, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/3/hardening/status",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 }

@@ -6,5 +6,5 @@ pub struct DirectoryQuery {
     #[serde(rename = "result")]
     pub result: Option<Vec<String>>,
     #[serde(rename = "scope")]
-    pub scope: Option<::models::DirectoryQueryScope>,
+    pub scope: Option <crate::models::DirectoryQueryScope>,
 }

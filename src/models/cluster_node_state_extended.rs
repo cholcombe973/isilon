@@ -5,11 +5,11 @@ use serde_json::Value;
 pub struct ClusterNodeStateExtended {
     /// Node readonly state.
     #[serde(rename = "readonly")]
-    pub readonly: Option<::models::NodeStateReadonlyExtended>,
+    pub readonly: Option <crate::models::NodeStateReadonlyExtended>,
     /// Node service light state.
     #[serde(rename = "servicelight")]
-    pub servicelight: Option<::models::NodeStateNodeServicelight>,
+    pub servicelight: Option <crate::models::NodeStateNodeServicelight>,
     /// Node smartfail state.
     #[serde(rename = "smartfail")]
-    pub smartfail: Option<::models::NodeStateSmartfailExtended>,
+    pub smartfail: Option <crate::models::NodeStateSmartfailExtended>,
 }

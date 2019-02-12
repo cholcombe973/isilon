@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 
 # **create_filepool_policy**
-> ::models::CreateFilepoolPolicyResponse create_filepool_policy(ctx, filepool_policy)
+>crate::models::CreateFilepoolPolicyResponse create_filepool_policy(ctx, filepool_policy)
 
 
 Create a new policy.
@@ -72,7 +72,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_filepool_default_policy**
-> ::models::FilepoolDefaultPolicy get_filepool_default_policy(ctx, )
+>crate::models::FilepoolDefaultPolicy get_filepool_default_policy(ctx, )
 
 
 List default file pool policy.
@@ -96,7 +96,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_filepool_policy**
-> ::models::FilepoolPolicies get_filepool_policy(ctx, filepool_policy_id)
+>crate::models::FilepoolPolicies get_filepool_policy(ctx, filepool_policy_id)
 
 
 Retrieve file pool policy information.
@@ -124,7 +124,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_filepool_template**
-> ::models::FilepoolTemplates get_filepool_template(ctx, filepool_template_id)
+>crate::models::FilepoolTemplates get_filepool_template(ctx, filepool_template_id)
 
 
 List all templates.
@@ -152,7 +152,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_filepool_templates**
-> ::models::FilepoolTemplates get_filepool_templates(ctx, )
+>crate::models::FilepoolTemplates get_filepool_templates(ctx, )
 
 
 List all templates.
@@ -176,7 +176,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_filepool_policies**
-> ::models::FilepoolPoliciesExtended list_filepool_policies(ctx, )
+>crate::models::FilepoolPoliciesExtended list_filepool_policies(ctx, )
 
 
 List all policies.

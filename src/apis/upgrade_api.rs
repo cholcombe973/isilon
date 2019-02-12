@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, put, query, Error};
 
-pub struct UpgradeApiClient<C: hyper::client::Connect> {
+pub struct UpgradeApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> UpgradeApiClient<C> {
+impl<C: hyper::client::connect::Connect> UpgradeApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> UpgradeApiClient<C> {
         UpgradeApiClient {
             configuration: configuration,
@@ -33,87 +32,91 @@ impl<C: hyper::client::Connect> UpgradeApiClient<C> {
 pub trait UpgradeApi {
     fn create_cluster_add_remaining_node(
         &self,
-        cluster_add_remaining_node: ::models::Empty,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        cluster_add_remaining_node: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_cluster_archive_item(
         &self,
-        cluster_archive_item: ::models::ClusterArchiveItem,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        cluster_archive_item: crate::models::ClusterArchiveItem,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_cluster_assess_item(
         &self,
-        cluster_assess_item: ::models::ClusterAssessItem,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        cluster_assess_item: crate::models::ClusterAssessItem,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_cluster_commit_item(
         &self,
-        cluster_commit_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        cluster_commit_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_cluster_firmware_assess_item(
         &self,
-        cluster_firmware_assess_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        cluster_firmware_assess_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_cluster_firmware_upgrade_item(
         &self,
-        cluster_firmware_upgrade_item: ::models::ClusterFirmwareUpgradeItem,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        cluster_firmware_upgrade_item: crate::models::ClusterFirmwareUpgradeItem,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_cluster_patch_abort_item(
         &self,
-        cluster_patch_abort_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        cluster_patch_abort_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_cluster_patch_patch(
         &self,
-        cluster_patch_patch: ::models::ClusterPatchPatch,
+        cluster_patch_patch: crate::models::ClusterPatchPatch,
         _override: bool,
         rolling: bool,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_cluster_retry_last_action_item(
         &self,
-        cluster_retry_last_action_item: ::models::ClusterRetryLastActionItem,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        cluster_retry_last_action_item: crate::models::ClusterRetryLastActionItem,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_cluster_rollback_item(
         &self,
-        cluster_rollback_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        cluster_rollback_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_cluster_upgrade_item(
         &self,
-        cluster_upgrade_item: ::models::ClusterUpgradeItem,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        cluster_upgrade_item: crate::models::ClusterUpgradeItem,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_hardware_start_item(
         &self,
-        hardware_start_item: ::models::HardwareStartItem,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        hardware_start_item: crate::models::HardwareStartItem,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn create_hardware_stop_item(
         &self,
-        hardware_stop_item: ::models::HardwareStopItem,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        hardware_stop_item: crate::models::HardwareStopItem,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_cluster_patch_patch(
         &self,
         cluster_patch_patch_id: &str,
         _override: bool,
         rolling: bool,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn get_cluster_firmware_progress(
         &self,
-    ) -> Box<Future<Item = ::models::ClusterFirmwareProgress, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ClusterFirmwareProgress, Error = Error>>;
     fn get_cluster_firmware_status(
         &self,
         devices: bool,
         package: bool,
-    ) -> Box<Future<Item = ::models::ClusterFirmwareStatus, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ClusterFirmwareStatus, Error = Error>>;
     fn get_cluster_node(
         &self,
         cluster_node_id: i32,
-    ) -> Box<Future<Item = ::models::ClusterNodes, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ClusterNodes, Error = Error>>;
     fn get_cluster_nodes(
         &self,
-    ) -> Box<Future<Item = ::models::ClusterNodesExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ClusterNodesExtended, Error = Error>>;
     fn get_cluster_patch_patch(
         &self,
         cluster_patch_patch_id: &str,
         local: bool,
         location: &str,
-    ) -> Box<Future<Item = ::models::ClusterPatchPatches, Error = Error>>;
-    fn get_hardware_status(&self) -> Box<Future<Item = ::models::HardwareStatus, Error = Error>>;
-    fn get_upgrade_cluster(&self) -> Box<Future<Item = ::models::UpgradeCluster, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ClusterPatchPatches, Error = Error>>;
+    fn get_hardware_status(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::HardwareStatus, Error = Error>>;
+    fn get_upgrade_cluster(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::UpgradeCluster, Error = Error>>;
     fn list_cluster_patch_patches(
         &self,
         sort: &str,
@@ -122,555 +125,225 @@ pub trait UpgradeApi {
         location: &str,
         local: bool,
         dir: &str,
-    ) -> Box<Future<Item = ::models::ClusterPatchPatchesExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ClusterPatchPatchesExtended, Error = Error>>;
     fn update_cluster_upgrade(
         &self,
-        cluster_upgrade: ::models::ClusterUpgrade,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        cluster_upgrade: crate::models::ClusterUpgrade,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> UpgradeApi for UpgradeApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> UpgradeApi for UpgradeApiClient<C> {
     fn create_cluster_add_remaining_node(
         &self,
-        cluster_add_remaining_node: ::models::Empty,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        cluster_add_remaining_node: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/upgrade/cluster/add_remaining_nodes",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cluster_add_remaining_node).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &cluster_add_remaining_node,
+            hyper::Method::POST,
         )
     }
 
     fn create_cluster_archive_item(
         &self,
-        cluster_archive_item: ::models::ClusterArchiveItem,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        cluster_archive_item: crate::models::ClusterArchiveItem,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/upgrade/cluster/archive",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cluster_archive_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &cluster_archive_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_cluster_assess_item(
         &self,
-        cluster_assess_item: ::models::ClusterAssessItem,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        cluster_assess_item: crate::models::ClusterAssessItem,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/5/upgrade/cluster/assess",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cluster_assess_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &cluster_assess_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_cluster_commit_item(
         &self,
-        cluster_commit_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        cluster_commit_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/upgrade/cluster/commit",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cluster_commit_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &cluster_commit_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_cluster_firmware_assess_item(
         &self,
-        cluster_firmware_assess_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        cluster_firmware_assess_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/upgrade/cluster/firmware/assess",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cluster_firmware_assess_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &cluster_firmware_assess_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_cluster_firmware_upgrade_item(
         &self,
-        cluster_firmware_upgrade_item: ::models::ClusterFirmwareUpgradeItem,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        cluster_firmware_upgrade_item: crate::models::ClusterFirmwareUpgradeItem,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/upgrade/cluster/firmware/upgrade",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cluster_firmware_upgrade_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &cluster_firmware_upgrade_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_cluster_patch_abort_item(
         &self,
-        cluster_patch_abort_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        cluster_patch_abort_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/upgrade/cluster/patch/abort",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cluster_patch_abort_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &cluster_patch_abort_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_cluster_patch_patch(
         &self,
-        cluster_patch_patch: ::models::ClusterPatchPatch,
+        cluster_patch_patch: crate::models::ClusterPatchPatch,
         _override: bool,
         rolling: bool,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("override", &_override.to_string())
             .append_pair("rolling", &rolling.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/upgrade/cluster/patch/patches?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cluster_patch_patch).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &cluster_patch_patch,
+            hyper::Method::POST,
         )
     }
 
     fn create_cluster_retry_last_action_item(
         &self,
-        cluster_retry_last_action_item: ::models::ClusterRetryLastActionItem,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        cluster_retry_last_action_item: crate::models::ClusterRetryLastActionItem,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/upgrade/cluster/retry_last_action",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cluster_retry_last_action_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &cluster_retry_last_action_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_cluster_rollback_item(
         &self,
-        cluster_rollback_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        cluster_rollback_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/upgrade/cluster/rollback",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cluster_rollback_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &cluster_rollback_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_cluster_upgrade_item(
         &self,
-        cluster_upgrade_item: ::models::ClusterUpgradeItem,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        cluster_upgrade_item: crate::models::ClusterUpgradeItem,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/5/upgrade/cluster/upgrade",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cluster_upgrade_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &cluster_upgrade_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_hardware_start_item(
         &self,
-        hardware_start_item: ::models::HardwareStartItem,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        hardware_start_item: crate::models::HardwareStartItem,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/5/upgrade/hardware/start",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&hardware_start_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &hardware_start_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_hardware_stop_item(
         &self,
-        hardware_stop_item: ::models::HardwareStopItem,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        hardware_stop_item: crate::models::HardwareStopItem,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/5/upgrade/hardware/stop",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&hardware_stop_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &hardware_stop_item,
+            hyper::Method::POST,
         )
     }
 
@@ -679,74 +352,37 @@ impl<C: hyper::client::Connect> UpgradeApi for UpgradeApiClient<C> {
         cluster_patch_patch_id: &str,
         _override: bool,
         rolling: bool,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("override", &_override.to_string())
             .append_pair("rolling", &rolling.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/upgrade/cluster/patch/patches/{ClusterPatchPatchId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             ClusterPatchPatchId = cluster_patch_patch_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn get_cluster_firmware_progress(
         &self,
-    ) -> Box<Future<Item = ::models::ClusterFirmwareProgress, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::ClusterFirmwareProgress, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/upgrade/cluster/firmware/progress",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ClusterFirmwareProgress, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -754,114 +390,52 @@ impl<C: hyper::client::Connect> UpgradeApi for UpgradeApiClient<C> {
         &self,
         devices: bool,
         package: bool,
-    ) -> Box<Future<Item = ::models::ClusterFirmwareStatus, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ClusterFirmwareStatus, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("devices", &devices.to_string())
             .append_pair("package", &package.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/upgrade/cluster/firmware/status?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ClusterFirmwareStatus, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_cluster_node(
         &self,
         cluster_node_id: i32,
-    ) -> Box<Future<Item = ::models::ClusterNodes, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::ClusterNodes, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/upgrade/cluster/nodes/{ClusterNodeId}",
-            configuration.base_path,
+            self.configuration.base_path,
             ClusterNodeId = cluster_node_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ClusterNodes, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_cluster_nodes(
         &self,
-    ) -> Box<Future<Item = ::models::ClusterNodesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::ClusterNodesExtended, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/upgrade/cluster/nodes",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ClusterNodesExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -870,106 +444,52 @@ impl<C: hyper::client::Connect> UpgradeApi for UpgradeApiClient<C> {
         cluster_patch_patch_id: &str,
         local: bool,
         location: &str,
-    ) -> Box<Future<Item = ::models::ClusterPatchPatches, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ClusterPatchPatches, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("local", &local.to_string())
             .append_pair("location", &location.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/upgrade/cluster/patch/patches/{ClusterPatchPatchId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             ClusterPatchPatchId = cluster_patch_patch_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ClusterPatchPatches, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_hardware_status(&self) -> Box<Future<Item = ::models::HardwareStatus, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    fn get_hardware_status(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::HardwareStatus, Error = Error>> {
         let uri_str = format!(
             "{}/platform/5/upgrade/hardware/status",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::HardwareStatus, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_upgrade_cluster(&self) -> Box<Future<Item = ::models::UpgradeCluster, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/4/upgrade/cluster", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::UpgradeCluster, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn get_upgrade_cluster(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::UpgradeCluster, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/4/upgrade/cluster",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -981,12 +501,8 @@ impl<C: hyper::client::Connect> UpgradeApi for UpgradeApiClient<C> {
         location: &str,
         local: bool,
         dir: &str,
-    ) -> Box<Future<Item = ::models::ClusterPatchPatchesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ClusterPatchPatchesExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("resume", &resume.to_string())
             .append_pair("limit", &limit.to_string())
@@ -996,70 +512,24 @@ impl<C: hyper::client::Connect> UpgradeApi for UpgradeApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/upgrade/cluster/patch/patches?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::ClusterPatchPatchesExtended,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn update_cluster_upgrade(
         &self,
-        cluster_upgrade: ::models::ClusterUpgrade,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+        cluster_upgrade: crate::models::ClusterUpgrade,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/5/upgrade/cluster/upgrade",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cluster_upgrade).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &cluster_upgrade)
     }
 }

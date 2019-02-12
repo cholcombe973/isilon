@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **get_id_resolution_path**
-> ::models::IdResolutionPaths get_id_resolution_path(ctx, id_resolution_path_id)
+>crate::models::IdResolutionPaths get_id_resolution_path(ctx, id_resolution_path_id)
 
 
 List lin to path mappings.
@@ -37,7 +37,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_id_resolution_paths**
-> ::models::IdResolutionPathsExtended get_id_resolution_paths(ctx, optional)
+>crate::models::IdResolutionPathsExtended get_id_resolution_paths(ctx, optional)
 
 
 List lin to path mappings.

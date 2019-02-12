@@ -128,7 +128,7 @@ pub struct ReportsReportSubreportsSubreport {
     pub num_retransmitted_files: u64,
     /// Data for each phase of this job.
     #[serde(rename = "phases")]
-    pub phases: Vec<::models::SyncJobPhase>,
+    pub phases: Vec <crate::models::SyncJobPhase>,
     /// The ID of the policy.
     #[serde(rename = "policy_id")]
     pub policy_id: String,

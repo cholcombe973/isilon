@@ -23,7 +23,7 @@ pub struct StoragepoolSettingsSettings {
     pub spillover_enabled: bool,
     /// Target pool for spilled writes.
     #[serde(rename = "spillover_target")]
-    pub spillover_target: ::models::StoragepoolSettingsSettingsSpilloverTarget,
+    pub spillover_target:crate::models::StoragepoolSettingsSettingsSpilloverTarget,
     /// The L3 Cache default enabled state. This specifies whether L3 Cache should be enabled on new node pools.
     #[serde(rename = "ssd_l3_cache_default_enabled")]
     pub ssd_l3_cache_default_enabled: bool,

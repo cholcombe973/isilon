@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct SmbSettingsShare {
     ///
     #[serde(rename = "settings")]
-    pub settings: ::models::SmbSettingsShareSettings,
+    pub settings:crate::models::SmbSettingsShareSettings,
 }

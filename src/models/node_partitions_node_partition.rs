@@ -20,7 +20,7 @@ pub struct NodePartitionsNodePartition {
     pub percent_used: Option<String>,
     /// System partition details as provided by statfs(2).
     #[serde(rename = "statfs")]
-    pub statfs: Option<::models::NodePartitionsNodePartitionStatfs>,
+    pub statfs: Option <crate::models::NodePartitionsNodePartitionStatfs>,
     /// Used blocks on this file system partition.
     #[serde(rename = "used")]
     pub used: Option<i32>,

@@ -4,7 +4,7 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LicenseLicensesExtended {
     #[serde(rename = "licenses")]
-    pub licenses: Option<Vec<::models::LicenseLicense>>,
+    pub licenses: Option<Vec <crate::models::LicenseLicense>>,
     /// True when we are generating an activation incomplete alert. An activation incomplete alert is generated if we do not have a signed license file 90 days after OneFS is upgraded.
     #[serde(rename = "activation_incomplete_alert")]
     pub activation_incomplete_alert: bool,

@@ -34,7 +34,7 @@ pub struct SyncSettingsExtended {
     pub service: Option<String>,
     /// Restricts replication policies on the local cluster to running on the specified subnet and pool.
     #[serde(rename = "source_network")]
-    pub source_network: Option<::models::SyncPolicySourceNetwork>,
+    pub source_network: Option <crate::models::SyncPolicySourceNetwork>,
     /// The interval (in seconds) in which treewalk syncs are forced to checkpoint.
     #[serde(rename = "tw_chkpt_interval")]
     pub tw_chkpt_interval: Option<i32>,

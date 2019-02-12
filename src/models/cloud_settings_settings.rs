@@ -5,7 +5,7 @@ use serde_json::Value;
 pub struct CloudSettingsSettings {
     /// The default filepool policy values for cloudpools.
     #[serde(rename = "cloud_policy_defaults")]
-    pub cloud_policy_defaults: Option<::models::CloudSettingsSettingsCloudPolicyDefaults>,
+    pub cloud_policy_defaults: Option <crate::models::CloudSettingsSettingsCloudPolicyDefaults>,
     /// Coefficients in the quadratic function for determining the rest period between successive archive attempts.
     #[serde(rename = "retry_coefficient_archive")]
     pub retry_coefficient_archive: Option<String>,
@@ -30,29 +30,29 @@ pub struct CloudSettingsSettings {
     /// Amount of time to wait between successive file archive operations.
     #[serde(rename = "sleep_timeout_archive")]
     pub sleep_timeout_archive:
-        Option<::models::CloudSettingsSettingsSleepTimeoutCloudGarbageCollection>,
+        Option <crate::models::CloudSettingsSettingsSleepTimeoutCloudGarbageCollection>,
     /// Amount of time to wait between successive file cache_invalidation operations.
     #[serde(rename = "sleep_timeout_cache_invalidation")]
     pub sleep_timeout_cache_invalidation:
-        Option<::models::CloudSettingsSettingsSleepTimeoutCloudGarbageCollection>,
+        Option <crate::models::CloudSettingsSettingsSleepTimeoutCloudGarbageCollection>,
     /// Amount of time to wait between successive file cloud garbage collection operations.
     #[serde(rename = "sleep_timeout_cloud_garbage_collection")]
     pub sleep_timeout_cloud_garbage_collection:
-        Option<::models::CloudSettingsSettingsSleepTimeoutCloudGarbageCollection>,
+        Option <crate::models::CloudSettingsSettingsSleepTimeoutCloudGarbageCollection>,
     /// Amount of time to wait between successive file local garbage collection operations.
     #[serde(rename = "sleep_timeout_local_garbage_collection")]
     pub sleep_timeout_local_garbage_collection:
-        Option<::models::CloudSettingsSettingsSleepTimeoutCloudGarbageCollection>,
+        Option <crate::models::CloudSettingsSettingsSleepTimeoutCloudGarbageCollection>,
     /// Amount of time to wait between successive file read ahead operations.
     #[serde(rename = "sleep_timeout_read_ahead")]
     pub sleep_timeout_read_ahead:
-        Option<::models::CloudSettingsSettingsSleepTimeoutCloudGarbageCollection>,
+        Option <crate::models::CloudSettingsSettingsSleepTimeoutCloudGarbageCollection>,
     /// Amount of time to wait between successive file recall operations.
     #[serde(rename = "sleep_timeout_recall")]
     pub sleep_timeout_recall:
-        Option<::models::CloudSettingsSettingsSleepTimeoutCloudGarbageCollection>,
+        Option <crate::models::CloudSettingsSettingsSleepTimeoutCloudGarbageCollection>,
     /// Amount of time to wait between successive file writeback operations.
     #[serde(rename = "sleep_timeout_writeback")]
     pub sleep_timeout_writeback:
-        Option<::models::CloudSettingsSettingsSleepTimeoutCloudGarbageCollection>,
+        Option <crate::models::CloudSettingsSettingsSleepTimeoutCloudGarbageCollection>,
 }

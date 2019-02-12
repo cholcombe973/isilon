@@ -7,7 +7,7 @@ pub struct NdmpSessionsExtended {
     #[serde(rename = "resume")]
     pub resume: Option<String>,
     #[serde(rename = "sessions")]
-    pub sessions: Option<Vec<::models::NdmpSessionExtended>>,
+    pub sessions: Option<Vec <crate::models::NdmpSessionExtended>>,
     /// Total number of items available.
     #[serde(rename = "total")]
     pub total: Option<i32>,

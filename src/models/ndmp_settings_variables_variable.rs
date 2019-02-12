@@ -10,5 +10,5 @@ pub struct NdmpSettingsVariablesVariable {
     #[serde(rename = "path")]
     pub path: Option<String>,
     #[serde(rename = "path_variables")]
-    pub path_variables: Option<Vec<::models::NdmpSettingsVariablesVariablePathVariable>>,
+    pub path_variables: Option<Vec <crate::models::NdmpSettingsVariablesVariablePathVariable>>,
 }

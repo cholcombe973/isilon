@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 
 # **get_statistics_current**
-> ::models::StatisticsCurrent get_statistics_current(ctx, optional)
+>crate::models::StatisticsCurrent get_statistics_current(ctx, optional)
 
 
 Retrieve stats.
@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_statistics_history**
-> ::models::StatisticsHistory get_statistics_history(ctx, optional)
+>crate::models::StatisticsHistory get_statistics_history(ctx, optional)
 
 
 Retrieve stats.
@@ -115,7 +115,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_statistics_key**
-> ::models::StatisticsKeys get_statistics_key(ctx, statistics_key_id)
+>crate::models::StatisticsKeys get_statistics_key(ctx, statistics_key_id)
 
 
 List key meta-data.
@@ -143,7 +143,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_statistics_keys**
-> ::models::StatisticsKeysExtended get_statistics_keys(ctx, optional)
+>crate::models::StatisticsKeysExtended get_statistics_keys(ctx, optional)
 
 
 List meta-data for matching keys.
@@ -181,7 +181,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_statistics_operations**
-> ::models::StatisticsOperations get_statistics_operations(ctx, optional)
+>crate::models::StatisticsOperations get_statistics_operations(ctx, optional)
 
 
 Retrieve operations list.
@@ -216,7 +216,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_statistics_protocols**
-> ::models::StatisticsProtocols get_statistics_protocols(ctx, optional)
+>crate::models::StatisticsProtocols get_statistics_protocols(ctx, optional)
 
 
 Retrieve protocol list.
@@ -251,7 +251,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_summary_client**
-> ::models::SummaryClient get_summary_client(ctx, optional)
+>crate::models::SummaryClient get_summary_client(ctx, optional)
 
 
 
@@ -299,7 +299,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_summary_drive**
-> ::models::SummaryDrive get_summary_drive(ctx, optional)
+>crate::models::SummaryDrive get_summary_drive(ctx, optional)
 
 
 
@@ -338,7 +338,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_summary_heat**
-> ::models::SummaryHeat get_summary_heat(ctx, optional)
+>crate::models::SummaryHeat get_summary_heat(ctx, optional)
 
 
 File heat map, i.e. rate of file operations, and the type of operation listed by path/lin(s).
@@ -383,7 +383,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_summary_protocol**
-> ::models::SummaryProtocol get_summary_protocol(ctx, optional)
+>crate::models::SummaryProtocol get_summary_protocol(ctx, optional)
 
 
 
@@ -426,7 +426,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_summary_protocol_stats**
-> ::models::SummaryProtocolStats get_summary_protocol_stats(ctx, optional)
+>crate::models::SummaryProtocolStats get_summary_protocol_stats(ctx, optional)
 
 
 
@@ -464,7 +464,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_summary_system**
-> ::models::SummarySystem get_summary_system(ctx, optional)
+>crate::models::SummarySystem get_summary_system(ctx, optional)
 
 
 
@@ -503,7 +503,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_summary_workload**
-> ::models::SummaryWorkload get_summary_workload(ctx, optional)
+>crate::models::SummaryWorkload get_summary_workload(ctx, optional)
 
 
 

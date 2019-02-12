@@ -7,5 +7,5 @@ pub struct NdmpUsersExtended {
     #[serde(rename = "total")]
     pub total: Option<i32>,
     #[serde(rename = "users")]
-    pub users: Option<Vec<::models::NdmpUserExtended>>,
+    pub users: Option<Vec <crate::models::NdmpUserExtended>>,
 }

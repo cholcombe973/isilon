@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct NtpSettings {
     /// NTP settings.
     #[serde(rename = "settings")]
-    pub settings: Option<::models::NtpSettingsSettings>,
+    pub settings: Option <crate::models::NtpSettingsSettings>,
 }

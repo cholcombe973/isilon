@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct ClusterNodeSensors {
     /// This node's sensor information.
     #[serde(rename = "sensors")]
-    pub sensors: Option<Vec<::models::NodeSensorsNodeSensor>>,
+    pub sensors: Option<Vec <crate::models::NodeSensorsNodeSensor>>,
 }

@@ -5,16 +5,16 @@ use serde_json::Value;
 pub struct ChangelistLins {
     ///
     #[serde(rename = "atime")]
-    pub atime: Option<::models::ChangelistLinsCtime>,
+    pub atime: Option <crate::models::ChangelistLinsCtime>,
     ///
     #[serde(rename = "ctime")]
-    pub ctime: Option<::models::ChangelistLinsCtime>,
+    pub ctime: Option <crate::models::ChangelistLinsCtime>,
     /// The LIN number of the file associated with the entry.
     #[serde(rename = "id")]
     pub id: String,
     ///
     #[serde(rename = "mtime")]
-    pub mtime: Option<::models::ChangelistLinsCtime>,
+    pub mtime: Option <crate::models::ChangelistLinsCtime>,
     /// The path to the file associated with the entry.
     #[serde(rename = "path")]
     pub path: String,

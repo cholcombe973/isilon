@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct SummaryProtocolStats {
     ///
     #[serde(rename = "protocol-stats")]
-    pub protocol_stats: Option<::models::SummaryProtocolStatsProtocolStats>,
+    pub protocol_stats: Option <crate::models::SummaryProtocolStatsProtocolStats>,
 }

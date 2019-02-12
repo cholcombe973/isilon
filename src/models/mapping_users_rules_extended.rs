@@ -7,8 +7,8 @@ use serde_json::Value;
 pub struct MappingUsersRulesExtended {
     /// Specifies the default UNIX user information that can be applied if the final credentials do not have valid UID and GID information.
     #[serde(rename = "parameters")]
-    pub parameters: Option<::models::MappingUsersRulesParameters>,
+    pub parameters: Option <crate::models::MappingUsersRulesParameters>,
     /// Specifies the list of user mapping rules.
     #[serde(rename = "rules")]
-    pub rules: Option<Vec<::models::MappingUsersRulesRuleExtended>>,
+    pub rules: Option<Vec <crate::models::MappingUsersRulesRuleExtended>>,
 }

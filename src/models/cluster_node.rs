@@ -7,8 +7,8 @@ use serde_json::Value;
 pub struct ClusterNode {
     /// List of the drives in this node.
     #[serde(rename = "drives")]
-    pub drives: Option<Vec<::models::ClusterNodeDrive>>,
+    pub drives: Option<Vec <crate::models::ClusterNodeDrive>>,
     /// Node state information (reported and modifiable).
     #[serde(rename = "state")]
-    pub state: Option<::models::ClusterNodeState>,
+    pub state: Option <crate::models::ClusterNodeState>,
 }

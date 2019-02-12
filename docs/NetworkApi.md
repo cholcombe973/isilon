@@ -22,7 +22,7 @@ Method | HTTP request | Description
 
 
 # **create_dnscache_flush_item**
-> ::models::Empty create_dnscache_flush_item(ctx, dnscache_flush_item)
+>crate::models::Empty create_dnscache_flush_item(ctx, dnscache_flush_item)
 
 
 Flush the DNSCache.
@@ -50,7 +50,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_network_groupnet**
-> ::models::CreateResponse create_network_groupnet(ctx, network_groupnet)
+>crate::models::CreateResponse create_network_groupnet(ctx, network_groupnet)
 
 
 Create a new groupnet.
@@ -78,7 +78,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_network_sc_rebalance_all_item**
-> ::models::Empty create_network_sc_rebalance_all_item(ctx, network_sc_rebalance_all_item)
+>crate::models::Empty create_network_sc_rebalance_all_item(ctx, network_sc_rebalance_all_item)
 
 
 Rebalance IP addresses in all pools.
@@ -134,7 +134,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_network_dnscache**
-> ::models::NetworkDnscache get_network_dnscache(ctx, )
+>crate::models::NetworkDnscache get_network_dnscache(ctx, )
 
 
 View network dns cache settings.
@@ -158,7 +158,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_network_external**
-> ::models::NetworkExternal get_network_external(ctx, )
+>crate::models::NetworkExternal get_network_external(ctx, )
 
 
 View external network settings.
@@ -182,7 +182,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_network_groupnet**
-> ::models::NetworkGroupnets get_network_groupnet(ctx, network_groupnet_id)
+>crate::models::NetworkGroupnets get_network_groupnet(ctx, network_groupnet_id)
 
 
 View a network groupnet.
@@ -210,7 +210,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_network_interfaces**
-> ::models::PoolsPoolInterfaces get_network_interfaces(ctx, optional)
+>crate::models::PoolsPoolInterfaces get_network_interfaces(ctx, optional)
 
 
 Get a list of interfaces.
@@ -251,7 +251,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_network_pools**
-> ::models::NetworkPools get_network_pools(ctx, optional)
+>crate::models::NetworkPools get_network_pools(ctx, optional)
 
 
 Get a list of flexnet pools.
@@ -293,7 +293,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_network_rules**
-> ::models::PoolsPoolRulesExtended get_network_rules(ctx, optional)
+>crate::models::PoolsPoolRulesExtended get_network_rules(ctx, optional)
 
 
 Get a list of network rules.
@@ -334,7 +334,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_network_subnets**
-> ::models::GroupnetSubnetsExtended get_network_subnets(ctx, optional)
+>crate::models::GroupnetSubnetsExtended get_network_subnets(ctx, optional)
 
 
 Get a list of subnets.
@@ -373,7 +373,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_network_groupnets**
-> ::models::NetworkGroupnetsExtended list_network_groupnets(ctx, optional)
+>crate::models::NetworkGroupnetsExtended list_network_groupnets(ctx, optional)
 
 
 Get a list of groupnets.

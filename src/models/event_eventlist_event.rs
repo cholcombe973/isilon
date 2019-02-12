@@ -29,7 +29,7 @@ pub struct EventEventlistEvent {
     pub severity: Option<String>,
     /// A collection of parameters defined per event.
     #[serde(rename = "specifier")]
-    pub specifier: Option<::models::Empty>,
+    pub specifier: Option <crate::models::Empty>,
     /// Time event was detected as UNIX timestamp.
     #[serde(rename = "time")]
     pub time: Option<i32>,

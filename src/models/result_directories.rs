@@ -11,14 +11,14 @@ pub struct ResultDirectories {
     pub dir_depth: i32,
     /// Disk usage for current directory.
     #[serde(rename = "dir_usage")]
-    pub dir_usage: ::models::ResultDirectoriesTotalUsage,
+    pub dir_usage:crate::models::ResultDirectoriesTotalUsage,
     /// Directory path information from root to current directory.
     #[serde(rename = "path_parts")]
     pub path_parts: Vec<String>,
     /// Disk usage from root.
     #[serde(rename = "total_usage")]
-    pub total_usage: ::models::ResultDirectoriesTotalUsage,
+    pub total_usage:crate::models::ResultDirectoriesTotalUsage,
     /// Disk usage for all of immediate children of the current directory.
     #[serde(rename = "usage_data")]
-    pub usage_data: Vec<::models::ResultDirectoriesUsageDataItem>,
+    pub usage_data: Vec <crate::models::ResultDirectoriesUsageDataItem>,
 }

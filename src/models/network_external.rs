@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct NetworkExternal {
     ///
     #[serde(rename = "settings")]
-    pub settings: Option<::models::NetworkExternalSettings>,
+    pub settings: Option <crate::models::NetworkExternalSettings>,
 }

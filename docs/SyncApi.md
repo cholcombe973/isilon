@@ -39,7 +39,7 @@ Method | HTTP request | Description
 
 
 # **create_sync_job**
-> ::models::CreateResponse create_sync_job(ctx, sync_job)
+>crate::models::CreateResponse create_sync_job(ctx, sync_job)
 
 
 Start a SyncIQ job.
@@ -67,7 +67,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_sync_policy**
-> ::models::CreateResponse create_sync_policy(ctx, sync_policy)
+>crate::models::CreateResponse create_sync_policy(ctx, sync_policy)
 
 
 Create a SyncIQ policy.
@@ -95,7 +95,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_sync_reports_rotate_item**
-> ::models::CreateSyncReportsRotateItemResponse create_sync_reports_rotate_item(ctx, sync_reports_rotate_item)
+>crate::models::CreateSyncReportsRotateItemResponse create_sync_reports_rotate_item(ctx, sync_reports_rotate_item)
 
 
 Rotate the records in the database(s).
@@ -123,7 +123,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_sync_rule**
-> ::models::CreateResponse create_sync_rule(ctx, sync_rule)
+>crate::models::CreateResponse create_sync_rule(ctx, sync_rule)
 
 
 Create a new SyncIQ performance rule.
@@ -325,7 +325,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_history_cpu**
-> ::models::HistoryFile get_history_cpu(ctx, optional)
+>crate::models::HistoryFile get_history_cpu(ctx, optional)
 
 
 List cpu performance data.
@@ -361,7 +361,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_history_file**
-> ::models::HistoryFile get_history_file(ctx, optional)
+>crate::models::HistoryFile get_history_file(ctx, optional)
 
 
 List file operations performance data.
@@ -397,7 +397,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_history_network**
-> ::models::HistoryFile get_history_network(ctx, optional)
+>crate::models::HistoryFile get_history_network(ctx, optional)
 
 
 List network operations performance data.
@@ -433,7 +433,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_history_worker**
-> ::models::HistoryFile get_history_worker(ctx, optional)
+>crate::models::HistoryFile get_history_worker(ctx, optional)
 
 
 List worker performance data.
@@ -469,7 +469,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_sync_job**
-> ::models::SyncJobs get_sync_job(ctx, sync_job_id)
+>crate::models::SyncJobs get_sync_job(ctx, sync_job_id)
 
 
 View a single SyncIQ job.
@@ -497,7 +497,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_sync_license**
-> ::models::LicenseLicense get_sync_license(ctx, )
+>crate::models::LicenseLicense get_sync_license(ctx, )
 
 
 Retrieve license information.
@@ -521,7 +521,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_sync_policy**
-> ::models::SyncPolicies get_sync_policy(ctx, sync_policy_id)
+>crate::models::SyncPolicies get_sync_policy(ctx, sync_policy_id)
 
 
 View a single SyncIQ policy.
@@ -549,7 +549,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_sync_report**
-> ::models::SyncReports get_sync_report(ctx, sync_report_id)
+>crate::models::SyncReports get_sync_report(ctx, sync_report_id)
 
 
 View a single SyncIQ report.
@@ -577,7 +577,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_sync_reports**
-> ::models::SyncReportsExtended get_sync_reports(ctx, optional)
+>crate::models::SyncReportsExtended get_sync_reports(ctx, optional)
 
 
 Get a list of SyncIQ reports.  By default 10 reports are returned per policy, unless otherwise specified by 'reports_per_policy'.
@@ -619,7 +619,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_sync_rule**
-> ::models::SyncRules get_sync_rule(ctx, sync_rule_id)
+>crate::models::SyncRules get_sync_rule(ctx, sync_rule_id)
 
 
 View a single SyncIQ performance rule.
@@ -647,7 +647,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_sync_settings**
-> ::models::SyncSettings get_sync_settings(ctx, )
+>crate::models::SyncSettings get_sync_settings(ctx, )
 
 
 Retrieve the global SyncIQ settings.
@@ -671,7 +671,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_target_policies**
-> ::models::TargetPoliciesExtended get_target_policies(ctx, optional)
+>crate::models::TargetPoliciesExtended get_target_policies(ctx, optional)
 
 
 List all SyncIQ target policies.
@@ -710,7 +710,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_target_policy**
-> ::models::TargetPolicies get_target_policy(ctx, target_policy_id)
+>crate::models::TargetPolicies get_target_policy(ctx, target_policy_id)
 
 
 View a single SyncIQ target policy.
@@ -738,7 +738,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_target_report**
-> ::models::TargetReports get_target_report(ctx, target_report_id)
+>crate::models::TargetReports get_target_report(ctx, target_report_id)
 
 
 View a single SyncIQ target report.
@@ -766,7 +766,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_target_reports**
-> ::models::TargetReportsExtended get_target_reports(ctx, optional)
+>crate::models::TargetReportsExtended get_target_reports(ctx, optional)
 
 
 Get a list of SyncIQ target reports.  By default 10 reports are returned per policy, unless otherwise specified by 'reports_per_policy'.
@@ -808,7 +808,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_sync_jobs**
-> ::models::SyncJobsExtended list_sync_jobs(ctx, optional)
+>crate::models::SyncJobsExtended list_sync_jobs(ctx, optional)
 
 
 Get a list of SyncIQ jobs.
@@ -847,7 +847,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_sync_policies**
-> ::models::SyncPoliciesExtended list_sync_policies(ctx, optional)
+>crate::models::SyncPoliciesExtended list_sync_policies(ctx, optional)
 
 
 List all SyncIQ policies.
@@ -887,7 +887,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_sync_reports_rotate**
-> ::models::SyncReportsRotate list_sync_reports_rotate(ctx, )
+>crate::models::SyncReportsRotate list_sync_reports_rotate(ctx, )
 
 
 Whether the rotation is still running or not.
@@ -911,7 +911,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_sync_rules**
-> ::models::SyncRulesExtended list_sync_rules(ctx, optional)
+>crate::models::SyncRulesExtended list_sync_rules(ctx, optional)
 
 
 List all SyncIQ performance rules.
