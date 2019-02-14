@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct HttpSettings {
     /// This is schema that contains HTTP protocol properties.
     #[serde(rename = "settings")]
-    pub settings: Option<::models::HttpSettingsSettings>,
+    pub settings: Option <crate::models::HttpSettingsSettings>,
 }

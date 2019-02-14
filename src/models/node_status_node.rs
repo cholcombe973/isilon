@@ -5,13 +5,13 @@ use serde_json::Value;
 pub struct NodeStatusNode {
     /// Battery status information.
     #[serde(rename = "batterystatus")]
-    pub batterystatus: Option<::models::NodeStatusNodeBatterystatus>,
+    pub batterystatus: Option <crate::models::NodeStatusNodeBatterystatus>,
     /// Storage capacity of this node.
     #[serde(rename = "capacity")]
-    pub capacity: Option<Vec<::models::NodeStatusNodeCapacityItem>>,
+    pub capacity: Option<Vec <crate::models::NodeStatusNodeCapacityItem>>,
     /// CPU status information for this node.
     #[serde(rename = "cpu")]
-    pub cpu: Option<::models::NodeStatusNodeCpu>,
+    pub cpu: Option <crate::models::NodeStatusNodeCpu>,
     /// Error message, if the HTTP status returned from this node was not 200.
     #[serde(rename = "error")]
     pub error: Option<String>,
@@ -23,10 +23,10 @@ pub struct NodeStatusNode {
     pub lnn: Option<i32>,
     /// Node NVRAM information.
     #[serde(rename = "nvram")]
-    pub nvram: Option<::models::NodeStatusNodeNvram>,
+    pub nvram: Option <crate::models::NodeStatusNodeNvram>,
     /// Information about this node's power supplies.
     #[serde(rename = "powersupplies")]
-    pub powersupplies: Option<::models::NodeStatusNodePowersupplies>,
+    pub powersupplies: Option <crate::models::NodeStatusNodePowersupplies>,
     /// OneFS release.
     #[serde(rename = "release")]
     pub release: Option<String>,

@@ -44,7 +44,7 @@ Name | Type | Description | Notes
 **network_bytes_to_target** | **i32** | The total number of bytes sent to the target by this job. | [default to null]
 **new_files_replicated** | **i32** | The number of new files replicated by this job. | [default to null]
 **num_retransmitted_files** | **i32** | The number of files that have been retransmitted by this job. | [default to null]
-**phases** | [**Vec<::models::SyncJobPhase>**](SyncJobPhase.md) | Data for each phase of this job. | [default to null]
+**phases** | [**Vec <crate::models::SyncJobPhase>**](SyncJobPhase.md) | Data for each phase of this job. | [default to null]
 **policy** | [***::models::SyncJobPolicy**](SyncJobPolicy.md) | The policy associated with this job, or null if there is currently no policy associated with this job (this can happen if the job is newly created and not yet fully populated in the underlying database). | [optional] [default to null]
 **policy_action** | **String** | This is the action the policy is configured to perform. | [default to null]
 **policy_id** | **String** | The ID of the policy. | [default to null]
@@ -89,7 +89,7 @@ Name | Type | Description | Notes
 **updated_files_replicated** | **i32** | The number of updated files replicated by this job. | [default to null]
 **user_conflict_files_skipped** | **i32** | The number of files with user conflicts skipped by this job. | [default to null]
 **warnings** | **Vec<String>** | A list of warning messages for this job. | [default to null]
-**workers** | [**Vec<::models::SyncJobWorker>**](SyncJobWorker.md) | A list of workers for this job. | [default to null]
+**workers** | [**Vec <crate::models::SyncJobWorker>**](SyncJobWorker.md) | A list of workers for this job. | [default to null]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

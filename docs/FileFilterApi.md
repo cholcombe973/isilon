@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **get_file_filter_settings**
-> ::models::FileFilterSettings get_file_filter_settings(ctx, optional)
+>crate::models::FileFilterSettings get_file_filter_settings(ctx, optional)
 
 
 View File Filtering settings of an access zone

@@ -11,5 +11,5 @@ pub struct NodeSensorsNodeSensor {
     pub name: Option<String>,
     /// The list of specific sensor value info in this sensor group.
     #[serde(rename = "values")]
-    pub values: Option<Vec<::models::NodeSensorsNodeSensorValue>>,
+    pub values: Option<Vec <crate::models::NodeSensorsNodeSensorValue>>,
 }

@@ -7,7 +7,7 @@ pub struct SmbSessions {
     #[serde(rename = "resume")]
     pub resume: Option<String>,
     #[serde(rename = "sessions")]
-    pub sessions: Option<Vec<::models::SmbSession>>,
+    pub sessions: Option<Vec <crate::models::SmbSession>>,
     /// Total number of items available.
     #[serde(rename = "total")]
     pub total: Option<i32>,

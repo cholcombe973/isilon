@@ -5,7 +5,7 @@ use serde_json::Value;
 pub struct NodeStatusNodeNvram {
     /// This node's NVRAM battery status information.
     #[serde(rename = "batteries")]
-    pub batteries: Option<Vec<::models::NodeStatusNodeNvramBattery>>,
+    pub batteries: Option<Vec <crate::models::NodeStatusNodeNvramBattery>>,
     /// This node's NVRAM battery count.
     #[serde(rename = "battery_count")]
     pub battery_count: Option<i32>,

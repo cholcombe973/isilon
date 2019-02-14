@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct SmbSharesSummary {
     ///
     #[serde(rename = "summary")]
-    pub summary: Option<::models::SmbSharesSummarySummary>,
+    pub summary: Option <crate::models::SmbSharesSummarySummary>,
 }

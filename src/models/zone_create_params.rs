@@ -23,7 +23,7 @@ pub struct ZoneCreateParams {
     pub home_directory_umask: Option<i32>,
     /// Specifies a list of users and groups that have read and write access to /ifs.
     #[serde(rename = "ifs_restricted")]
-    pub ifs_restricted: Option<Vec<::models::AuthAccessAccessItemFileGroup>>,
+    pub ifs_restricted: Option<Vec <crate::models::AuthAccessAccessItemFileGroup>>,
     /// Maps untrusted domains to this NetBIOS domain during authentication.
     #[serde(rename = "map_untrusted")]
     pub map_untrusted: Option<String>,

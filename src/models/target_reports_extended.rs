@@ -4,7 +4,7 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TargetReportsExtended {
     #[serde(rename = "reports")]
-    pub reports: Option<Vec<::models::TargetReport>>,
+    pub reports: Option<Vec <crate::models::TargetReport>>,
     /// Continue returning results from previous call using this token (token should come from the previous call, resume cannot be used with other options).
     #[serde(rename = "resume")]
     pub resume: Option<String>,

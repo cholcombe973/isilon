@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, query, Error};
 
-pub struct SyncTargetApiClient<C: hyper::client::Connect> {
+pub struct SyncTargetApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> SyncTargetApiClient<C> {
+impl<C: hyper::client::connect::Connect> SyncTargetApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> SyncTargetApiClient<C> {
         SyncTargetApiClient {
             configuration: configuration,
@@ -33,14 +32,14 @@ impl<C: hyper::client::Connect> SyncTargetApiClient<C> {
 pub trait SyncTargetApi {
     fn create_policies_policy_cancel_item(
         &self,
-        policies_policy_cancel_item: ::models::Empty,
+        policies_policy_cancel_item: crate::models::Empty,
         policy: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn get_reports_report_subreport(
         &self,
         reports_report_subreport_id: &str,
         rid: &str,
-    ) -> Box<Future<Item = ::models::ReportsReportSubreports, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ReportsReportSubreports, Error = Error>>;
     fn get_reports_report_subreports(
         &self,
         rid: &str,
@@ -50,51 +49,25 @@ pub trait SyncTargetApi {
         state: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::ReportsReportSubreportsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ReportsReportSubreportsExtended, Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> SyncTargetApi for SyncTargetApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> SyncTargetApi for SyncTargetApiClient<C> {
     fn create_policies_policy_cancel_item(
         &self,
-        policies_policy_cancel_item: ::models::Empty,
+        policies_policy_cancel_item: crate::models::Empty,
         policy: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/sync/target/policies/{Policy}/cancel",
-            configuration.base_path,
+            self.configuration.base_path,
             Policy = policy
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&policies_policy_cancel_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &policies_policy_cancel_item,
+            hyper::Method::POST,
         )
     }
 
@@ -102,39 +75,18 @@ impl<C: hyper::client::Connect> SyncTargetApi for SyncTargetApiClient<C> {
         &self,
         reports_report_subreport_id: &str,
         rid: &str,
-    ) -> Box<Future<Item = ::models::ReportsReportSubreports, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::ReportsReportSubreports, Error = Error>> {
         let uri_str = format!(
             "{}/platform/4/sync/target/reports/{Rid}/subreports/{ReportsReportSubreportId}",
-            configuration.base_path,
+            self.configuration.base_path,
             ReportsReportSubreportId = reports_report_subreport_id,
             Rid = rid
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ReportsReportSubreports, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -147,12 +99,8 @@ impl<C: hyper::client::Connect> SyncTargetApi for SyncTargetApiClient<C> {
         state: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::ReportsReportSubreportsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ReportsReportSubreportsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("resume", &resume.to_string())
             .append_pair("newer_than", &newer_than.to_string())
@@ -162,34 +110,15 @@ impl<C: hyper::client::Connect> SyncTargetApi for SyncTargetApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/4/sync/target/reports/{Rid}/subreports?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             Rid = rid
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::ReportsReportSubreportsExtended,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 }

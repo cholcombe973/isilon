@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**batteries** | [**Vec<::models::NodeStatusNodeNvramBattery>**](NodeStatusNodeNvramBattery.md) | This node&#39;s NVRAM battery status information. | [optional] [default to null]
+**batteries** | [**Vec <crate::models::NodeStatusNodeNvramBattery>**](NodeStatusNodeNvramBattery.md) | This node&#39;s NVRAM battery status information. | [optional] [default to null]
 **battery_count** | **i32** | This node&#39;s NVRAM battery count. | [optional] [default to null]
 **charge_status** | **String** | This node&#39;s NVRAM battery charge status, as a color. | [optional] [default to null]
 **charge_status_number** | **i32** | This node&#39;s NVRAM battery charge status, as a number. | [optional] [default to null]

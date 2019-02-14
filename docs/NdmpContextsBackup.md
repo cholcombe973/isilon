@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **context_id** | **String** | Context ID | [optional] [default to null]
 **id** | **String** | Unique display id. | [optional] [default to null]
 **path** | **String** | The directory of the backup. This is not applicable to restore contexts. | [optional] [default to null]
-**sessions** | [**Vec<::models::NdmpContextsBackupSession>**](NdmpContextsBackupSession.md) |  | [optional] [default to null]
+**sessions** | [**Vec <crate::models::NdmpContextsBackupSession>**](NdmpContextsBackupSession.md) |  | [optional] [default to null]
 **snapid** | **i32** | Snapshot ID reserved for the context. This is not applicable to restore contexts. | [optional] [default to null]
 **start_time** | **i32** | Context creation time | [optional] [default to null]
 **status** | **String** | Whether the context is active. | [optional] [default to null]

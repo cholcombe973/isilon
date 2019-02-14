@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**licenses** | [**Vec<::models::LicenseLicense>**](LicenseLicense.md) |  | [optional] [default to null]
+**licenses** | [**Vec <crate::models::LicenseLicense>**](LicenseLicense.md) |  | [optional] [default to null]
 **activation_incomplete_alert** | **bool** | True when we are generating an activation incomplete alert. An activation incomplete alert is generated if we do not have a signed license file 90 days after OneFS is upgraded. | [default to null]
 **base_only_licenses** | **Vec<String>** |  | [default to null]
 **evaluatable** | **Vec<String>** |  | [default to null]

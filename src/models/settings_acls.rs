@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct SettingsAcls {
     /// ACL policies settings.
     #[serde(rename = "acl_policy_settings")]
-    pub acl_policy_settings: Option<::models::SettingsAclsAclPolicySettings>,
+    pub acl_policy_settings: Option <crate::models::SettingsAclsAclPolicySettings>,
 }

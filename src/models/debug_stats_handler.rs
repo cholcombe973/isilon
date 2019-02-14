@@ -5,22 +5,22 @@ use serde_json::Value;
 pub struct DebugStatsHandler {
     /// Per-method statistics.
     #[serde(rename = "DELETE")]
-    pub delete: Option<::models::DebugStatsUnknown>,
+    pub delete: Option <crate::models::DebugStatsUnknown>,
     /// Per-method statistics.
     #[serde(rename = "GET")]
-    pub get: Option<::models::DebugStatsUnknown>,
+    pub get: Option <crate::models::DebugStatsUnknown>,
     /// Per-method statistics.
     #[serde(rename = "HEAD")]
-    pub head: Option<::models::DebugStatsUnknown>,
+    pub head: Option <crate::models::DebugStatsUnknown>,
     /// Per-method statistics.
     #[serde(rename = "POST")]
-    pub post: Option<::models::DebugStatsUnknown>,
+    pub post: Option <crate::models::DebugStatsUnknown>,
     /// Per-method statistics.
     #[serde(rename = "PUT")]
-    pub put: Option<::models::DebugStatsUnknown>,
+    pub put: Option <crate::models::DebugStatsUnknown>,
     /// Per-method statistics.
     #[serde(rename = "UNSUPPORTED")]
-    pub unsupported: Option<::models::DebugStatsUnknown>,
+    pub unsupported: Option <crate::models::DebugStatsUnknown>,
     /// The URI.
     #[serde(rename = "name")]
     pub name: Option<String>,

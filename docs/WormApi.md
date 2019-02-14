@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **create_worm_domain**
-> ::models::WormDomainExtended create_worm_domain(ctx, worm_domain)
+>crate::models::WormDomainExtended create_worm_domain(ctx, worm_domain)
 
 
 Create a WORM domain.
@@ -41,7 +41,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_worm_domain**
-> ::models::WormDomains get_worm_domain(ctx, worm_domain_id)
+>crate::models::WormDomains get_worm_domain(ctx, worm_domain_id)
 
 
 View a single WORM domain.
@@ -69,7 +69,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_worm_settings**
-> ::models::WormSettings get_worm_settings(ctx, )
+>crate::models::WormSettings get_worm_settings(ctx, )
 
 
 Get the global WORM settings.
@@ -93,7 +93,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_worm_domains**
-> ::models::WormDomainsExtended list_worm_domains(ctx, optional)
+>crate::models::WormDomainsExtended list_worm_domains(ctx, optional)
 
 
 List all WORM domains.

@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, query, Error};
 
-pub struct FsaResultsApiClient<C: hyper::client::Connect> {
+pub struct FsaResultsApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> FsaResultsApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> FsaResultsApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> FsaResultsApiClient<C> {
         FsaResultsApiClient {
             configuration: configuration,
@@ -35,7 +34,7 @@ pub trait FsaResultsApi {
         &self,
         id: &str,
         stat: &str,
-    ) -> Box<Future<Item = ::models::HistogramStatBy, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::HistogramStatBy, Error = Error>>;
     fn get_histogram_stat_by_breakout(
         &self,
         histogram_stat_by_breakout: &str,
@@ -53,7 +52,7 @@ pub trait FsaResultsApi {
         path_ext_filter: &str,
         ctime_filter: i32,
         atime_filter: i32,
-    ) -> Box<Future<Item = ::models::HistogramStatBy, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::HistogramStatBy, Error = Error>>;
     fn get_result_directories(
         &self,
         id: &str,
@@ -62,7 +61,7 @@ pub trait FsaResultsApi {
         limit: i32,
         comp_report: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::ResultDirectories, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ResultDirectories, Error = Error>>;
     fn get_result_directory(
         &self,
         result_directory_id: i32,
@@ -71,11 +70,11 @@ pub trait FsaResultsApi {
         limit: i32,
         comp_report: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::ResultDirectories, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ResultDirectories, Error = Error>>;
     fn get_result_histogram(
         &self,
         id: &str,
-    ) -> Box<Future<Item = ::models::ResultHistogram, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ResultHistogram, Error = Error>>;
     fn get_result_histogram_stat(
         &self,
         result_histogram_stat: &str,
@@ -91,7 +90,7 @@ pub trait FsaResultsApi {
         path_ext_filter: &str,
         ctime_filter: i32,
         atime_filter: i32,
-    ) -> Box<Future<Item = ::models::ResultHistogram, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ResultHistogram, Error = Error>>;
     fn get_result_top_dir(
         &self,
         result_top_dir_id: &str,
@@ -101,11 +100,11 @@ pub trait FsaResultsApi {
         limit: i32,
         comp_report: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::ResultTopDirs, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ResultTopDirs, Error = Error>>;
     fn get_result_top_dirs(
         &self,
         id: &str,
-    ) -> Box<Future<Item = ::models::ResultTopDirs, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ResultTopDirs, Error = Error>>;
     fn get_result_top_file(
         &self,
         result_top_file_id: &str,
@@ -115,51 +114,30 @@ pub trait FsaResultsApi {
         limit: i32,
         comp_report: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::ResultTopFiles, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ResultTopFiles, Error = Error>>;
     fn get_result_top_files(
         &self,
         id: &str,
-    ) -> Box<Future<Item = ::models::ResultTopFiles, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ResultTopFiles, Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> FsaResultsApi for FsaResultsApiClient<C> {
     fn get_histogram_stat_by(
         &self,
         id: &str,
         stat: &str,
-    ) -> Box<Future<Item = ::models::HistogramStatBy, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::HistogramStatBy, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/fsa/results/{Id}/histogram/{Stat}/by",
-            configuration.base_path,
+            self.configuration.base_path,
             Id = id,
             Stat = stat
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::HistogramStatBy, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -180,12 +158,8 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
         path_ext_filter: &str,
         ctime_filter: i32,
         atime_filter: i32,
-    ) -> Box<Future<Item = ::models::HistogramStatBy, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::HistogramStatBy, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("directory_filter", &directory_filter.to_string())
             .append_pair("attribute_filter", &attribute_filter.to_string())
             .append_pair("node_pool_filter", &node_pool_filter.to_string())
@@ -201,34 +175,17 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/fsa/results/{Id}/histogram/{Stat}/by/{HistogramStatByBreakout}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             HistogramStatByBreakout = histogram_stat_by_breakout,
             Id = id,
             Stat = stat
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::HistogramStatBy, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -240,12 +197,8 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
         limit: i32,
         comp_report: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::ResultDirectories, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ResultDirectories, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("path", &path.to_string())
             .append_pair("limit", &limit.to_string())
@@ -254,32 +207,15 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/fsa/results/{Id}/directories?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             Id = id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ResultDirectories, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -291,12 +227,8 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
         limit: i32,
         comp_report: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::ResultDirectories, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ResultDirectories, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("comp_report", &comp_report.to_string())
@@ -304,71 +236,33 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/fsa/results/{Id}/directories/{ResultDirectoryId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             ResultDirectoryId = result_directory_id,
             Id = id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ResultDirectories, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_result_histogram(
         &self,
         id: &str,
-    ) -> Box<Future<Item = ::models::ResultHistogram, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::ResultHistogram, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/fsa/results/{Id}/histogram",
-            configuration.base_path,
+            self.configuration.base_path,
             Id = id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ResultHistogram, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -387,12 +281,8 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
         path_ext_filter: &str,
         ctime_filter: i32,
         atime_filter: i32,
-    ) -> Box<Future<Item = ::models::ResultHistogram, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ResultHistogram, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("directory_filter", &directory_filter.to_string())
             .append_pair("attribute_filter", &attribute_filter.to_string())
             .append_pair("node_pool_filter", &node_pool_filter.to_string())
@@ -407,33 +297,16 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/fsa/results/{Id}/histogram/{ResultHistogramStat}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             ResultHistogramStat = result_histogram_stat,
             Id = id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ResultHistogram, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -446,12 +319,8 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
         limit: i32,
         comp_report: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::ResultTopDirs, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ResultTopDirs, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("start", &start.to_string())
             .append_pair("limit", &limit.to_string())
@@ -460,69 +329,33 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/fsa/results/{Id}/top-dirs/{ResultTopDirId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             ResultTopDirId = result_top_dir_id,
             Id = id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ResultTopDirs, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_result_top_dirs(
         &self,
         id: &str,
-    ) -> Box<Future<Item = ::models::ResultTopDirs, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::ResultTopDirs, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/fsa/results/{Id}/top-dirs",
-            configuration.base_path,
+            self.configuration.base_path,
             Id = id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ResultTopDirs, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -535,12 +368,8 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
         limit: i32,
         comp_report: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::ResultTopFiles, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ResultTopFiles, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("start", &start.to_string())
             .append_pair("limit", &limit.to_string())
@@ -549,69 +378,33 @@ impl<C: hyper::client::Connect> FsaResultsApi for FsaResultsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/fsa/results/{Id}/top-files/{ResultTopFileId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             ResultTopFileId = result_top_file_id,
             Id = id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ResultTopFiles, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_result_top_files(
         &self,
         id: &str,
-    ) -> Box<Future<Item = ::models::ResultTopFiles, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::ResultTopFiles, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/fsa/results/{Id}/top-files",
-            configuration.base_path,
+            self.configuration.base_path,
             Id = id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ResultTopFiles, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 }

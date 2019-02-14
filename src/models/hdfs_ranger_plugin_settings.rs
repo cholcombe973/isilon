@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct HdfsRangerPluginSettings {
     /// Settings for the HDFS ranger plugin
     #[serde(rename = "settings")]
-    pub settings: Option<::models::HdfsRangerPluginSettingsSettings>,
+    pub settings: Option <crate::models::HdfsRangerPluginSettingsSettings>,
 }

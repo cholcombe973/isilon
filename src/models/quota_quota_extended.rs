@@ -25,13 +25,13 @@ pub struct QuotaQuotaExtended {
     pub path: String,
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "persona")]
-    pub persona: Option<::models::AuthAccessAccessItemFileGroup>,
+    pub persona: Option <crate::models::AuthAccessAccessItemFileGroup>,
     /// True if the accounting is accurate on the quota.  If false, this quota is waiting on completion of a QuotaScan job.
     #[serde(rename = "ready")]
     pub ready: bool,
     ///
     #[serde(rename = "thresholds")]
-    pub thresholds: ::models::QuotaQuotaThresholdsExtended,
+    pub thresholds:crate::models::QuotaQuotaThresholdsExtended,
     /// If true, thresholds apply to data plus filesystem overhead required to store the data (i.e. 'physical' usage).
     #[serde(rename = "thresholds_include_overhead")]
     pub thresholds_include_overhead: bool,
@@ -40,5 +40,5 @@ pub struct QuotaQuotaExtended {
     pub _type: String,
     ///
     #[serde(rename = "usage")]
-    pub usage: ::models::QuotaQuotaUsage,
+    pub usage:crate::models::QuotaQuotaUsage,
 }

@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **get_report_subreport**
-> ::models::ReportSubreports get_report_subreport(ctx, report_subreport_id, rid)
+>crate::models::ReportSubreports get_report_subreport(ctx, report_subreport_id, rid)
 
 
 View a single SyncIQ subreport.
@@ -38,7 +38,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_report_subreports**
-> ::models::ReportSubreportsExtended get_report_subreports(ctx, rid, optional)
+>crate::models::ReportSubreportsExtended get_report_subreports(ctx, rid, optional)
 
 
 Get a list of SyncIQ subreports for a report.

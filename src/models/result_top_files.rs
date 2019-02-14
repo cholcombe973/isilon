@@ -14,7 +14,7 @@ pub struct ResultTopFiles {
     pub dir_atime_enabled: bool,
     /// Files listing.
     #[serde(rename = "files")]
-    pub files: Vec<::models::ResultTopFilesFile>,
+    pub files: Vec <crate::models::ResultTopFilesFile>,
     /// Limit on number of top results.
     #[serde(rename = "top_n_max")]
     pub top_n_max: i32,

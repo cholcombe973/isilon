@@ -33,7 +33,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_debug_stats**
-> ::models::DebugStats get_debug_stats(ctx, )
+>crate::models::DebugStats get_debug_stats(ctx, )
 
 
 List cumulative call statistics for each resource.

@@ -95,7 +95,7 @@ Method | HTTP request | Description
 
 
 # **create_auth_cache_item**
-> ::models::CreateResponse create_auth_cache_item(ctx, auth_cache_item, optional)
+>crate::models::CreateResponse create_auth_cache_item(ctx, auth_cache_item, optional)
 
 
 Flush the Security Objects Cache.
@@ -132,7 +132,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_auth_group**
-> ::models::CreateResponse create_auth_group(ctx, auth_group, optional)
+>crate::models::CreateResponse create_auth_group(ctx, auth_group, optional)
 
 
 Create a new group.
@@ -171,7 +171,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_auth_refresh_item**
-> ::models::CreateAuthRefreshItemResponse create_auth_refresh_item(ctx, auth_refresh_item)
+>crate::models::CreateAuthRefreshItemResponse create_auth_refresh_item(ctx, auth_refresh_item)
 
 
 Refresh the authentication service configuration.
@@ -199,7 +199,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_auth_role**
-> ::models::CreateResponse create_auth_role(ctx, auth_role)
+>crate::models::CreateResponse create_auth_role(ctx, auth_role)
 
 
 Create a new role.
@@ -227,7 +227,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_auth_user**
-> ::models::CreateResponse create_auth_user(ctx, auth_user, optional)
+>crate::models::CreateResponse create_auth_user(ctx, auth_user, optional)
 
 
 Create a new user.
@@ -266,7 +266,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_mapping_identity**
-> ::models::Empty create_mapping_identity(ctx, mapping_identity, optional)
+>crate::models::Empty create_mapping_identity(ctx, mapping_identity, optional)
 
 
 Manually set or modify a mapping between two personae.
@@ -305,7 +305,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_mapping_identity_0**
-> ::models::MappingIdentities create_mapping_identity_0(ctx, mapping_identity, mapping_identity_id, optional)
+>crate::models::MappingIdentities create_mapping_identity_0(ctx, mapping_identity, mapping_identity_id, optional)
 
 
 Manually set or modify a mapping between two personae.
@@ -345,7 +345,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_providers_ads_item**
-> ::models::CreateResponse create_providers_ads_item(ctx, providers_ads_item)
+>crate::models::CreateResponse create_providers_ads_item(ctx, providers_ads_item)
 
 
 Create a new ADS provider.
@@ -373,7 +373,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_providers_file_item**
-> ::models::CreateResponse create_providers_file_item(ctx, providers_file_item)
+>crate::models::CreateResponse create_providers_file_item(ctx, providers_file_item)
 
 
 Create a new file provider.
@@ -401,7 +401,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_providers_krb5_item**
-> ::models::CreateResponse create_providers_krb5_item(ctx, providers_krb5_item)
+>crate::models::CreateResponse create_providers_krb5_item(ctx, providers_krb5_item)
 
 
 Create a new KRB5 provider.
@@ -429,7 +429,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_providers_ldap_item**
-> ::models::CreateResponse create_providers_ldap_item(ctx, providers_ldap_item, optional)
+>crate::models::CreateResponse create_providers_ldap_item(ctx, providers_ldap_item, optional)
 
 
 Create a new LDAP provider.
@@ -466,7 +466,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_providers_nis_item**
-> ::models::CreateResponse create_providers_nis_item(ctx, providers_nis_item)
+>crate::models::CreateResponse create_providers_nis_item(ctx, providers_nis_item)
 
 
 Create a new NIS provider.
@@ -494,7 +494,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_settings_krb5_domain**
-> ::models::CreateResponse create_settings_krb5_domain(ctx, settings_krb5_domain)
+>crate::models::CreateResponse create_settings_krb5_domain(ctx, settings_krb5_domain)
 
 
 Create a new krb5 domain.
@@ -522,7 +522,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_settings_krb5_realm**
-> ::models::CreateResponse create_settings_krb5_realm(ctx, settings_krb5_realm)
+>crate::models::CreateResponse create_settings_krb5_realm(ctx, settings_krb5_realm)
 
 
 Create a new krb5 realm.
@@ -1031,7 +1031,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_auth_access_user**
-> ::models::AuthAccess get_auth_access_user(ctx, auth_access_user, optional)
+>crate::models::AuthAccess get_auth_access_user(ctx, auth_access_user, optional)
 
 
 Determine user's access rights to a file
@@ -1071,7 +1071,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_auth_group**
-> ::models::AuthGroups get_auth_group(ctx, auth_group_id, optional)
+>crate::models::AuthGroups get_auth_group(ctx, auth_group_id, optional)
 
 
 Retrieve the group information.
@@ -1112,7 +1112,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_auth_id**
-> ::models::AuthId get_auth_id(ctx, )
+>crate::models::AuthId get_auth_id(ctx, )
 
 
 Retrieve the current security token.
@@ -1136,7 +1136,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_auth_ldap_template**
-> ::models::AuthLdapTemplates get_auth_ldap_template(ctx, auth_ldap_template_id)
+>crate::models::AuthLdapTemplates get_auth_ldap_template(ctx, auth_ldap_template_id)
 
 
 Retrieve the LDAP provider template.
@@ -1164,7 +1164,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_auth_ldap_templates**
-> ::models::AuthLdapTemplatesExtended get_auth_ldap_templates(ctx, )
+>crate::models::AuthLdapTemplatesExtended get_auth_ldap_templates(ctx, )
 
 
 List all LDAP provider templates.
@@ -1188,7 +1188,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_auth_log_level**
-> ::models::AuthLogLevel get_auth_log_level(ctx, )
+>crate::models::AuthLogLevel get_auth_log_level(ctx, )
 
 
 Get the current authentications service and netlogon logging level.
@@ -1212,7 +1212,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_auth_netgroup**
-> ::models::AuthNetgroups get_auth_netgroup(ctx, auth_netgroup_id, optional)
+>crate::models::AuthNetgroups get_auth_netgroup(ctx, auth_netgroup_id, optional)
 
 
 Retrieve the user information.
@@ -1252,7 +1252,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_auth_privileges**
-> ::models::AuthPrivileges get_auth_privileges(ctx, )
+>crate::models::AuthPrivileges get_auth_privileges(ctx, )
 
 
 List all privileges.
@@ -1276,7 +1276,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_auth_role**
-> ::models::AuthRoles get_auth_role(ctx, auth_role_id, optional)
+>crate::models::AuthRoles get_auth_role(ctx, auth_role_id, optional)
 
 
 Retrieve the role information.
@@ -1313,7 +1313,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_auth_shells**
-> ::models::AuthShells get_auth_shells(ctx, )
+>crate::models::AuthShells get_auth_shells(ctx, )
 
 
 List all shells.
@@ -1337,7 +1337,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_auth_user**
-> ::models::AuthUsers get_auth_user(ctx, auth_user_id, optional)
+>crate::models::AuthUsers get_auth_user(ctx, auth_user_id, optional)
 
 
 Retrieve the user information.
@@ -1378,7 +1378,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_auth_wellknown**
-> ::models::AuthWellknowns get_auth_wellknown(ctx, auth_wellknown_id, optional)
+>crate::models::AuthWellknowns get_auth_wellknown(ctx, auth_wellknown_id, optional)
 
 
 Retrieve the wellknown persona.
@@ -1415,7 +1415,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_auth_wellknowns**
-> ::models::AuthWellknowns get_auth_wellknowns(ctx, )
+>crate::models::AuthWellknowns get_auth_wellknowns(ctx, )
 
 
 List all wellknown personas.
@@ -1439,7 +1439,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_mapping_dump**
-> ::models::MappingDump get_mapping_dump(ctx, optional)
+>crate::models::MappingDump get_mapping_dump(ctx, optional)
 
 
 Retrieve all identity mappings (uid, gid, sid, and on-disk) for the supplied source persona.
@@ -1475,7 +1475,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_mapping_identity**
-> ::models::MappingIdentities get_mapping_identity(ctx, mapping_identity_id, optional)
+>crate::models::MappingIdentities get_mapping_identity(ctx, mapping_identity_id, optional)
 
 
 Retrieve all identity mappings (uid, gid, sid, and on-disk) for the supplied source persona.
@@ -1513,7 +1513,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_mapping_users_lookup**
-> ::models::MappingUsersLookup get_mapping_users_lookup(ctx, optional)
+>crate::models::MappingUsersLookup get_mapping_users_lookup(ctx, optional)
 
 
 Retrieve the user information.
@@ -1553,7 +1553,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_mapping_users_rules**
-> ::models::MappingUsersRules get_mapping_users_rules(ctx, optional)
+>crate::models::MappingUsersRules get_mapping_users_rules(ctx, optional)
 
 
 Retrieve the user mapping rules.
@@ -1588,7 +1588,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_providers_ads_by_id**
-> ::models::ProvidersAds get_providers_ads_by_id(ctx, providers_ads_id, optional)
+>crate::models::ProvidersAds get_providers_ads_by_id(ctx, providers_ads_id, optional)
 
 
 Retrieve the ADS provider.
@@ -1625,7 +1625,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_providers_file_by_id**
-> ::models::ProvidersFile get_providers_file_by_id(ctx, providers_file_id, optional)
+>crate::models::ProvidersFile get_providers_file_by_id(ctx, providers_file_id, optional)
 
 
 Retrieve the file provider.
@@ -1662,7 +1662,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_providers_krb5_by_id**
-> ::models::ProvidersKrb5 get_providers_krb5_by_id(ctx, providers_krb5_id, optional)
+>crate::models::ProvidersKrb5 get_providers_krb5_by_id(ctx, providers_krb5_id, optional)
 
 
 Retrieve the KRB5 provider.
@@ -1699,7 +1699,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_providers_ldap_by_id**
-> ::models::ProvidersLdap get_providers_ldap_by_id(ctx, providers_ldap_id, optional)
+>crate::models::ProvidersLdap get_providers_ldap_by_id(ctx, providers_ldap_id, optional)
 
 
 Retrieve the LDAP provider.
@@ -1736,7 +1736,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_providers_local**
-> ::models::ProvidersLocal get_providers_local(ctx, optional)
+>crate::models::ProvidersLocal get_providers_local(ctx, optional)
 
 
 List all local providers.
@@ -1771,7 +1771,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_providers_local_by_id**
-> ::models::ProvidersLocal get_providers_local_by_id(ctx, providers_local_id, optional)
+>crate::models::ProvidersLocal get_providers_local_by_id(ctx, providers_local_id, optional)
 
 
 Retrieve the local provider.
@@ -1808,7 +1808,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_providers_nis_by_id**
-> ::models::ProvidersNis get_providers_nis_by_id(ctx, providers_nis_id, optional)
+>crate::models::ProvidersNis get_providers_nis_by_id(ctx, providers_nis_id, optional)
 
 
 Retrieve the NIS provider.
@@ -1845,7 +1845,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_providers_summary**
-> ::models::ProvidersSummary get_providers_summary(ctx, optional)
+>crate::models::ProvidersSummary get_providers_summary(ctx, optional)
 
 
 Retrieve the summary information.
@@ -1881,7 +1881,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_settings_acls**
-> ::models::SettingsAcls get_settings_acls(ctx, optional)
+>crate::models::SettingsAcls get_settings_acls(ctx, optional)
 
 
 Retrieve the ACL policy settings and preset configurations.
@@ -1916,7 +1916,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_settings_global**
-> ::models::SettingsGlobal get_settings_global(ctx, optional)
+>crate::models::SettingsGlobal get_settings_global(ctx, optional)
 
 
 Retrieve the global settings.
@@ -1952,7 +1952,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_settings_krb5_defaults**
-> ::models::SettingsKrb5Defaults get_settings_krb5_defaults(ctx, )
+>crate::models::SettingsKrb5Defaults get_settings_krb5_defaults(ctx, )
 
 
 Retrieve the krb5 settings.
@@ -1976,7 +1976,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_settings_krb5_domain**
-> ::models::SettingsKrb5Domains get_settings_krb5_domain(ctx, settings_krb5_domain_id)
+>crate::models::SettingsKrb5Domains get_settings_krb5_domain(ctx, settings_krb5_domain_id)
 
 
 View the krb5 domain settings.
@@ -2004,7 +2004,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_settings_krb5_realm**
-> ::models::SettingsKrb5Realms get_settings_krb5_realm(ctx, settings_krb5_realm_id)
+>crate::models::SettingsKrb5Realms get_settings_krb5_realm(ctx, settings_krb5_realm_id)
 
 
 Retrieve the krb5 settings for realms.
@@ -2032,7 +2032,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_settings_mapping**
-> ::models::SettingsMapping get_settings_mapping(ctx, optional)
+>crate::models::SettingsMapping get_settings_mapping(ctx, optional)
 
 
 Retrieve the mapping settings.
@@ -2068,7 +2068,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_auth_groups**
-> ::models::AuthGroupsExtended list_auth_groups(ctx, optional)
+>crate::models::AuthGroupsExtended list_auth_groups(ctx, optional)
 
 
 List all groups.
@@ -2111,7 +2111,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_auth_roles**
-> ::models::AuthRolesExtended list_auth_roles(ctx, optional)
+>crate::models::AuthRolesExtended list_auth_roles(ctx, optional)
 
 
 List all roles.
@@ -2150,7 +2150,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_auth_users**
-> ::models::AuthUsersExtended list_auth_users(ctx, optional)
+>crate::models::AuthUsersExtended list_auth_users(ctx, optional)
 
 
 List all users.
@@ -2193,7 +2193,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_providers_ads**
-> ::models::ProvidersAdsExtended list_providers_ads(ctx, optional)
+>crate::models::ProvidersAdsExtended list_providers_ads(ctx, optional)
 
 
 List all ADS providers.
@@ -2228,7 +2228,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_providers_file**
-> ::models::ProvidersFile list_providers_file(ctx, optional)
+>crate::models::ProvidersFile list_providers_file(ctx, optional)
 
 
 List all file providers.
@@ -2263,7 +2263,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_providers_krb5**
-> ::models::ProvidersKrb5Extended list_providers_krb5(ctx, optional)
+>crate::models::ProvidersKrb5Extended list_providers_krb5(ctx, optional)
 
 
 List all KRB5 providers.
@@ -2298,7 +2298,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_providers_ldap**
-> ::models::ProvidersLdap list_providers_ldap(ctx, optional)
+>crate::models::ProvidersLdap list_providers_ldap(ctx, optional)
 
 
 List all LDAP providers.
@@ -2333,7 +2333,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_providers_nis**
-> ::models::ProvidersNisExtended list_providers_nis(ctx, optional)
+>crate::models::ProvidersNisExtended list_providers_nis(ctx, optional)
 
 
 List all NIS providers.
@@ -2368,7 +2368,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_settings_krb5_domains**
-> ::models::SettingsKrb5Domains list_settings_krb5_domains(ctx, )
+>crate::models::SettingsKrb5Domains list_settings_krb5_domains(ctx, )
 
 
 Retrieve the krb5 settings for domains.
@@ -2392,7 +2392,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_settings_krb5_realms**
-> ::models::SettingsKrb5Realms list_settings_krb5_realms(ctx, )
+>crate::models::SettingsKrb5Realms list_settings_krb5_realms(ctx, )
 
 
 Retrieve the krb5 settings for realms.

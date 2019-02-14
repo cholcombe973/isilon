@@ -4,7 +4,7 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PoolsPoolInterfaces {
     #[serde(rename = "interfaces")]
-    pub interfaces: Option<Vec<::models::PoolsPoolInterfacesInterface>>,
+    pub interfaces: Option<Vec <crate::models::PoolsPoolInterfacesInterface>>,
     /// Continue returning results from previous call using this token (token should come from the previous call, resume cannot be used with other options).
     #[serde(rename = "resume")]
     pub resume: Option<String>,

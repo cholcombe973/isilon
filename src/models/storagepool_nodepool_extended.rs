@@ -35,5 +35,5 @@ pub struct StoragepoolNodepoolExtended {
     pub tier: Option<String>,
     /// Total pool usage.
     #[serde(rename = "usage")]
-    pub usage: ::models::StoragepoolTierUsage,
+    pub usage:crate::models::StoragepoolTierUsage,
 }

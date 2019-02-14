@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, put, query, Error};
 
-pub struct AuthApiClient<C: hyper::client::Connect> {
+pub struct AuthApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> AuthApiClient<C> {
+impl<C: hyper::client::connect::Connect> AuthApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> AuthApiClient<C> {
         AuthApiClient {
             configuration: configuration,
@@ -33,107 +32,107 @@ impl<C: hyper::client::Connect> AuthApiClient<C> {
 pub trait AuthApi {
     fn create_auth_cache_item(
         &self,
-        auth_cache_item: ::models::AuthCacheItem,
+        auth_cache_item: crate::models::AuthCacheItem,
         zone: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_auth_group(
         &self,
-        auth_group: ::models::AuthGroupCreateParams,
+        auth_group: crate::models::AuthGroupCreateParams,
         force: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_auth_refresh_item(
         &self,
-        auth_refresh_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::CreateAuthRefreshItemResponse, Error = Error>>;
+        auth_refresh_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::CreateAuthRefreshItemResponse, Error = Error>>;
     fn create_auth_role(
         &self,
-        auth_role: ::models::AuthRoleCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+        auth_role: crate::models::AuthRoleCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_auth_user(
         &self,
-        auth_user: ::models::AuthUserCreateParams,
+        auth_user: crate::models::AuthUserCreateParams,
         force: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_mapping_identity(
         &self,
-        mapping_identity: ::models::MappingIdentityCreateParams,
+        mapping_identity: crate::models::MappingIdentityCreateParams,
         var_2way: bool,
         zone: &str,
         replace: bool,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_mapping_identity_0(
         &self,
-        mapping_identity: ::models::Empty,
+        mapping_identity: crate::models::Empty,
         mapping_identity_id: &str,
         _type: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::MappingIdentities, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::MappingIdentities, Error = Error>>;
     fn create_providers_ads_item(
         &self,
-        providers_ads_item: ::models::ProvidersAdsItem,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+        providers_ads_item: crate::models::ProvidersAdsItem,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_providers_file_item(
         &self,
-        providers_file_item: ::models::ProvidersFileItem,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+        providers_file_item: crate::models::ProvidersFileItem,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_providers_krb5_item(
         &self,
-        providers_krb5_item: ::models::ProvidersKrb5Item,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+        providers_krb5_item: crate::models::ProvidersKrb5Item,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_providers_ldap_item(
         &self,
-        providers_ldap_item: ::models::ProvidersLdapItem,
+        providers_ldap_item: crate::models::ProvidersLdapItem,
         force: bool,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_providers_nis_item(
         &self,
-        providers_nis_item: ::models::ProvidersNisItem,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+        providers_nis_item: crate::models::ProvidersNisItem,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_settings_krb5_domain(
         &self,
-        settings_krb5_domain: ::models::SettingsKrb5DomainCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+        settings_krb5_domain: crate::models::SettingsKrb5DomainCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_settings_krb5_realm(
         &self,
-        settings_krb5_realm: ::models::SettingsKrb5RealmCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+        settings_krb5_realm: crate::models::SettingsKrb5RealmCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn delete_auth_group(
         &self,
         auth_group_id: &str,
         cached: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_auth_groups(
         &self,
         cached: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_auth_role(&self, auth_role_id: &str) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_auth_role(&self, auth_role_id: &str) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_auth_user(
         &self,
         auth_user_id: &str,
         cached: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_auth_users(
         &self,
         cached: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_mapping_identities(
         &self,
         filter: &str,
         zone: &str,
         remove: bool,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_mapping_identity(
         &self,
         mapping_identity_id: &str,
@@ -141,39 +140,39 @@ pub trait AuthApi {
         var_2way: bool,
         target: &str,
         remove: bool,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_providers_ads_by_id(
         &self,
         providers_ads_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_providers_file_by_id(
         &self,
         providers_file_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_providers_krb5_by_id(
         &self,
         providers_krb5_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_providers_ldap_by_id(
         &self,
         providers_ldap_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_providers_local_by_id(
         &self,
         providers_local_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_providers_nis_by_id(
         &self,
         providers_nis_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_settings_krb5_domain(
         &self,
         settings_krb5_domain_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_settings_krb5_realm(
         &self,
         settings_krb5_realm_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn get_auth_access_user(
         &self,
         auth_access_user: &str,
@@ -181,7 +180,7 @@ pub trait AuthApi {
         share: &str,
         zone: &str,
         numeric: bool,
-    ) -> Box<Future<Item = ::models::AuthAccess, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::AuthAccess, Error = Error>>;
     fn get_auth_group(
         &self,
         auth_group_id: &str,
@@ -190,16 +189,18 @@ pub trait AuthApi {
         query_member_of: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = ::models::AuthGroups, Error = Error>>;
-    fn get_auth_id(&self) -> Box<Future<Item = ::models::AuthId, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::AuthGroups, Error = Error>>;
+    fn get_auth_id(&self) -> Box<dyn Future<Item = crate::models::AuthId, Error = Error>>;
     fn get_auth_ldap_template(
         &self,
         auth_ldap_template_id: &str,
-    ) -> Box<Future<Item = ::models::AuthLdapTemplates, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::AuthLdapTemplates, Error = Error>>;
     fn get_auth_ldap_templates(
         &self,
-    ) -> Box<Future<Item = ::models::AuthLdapTemplatesExtended, Error = Error>>;
-    fn get_auth_log_level(&self) -> Box<Future<Item = ::models::AuthLogLevel, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::AuthLdapTemplatesExtended, Error = Error>>;
+    fn get_auth_log_level(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::AuthLogLevel, Error = Error>>;
     fn get_auth_netgroup(
         &self,
         auth_netgroup_id: &str,
@@ -207,14 +208,16 @@ pub trait AuthApi {
         recursive: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = ::models::AuthNetgroups, Error = Error>>;
-    fn get_auth_privileges(&self) -> Box<Future<Item = ::models::AuthPrivileges, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::AuthNetgroups, Error = Error>>;
+    fn get_auth_privileges(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::AuthPrivileges, Error = Error>>;
     fn get_auth_role(
         &self,
         auth_role_id: &str,
         resolve_names: bool,
-    ) -> Box<Future<Item = ::models::AuthRoles, Error = Error>>;
-    fn get_auth_shells(&self) -> Box<Future<Item = ::models::AuthShells, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::AuthRoles, Error = Error>>;
+    fn get_auth_shells(&self) -> Box<dyn Future<Item = crate::models::AuthShells, Error = Error>>;
     fn get_auth_user(
         &self,
         auth_user_id: &str,
@@ -223,24 +226,26 @@ pub trait AuthApi {
         query_member_of: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = ::models::AuthUsers, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::AuthUsers, Error = Error>>;
     fn get_auth_wellknown(
         &self,
         auth_wellknown_id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::AuthWellknowns, Error = Error>>;
-    fn get_auth_wellknowns(&self) -> Box<Future<Item = ::models::AuthWellknowns, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::AuthWellknowns, Error = Error>>;
+    fn get_auth_wellknowns(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::AuthWellknowns, Error = Error>>;
     fn get_mapping_dump(
         &self,
         nocreate: bool,
         zone: &str,
-    ) -> Box<Future<Item = ::models::MappingDump, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::MappingDump, Error = Error>>;
     fn get_mapping_identity(
         &self,
         mapping_identity_id: &str,
         nocreate: bool,
         zone: &str,
-    ) -> Box<Future<Item = ::models::MappingIdentities, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::MappingIdentities, Error = Error>>;
     fn get_mapping_users_lookup(
         &self,
         primary_gid: i32,
@@ -249,75 +254,75 @@ pub trait AuthApi {
         gid: Vec<i32>,
         user: &str,
         kerberos_principal: &str,
-    ) -> Box<Future<Item = ::models::MappingUsersLookup, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::MappingUsersLookup, Error = Error>>;
     fn get_mapping_users_rules(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::MappingUsersRules, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::MappingUsersRules, Error = Error>>;
     fn get_providers_ads_by_id(
         &self,
         providers_ads_id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersAds, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ProvidersAds, Error = Error>>;
     fn get_providers_file_by_id(
         &self,
         providers_file_id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersFile, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ProvidersFile, Error = Error>>;
     fn get_providers_krb5_by_id(
         &self,
         providers_krb5_id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersKrb5, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ProvidersKrb5, Error = Error>>;
     fn get_providers_ldap_by_id(
         &self,
         providers_ldap_id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersLdap, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ProvidersLdap, Error = Error>>;
     fn get_providers_local(
         &self,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersLocal, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ProvidersLocal, Error = Error>>;
     fn get_providers_local_by_id(
         &self,
         providers_local_id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersLocal, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ProvidersLocal, Error = Error>>;
     fn get_providers_nis_by_id(
         &self,
         providers_nis_id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersNis, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ProvidersNis, Error = Error>>;
     fn get_providers_summary(
         &self,
         groupnet: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::ProvidersSummary, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ProvidersSummary, Error = Error>>;
     fn get_settings_acls(
         &self,
         preset: &str,
-    ) -> Box<Future<Item = ::models::SettingsAcls, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SettingsAcls, Error = Error>>;
     fn get_settings_global(
         &self,
         scope: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::SettingsGlobal, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SettingsGlobal, Error = Error>>;
     fn get_settings_krb5_defaults(
         &self,
-    ) -> Box<Future<Item = ::models::SettingsKrb5Defaults, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SettingsKrb5Defaults, Error = Error>>;
     fn get_settings_krb5_domain(
         &self,
         settings_krb5_domain_id: &str,
-    ) -> Box<Future<Item = ::models::SettingsKrb5Domains, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SettingsKrb5Domains, Error = Error>>;
     fn get_settings_krb5_realm(
         &self,
         settings_krb5_realm_id: &str,
-    ) -> Box<Future<Item = ::models::SettingsKrb5Realms, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SettingsKrb5Realms, Error = Error>>;
     fn get_settings_mapping(
         &self,
         scope: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::SettingsMapping, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SettingsMapping, Error = Error>>;
     fn list_auth_groups(
         &self,
         domain: &str,
@@ -329,7 +334,7 @@ pub trait AuthApi {
         limit: i32,
         provider: &str,
         query_member_of: bool,
-    ) -> Box<Future<Item = ::models::AuthGroupsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::AuthGroupsExtended, Error = Error>>;
     fn list_auth_roles(
         &self,
         sort: &str,
@@ -337,7 +342,7 @@ pub trait AuthApi {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::AuthRolesExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::AuthRolesExtended, Error = Error>>;
     fn list_auth_users(
         &self,
         domain: &str,
@@ -349,743 +354,387 @@ pub trait AuthApi {
         limit: i32,
         provider: &str,
         query_member_of: bool,
-    ) -> Box<Future<Item = ::models::AuthUsersExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::AuthUsersExtended, Error = Error>>;
     fn list_providers_ads(
         &self,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersAdsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ProvidersAdsExtended, Error = Error>>;
     fn list_providers_file(
         &self,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersFile, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ProvidersFile, Error = Error>>;
     fn list_providers_krb5(
         &self,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersKrb5Extended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ProvidersKrb5Extended, Error = Error>>;
     fn list_providers_ldap(
         &self,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersLdap, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ProvidersLdap, Error = Error>>;
     fn list_providers_nis(
         &self,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersNisExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ProvidersNisExtended, Error = Error>>;
     fn list_settings_krb5_domains(
         &self,
-    ) -> Box<Future<Item = ::models::SettingsKrb5Domains, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SettingsKrb5Domains, Error = Error>>;
     fn list_settings_krb5_realms(
         &self,
-    ) -> Box<Future<Item = ::models::SettingsKrb5Realms, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SettingsKrb5Realms, Error = Error>>;
     fn update_auth_group(
         &self,
-        auth_group: ::models::AuthGroup,
+        auth_group: crate::models::AuthGroup,
         auth_group_id: &str,
         force: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_auth_log_level(
         &self,
-        auth_log_level: ::models::AuthLogLevelExtended,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        auth_log_level: crate::models::AuthLogLevelExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_auth_role(
         &self,
-        auth_role: ::models::AuthRole,
+        auth_role: crate::models::AuthRole,
         auth_role_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_auth_user(
         &self,
-        auth_user: ::models::AuthUser,
+        auth_user: crate::models::AuthUser,
         auth_user_id: &str,
         force: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_mapping_import(
         &self,
-        mapping_import: ::models::MappingImport,
+        mapping_import: crate::models::MappingImport,
         zone: &str,
         replace: bool,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_mapping_users_rules(
         &self,
-        mapping_users_rules: ::models::MappingUsersRulesExtended,
+        mapping_users_rules: crate::models::MappingUsersRulesExtended,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_providers_ads_by_id(
         &self,
-        providers_ads_id_params: ::models::ProvidersAdsIdParams,
+        providers_ads_id_params: crate::models::ProvidersAdsIdParams,
         providers_ads_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_providers_file_by_id(
         &self,
-        providers_file_id_params: ::models::ProvidersFileIdParams,
+        providers_file_id_params: crate::models::ProvidersFileIdParams,
         providers_file_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_providers_krb5_by_id(
         &self,
-        providers_krb5_id_params: ::models::ProvidersKrb5IdParams,
+        providers_krb5_id_params: crate::models::ProvidersKrb5IdParams,
         providers_krb5_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_providers_ldap_by_id(
         &self,
-        providers_ldap_id_params: ::models::ProvidersLdapIdParams,
+        providers_ldap_id_params: crate::models::ProvidersLdapIdParams,
         providers_ldap_id: &str,
         force: bool,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_providers_local_by_id(
         &self,
-        providers_local_id_params: ::models::ProvidersLocalIdParams,
+        providers_local_id_params: crate::models::ProvidersLocalIdParams,
         providers_local_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_providers_nis_by_id(
         &self,
-        providers_nis_id_params: ::models::ProvidersNisIdParams,
+        providers_nis_id_params: crate::models::ProvidersNisIdParams,
         providers_nis_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_settings_acls(
         &self,
-        settings_acls: ::models::SettingsAclsExtended,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        settings_acls: crate::models::SettingsAclsExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_settings_global(
         &self,
-        settings_global: ::models::SettingsGlobalGlobalSettings,
+        settings_global: crate::models::SettingsGlobalGlobalSettings,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_settings_krb5_defaults(
         &self,
-        settings_krb5_defaults: ::models::SettingsKrb5DefaultsKrb5Settings,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        settings_krb5_defaults: crate::models::SettingsKrb5DefaultsKrb5Settings,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_settings_krb5_domain(
         &self,
-        settings_krb5_domain: ::models::SettingsKrb5Domain,
+        settings_krb5_domain: crate::models::SettingsKrb5Domain,
         settings_krb5_domain_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_settings_krb5_realm(
         &self,
-        settings_krb5_realm: ::models::SettingsKrb5Realm,
+        settings_krb5_realm: crate::models::SettingsKrb5Realm,
         settings_krb5_realm_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_settings_mapping(
         &self,
-        settings_mapping: ::models::SettingsMappingMappingSettings,
+        settings_mapping: crate::models::SettingsMappingMappingSettings,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> AuthApi for AuthApiClient<C> {
     fn create_auth_cache_item(
         &self,
-        auth_cache_item: ::models::AuthCacheItem,
+        auth_cache_item: crate::models::AuthCacheItem,
         zone: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/4/auth/cache?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&auth_cache_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &auth_cache_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_auth_group(
         &self,
-        auth_group: ::models::AuthGroupCreateParams,
+        auth_group: crate::models::AuthGroupCreateParams,
         force: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .append_pair("zone", &zone.to_string())
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/groups?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&auth_group).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &auth_group,
+            hyper::Method::POST,
         )
     }
 
     fn create_auth_refresh_item(
         &self,
-        auth_refresh_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::CreateAuthRefreshItemResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/auth/refresh", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&auth_refresh_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CreateAuthRefreshItemResponse,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        auth_refresh_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::CreateAuthRefreshItemResponse, Error = Error>> {
+        let uri_str = format!("{}/platform/3/auth/refresh", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &auth_refresh_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_auth_role(
         &self,
-        auth_role: ::models::AuthRoleCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/1/auth/roles", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&auth_role).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        auth_role: crate::models::AuthRoleCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let uri_str = format!("{}/platform/1/auth/roles", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &auth_role,
+            hyper::Method::POST,
         )
     }
 
     fn create_auth_user(
         &self,
-        auth_user: ::models::AuthUserCreateParams,
+        auth_user: crate::models::AuthUserCreateParams,
         force: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .append_pair("zone", &zone.to_string())
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/users?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&auth_user).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &auth_user,
+            hyper::Method::POST,
         )
     }
 
     fn create_mapping_identity(
         &self,
-        mapping_identity: ::models::MappingIdentityCreateParams,
+        mapping_identity: crate::models::MappingIdentityCreateParams,
         var_2way: bool,
         zone: &str,
         replace: bool,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("2way", &var_2way.to_string())
             .append_pair("zone", &zone.to_string())
             .append_pair("replace", &replace.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/mapping/identities?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&mapping_identity).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &mapping_identity,
+            hyper::Method::POST,
         )
     }
 
     fn create_mapping_identity_0(
         &self,
-        mapping_identity: ::models::Empty,
+        mapping_identity: crate::models::Empty,
         mapping_identity_id: &str,
         _type: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::MappingIdentities, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::MappingIdentities, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("type", &_type.to_string())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/mapping/identities/{MappingIdentityId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             MappingIdentityId = mapping_identity_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&mapping_identity).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::MappingIdentities, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &mapping_identity,
+            hyper::Method::POST,
         )
     }
 
     fn create_providers_ads_item(
         &self,
-        providers_ads_item: ::models::ProvidersAdsItem,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/auth/providers/ads", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&providers_ads_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        providers_ads_item: crate::models::ProvidersAdsItem,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/3/auth/providers/ads",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &providers_ads_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_providers_file_item(
         &self,
-        providers_file_item: ::models::ProvidersFileItem,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/1/auth/providers/file", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&providers_file_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        providers_file_item: crate::models::ProvidersFileItem,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/1/auth/providers/file",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &providers_file_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_providers_krb5_item(
         &self,
-        providers_krb5_item: ::models::ProvidersKrb5Item,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/auth/providers/krb5", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&providers_krb5_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        providers_krb5_item: crate::models::ProvidersKrb5Item,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/3/auth/providers/krb5",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &providers_krb5_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_providers_ldap_item(
         &self,
-        providers_ldap_item: ::models::ProvidersLdapItem,
+        providers_ldap_item: crate::models::ProvidersLdapItem,
         force: bool,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/4/auth/providers/ldap?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&providers_ldap_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &providers_ldap_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_providers_nis_item(
         &self,
-        providers_nis_item: ::models::ProvidersNisItem,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/auth/providers/nis", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&providers_nis_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        providers_nis_item: crate::models::ProvidersNisItem,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/3/auth/providers/nis",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &providers_nis_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_settings_krb5_domain(
         &self,
-        settings_krb5_domain: ::models::SettingsKrb5DomainCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        settings_krb5_domain: crate::models::SettingsKrb5DomainCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/auth/settings/krb5/domains",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&settings_krb5_domain).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &settings_krb5_domain,
+            hyper::Method::POST,
         )
     }
 
     fn create_settings_krb5_realm(
         &self,
-        settings_krb5_realm: ::models::SettingsKrb5RealmCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        settings_krb5_realm: crate::models::SettingsKrb5RealmCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/auth/settings/krb5/realms",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&settings_krb5_realm).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &settings_krb5_realm,
+            hyper::Method::POST,
         )
     }
 
@@ -1095,39 +744,23 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         cached: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("cached", &cached.to_string())
             .append_pair("zone", &zone.to_string())
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/groups/{AuthGroupId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             AuthGroupId = auth_group_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -1136,67 +769,35 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         cached: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("cached", &cached.to_string())
             .append_pair("zone", &zone.to_string())
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/groups?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_auth_role(&self, auth_role_id: &str) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_auth_role(&self, auth_role_id: &str) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/auth/roles/{AuthRoleId}",
-            configuration.base_path,
+            self.configuration.base_path,
             AuthRoleId = auth_role_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -1206,39 +807,23 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         cached: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("cached", &cached.to_string())
             .append_pair("zone", &zone.to_string())
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/users/{AuthUserId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             AuthUserId = auth_user_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -1247,37 +832,21 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         cached: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("cached", &cached.to_string())
             .append_pair("zone", &zone.to_string())
             .append_pair("provider", &provider.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/users?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -1286,37 +855,21 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         filter: &str,
         zone: &str,
         remove: bool,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("filter", &filter.to_string())
             .append_pair("zone", &zone.to_string())
             .append_pair("remove", &remove.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/mapping/identities?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -1327,12 +880,8 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         var_2way: bool,
         target: &str,
         remove: bool,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .append_pair("2way", &var_2way.to_string())
             .append_pair("target", &target.to_string())
@@ -1340,291 +889,151 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/mapping/identities/{MappingIdentityId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             MappingIdentityId = mapping_identity_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_providers_ads_by_id(
         &self,
         providers_ads_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/auth/providers/ads/{ProvidersAdsId}",
-            configuration.base_path,
+            self.configuration.base_path,
             ProvidersAdsId = providers_ads_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_providers_file_by_id(
         &self,
         providers_file_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/auth/providers/file/{ProvidersFileId}",
-            configuration.base_path,
+            self.configuration.base_path,
             ProvidersFileId = providers_file_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_providers_krb5_by_id(
         &self,
         providers_krb5_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/auth/providers/krb5/{ProvidersKrb5Id}",
-            configuration.base_path,
+            self.configuration.base_path,
             ProvidersKrb5Id = providers_krb5_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_providers_ldap_by_id(
         &self,
         providers_ldap_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/4/auth/providers/ldap/{ProvidersLdapId}",
-            configuration.base_path,
+            self.configuration.base_path,
             ProvidersLdapId = providers_ldap_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_providers_local_by_id(
         &self,
         providers_local_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/auth/providers/local/{ProvidersLocalId}",
-            configuration.base_path,
+            self.configuration.base_path,
             ProvidersLocalId = providers_local_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_providers_nis_by_id(
         &self,
         providers_nis_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/auth/providers/nis/{ProvidersNisId}",
-            configuration.base_path,
+            self.configuration.base_path,
             ProvidersNisId = providers_nis_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_settings_krb5_domain(
         &self,
         settings_krb5_domain_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/auth/settings/krb5/domains/{SettingsKrb5DomainId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SettingsKrb5DomainId = settings_krb5_domain_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_settings_krb5_realm(
         &self,
         settings_krb5_realm_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/auth/settings/krb5/realms/{SettingsKrb5RealmId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SettingsKrb5RealmId = settings_krb5_realm_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -1635,12 +1044,8 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         share: &str,
         zone: &str,
         numeric: bool,
-    ) -> Box<Future<Item = ::models::AuthAccess, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::AuthAccess, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("path", &path.to_string())
             .append_pair("share", &share.to_string())
             .append_pair("zone", &zone.to_string())
@@ -1648,31 +1053,15 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/access/{AuthAccessUser}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             AuthAccessUser = auth_access_user
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AuthAccess, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -1684,12 +1073,8 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         query_member_of: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = ::models::AuthGroups, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::AuthGroups, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("cached", &cached.to_string())
             .append_pair("resolve_names", &resolve_names.to_string())
             .append_pair("query_member_of", &query_member_of.to_string())
@@ -1698,162 +1083,69 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/groups/{AuthGroupId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             AuthGroupId = auth_group_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AuthGroups, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_auth_id(&self) -> Box<Future<Item = ::models::AuthId, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/1/auth/id", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AuthId, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn get_auth_id(&self) -> Box<dyn Future<Item = crate::models::AuthId, Error = Error>> {
+        let uri_str = format!("{}/platform/1/auth/id", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_auth_ldap_template(
         &self,
         auth_ldap_template_id: &str,
-    ) -> Box<Future<Item = ::models::AuthLdapTemplates, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::AuthLdapTemplates, Error = Error>> {
         let uri_str = format!(
             "{}/platform/4/auth/ldap-templates/{AuthLdapTemplateId}",
-            configuration.base_path,
+            self.configuration.base_path,
             AuthLdapTemplateId = auth_ldap_template_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AuthLdapTemplates, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_auth_ldap_templates(
         &self,
-    ) -> Box<Future<Item = ::models::AuthLdapTemplatesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/4/auth/ldap-templates", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AuthLdapTemplatesExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    ) -> Box<dyn Future<Item = crate::models::AuthLdapTemplatesExtended, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/4/auth/ldap-templates",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_auth_log_level(&self) -> Box<Future<Item = ::models::AuthLogLevel, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/3/auth/log-level", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AuthLogLevel, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn get_auth_log_level(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::AuthLogLevel, Error = Error>> {
+        let uri_str = format!("{}/platform/3/auth/log-level", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -1864,12 +1156,8 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         recursive: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = ::models::AuthNetgroups, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::AuthNetgroups, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("ignore_errors", &ignore_errors.to_string())
             .append_pair("recursive", &recursive.to_string())
             .append_pair("zone", &zone.to_string())
@@ -1877,61 +1165,30 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/netgroups/{AuthNetgroupId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             AuthNetgroupId = auth_netgroup_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AuthNetgroups, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_auth_privileges(&self) -> Box<Future<Item = ::models::AuthPrivileges, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/1/auth/privileges", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AuthPrivileges, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn get_auth_privileges(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::AuthPrivileges, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/1/auth/privileges",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -1939,71 +1196,31 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         &self,
         auth_role_id: &str,
         resolve_names: bool,
-    ) -> Box<Future<Item = ::models::AuthRoles, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::AuthRoles, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("resolve_names", &resolve_names.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/roles/{AuthRoleId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             AuthRoleId = auth_role_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AuthRoles, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_auth_shells(&self) -> Box<Future<Item = ::models::AuthShells, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/1/auth/shells", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AuthShells, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn get_auth_shells(&self) -> Box<dyn Future<Item = crate::models::AuthShells, Error = Error>> {
+        let uri_str = format!("{}/platform/1/auth/shells", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2015,12 +1232,8 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         query_member_of: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = ::models::AuthUsers, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::AuthUsers, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("cached", &cached.to_string())
             .append_pair("resolve_names", &resolve_names.to_string())
             .append_pair("query_member_of", &query_member_of.to_string())
@@ -2029,31 +1242,15 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/users/{AuthUserId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             AuthUserId = auth_user_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AuthUsers, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2061,71 +1258,36 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         &self,
         auth_wellknown_id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::AuthWellknowns, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::AuthWellknowns, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/wellknowns/{AuthWellknownId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             AuthWellknownId = auth_wellknown_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AuthWellknowns, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_auth_wellknowns(&self) -> Box<Future<Item = ::models::AuthWellknowns, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/1/auth/wellknowns", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AuthWellknowns, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn get_auth_wellknowns(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::AuthWellknowns, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/1/auth/wellknowns",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2133,40 +1295,20 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         &self,
         nocreate: bool,
         zone: &str,
-    ) -> Box<Future<Item = ::models::MappingDump, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::MappingDump, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("nocreate", &nocreate.to_string())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/auth/mapping/dump?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::MappingDump, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2175,43 +1317,22 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         mapping_identity_id: &str,
         nocreate: bool,
         zone: &str,
-    ) -> Box<Future<Item = ::models::MappingIdentities, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::MappingIdentities, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("nocreate", &nocreate.to_string())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/mapping/identities/{MappingIdentityId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             MappingIdentityId = mapping_identity_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::MappingIdentities, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2223,12 +1344,8 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         gid: Vec<i32>,
         user: &str,
         kerberos_principal: &str,
-    ) -> Box<Future<Item = ::models::MappingUsersLookup, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::MappingUsersLookup, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("primary_gid", &primary_gid.to_string())
             .append_pair("uid", &uid.to_string())
             .append_pair("zone", &zone.to_string())
@@ -2245,70 +1362,32 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/mapping/users/lookup?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::MappingUsersLookup, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_mapping_users_rules(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::MappingUsersRules, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::MappingUsersRules, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/mapping/users/rules?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::MappingUsersRules, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2316,41 +1395,21 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         &self,
         providers_ads_id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersAds, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ProvidersAds, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/auth/providers/ads/{ProvidersAdsId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             ProvidersAdsId = providers_ads_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ProvidersAds, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2358,41 +1417,21 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         &self,
         providers_file_id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersFile, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ProvidersFile, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/providers/file/{ProvidersFileId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             ProvidersFileId = providers_file_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ProvidersFile, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2400,41 +1439,21 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         &self,
         providers_krb5_id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersKrb5, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ProvidersKrb5, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/auth/providers/krb5/{ProvidersKrb5Id}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             ProvidersKrb5Id = providers_krb5_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ProvidersKrb5, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2442,80 +1461,40 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         &self,
         providers_ldap_id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersLdap, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ProvidersLdap, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/4/auth/providers/ldap/{ProvidersLdapId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             ProvidersLdapId = providers_ldap_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ProvidersLdap, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_providers_local(
         &self,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersLocal, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ProvidersLocal, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/providers/local?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ProvidersLocal, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2523,41 +1502,21 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         &self,
         providers_local_id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersLocal, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ProvidersLocal, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/providers/local/{ProvidersLocalId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             ProvidersLocalId = providers_local_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ProvidersLocal, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2565,41 +1524,21 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         &self,
         providers_nis_id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersNis, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ProvidersNis, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/auth/providers/nis/{ProvidersNisId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             ProvidersNisId = providers_nis_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ProvidersNis, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2607,80 +1546,39 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         &self,
         groupnet: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::ProvidersSummary, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ProvidersSummary, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("groupnet", &groupnet.to_string())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/auth/providers/summary?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ProvidersSummary, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_settings_acls(
         &self,
         preset: &str,
-    ) -> Box<Future<Item = ::models::SettingsAcls, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SettingsAcls, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("preset", &preset.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/auth/settings/acls?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SettingsAcls, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2688,152 +1586,69 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         &self,
         scope: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::SettingsGlobal, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SettingsGlobal, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/settings/global?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SettingsGlobal, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_settings_krb5_defaults(
         &self,
-    ) -> Box<Future<Item = ::models::SettingsKrb5Defaults, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SettingsKrb5Defaults, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/auth/settings/krb5/defaults",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SettingsKrb5Defaults, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_settings_krb5_domain(
         &self,
         settings_krb5_domain_id: &str,
-    ) -> Box<Future<Item = ::models::SettingsKrb5Domains, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SettingsKrb5Domains, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/auth/settings/krb5/domains/{SettingsKrb5DomainId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SettingsKrb5DomainId = settings_krb5_domain_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SettingsKrb5Domains, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_settings_krb5_realm(
         &self,
         settings_krb5_realm_id: &str,
-    ) -> Box<Future<Item = ::models::SettingsKrb5Realms, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SettingsKrb5Realms, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/auth/settings/krb5/realms/{SettingsKrb5RealmId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SettingsKrb5RealmId = settings_krb5_realm_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SettingsKrb5Realms, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2841,41 +1656,20 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         &self,
         scope: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::SettingsMapping, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SettingsMapping, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/settings/mapping?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SettingsMapping, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2890,12 +1684,8 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         limit: i32,
         provider: &str,
         query_member_of: bool,
-    ) -> Box<Future<Item = ::models::AuthGroupsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::AuthGroupsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("domain", &domain.to_string())
             .append_pair("zone", &zone.to_string())
             .append_pair("resume", &resume.to_string())
@@ -2908,30 +1698,13 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/groups?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AuthGroupsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2942,12 +1715,8 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::AuthRolesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::AuthRolesExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("resolve_names", &resolve_names.to_string())
             .append_pair("limit", &limit.to_string())
@@ -2956,30 +1725,13 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/roles?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AuthRolesExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2994,12 +1746,8 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
         limit: i32,
         provider: &str,
         query_member_of: bool,
-    ) -> Box<Future<Item = ::models::AuthUsersExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::AuthUsersExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("domain", &domain.to_string())
             .append_pair("zone", &zone.to_string())
             .append_pair("resume", &resume.to_string())
@@ -3012,1041 +1760,400 @@ impl<C: hyper::client::Connect> AuthApi for AuthApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/users?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AuthUsersExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_providers_ads(
         &self,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersAdsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ProvidersAdsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/auth/providers/ads?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ProvidersAdsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_providers_file(
         &self,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersFile, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ProvidersFile, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/providers/file?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ProvidersFile, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_providers_krb5(
         &self,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersKrb5Extended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ProvidersKrb5Extended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/auth/providers/krb5?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ProvidersKrb5Extended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_providers_ldap(
         &self,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersLdap, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ProvidersLdap, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/4/auth/providers/ldap?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ProvidersLdap, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_providers_nis(
         &self,
         scope: &str,
-    ) -> Box<Future<Item = ::models::ProvidersNisExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ProvidersNisExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/auth/providers/nis?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ProvidersNisExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_settings_krb5_domains(
         &self,
-    ) -> Box<Future<Item = ::models::SettingsKrb5Domains, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SettingsKrb5Domains, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/auth/settings/krb5/domains",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SettingsKrb5Domains, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_settings_krb5_realms(
         &self,
-    ) -> Box<Future<Item = ::models::SettingsKrb5Realms, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SettingsKrb5Realms, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/auth/settings/krb5/realms",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SettingsKrb5Realms, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn update_auth_group(
         &self,
-        auth_group: ::models::AuthGroup,
+        auth_group: crate::models::AuthGroup,
         auth_group_id: &str,
         force: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .append_pair("zone", &zone.to_string())
             .append_pair("provider", &provider.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/1/auth/groups/{AuthGroupId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             AuthGroupId = auth_group_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&auth_group).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &auth_group)
     }
 
     fn update_auth_log_level(
         &self,
-        auth_log_level: ::models::AuthLogLevelExtended,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!("{}/platform/3/auth/log-level", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&auth_log_level).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        auth_log_level: crate::models::AuthLogLevelExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!("{}/platform/3/auth/log-level", self.configuration.base_path);
+        put(self.configuration.borrow(), &uri, &auth_log_level)
     }
 
     fn update_auth_role(
         &self,
-        auth_role: ::models::AuthRole,
+        auth_role: crate::models::AuthRole,
         auth_role_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/1/auth/roles/{AuthRoleId}",
-            configuration.base_path,
+            self.configuration.base_path,
             AuthRoleId = auth_role_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&auth_role).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &auth_role)
     }
 
     fn update_auth_user(
         &self,
-        auth_user: ::models::AuthUser,
+        auth_user: crate::models::AuthUser,
         auth_user_id: &str,
         force: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .append_pair("zone", &zone.to_string())
             .append_pair("provider", &provider.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/1/auth/users/{AuthUserId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             AuthUserId = auth_user_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&auth_user).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &auth_user)
     }
 
     fn update_mapping_import(
         &self,
-        mapping_import: ::models::MappingImport,
+        mapping_import: crate::models::MappingImport,
         zone: &str,
         replace: bool,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .append_pair("replace", &replace.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/3/auth/mapping/import?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&mapping_import).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &mapping_import)
     }
 
     fn update_mapping_users_rules(
         &self,
-        mapping_users_rules: ::models::MappingUsersRulesExtended,
+        mapping_users_rules: crate::models::MappingUsersRulesExtended,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/1/auth/mapping/users/rules?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&mapping_users_rules).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &mapping_users_rules)
     }
 
     fn update_providers_ads_by_id(
         &self,
-        providers_ads_id_params: ::models::ProvidersAdsIdParams,
+        providers_ads_id_params: crate::models::ProvidersAdsIdParams,
         providers_ads_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/3/auth/providers/ads/{ProvidersAdsId}",
-            configuration.base_path,
+            self.configuration.base_path,
             ProvidersAdsId = providers_ads_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&providers_ads_id_params).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &providers_ads_id_params)
     }
 
     fn update_providers_file_by_id(
         &self,
-        providers_file_id_params: ::models::ProvidersFileIdParams,
+        providers_file_id_params: crate::models::ProvidersFileIdParams,
         providers_file_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/1/auth/providers/file/{ProvidersFileId}",
-            configuration.base_path,
+            self.configuration.base_path,
             ProvidersFileId = providers_file_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&providers_file_id_params).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &providers_file_id_params)
     }
 
     fn update_providers_krb5_by_id(
         &self,
-        providers_krb5_id_params: ::models::ProvidersKrb5IdParams,
+        providers_krb5_id_params: crate::models::ProvidersKrb5IdParams,
         providers_krb5_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/3/auth/providers/krb5/{ProvidersKrb5Id}",
-            configuration.base_path,
+            self.configuration.base_path,
             ProvidersKrb5Id = providers_krb5_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&providers_krb5_id_params).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &providers_krb5_id_params)
     }
 
     fn update_providers_ldap_by_id(
         &self,
-        providers_ldap_id_params: ::models::ProvidersLdapIdParams,
+        providers_ldap_id_params: crate::models::ProvidersLdapIdParams,
         providers_ldap_id: &str,
         force: bool,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/4/auth/providers/ldap/{ProvidersLdapId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             ProvidersLdapId = providers_ldap_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&providers_ldap_id_params).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &providers_ldap_id_params)
     }
 
     fn update_providers_local_by_id(
         &self,
-        providers_local_id_params: ::models::ProvidersLocalIdParams,
+        providers_local_id_params: crate::models::ProvidersLocalIdParams,
         providers_local_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/1/auth/providers/local/{ProvidersLocalId}",
-            configuration.base_path,
+            self.configuration.base_path,
             ProvidersLocalId = providers_local_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&providers_local_id_params).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        put(
+            self.configuration.borrow(),
+            &uri,
+            &providers_local_id_params,
         )
     }
 
     fn update_providers_nis_by_id(
         &self,
-        providers_nis_id_params: ::models::ProvidersNisIdParams,
+        providers_nis_id_params: crate::models::ProvidersNisIdParams,
         providers_nis_id: &str,
     ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/3/auth/providers/nis/{ProvidersNisId}",
-            configuration.base_path,
+            self.configuration.base_path,
             ProvidersNisId = providers_nis_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&providers_nis_id_params).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &providers_nis_id_params)
     }
 
     fn update_settings_acls(
         &self,
-        settings_acls: ::models::SettingsAclsExtended,
+        settings_acls: crate::models::SettingsAclsExtended,
     ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!("{}/platform/3/auth/settings/acls", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&settings_acls).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        let uri = format!(
+            "{}/platform/3/auth/settings/acls",
+            self.configuration.base_path
+        );
+        put(self.configuration.borrow(), &uri, &settings_acls)
     }
 
     fn update_settings_global(
         &self,
-        settings_global: ::models::SettingsGlobalGlobalSettings,
+        settings_global: crate::models::SettingsGlobalGlobalSettings,
         zone: &str,
     ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/1/auth/settings/global?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&settings_global).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &settings_global)
     }
 
     fn update_settings_krb5_defaults(
         &self,
-        settings_krb5_defaults: ::models::SettingsKrb5DefaultsKrb5Settings,
+        settings_krb5_defaults: crate::models::SettingsKrb5DefaultsKrb5Settings,
     ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/1/auth/settings/krb5/defaults",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&settings_krb5_defaults).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &settings_krb5_defaults)
     }
 
     fn update_settings_krb5_domain(
         &self,
-        settings_krb5_domain: ::models::SettingsKrb5Domain,
+        settings_krb5_domain: crate::models::SettingsKrb5Domain,
         settings_krb5_domain_id: &str,
     ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/1/auth/settings/krb5/domains/{SettingsKrb5DomainId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SettingsKrb5DomainId = settings_krb5_domain_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&settings_krb5_domain).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &settings_krb5_domain)
     }
 
     fn update_settings_krb5_realm(
         &self,
-        settings_krb5_realm: ::models::SettingsKrb5Realm,
+        settings_krb5_realm: crate::models::SettingsKrb5Realm,
         settings_krb5_realm_id: &str,
     ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/1/auth/settings/krb5/realms/{SettingsKrb5RealmId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SettingsKrb5RealmId = settings_krb5_realm_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&settings_krb5_realm).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &settings_krb5_realm)
     }
 
     fn update_settings_mapping(
         &self,
-        settings_mapping: ::models::SettingsMappingMappingSettings,
+        settings_mapping: crate::models::SettingsMappingMappingSettings,
         zone: &str,
     ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/1/auth/settings/mapping?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&settings_mapping).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &settings_mapping)
     }
 }

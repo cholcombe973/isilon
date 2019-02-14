@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct SyncSettings {
     /// Global SyncIQ settings.
     #[serde(rename = "settings")]
-    pub settings: Option<::models::SyncSettingsSettings>,
+    pub settings: Option <crate::models::SyncSettingsSettings>,
 }

@@ -31,7 +31,7 @@ Method | HTTP request | Description
 
 
 # **create_event_alert_condition**
-> ::models::CreateResponse create_event_alert_condition(ctx, event_alert_condition)
+>crate::models::CreateResponse create_event_alert_condition(ctx, event_alert_condition)
 
 
 Create a new alert condition.
@@ -59,7 +59,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_event_channel**
-> ::models::CreateResponse create_event_channel(ctx, event_channel)
+>crate::models::CreateResponse create_event_channel(ctx, event_channel)
 
 
 Create a new channel.
@@ -87,7 +87,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_event_event**
-> ::models::CreateQuotaReportResponse create_event_event(ctx, event_event)
+>crate::models::CreateQuotaReportResponse create_event_event(ctx, event_event)
 
 
 Create a test event.
@@ -206,7 +206,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_event_alert_condition**
-> ::models::EventAlertConditions get_event_alert_condition(ctx, event_alert_condition_id)
+>crate::models::EventAlertConditions get_event_alert_condition(ctx, event_alert_condition_id)
 
 
 Retrieve the alert-condition.
@@ -234,7 +234,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_event_categories**
-> ::models::EventCategoriesExtended get_event_categories(ctx, optional)
+>crate::models::EventCategoriesExtended get_event_categories(ctx, optional)
 
 
 List all eventgroup categories.
@@ -270,7 +270,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_event_category**
-> ::models::EventCategories get_event_category(ctx, event_category_id)
+>crate::models::EventCategories get_event_category(ctx, event_category_id)
 
 
 Retrieve the eventgroup category.
@@ -298,7 +298,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_event_channel**
-> ::models::EventChannels get_event_channel(ctx, event_channel_id)
+>crate::models::EventChannels get_event_channel(ctx, event_channel_id)
 
 
 Retrieve the channel.
@@ -326,7 +326,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_event_eventgroup_definition**
-> ::models::EventEventgroupDefinitions get_event_eventgroup_definition(ctx, event_eventgroup_definition_id)
+>crate::models::EventEventgroupDefinitions get_event_eventgroup_definition(ctx, event_eventgroup_definition_id)
 
 
 Retrieve the eventgroup definition.
@@ -354,7 +354,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_event_eventgroup_definitions**
-> ::models::EventEventgroupDefinitionsExtended get_event_eventgroup_definitions(ctx, optional)
+>crate::models::EventEventgroupDefinitionsExtended get_event_eventgroup_definitions(ctx, optional)
 
 
 List all eventgroup definitions.
@@ -391,7 +391,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_event_eventgroup_occurrence**
-> ::models::EventEventgroupOccurrences get_event_eventgroup_occurrence(ctx, event_eventgroup_occurrence_id)
+>crate::models::EventEventgroupOccurrences get_event_eventgroup_occurrence(ctx, event_eventgroup_occurrence_id)
 
 
 Retrieve individual eventgroup occurrence.
@@ -419,7 +419,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_event_eventgroup_occurrences**
-> ::models::EventEventgroupOccurrencesExtended get_event_eventgroup_occurrences(ctx, optional)
+>crate::models::EventEventgroupOccurrencesExtended get_event_eventgroup_occurrences(ctx, optional)
 
 
 List all eventgroup occurrences.
@@ -464,7 +464,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_event_eventlist**
-> ::models::EventEventlists get_event_eventlist(ctx, event_eventlist_id)
+>crate::models::EventEventlists get_event_eventlist(ctx, event_eventlist_id)
 
 
 Retrieve the list of events for a eventgroup occureence.
@@ -492,7 +492,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_event_eventlists**
-> ::models::EventEventlistsExtended get_event_eventlists(ctx, optional)
+>crate::models::EventEventlistsExtended get_event_eventlists(ctx, optional)
 
 
 List all event occurrences grouped by eventgroup occurrence.
@@ -529,7 +529,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_event_settings**
-> ::models::EventSettings get_event_settings(ctx, )
+>crate::models::EventSettings get_event_settings(ctx, )
 
 
 Retrieve the settings.
@@ -553,7 +553,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_event_alert_conditions**
-> ::models::EventAlertConditionsExtended list_event_alert_conditions(ctx, optional)
+>crate::models::EventAlertConditionsExtended list_event_alert_conditions(ctx, optional)
 
 
 List all alert conditions.
@@ -592,7 +592,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_event_channels**
-> ::models::EventChannelsExtended list_event_channels(ctx, optional)
+>crate::models::EventChannelsExtended list_event_channels(ctx, optional)
 
 
 List all channels.

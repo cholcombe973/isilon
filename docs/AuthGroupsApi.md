@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 
 # **create_group_member**
-> ::models::CreateResponse create_group_member(ctx, group_member, group, optional)
+>crate::models::CreateResponse create_group_member(ctx, group_member, group, optional)
 
 
 Add a member to the group.
@@ -90,7 +90,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_group_members**
-> ::models::GroupMembers list_group_members(ctx, group, optional)
+>crate::models::GroupMembers list_group_members(ctx, group, optional)
 
 
 List all the members of the group.

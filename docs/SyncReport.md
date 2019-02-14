@@ -44,7 +44,7 @@ Name | Type | Description | Notes
 **network_bytes_to_target** | **i32** | The total number of bytes sent to the target by this job. | [default to null]
 **new_files_replicated** | **i32** | The number of new files replicated by this job. | [default to null]
 **num_retransmitted_files** | **i32** | The number of files that have been retransmitted by this job. | [default to null]
-**phases** | [**Vec<::models::SyncJobPhase>**](SyncJobPhase.md) | Data for each phase of this job. | [default to null]
+**phases** | [**Vec <crate::models::SyncJobPhase>**](SyncJobPhase.md) | Data for each phase of this job. | [default to null]
 **policy** | [***::models::SyncReportPolicy**](SyncReportPolicy.md) |  | [default to null]
 **policy_action** | **String** | This is the action the policy is configured to perform. | [default to null]
 **policy_id** | **String** | The ID of the policy. | [default to null]

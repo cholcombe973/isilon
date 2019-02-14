@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**file** | [**Vec<::models::ProvidersFileFileItem>**](ProvidersFileFileItem.md) |  | [optional] [default to null]
+**file** | [**Vec <crate::models::ProvidersFileFileItem>**](ProvidersFileFileItem.md) |  | [optional] [default to null]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

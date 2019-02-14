@@ -9,20 +9,20 @@
  */
 
 use std::borrow::Borrow;
+use std::collections::HashMap;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, custom_query, query, Error};
 
-pub struct NamespaceApiClient<C: hyper::client::Connect> {
+pub struct NamespaceApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> NamespaceApiClient<C> {
+impl<C: hyper::client::connect::Connect> NamespaceApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> NamespaceApiClient<C> {
         NamespaceApiClient {
             configuration: configuration,
@@ -38,7 +38,7 @@ pub trait NamespaceApi {
         overwrite: bool,
         merge: bool,
         _continue: bool,
-    ) -> Box<Future<Item = ::models::CopyErrors, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CopyErrors, Error = Error>>;
     fn copy_file(
         &self,
         file_copy_target: &str,
@@ -46,12 +46,12 @@ pub trait NamespaceApi {
         clone: bool,
         snapshot: &str,
         overwrite: bool,
-    ) -> Box<Future<Item = ::models::CopyErrors, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CopyErrors, Error = Error>>;
     fn create_access_point(
         &self,
         access_point_name: &str,
-        access_point: ::models::AccessPointCreateParams,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        access_point: crate::models::AccessPointCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_directory(
         &self,
         directory_path: &str,
@@ -60,7 +60,7 @@ pub trait NamespaceApi {
         x_isi_ifs_node_pool_name: &str,
         recursive: bool,
         overwrite: bool,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_file(
         &self,
         file_path: &str,
@@ -70,29 +70,32 @@ pub trait NamespaceApi {
         content_encoding: &str,
         content_type: &str,
         overwrite: bool,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn delete_access_point(
         &self,
         access_point_name: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn delete_directory(
         &self,
         directory_path: &str,
         recursive: bool,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
-    fn delete_file(&self, file_path: &str) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    fn delete_file(
+        &self,
+        file_path: &str,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn get_acl(
         &self,
         namespace_path: &str,
         acl: bool,
         nsaccess: bool,
-    ) -> Box<Future<Item = ::models::NamespaceAcl, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NamespaceAcl, Error = Error>>;
     fn get_directory_attributes(
         &self,
         directory_path: &str,
         if_modified_since: &str,
         if_unmodified_since: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn get_directory_contents(
         &self,
         directory_path: &str,
@@ -103,86 +106,86 @@ pub trait NamespaceApi {
         dir: &str,
         _type: &str,
         hidden: bool,
-    ) -> Box<Future<Item = ::models::NamespaceObjects, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NamespaceObjects, Error = Error>>;
     fn get_directory_metadata(
         &self,
         directory_metadata_path: &str,
         metadata: bool,
-    ) -> Box<Future<Item = ::models::NamespaceMetadataList, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NamespaceMetadataList, Error = Error>>;
     fn get_file_attributes(
         &self,
         file_path: &str,
         if_modified_since: &str,
         if_unmodified_since: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn get_file_contents(
         &self,
         file_path: &str,
         range: &str,
         if_modified_since: &str,
         if_unmodified_since: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn get_file_metadata(
         &self,
         file_metadata_path: &str,
         metadata: bool,
-    ) -> Box<Future<Item = ::models::NamespaceMetadataList, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NamespaceMetadataList, Error = Error>>;
     fn get_worm_properties(
         &self,
         worm_file_path: &str,
         worm: bool,
-    ) -> Box<Future<Item = ::models::WormProperties, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::WormProperties, Error = Error>>;
     fn list_access_points(
         &self,
         versions: bool,
-    ) -> Box<Future<Item = ::models::NamespaceAccessPoints, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NamespaceAccessPoints, Error = Error>>;
     fn move_directory(
         &self,
         directory_path: &str,
         x_isi_ifs_set_location: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn move_file(
         &self,
         file_path: &str,
         x_isi_ifs_set_location: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn query_directory(
         &self,
         query_path: &str,
         query: bool,
-        directory_query: ::models::DirectoryQuery,
+        directory_query: crate::models::DirectoryQuery,
         limit: i32,
         detail: &str,
         max_depth: i32,
-    ) -> Box<Future<Item = ::models::NamespaceObjects, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NamespaceObjects, Error = Error>>;
     fn set_acl(
         &self,
         namespace_path: &str,
         acl: bool,
-        namespace_acl: ::models::NamespaceAcl,
+        namespace_acl: crate::models::NamespaceAcl,
         nsaccess: bool,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn set_directory_metadata(
         &self,
         directory_metadata_path: &str,
         metadata: bool,
-        directory_metadata: ::models::NamespaceMetadata,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        directory_metadata: crate::models::NamespaceMetadata,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn set_file_metadata(
         &self,
         file_metadata_path: &str,
         metadata: bool,
-        file_metadata: ::models::NamespaceMetadata,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        file_metadata: crate::models::NamespaceMetadata,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn set_worm_properties(
         &self,
         worm_file_path: &str,
         worm: bool,
-        worm_properties: ::models::WormCreateParams,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        worm_properties: crate::models::WormCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApiClient<C> {
     fn copy_directory(
         &self,
         directory_copy_target: &str,
@@ -190,46 +193,29 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         overwrite: bool,
         merge: bool,
         _continue: bool,
-    ) -> Box<Future<Item = ::models::CopyErrors, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
+    ) -> Box<dyn Future<Item = crate::models::CopyErrors, Error = Error>> {
+        let mut headers: HashMap<String, String> = HashMap::new();
 
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("overwrite", &overwrite.to_string())
             .append_pair("merge", &merge.to_string())
             .append_pair("continue", &_continue.to_string())
             .finish();
         let uri_str = format!(
             "{}/namespace/{DirectoryCopyTarget}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             DirectoryCopyTarget = directory_copy_target
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
+        headers.insert("x-isi-ifs-copy-source".into(), x_isi_ifs_copy_source.into());
 
-        req.headers_mut()
-            .set_raw("x-isi-ifs-copy-source", x_isi_ifs_copy_source);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CopyErrors, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        custom_query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::PUT,
+            headers,
         )
     }
 
@@ -240,90 +226,47 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         clone: bool,
         snapshot: &str,
         overwrite: bool,
-    ) -> Box<Future<Item = ::models::CopyErrors, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
+    ) -> Box<dyn Future<Item = crate::models::CopyErrors, Error = Error>> {
+        let mut headers: HashMap<String, String> = HashMap::new();
 
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("clone", &clone.to_string())
             .append_pair("snapshot", &snapshot.to_string())
             .append_pair("overwrite", &overwrite.to_string())
             .finish();
         let uri_str = format!(
             "{}/namespace/{FileCopyTarget}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             FileCopyTarget = file_copy_target
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
+        headers.insert("x-isi-ifs-copy-source".into(), x_isi_ifs_copy_source.into());
 
-        req.headers_mut()
-            .set_raw("x-isi-ifs-copy-source", x_isi_ifs_copy_source);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CopyErrors, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        custom_query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::PUT,
+            headers,
         )
     }
 
     fn create_access_point(
         &self,
         access_point_name: &str,
-        access_point: ::models::AccessPointCreateParams,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+        access_point: crate::models::AccessPointCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/namespace/{AccessPointName}",
-            configuration.base_path,
+            self.configuration.base_path,
             AccessPointName = access_point_name
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&access_point).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &access_point,
+            hyper::Method::PUT,
         )
     }
 
@@ -335,49 +278,35 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         x_isi_ifs_node_pool_name: &str,
         recursive: bool,
         overwrite: bool,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let mut headers: HashMap<String, String> = HashMap::new();
 
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("recursive", &recursive.to_string())
             .append_pair("overwrite", &overwrite.to_string())
             .finish();
         let uri_str = format!(
             "{}/namespace/{DirectoryPath}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             DirectoryPath = directory_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        req.headers_mut()
-            .set_raw("x-isi-ifs-target-type", x_isi_ifs_target_type);
-        req.headers_mut()
-            .set_raw("x-isi-ifs-access-control", x_isi_ifs_access_control);
-        req.headers_mut()
-            .set_raw("x-isi-ifs-node-pool-name", x_isi_ifs_node_pool_name);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        headers.insert("x-isi-ifs-target-type".into(), x_isi_ifs_target_type.into());
+        headers.insert(
+            "x-isi-ifs-access-control".into(),
+            x_isi_ifs_access_control.into(),
+        );
+        headers.insert(
+            "x-isi-ifs-node-pool-name".into(),
+            x_isi_ifs_node_pool_name.into(),
+        );
+        custom_query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::PUT,
+            headers,
         )
     }
 
@@ -390,92 +319,49 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         content_encoding: &str,
         content_type: &str,
         overwrite: bool,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let mut headers: HashMap<String, String> = HashMap::new();
 
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("overwrite", &overwrite.to_string())
             .finish();
         let uri_str = format!(
             "{}/namespace/{FilePath}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             FilePath = file_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        req.headers_mut()
-            .set_raw("x-isi-ifs-target-type", x_isi_ifs_target_type);
-        req.headers_mut()
-            .set_raw("x-isi-ifs-access-control", x_isi_ifs_access_control);
-        req.headers_mut()
-            .set_raw("Content-Encoding", content_encoding);
-        req.headers_mut().set_raw("Content-Type", content_type);
-
-        let serialized = serde_json::to_string(&file_contents).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        headers.insert("Content-Type".into(), content_type.into());
+        headers.insert("x-isi-ifs-target-type".into(), x_isi_ifs_target_type.into());
+        headers.insert(
+            "x-isi-ifs-access-control".into(),
+            x_isi_ifs_access_control.into(),
+        );
+        headers.insert("Content-Encoding".into(), content_encoding.into());
+        custom_query(
+            self.configuration.borrow(),
+            &uri_str,
+            &file_contents,
+            hyper::Method::PUT,
+            headers,
         )
     }
 
     fn delete_access_point(
         &self,
         access_point_name: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/namespace/{AccessPointName}",
-            configuration.base_path,
+            self.configuration.base_path,
             AccessPointName = access_point_name
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -483,75 +369,38 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         &self,
         directory_path: &str,
         recursive: bool,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("recursive", &recursive.to_string())
             .finish();
         let uri_str = format!(
             "{}/namespace/{DirectoryPath}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             DirectoryPath = directory_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_file(&self, file_path: &str) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_file(
+        &self,
+        file_path: &str,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/namespace/{FilePath}",
-            configuration.base_path,
+            self.configuration.base_path,
             FilePath = file_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -560,42 +409,22 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         namespace_path: &str,
         acl: bool,
         nsaccess: bool,
-    ) -> Box<Future<Item = ::models::NamespaceAcl, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NamespaceAcl, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("acl", &acl.to_string())
             .append_pair("nsaccess", &nsaccess.to_string())
             .finish();
         let uri_str = format!(
             "{}/namespace/{NamespacePath}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NamespacePath = namespace_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NamespaceAcl, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -604,42 +433,23 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         directory_path: &str,
         if_modified_since: &str,
         if_unmodified_since: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Head;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let mut headers: HashMap<String, String> = HashMap::new();
 
         let uri_str = format!(
             "{}/namespace/{DirectoryPath}",
-            configuration.base_path,
+            self.configuration.base_path,
             DirectoryPath = directory_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        req.headers_mut()
-            .set_raw("If-Modified-Since", if_modified_since);
-        req.headers_mut()
-            .set_raw("If-Unmodified-Since", if_unmodified_since);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        headers.insert("If-Modified-Since".into(), if_modified_since.into());
+        headers.insert("If-Unmodified-Since".into(), if_unmodified_since.into());
+        custom_query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::HEAD,
+            headers,
         )
     }
 
@@ -653,12 +463,8 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         dir: &str,
         _type: &str,
         hidden: bool,
-    ) -> Box<Future<Item = ::models::NamespaceObjects, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NamespaceObjects, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("detail", &detail.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("resume", &resume.to_string())
@@ -669,32 +475,15 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/namespace/{DirectoryPath}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             DirectoryPath = directory_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NamespaceObjects, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -702,42 +491,22 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         &self,
         directory_metadata_path: &str,
         metadata: bool,
-    ) -> Box<Future<Item = ::models::NamespaceMetadataList, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
+    ) -> Box<dyn Future<Item = crate::models::NamespaceMetadataList, Error = Error>> {
 
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("metadata", &metadata.to_string())
             .finish();
         let uri_str = format!(
             "{}/namespace/{DirectoryMetadataPath}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             DirectoryMetadataPath = directory_metadata_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NamespaceMetadataList, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -746,42 +515,22 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         file_path: &str,
         if_modified_since: &str,
         if_unmodified_since: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Head;
-
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/namespace/{FilePath}",
-            configuration.base_path,
+            self.configuration.base_path,
             FilePath = file_path
         );
+        let mut headers: HashMap<String, String> = HashMap::new();
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        req.headers_mut()
-            .set_raw("If-Modified-Since", if_modified_since);
-        req.headers_mut()
-            .set_raw("If-Unmodified-Since", if_unmodified_since);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        headers.insert("If-Modified-Since".into(), if_modified_since.into());
+        headers.insert("If-Unmodified-Since".into(), if_unmodified_since.into());
+        custom_query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::HEAD,
+            headers,
         )
     }
 
@@ -791,43 +540,27 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         range: &str,
         if_modified_since: &str,
         if_unmodified_since: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/namespace/{FilePath}",
-            configuration.base_path,
+            self.configuration.base_path,
             FilePath = file_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
+        let mut headers: HashMap<String, String> = HashMap::new();
+        headers.insert("Range".to_string(), range.into());
+        headers.insert("If-Modified-Since".to_string(), if_modified_since.into());
+        headers.insert(
+            "If-Unmodified-Since".to_string(),
+            if_unmodified_since.into(),
+        );
 
-        req.headers_mut().set_raw("Range", range);
-        req.headers_mut()
-            .set_raw("If-Modified-Since", if_modified_since);
-        req.headers_mut()
-            .set_raw("If-Unmodified-Since", if_unmodified_since);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        custom_query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
+            headers,
         )
     }
 
@@ -835,42 +568,21 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         &self,
         file_metadata_path: &str,
         metadata: bool,
-    ) -> Box<Future<Item = ::models::NamespaceMetadataList, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NamespaceMetadataList, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("metadata", &metadata.to_string())
             .finish();
         let uri_str = format!(
             "{}/namespace/{FileMetadataPath}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             FileMetadataPath = file_metadata_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NamespaceMetadataList, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -878,78 +590,37 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         &self,
         worm_file_path: &str,
         worm: bool,
-    ) -> Box<Future<Item = ::models::WormProperties, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::WormProperties, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("worm", &worm.to_string())
             .finish();
         let uri_str = format!(
             "{}/namespace/{WormFilePath}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             WormFilePath = worm_file_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::WormProperties, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_access_points(
         &self,
         versions: bool,
-    ) -> Box<Future<Item = ::models::NamespaceAccessPoints, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NamespaceAccessPoints, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("versions", &versions.to_string())
             .finish();
-        let uri_str = format!("{}/namespace?{}", configuration.base_path, query);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NamespaceAccessPoints, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        let uri_str = format!("{}/namespace?{}", self.configuration.base_path, q);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -957,40 +628,25 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         &self,
         directory_path: &str,
         x_isi_ifs_set_location: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let mut headers: HashMap<String, String> = HashMap::new();
+        headers.insert(
+            "x-isi-ifs-set-location".into(),
+            x_isi_ifs_set_location.into(),
+        );
 
         let uri_str = format!(
             "{}/namespace/{DirectoryPath}",
-            configuration.base_path,
+            self.configuration.base_path,
             DirectoryPath = directory_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        req.headers_mut()
-            .set_raw("x-isi-ifs-set-location", x_isi_ifs_set_location);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        custom_query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::POST,
+            headers,
         )
     }
 
@@ -998,40 +654,25 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         &self,
         file_path: &str,
         x_isi_ifs_set_location: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let mut headers: HashMap<String, String> = HashMap::new();
+        headers.insert(
+            "x-isi-ifs-set-location".into(),
+            x_isi_ifs_set_location.into(),
+        );
 
         let uri_str = format!(
             "{}/namespace/{FilePath}",
-            configuration.base_path,
+            self.configuration.base_path,
             FilePath = file_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        req.headers_mut()
-            .set_raw("x-isi-ifs-set-location", x_isi_ifs_set_location);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        custom_query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::POST,
+            headers,
         )
     }
 
@@ -1039,16 +680,12 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         &self,
         query_path: &str,
         query: bool,
-        directory_query: ::models::DirectoryQuery,
+        directory_query: crate::models::DirectoryQuery,
         limit: i32,
         detail: &str,
         max_depth: i32,
-    ) -> Box<Future<Item = ::models::NamespaceObjects, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NamespaceObjects, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("query", &query.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("detail", &detail.to_string())
@@ -1056,38 +693,15 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/namespace/{QueryPath}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             QueryPath = query_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&directory_query).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NamespaceObjects, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        super::query(
+            self.configuration.borrow(),
+            &uri_str,
+            &directory_query,
+            hyper::Method::POST,
         )
     }
 
@@ -1095,50 +709,25 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         &self,
         namespace_path: &str,
         acl: bool,
-        namespace_acl: ::models::NamespaceAcl,
+        namespace_acl: crate::models::NamespaceAcl,
         nsaccess: bool,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("acl", &acl.to_string())
             .append_pair("nsaccess", &nsaccess.to_string())
             .finish();
         let uri_str = format!(
             "{}/namespace/{NamespacePath}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NamespacePath = namespace_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&namespace_acl).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &namespace_acl,
+            hyper::Method::PUT,
         )
     }
 
@@ -1146,48 +735,23 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         &self,
         directory_metadata_path: &str,
         metadata: bool,
-        directory_metadata: ::models::NamespaceMetadata,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+        directory_metadata: crate::models::NamespaceMetadata,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("metadata", &metadata.to_string())
             .finish();
         let uri_str = format!(
             "{}/namespace/{DirectoryMetadataPath}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             DirectoryMetadataPath = directory_metadata_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&directory_metadata).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &directory_metadata,
+            hyper::Method::PUT,
         )
     }
 
@@ -1195,48 +759,23 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         &self,
         file_metadata_path: &str,
         metadata: bool,
-        file_metadata: ::models::NamespaceMetadata,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+        file_metadata: crate::models::NamespaceMetadata,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("metadata", &metadata.to_string())
             .finish();
         let uri_str = format!(
             "{}/namespace/{FileMetadataPath}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             FileMetadataPath = file_metadata_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&file_metadata).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &file_metadata,
+            hyper::Method::PUT,
         )
     }
 
@@ -1244,48 +783,22 @@ impl<C: hyper::client::Connect> NamespaceApi for NamespaceApiClient<C> {
         &self,
         worm_file_path: &str,
         worm: bool,
-        worm_properties: ::models::WormCreateParams,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+        worm_properties: crate::models::WormCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("worm", &worm.to_string())
             .finish();
         let uri_str = format!(
             "{}/namespace/{WormFilePath}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             WormFilePath = worm_file_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&worm_properties).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &worm_properties,
+            hyper::Method::PUT,
         )
     }
 }

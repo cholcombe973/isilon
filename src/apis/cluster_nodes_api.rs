@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, put, query, Error};
 
-pub struct ClusterNodesApiClient<C: hyper::client::Connect> {
+pub struct ClusterNodesApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> ClusterNodesApiClient<C> {
+impl<C: hyper::client::connect::Connect> ClusterNodesApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> ClusterNodesApiClient<C> {
         ClusterNodesApiClient {
             configuration: configuration,
@@ -33,577 +32,355 @@ impl<C: hyper::client::Connect> ClusterNodesApiClient<C> {
 pub trait ClusterNodesApi {
     fn create_drives_drive_add_item(
         &self,
-        drives_drive_add_item: ::models::Empty,
+        drives_drive_add_item: crate::models::Empty,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_drives_drive_firmware_update_item(
         &self,
-        drives_drive_firmware_update_item: ::models::DrivesDriveFirmwareUpdateItem,
+        drives_drive_firmware_update_item: crate::models::DrivesDriveFirmwareUpdateItem,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_drives_drive_format_item(
         &self,
-        drives_drive_format_item: ::models::DrivesDriveFormatItem,
+        drives_drive_format_item: crate::models::DrivesDriveFormatItem,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_drives_drive_purpose_item(
         &self,
-        drives_drive_purpose_item: ::models::DrivesDrivePurposeItem,
+        drives_drive_purpose_item: crate::models::DrivesDrivePurposeItem,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_drives_drive_smartfail_item(
         &self,
-        drives_drive_smartfail_item: ::models::Empty,
+        drives_drive_smartfail_item: crate::models::Empty,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_drives_drive_stopfail_item(
         &self,
-        drives_drive_stopfail_item: ::models::Empty,
+        drives_drive_stopfail_item: crate::models::Empty,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_drives_drive_suspend_item(
         &self,
-        drives_drive_suspend_item: ::models::Empty,
+        drives_drive_suspend_item: crate::models::Empty,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_node_reboot_item(
         &self,
-        node_reboot_item: ::models::Empty,
+        node_reboot_item: crate::models::Empty,
         lnn: i32,
         force: bool,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_node_shutdown_item(
         &self,
-        node_shutdown_item: ::models::Empty,
+        node_shutdown_item: crate::models::Empty,
         lnn: i32,
         force: bool,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn get_drives_drive_firmware(
         &self,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::DrivesDriveFirmware, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::DrivesDriveFirmware, Error = Error>>;
     fn get_node_drive(
         &self,
         node_drive_id: &str,
         lnn: i32,
         timeout: f32,
-    ) -> Box<Future<Item = ::models::NodeDrives, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NodeDrives, Error = Error>>;
     fn get_node_driveconfig(
         &self,
         lnn: i32,
         timeout: f32,
-    ) -> Box<Future<Item = ::models::NodeDriveconfig, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NodeDriveconfig, Error = Error>>;
     fn get_node_drives(
         &self,
         lnn: i32,
         timeout: f32,
-    ) -> Box<Future<Item = ::models::NodeDrives, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NodeDrives, Error = Error>>;
     fn get_node_drives_purposelist(
         &self,
         lnn: i32,
-    ) -> Box<Future<Item = ::models::NodeDrivesPurposelist, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NodeDrivesPurposelist, Error = Error>>;
     fn get_node_hardware(
         &self,
         lnn: i32,
         timeout: f32,
-    ) -> Box<Future<Item = ::models::NodeHardware, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NodeHardware, Error = Error>>;
     fn get_node_hardware_fast(
         &self,
         lnn: i32,
-    ) -> Box<Future<Item = ::models::NodeHardwareFast, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NodeHardwareFast, Error = Error>>;
     fn get_node_partitions(
         &self,
         lnn: i32,
-    ) -> Box<Future<Item = ::models::NodePartitions, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NodePartitions, Error = Error>>;
     fn get_node_sensors(
         &self,
         lnn: i32,
-    ) -> Box<Future<Item = ::models::NodeSensors, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NodeSensors, Error = Error>>;
     fn get_node_sled(
         &self,
         node_sled_id: &str,
         lnn: i32,
         timeout: f32,
-    ) -> Box<Future<Item = ::models::NodeSleds, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NodeSleds, Error = Error>>;
     fn get_node_sleds(
         &self,
         lnn: i32,
         timeout: f32,
-    ) -> Box<Future<Item = ::models::NodeSleds, Error = Error>>;
-    fn get_node_state(&self, lnn: i32) -> Box<Future<Item = ::models::NodeState, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NodeSleds, Error = Error>>;
+    fn get_node_state(
+        &self,
+        lnn: i32,
+    ) -> Box<dyn Future<Item = crate::models::NodeState, Error = Error>>;
     fn get_node_state_readonly(
         &self,
         lnn: i32,
-    ) -> Box<Future<Item = ::models::NodeStateReadonly, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NodeStateReadonly, Error = Error>>;
     fn get_node_state_servicelight(
         &self,
         lnn: i32,
-    ) -> Box<Future<Item = ::models::NodeStateServicelight, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NodeStateServicelight, Error = Error>>;
     fn get_node_state_smartfail(
         &self,
         lnn: i32,
-    ) -> Box<Future<Item = ::models::NodeStateSmartfail, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NodeStateSmartfail, Error = Error>>;
     fn get_node_status(
         &self,
         lnn: Option<i32>,
-    ) -> Box<Future<Item = ::models::NodeStatus, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NodeStatus, Error = Error>>;
     fn get_node_status_batterystatus(
         &self,
         lnn: i32,
-    ) -> Box<Future<Item = ::models::NodeStatusBatterystatus, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NodeStatusBatterystatus, Error = Error>>;
     fn list_drives_drive_firmware_update(
         &self,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::DrivesDriveFirmwareUpdate, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::DrivesDriveFirmwareUpdate, Error = Error>>;
     fn update_node_driveconfig(
         &self,
-        node_driveconfig: ::models::NodeDriveconfigExtended,
+        node_driveconfig: crate::models::NodeDriveconfigExtended,
         lnn: i32,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_node_state_readonly(
         &self,
-        node_state_readonly: ::models::NodeStateReadonlyExtended,
+        node_state_readonly: crate::models::NodeStateReadonlyExtended,
         lnn: i32,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_node_state_servicelight(
         &self,
-        node_state_servicelight: ::models::NodeStateServicelightExtended,
+        node_state_servicelight: crate::models::NodeStateServicelightExtended,
         lnn: i32,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_node_state_smartfail(
         &self,
-        node_state_smartfail: ::models::NodeStateSmartfailExtended,
+        node_state_smartfail: crate::models::NodeStateSmartfailExtended,
         lnn: i32,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNodesApiClient<C> {
     fn create_drives_drive_add_item(
         &self,
-        drives_drive_add_item: ::models::Empty,
+        drives_drive_add_item: crate::models::Empty,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/add",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn,
             Driveid = driveid
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&drives_drive_add_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &drives_drive_add_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_drives_drive_firmware_update_item(
         &self,
-        drives_drive_firmware_update_item: ::models::DrivesDriveFirmwareUpdateItem,
+        drives_drive_firmware_update_item: crate::models::DrivesDriveFirmwareUpdateItem,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/firmware/update",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn,
             Driveid = driveid
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&drives_drive_firmware_update_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &drives_drive_firmware_update_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_drives_drive_format_item(
         &self,
-        drives_drive_format_item: ::models::DrivesDriveFormatItem,
+        drives_drive_format_item: crate::models::DrivesDriveFormatItem,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/format",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn,
             Driveid = driveid
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&drives_drive_format_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &drives_drive_format_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_drives_drive_purpose_item(
         &self,
-        drives_drive_purpose_item: ::models::DrivesDrivePurposeItem,
+        drives_drive_purpose_item: crate::models::DrivesDrivePurposeItem,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/purpose",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn,
             Driveid = driveid
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&drives_drive_purpose_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &drives_drive_purpose_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_drives_drive_smartfail_item(
         &self,
-        drives_drive_smartfail_item: ::models::Empty,
+        drives_drive_smartfail_item: crate::models::Empty,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/smartfail",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn,
             Driveid = driveid
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&drives_drive_smartfail_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &drives_drive_smartfail_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_drives_drive_stopfail_item(
         &self,
-        drives_drive_stopfail_item: ::models::Empty,
+        drives_drive_stopfail_item: crate::models::Empty,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/stopfail",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn,
             Driveid = driveid
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&drives_drive_stopfail_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &drives_drive_stopfail_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_drives_drive_suspend_item(
         &self,
-        drives_drive_suspend_item: ::models::Empty,
+        drives_drive_suspend_item: crate::models::Empty,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/suspend",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn,
             Driveid = driveid
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&drives_drive_suspend_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &drives_drive_suspend_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_node_reboot_item(
         &self,
-        node_reboot_item: ::models::Empty,
+        node_reboot_item: crate::models::Empty,
         lnn: i32,
         force: bool,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/5/cluster/nodes/{Lnn}/reboot?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&node_reboot_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &node_reboot_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_node_shutdown_item(
         &self,
-        node_shutdown_item: ::models::Empty,
+        node_shutdown_item: crate::models::Empty,
         lnn: i32,
         force: bool,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/5/cluster/nodes/{Lnn}/shutdown?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&node_shutdown_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &node_shutdown_item,
+            hyper::Method::POST,
         )
     }
 
@@ -611,39 +388,19 @@ impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
         &self,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::DrivesDriveFirmware, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::DrivesDriveFirmware, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/firmware",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn,
             Driveid = driveid
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::DrivesDriveFirmware, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -652,42 +409,23 @@ impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
         node_drive_id: &str,
         lnn: i32,
         timeout: f32,
-    ) -> Box<Future<Item = ::models::NodeDrives, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NodeDrives, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("timeout", &timeout.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/5/cluster/nodes/{Lnn}/drives/{NodeDriveId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NodeDriveId = node_drive_id,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NodeDrives, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -695,42 +433,22 @@ impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
         &self,
         lnn: i32,
         timeout: f32,
-    ) -> Box<Future<Item = ::models::NodeDriveconfig, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NodeDriveconfig, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("timeout", &timeout.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/5/cluster/nodes/{Lnn}/driveconfig?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NodeDriveconfig, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -738,79 +456,40 @@ impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
         &self,
         lnn: i32,
         timeout: f32,
-    ) -> Box<Future<Item = ::models::NodeDrives, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NodeDrives, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("timeout", &timeout.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/5/cluster/nodes/{Lnn}/drives?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NodeDrives, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_node_drives_purposelist(
         &self,
         lnn: i32,
-    ) -> Box<Future<Item = ::models::NodeDrivesPurposelist, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NodeDrivesPurposelist, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives-purposelist",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NodeDrivesPurposelist, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -818,153 +497,76 @@ impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
         &self,
         lnn: i32,
         timeout: f32,
-    ) -> Box<Future<Item = ::models::NodeHardware, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NodeHardware, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("timeout", &timeout.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/5/cluster/nodes/{Lnn}/hardware?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NodeHardware, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_node_hardware_fast(
         &self,
         lnn: i32,
-    ) -> Box<Future<Item = ::models::NodeHardwareFast, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NodeHardwareFast, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/hardware-fast",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NodeHardwareFast, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_node_partitions(
         &self,
         lnn: i32,
-    ) -> Box<Future<Item = ::models::NodePartitions, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NodePartitions, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/partitions",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NodePartitions, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_node_sensors(
         &self,
         lnn: i32,
-    ) -> Box<Future<Item = ::models::NodeSensors, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NodeSensors, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/sensors",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NodeSensors, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -973,42 +575,23 @@ impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
         node_sled_id: &str,
         lnn: i32,
         timeout: f32,
-    ) -> Box<Future<Item = ::models::NodeSleds, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NodeSleds, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("timeout", &timeout.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/5/cluster/nodes/{Lnn}/sleds/{NodeSledId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NodeSledId = node_sled_id,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NodeSleds, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -1016,270 +599,136 @@ impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
         &self,
         lnn: i32,
         timeout: f32,
-    ) -> Box<Future<Item = ::models::NodeSleds, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NodeSleds, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("timeout", &timeout.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/5/cluster/nodes/{Lnn}/sleds?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NodeSleds, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_node_state(&self, lnn: i32) -> Box<Future<Item = ::models::NodeState, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    fn get_node_state(
+        &self,
+        lnn: i32,
+    ) -> Box<dyn Future<Item = crate::models::NodeState, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/state",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NodeState, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_node_state_readonly(
         &self,
         lnn: i32,
-    ) -> Box<Future<Item = ::models::NodeStateReadonly, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NodeStateReadonly, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/state/readonly",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NodeStateReadonly, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_node_state_servicelight(
         &self,
         lnn: i32,
-    ) -> Box<Future<Item = ::models::NodeStateServicelight, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NodeStateServicelight, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/state/servicelight",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NodeStateServicelight, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_node_state_smartfail(
         &self,
         lnn: i32,
-    ) -> Box<Future<Item = ::models::NodeStateSmartfail, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NodeStateSmartfail, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/state/smartfail",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NodeStateSmartfail, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_node_status(
         &self,
         lnn: Option<i32>,
-    ) -> Box<Future<Item = ::models::NodeStatus, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NodeStatus, Error = Error>> {
         let uri_str = match lnn {
             Some(lnn) => format!(
                 "{}/platform/3/cluster/nodes/{Lnn}/status",
-                configuration.base_path,
+                self.configuration.base_path,
                 Lnn = lnn
             ),
             None => format!(
                 "{}/platform/3/cluster/nodes/All/status",
-                configuration.base_path,
+                self.configuration.base_path,
             ),
         };
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NodeStatus, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_node_status_batterystatus(
         &self,
         lnn: i32,
-    ) -> Box<Future<Item = ::models::NodeStatusBatterystatus, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NodeStatusBatterystatus, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/status/batterystatus",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NodeStatusBatterystatus, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -1287,199 +736,79 @@ impl<C: hyper::client::Connect> ClusterNodesApi for ClusterNodesApiClient<C> {
         &self,
         lnn: i32,
         driveid: &str,
-    ) -> Box<Future<Item = ::models::DrivesDriveFirmwareUpdate, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::DrivesDriveFirmwareUpdate, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/firmware/update",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn,
             Driveid = driveid
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::DrivesDriveFirmwareUpdate, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn update_node_driveconfig(
         &self,
-        node_driveconfig: ::models::NodeDriveconfigExtended,
+        node_driveconfig: crate::models::NodeDriveconfigExtended,
         lnn: i32,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/5/cluster/nodes/{Lnn}/driveconfig",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&node_driveconfig).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &node_driveconfig)
     }
 
     fn update_node_state_readonly(
         &self,
-        node_state_readonly: ::models::NodeStateReadonlyExtended,
+        node_state_readonly: crate::models::NodeStateReadonlyExtended,
         lnn: i32,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/state/readonly",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&node_state_readonly).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &node_state_readonly)
     }
 
     fn update_node_state_servicelight(
         &self,
-        node_state_servicelight: ::models::NodeStateServicelightExtended,
+        node_state_servicelight: crate::models::NodeStateServicelightExtended,
         lnn: i32,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/state/servicelight",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&node_state_servicelight).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        put(
+            self.configuration.borrow(),
+            &uri_str,
+            &node_state_servicelight,
         )
     }
 
     fn update_node_state_smartfail(
         &self,
-        node_state_smartfail: ::models::NodeStateSmartfailExtended,
+        node_state_smartfail: crate::models::NodeStateSmartfailExtended,
         lnn: i32,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/state/smartfail",
-            configuration.base_path,
+            self.configuration.base_path,
             Lnn = lnn
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&node_state_smartfail).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &node_state_smartfail)
     }
 }

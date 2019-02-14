@@ -8,13 +8,13 @@ pub struct JobJobCreateParams {
     pub allow_dup: Option<bool>,
     ///
     #[serde(rename = "avscan_params")]
-    pub avscan_params: Option<::models::JobJobAvscanParams>,
+    pub avscan_params: Option <crate::models::JobJobAvscanParams>,
     ///
     #[serde(rename = "changelistcreate_params")]
-    pub changelistcreate_params: Option<::models::JobJobChangelistcreateParams>,
+    pub changelistcreate_params: Option <crate::models::JobJobChangelistcreateParams>,
     ///
     #[serde(rename = "domainmark_params")]
-    pub domainmark_params: Option<::models::JobJobDomainmarkParams>,
+    pub domainmark_params: Option <crate::models::JobJobDomainmarkParams>,
     /// For jobs which take paths, the IFS paths to pass to the job.
     #[serde(rename = "paths")]
     pub paths: Option<Vec<String>>,
@@ -23,16 +23,16 @@ pub struct JobJobCreateParams {
     pub policy: Option<String>,
     ///
     #[serde(rename = "prepair_params")]
-    pub prepair_params: Option<::models::JobJobPrepairParams>,
+    pub prepair_params: Option <crate::models::JobJobPrepairParams>,
     /// Priority of this job instance; lower numbers preempt higher numbers.
     #[serde(rename = "priority")]
     pub priority: Option<i32>,
     ///
     #[serde(rename = "smartpoolstree_params")]
-    pub smartpoolstree_params: Option<::models::JobJobSmartpoolstreeParams>,
+    pub smartpoolstree_params: Option <crate::models::JobJobSmartpoolstreeParams>,
     ///
     #[serde(rename = "snaprevert_params")]
-    pub snaprevert_params: Option<::models::JobJobSnaprevertParams>,
+    pub snaprevert_params: Option <crate::models::JobJobSnaprevertParams>,
     /// Job type to queue.
     #[serde(rename = "type")]
     pub _type: String,

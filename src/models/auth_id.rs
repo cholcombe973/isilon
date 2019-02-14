@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct AuthId {
     /// Specifies properties for a security token for the currently authenticated user.
     #[serde(rename = "ntoken")]
-    pub ntoken: Option<::models::AuthIdNtoken>,
+    pub ntoken: Option <crate::models::AuthIdNtoken>,
 }

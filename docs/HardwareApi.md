@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 
 # **create_hardware_tape_name**
-> ::models::CreateHardwareTapeNameResponse create_hardware_tape_name(ctx, hardware_tape_name, hardware_tape_name2, optional)
+>crate::models::CreateHardwareTapeNameResponse create_hardware_tape_name(ctx, hardware_tape_name, hardware_tape_name2, optional)
 
 
 Tape/Changer devices rescan
@@ -84,7 +84,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_hardware_fcport**
-> ::models::HardwareFcports get_hardware_fcport(ctx, hardware_fcport_id, optional)
+>crate::models::HardwareFcports get_hardware_fcport(ctx, hardware_fcport_id, optional)
 
 
 Get one fibre-channel port
@@ -121,7 +121,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_hardware_fcports**
-> ::models::HardwareFcports get_hardware_fcports(ctx, optional)
+>crate::models::HardwareFcports get_hardware_fcports(ctx, optional)
 
 
 Get list of fibre-channel ports
@@ -158,7 +158,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_hardware_tapes**
-> ::models::HardwareTapes get_hardware_tapes(ctx, optional)
+>crate::models::HardwareTapes get_hardware_tapes(ctx, optional)
 
 
 Get list Tape and Changer devices

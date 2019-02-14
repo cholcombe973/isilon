@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct HdfsSettings {
     /// This is schema that contains HDFS protocol properties.
     #[serde(rename = "settings")]
-    pub settings: Option<::models::HdfsSettingsSettings>,
+    pub settings: Option <crate::models::HdfsSettingsSettings>,
 }

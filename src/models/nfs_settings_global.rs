@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct NfsSettingsGlobal {
     /// Specifies the global NFS configuration settings.
     #[serde(rename = "settings")]
-    pub settings: Option<::models::NfsSettingsGlobalSettings>,
+    pub settings: Option <crate::models::NfsSettingsGlobalSettings>,
 }

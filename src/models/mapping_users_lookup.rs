@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct MappingUsersLookup {
     /// Lookup a user access token.
     #[serde(rename = "mapping")]
-    pub mapping: Option<Vec<::models::MappingUsersLookupMappingItem>>,
+    pub mapping: Option<Vec <crate::models::MappingUsersLookupMappingItem>>,
 }

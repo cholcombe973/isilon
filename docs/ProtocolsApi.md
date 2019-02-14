@@ -130,7 +130,7 @@ Method | HTTP request | Description
 
 
 # **create_hdfs_proxyuser**
-> ::models::CreateResponse create_hdfs_proxyuser(ctx, hdfs_proxyuser, optional)
+>crate::models::CreateResponse create_hdfs_proxyuser(ctx, hdfs_proxyuser, optional)
 
 
 Create a new HDFS proxyuser.
@@ -167,7 +167,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_hdfs_rack**
-> ::models::CreateResponse create_hdfs_rack(ctx, hdfs_rack, optional)
+>crate::models::CreateResponse create_hdfs_rack(ctx, hdfs_rack, optional)
 
 
 Create a new HDFS rack.
@@ -204,7 +204,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_ndmp_settings_preferred_ip**
-> ::models::Empty create_ndmp_settings_preferred_ip(ctx, ndmp_settings_preferred_ip)
+>crate::models::Empty create_ndmp_settings_preferred_ip(ctx, ndmp_settings_preferred_ip)
 
 
 Create a preferred ip preference.
@@ -232,7 +232,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_ndmp_settings_variable**
-> ::models::Empty create_ndmp_settings_variable(ctx, ndmp_settings_variable, ndmp_settings_variable_id)
+>crate::models::Empty create_ndmp_settings_variable(ctx, ndmp_settings_variable, ndmp_settings_variable_id)
 
 
 Create a preferred NDMP environment variable.
@@ -261,7 +261,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_ndmp_user**
-> ::models::Empty create_ndmp_user(ctx, ndmp_user)
+>crate::models::Empty create_ndmp_user(ctx, ndmp_user)
 
 
 Created a new user.
@@ -289,7 +289,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_nfs_alias**
-> ::models::CreateNfsAliasResponse create_nfs_alias(ctx, nfs_alias, optional)
+>crate::models::CreateNfsAliasResponse create_nfs_alias(ctx, nfs_alias, optional)
 
 
 Create a new NFS alias.
@@ -326,7 +326,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_nfs_export**
-> ::models::CreateQuotaReportResponse create_nfs_export(ctx, nfs_export, optional)
+>crate::models::CreateQuotaReportResponse create_nfs_export(ctx, nfs_export, optional)
 
 
 Create a new NFS export.
@@ -368,7 +368,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_nfs_netgroup_check_item**
-> ::models::Empty create_nfs_netgroup_check_item(ctx, nfs_netgroup_check_item, optional)
+>crate::models::Empty create_nfs_netgroup_check_item(ctx, nfs_netgroup_check_item, optional)
 
 
 Update the NFS netgroups in the cache.
@@ -405,7 +405,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_nfs_netgroup_flush_item**
-> ::models::Empty create_nfs_netgroup_flush_item(ctx, nfs_netgroup_flush_item, optional)
+>crate::models::Empty create_nfs_netgroup_flush_item(ctx, nfs_netgroup_flush_item, optional)
 
 
 Flush the NFS netgroups in the cache.
@@ -442,7 +442,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_nfs_nlm_sessions_check_item**
-> ::models::CreateNfsNlmSessionsCheckItemResponse create_nfs_nlm_sessions_check_item(ctx, nfs_nlm_sessions_check_item, optional)
+>crate::models::CreateNfsNlmSessionsCheckItemResponse create_nfs_nlm_sessions_check_item(ctx, nfs_nlm_sessions_check_item, optional)
 
 
 Perform an active scan for lost NFSv3 locks.
@@ -480,7 +480,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_nfs_reload_item**
-> ::models::Empty create_nfs_reload_item(ctx, nfs_reload_item, optional)
+>crate::models::Empty create_nfs_reload_item(ctx, nfs_reload_item, optional)
 
 
 Reload default NFS export configuration.
@@ -517,7 +517,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_ntp_server**
-> ::models::Empty create_ntp_server(ctx, ntp_server)
+>crate::models::Empty create_ntp_server(ctx, ntp_server)
 
 
 Create an NTP server entry.
@@ -545,7 +545,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_smb_log_level_filter**
-> ::models::CreateAuthRefreshItemResponse create_smb_log_level_filter(ctx, smb_log_level_filter)
+>crate::models::CreateAuthRefreshItemResponse create_smb_log_level_filter(ctx, smb_log_level_filter)
 
 
 Add an SMB log filter.
@@ -573,7 +573,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_smb_share**
-> ::models::CreateResponse create_smb_share(ctx, smb_share, optional)
+>crate::models::CreateResponse create_smb_share(ctx, smb_share, optional)
 
 
 Create a new share.
@@ -610,7 +610,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_swift_account**
-> ::models::Empty create_swift_account(ctx, swift_account, optional)
+>crate::models::Empty create_swift_account(ctx, swift_account, optional)
 
 
 Create a new Swift account
@@ -1383,7 +1383,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ftp_settings**
-> ::models::FtpSettings get_ftp_settings(ctx, )
+>crate::models::FtpSettings get_ftp_settings(ctx, )
 
 
 Retrieve the FTP settings.
@@ -1407,7 +1407,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_hdfs_log_level**
-> ::models::HdfsLogLevel get_hdfs_log_level(ctx, )
+>crate::models::HdfsLogLevel get_hdfs_log_level(ctx, )
 
 
 Retrieve the HDFS service log-level.
@@ -1431,7 +1431,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_hdfs_proxyuser**
-> ::models::HdfsProxyusers get_hdfs_proxyuser(ctx, hdfs_proxyuser_id, optional)
+>crate::models::HdfsProxyusers get_hdfs_proxyuser(ctx, hdfs_proxyuser_id, optional)
 
 
 View the proxyuser.
@@ -1468,7 +1468,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_hdfs_rack**
-> ::models::HdfsRacks get_hdfs_rack(ctx, hdfs_rack_id, optional)
+>crate::models::HdfsRacks get_hdfs_rack(ctx, hdfs_rack_id, optional)
 
 
 Retrieve the HDFS rack.
@@ -1505,7 +1505,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_hdfs_ranger_plugin_settings**
-> ::models::HdfsRangerPluginSettings get_hdfs_ranger_plugin_settings(ctx, optional)
+>crate::models::HdfsRangerPluginSettings get_hdfs_ranger_plugin_settings(ctx, optional)
 
 
 Retrieve HDFS ranger-plugin properties.
@@ -1540,7 +1540,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_hdfs_settings**
-> ::models::HdfsSettings get_hdfs_settings(ctx, optional)
+>crate::models::HdfsSettings get_hdfs_settings(ctx, optional)
 
 
 Retrieve HDFS properties.
@@ -1575,7 +1575,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_http_settings**
-> ::models::HttpSettings get_http_settings(ctx, )
+>crate::models::HttpSettings get_http_settings(ctx, )
 
 
 Retrieve HTTP properties.
@@ -1599,7 +1599,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ndmp_contexts_backup**
-> ::models::NdmpContextsBackupExtended get_ndmp_contexts_backup(ctx, optional)
+>crate::models::NdmpContextsBackupExtended get_ndmp_contexts_backup(ctx, optional)
 
 
 Get List of NDMP Backup Contexts.
@@ -1635,7 +1635,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ndmp_contexts_backup_by_id**
-> ::models::NdmpContextsBackup get_ndmp_contexts_backup_by_id(ctx, ndmp_contexts_backup_id)
+>crate::models::NdmpContextsBackup get_ndmp_contexts_backup_by_id(ctx, ndmp_contexts_backup_id)
 
 
 View a NDMP backup context
@@ -1663,7 +1663,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ndmp_contexts_bre**
-> ::models::NdmpContextsBreExtended get_ndmp_contexts_bre(ctx, optional)
+>crate::models::NdmpContextsBreExtended get_ndmp_contexts_bre(ctx, optional)
 
 
 Get list of NDMP BRE Contexts.
@@ -1699,7 +1699,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ndmp_contexts_bre_by_id**
-> ::models::NdmpContextsBre get_ndmp_contexts_bre_by_id(ctx, ndmp_contexts_bre_id)
+>crate::models::NdmpContextsBre get_ndmp_contexts_bre_by_id(ctx, ndmp_contexts_bre_id)
 
 
 View a NDMP BRE context
@@ -1727,7 +1727,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ndmp_contexts_restore**
-> ::models::NdmpContextsBackupExtended get_ndmp_contexts_restore(ctx, optional)
+>crate::models::NdmpContextsBackupExtended get_ndmp_contexts_restore(ctx, optional)
 
 
 Get List of NDMP Restore Contexts.
@@ -1763,7 +1763,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ndmp_contexts_restore_by_id**
-> ::models::NdmpContextsBackup get_ndmp_contexts_restore_by_id(ctx, ndmp_contexts_restore_id)
+>crate::models::NdmpContextsBackup get_ndmp_contexts_restore_by_id(ctx, ndmp_contexts_restore_id)
 
 
 View a NDMP restore context
@@ -1791,7 +1791,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ndmp_diagnostics**
-> ::models::NdmpDiagnostics get_ndmp_diagnostics(ctx, )
+>crate::models::NdmpDiagnostics get_ndmp_diagnostics(ctx, )
 
 
 List ndmp diagnostics settings.
@@ -1815,7 +1815,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ndmp_dumpdate**
-> ::models::NdmpDumpdates get_ndmp_dumpdate(ctx, ndmp_dumpdate_id, optional)
+>crate::models::NdmpDumpdates get_ndmp_dumpdate(ctx, ndmp_dumpdate_id, optional)
 
 
 List of dumpdates entries.
@@ -1857,7 +1857,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ndmp_logs**
-> ::models::NdmpLogs get_ndmp_logs(ctx, optional)
+>crate::models::NdmpLogs get_ndmp_logs(ctx, optional)
 
 
 Get NDMP logs
@@ -1894,7 +1894,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ndmp_session**
-> ::models::NdmpSessions get_ndmp_session(ctx, ndmp_session_id, optional)
+>crate::models::NdmpSessions get_ndmp_session(ctx, ndmp_session_id, optional)
 
 
 Retrieve the ndmp session.
@@ -1931,7 +1931,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ndmp_sessions**
-> ::models::NdmpSessionsExtended get_ndmp_sessions(ctx, optional)
+>crate::models::NdmpSessionsExtended get_ndmp_sessions(ctx, optional)
 
 
 List all ndmp sessions.
@@ -1970,7 +1970,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ndmp_settings_dmas**
-> ::models::NdmpSettingsDmas get_ndmp_settings_dmas(ctx, )
+>crate::models::NdmpSettingsDmas get_ndmp_settings_dmas(ctx, )
 
 
 List of supported dma vendors.
@@ -1994,7 +1994,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ndmp_settings_global**
-> ::models::NdmpSettingsGlobal get_ndmp_settings_global(ctx, )
+>crate::models::NdmpSettingsGlobal get_ndmp_settings_global(ctx, )
 
 
 List global ndmp settings.
@@ -2018,7 +2018,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ndmp_settings_preferred_ip**
-> ::models::NdmpSettingsPreferredIps get_ndmp_settings_preferred_ip(ctx, ndmp_settings_preferred_ip_id)
+>crate::models::NdmpSettingsPreferredIps get_ndmp_settings_preferred_ip(ctx, ndmp_settings_preferred_ip_id)
 
 
 Get one preference by id.
@@ -2046,7 +2046,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ndmp_settings_variable**
-> ::models::NdmpSettingsVariables get_ndmp_settings_variable(ctx, ndmp_settings_variable_id, optional)
+>crate::models::NdmpSettingsVariables get_ndmp_settings_variable(ctx, ndmp_settings_variable_id, optional)
 
 
 List of preferred environment variables.
@@ -2085,7 +2085,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ndmp_user**
-> ::models::NdmpUsers get_ndmp_user(ctx, ndmp_user_id)
+>crate::models::NdmpUsers get_ndmp_user(ctx, ndmp_user_id)
 
 
 Retrieve the user.
@@ -2113,7 +2113,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_nfs_alias**
-> ::models::NfsAliases get_nfs_alias(ctx, nfs_alias_id, optional)
+>crate::models::NfsAliases get_nfs_alias(ctx, nfs_alias_id, optional)
 
 
 Retrieve export information.
@@ -2152,7 +2152,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_nfs_check**
-> ::models::NfsCheckExtended get_nfs_check(ctx, optional)
+>crate::models::NfsCheckExtended get_nfs_check(ctx, optional)
 
 
 Retrieve NFS export validation information.
@@ -2190,7 +2190,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_nfs_export**
-> ::models::NfsExports get_nfs_export(ctx, nfs_export_id, optional)
+>crate::models::NfsExports get_nfs_export(ctx, nfs_export_id, optional)
 
 
 Retrieve export information.
@@ -2228,7 +2228,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_nfs_exports_summary**
-> ::models::NfsExportsSummary get_nfs_exports_summary(ctx, optional)
+>crate::models::NfsExportsSummary get_nfs_exports_summary(ctx, optional)
 
 
 Retrieve NFS export summary information.
@@ -2263,7 +2263,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_nfs_log_level**
-> ::models::NfsLogLevel get_nfs_log_level(ctx, )
+>crate::models::NfsLogLevel get_nfs_log_level(ctx, )
 
 
 Get the current NFS service logging level.
@@ -2287,7 +2287,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_nfs_netgroup**
-> ::models::NfsNetgroup get_nfs_netgroup(ctx, optional)
+>crate::models::NfsNetgroup get_nfs_netgroup(ctx, optional)
 
 
 Get the current NFS netgroup cache settings.
@@ -2322,7 +2322,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_nfs_nlm_locks**
-> ::models::NfsNlmLocks get_nfs_nlm_locks(ctx, optional)
+>crate::models::NfsNlmLocks get_nfs_nlm_locks(ctx, optional)
 
 
 List all NLM locks.
@@ -2365,7 +2365,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_nfs_nlm_session**
-> ::models::NfsNlmSessions get_nfs_nlm_session(ctx, nfs_nlm_session_id, optional)
+>crate::models::NfsNlmSessions get_nfs_nlm_session(ctx, nfs_nlm_session_id, optional)
 
 
 Retrieve all lock state for a single client.
@@ -2403,7 +2403,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_nfs_nlm_sessions**
-> ::models::NfsNlmSessionsExtended get_nfs_nlm_sessions(ctx, optional)
+>crate::models::NfsNlmSessionsExtended get_nfs_nlm_sessions(ctx, optional)
 
 
 List all NSM clients (optionally filtered by either zone or IP)
@@ -2442,7 +2442,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_nfs_nlm_waiters**
-> ::models::NfsNlmWaiters get_nfs_nlm_waiters(ctx, optional)
+>crate::models::NfsNlmWaiters get_nfs_nlm_waiters(ctx, optional)
 
 
 List all NLM lock waiters.
@@ -2480,7 +2480,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_nfs_settings_export**
-> ::models::NfsSettingsExport get_nfs_settings_export(ctx, optional)
+>crate::models::NfsSettingsExport get_nfs_settings_export(ctx, optional)
 
 
 Retrieve export information.
@@ -2516,7 +2516,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_nfs_settings_global**
-> ::models::NfsSettingsGlobal get_nfs_settings_global(ctx, optional)
+>crate::models::NfsSettingsGlobal get_nfs_settings_global(ctx, optional)
 
 
 Retrieve the NFS configuration.
@@ -2551,7 +2551,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_nfs_settings_zone**
-> ::models::NfsSettingsZone get_nfs_settings_zone(ctx, optional)
+>crate::models::NfsSettingsZone get_nfs_settings_zone(ctx, optional)
 
 
 Retrieve the NFS server settings for this zone.
@@ -2586,7 +2586,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ntp_server**
-> ::models::NtpServers get_ntp_server(ctx, ntp_server_id)
+>crate::models::NtpServers get_ntp_server(ctx, ntp_server_id)
 
 
 Retrieve one NTP server.
@@ -2614,7 +2614,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ntp_settings**
-> ::models::NtpSettings get_ntp_settings(ctx, )
+>crate::models::NtpSettings get_ntp_settings(ctx, )
 
 
 Retrieve the NTP settings.
@@ -2638,7 +2638,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_smb_log_level**
-> ::models::SmbLogLevel get_smb_log_level(ctx, )
+>crate::models::SmbLogLevel get_smb_log_level(ctx, )
 
 
 Get the current SMB logging level.
@@ -2662,7 +2662,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_smb_log_level_filter**
-> ::models::SmbLogLevelFilters get_smb_log_level_filter(ctx, smb_log_level_filter_id)
+>crate::models::SmbLogLevelFilters get_smb_log_level_filter(ctx, smb_log_level_filter_id)
 
 
 View log filter.
@@ -2690,7 +2690,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_smb_openfiles**
-> ::models::SmbOpenfiles get_smb_openfiles(ctx, optional)
+>crate::models::SmbOpenfiles get_smb_openfiles(ctx, optional)
 
 
 List open files.
@@ -2728,7 +2728,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_smb_sessions**
-> ::models::SmbSessions get_smb_sessions(ctx, optional)
+>crate::models::SmbSessions get_smb_sessions(ctx, optional)
 
 
 List open sessions.
@@ -2766,7 +2766,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_smb_settings_global**
-> ::models::SmbSettingsGlobal get_smb_settings_global(ctx, optional)
+>crate::models::SmbSettingsGlobal get_smb_settings_global(ctx, optional)
 
 
 List all settings.
@@ -2801,7 +2801,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_smb_settings_share**
-> ::models::SmbSettingsShare get_smb_settings_share(ctx, optional)
+>crate::models::SmbSettingsShare get_smb_settings_share(ctx, optional)
 
 
 List all settings.
@@ -2837,7 +2837,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_smb_share**
-> ::models::SmbShares get_smb_share(ctx, smb_share_id, optional)
+>crate::models::SmbShares get_smb_share(ctx, smb_share_id, optional)
 
 
 Retrieve share.
@@ -2876,7 +2876,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_smb_shares_summary**
-> ::models::SmbSharesSummary get_smb_shares_summary(ctx, optional)
+>crate::models::SmbSharesSummary get_smb_shares_summary(ctx, optional)
 
 
 Return summary information about shares.
@@ -2911,7 +2911,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_snmp_settings**
-> ::models::SnmpSettings get_snmp_settings(ctx, )
+>crate::models::SnmpSettings get_snmp_settings(ctx, )
 
 
 Retrieve the SNMP settings.
@@ -2935,7 +2935,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_swift_account**
-> ::models::SwiftAccounts get_swift_account(ctx, swift_account_id, optional)
+>crate::models::SwiftAccounts get_swift_account(ctx, swift_account_id, optional)
 
 
 List a swift account.
@@ -2972,7 +2972,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_hdfs_proxyusers**
-> ::models::HdfsProxyusers list_hdfs_proxyusers(ctx, optional)
+>crate::models::HdfsProxyusers list_hdfs_proxyusers(ctx, optional)
 
 
 List all proxyusers.
@@ -3007,7 +3007,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_hdfs_racks**
-> ::models::HdfsRacksExtended list_hdfs_racks(ctx, optional)
+>crate::models::HdfsRacksExtended list_hdfs_racks(ctx, optional)
 
 
 List all racks.
@@ -3042,7 +3042,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_ndmp_settings_preferred_ips**
-> ::models::NdmpSettingsPreferredIps list_ndmp_settings_preferred_ips(ctx, optional)
+>crate::models::NdmpSettingsPreferredIps list_ndmp_settings_preferred_ips(ctx, optional)
 
 
 Get list of preferences.
@@ -3078,7 +3078,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_ndmp_users**
-> ::models::NdmpUsersExtended list_ndmp_users(ctx, )
+>crate::models::NdmpUsersExtended list_ndmp_users(ctx, )
 
 
 List all ndmp administrators.
@@ -3102,7 +3102,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_nfs_aliases**
-> ::models::NfsAliasesExtended list_nfs_aliases(ctx, optional)
+>crate::models::NfsAliasesExtended list_nfs_aliases(ctx, optional)
 
 
 List all NFS aliases.
@@ -3142,7 +3142,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_nfs_exports**
-> ::models::NfsExportsExtended list_nfs_exports(ctx, optional)
+>crate::models::NfsExportsExtended list_nfs_exports(ctx, optional)
 
 
 List all NFS exports.
@@ -3185,7 +3185,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_ntp_servers**
-> ::models::NtpServersExtended list_ntp_servers(ctx, optional)
+>crate::models::NtpServersExtended list_ntp_servers(ctx, optional)
 
 
 List all NTP servers.
@@ -3223,7 +3223,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_smb_log_level_filters**
-> ::models::SmbLogLevelFilters list_smb_log_level_filters(ctx, optional)
+>crate::models::SmbLogLevelFilters list_smb_log_level_filters(ctx, optional)
 
 
 Get the current SMB log filters.
@@ -3260,7 +3260,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_smb_shares**
-> ::models::SmbSharesExtended list_smb_shares(ctx, optional)
+>crate::models::SmbSharesExtended list_smb_shares(ctx, optional)
 
 
 List all shares.
@@ -3302,7 +3302,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_swift_accounts**
-> ::models::SwiftAccountsExtended list_swift_accounts(ctx, optional)
+>crate::models::SwiftAccountsExtended list_swift_accounts(ctx, optional)
 
 
 List all swift accounts.

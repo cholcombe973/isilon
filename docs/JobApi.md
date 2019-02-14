@@ -24,7 +24,7 @@ Method | HTTP request | Description
 
 
 # **create_job_job**
-> ::models::CreateJobJobResponse create_job_job(ctx, job_job)
+>crate::models::CreateJobJobResponse create_job_job(ctx, job_job)
 
 
 Queue a new instance of a job type.
@@ -52,7 +52,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_job_policy**
-> ::models::CreateResponse create_job_policy(ctx, job_policy)
+>crate::models::CreateResponse create_job_policy(ctx, job_policy)
 
 
 Create a new job impact policy.
@@ -108,7 +108,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_job_events**
-> ::models::JobEvents get_job_events(ctx, optional)
+>crate::models::JobEvents get_job_events(ctx, optional)
 
 
 List job events.
@@ -151,7 +151,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_job_job**
-> ::models::JobJobs get_job_job(ctx, job_job_id)
+>crate::models::JobJobs get_job_job(ctx, job_job_id)
 
 
 View a single job instance.
@@ -179,7 +179,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_job_job_summary**
-> ::models::JobJobSummary get_job_job_summary(ctx, )
+>crate::models::JobJobSummary get_job_job_summary(ctx, )
 
 
 View job engine status.
@@ -203,7 +203,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_job_policy**
-> ::models::JobPolicies get_job_policy(ctx, job_policy_id)
+>crate::models::JobPolicies get_job_policy(ctx, job_policy_id)
 
 
 View a single job impact policy.
@@ -231,7 +231,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_job_recent**
-> ::models::JobRecent get_job_recent(ctx, optional)
+>crate::models::JobRecent get_job_recent(ctx, optional)
 
 
 List recently completed jobs.
@@ -267,7 +267,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_job_reports**
-> ::models::JobReports get_job_reports(ctx, optional)
+>crate::models::JobReports get_job_reports(ctx, optional)
 
 
 List job reports.
@@ -310,7 +310,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_job_statistics**
-> ::models::JobStatistics get_job_statistics(ctx, optional)
+>crate::models::JobStatistics get_job_statistics(ctx, optional)
 
 
 View job engine statistics.
@@ -346,7 +346,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_job_type**
-> ::models::JobTypes get_job_type(ctx, job_type_id)
+>crate::models::JobTypes get_job_type(ctx, job_type_id)
 
 
 Retrieve job type information.
@@ -374,7 +374,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_job_types**
-> ::models::JobTypesExtended get_job_types(ctx, optional)
+>crate::models::JobTypesExtended get_job_types(ctx, optional)
 
 
 List job types.
@@ -411,7 +411,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_job_jobs**
-> ::models::JobJobsExtended list_job_jobs(ctx, optional)
+>crate::models::JobJobsExtended list_job_jobs(ctx, optional)
 
 
 List running and paused jobs.
@@ -451,7 +451,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_job_policies**
-> ::models::JobPoliciesExtended list_job_policies(ctx, optional)
+>crate::models::JobPoliciesExtended list_job_policies(ctx, optional)
 
 
 List job impact policies.

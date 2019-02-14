@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct StoragepoolSettings {
     ///
     #[serde(rename = "settings")]
-    pub settings: Option<::models::StoragepoolSettingsSettings>,
+    pub settings: Option <crate::models::StoragepoolSettingsSettings>,
 }

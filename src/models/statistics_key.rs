@@ -20,7 +20,7 @@ pub struct StatisticsKey {
     pub key: String,
     /// List of effective history policies for key.
     #[serde(rename = "policies")]
-    pub policies: Option<Vec<::models::StatisticsKeyPolicy>>,
+    pub policies: Option<Vec <crate::models::StatisticsKeyPolicy>>,
     /// Configured time in seconds system will used cached values.
     #[serde(rename = "policy_cache_time")]
     pub policy_cache_time: Option<i32>,

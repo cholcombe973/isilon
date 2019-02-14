@@ -4,7 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **batterystatus** | [***::models::NodeStatusNodeBatterystatus**](NodeStatusNodeBatterystatus.md) | Battery status information. | [optional] [default to null]
-**capacity** | [**Vec<::models::NodeStatusNodeCapacityItem>**](NodeStatusNodeCapacityItem.md) | Storage capacity of this node. | [optional] [default to null]
+**capacity** | [**Vec <crate::models::NodeStatusNodeCapacityItem>**](NodeStatusNodeCapacityItem.md) | Storage capacity of this node. | [optional] [default to null]
 **cpu** | [***::models::NodeStatusNodeCpu**](NodeStatusNodeCpu.md) | CPU status information for this node. | [optional] [default to null]
 **nvram** | [***::models::NodeStatusNodeNvram**](NodeStatusNodeNvram.md) | Node NVRAM information. | [optional] [default to null]
 **powersupplies** | [***::models::NodeStatusNodePowersupplies**](NodeStatusNodePowersupplies.md) | Information about this node&#39;s power supplies. | [optional] [default to null]

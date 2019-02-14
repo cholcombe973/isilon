@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, put, query, Error};
 
-pub struct CloudApiClient<C: hyper::client::Connect> {
+pub struct CloudApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> CloudApiClient<C> {
+impl<C: hyper::client::connect::Connect> CloudApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> CloudApiClient<C> {
         CloudApiClient {
             configuration: configuration,
@@ -33,60 +32,61 @@ impl<C: hyper::client::Connect> CloudApiClient<C> {
 pub trait CloudApi {
     fn create_cloud_access_item(
         &self,
-        cloud_access_item: ::models::CloudAccessItem,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        cloud_access_item: crate::models::CloudAccessItem,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_cloud_account(
         &self,
-        cloud_account: ::models::CloudAccountCreateParams,
-    ) -> Box<Future<Item = ::models::CreateCloudAccountResponse, Error = Error>>;
+        cloud_account: crate::models::CloudAccountCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateCloudAccountResponse, Error = Error>>;
     fn create_cloud_job(
         &self,
-        cloud_job: ::models::CloudJobCreateParams,
-    ) -> Box<Future<Item = ::models::CreateCloudJobResponse, Error = Error>>;
+        cloud_job: crate::models::CloudJobCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateCloudJobResponse, Error = Error>>;
     fn create_cloud_pool(
         &self,
-        cloud_pool: ::models::CloudPoolCreateParams,
-    ) -> Box<Future<Item = ::models::CreateCloudPoolResponse, Error = Error>>;
+        cloud_pool: crate::models::CloudPoolCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateCloudPoolResponse, Error = Error>>;
     fn create_cloud_proxy(
         &self,
-        cloud_proxy: ::models::CloudProxyCreateParams,
-    ) -> Box<Future<Item = ::models::CreateCloudProxyResponse, Error = Error>>;
+        cloud_proxy: crate::models::CloudProxyCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateCloudProxyResponse, Error = Error>>;
     fn create_settings_encryption_key_item(
         &self,
-        settings_encryption_key_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        settings_encryption_key_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_settings_reporting_eula_item(
         &self,
-        settings_reporting_eula_item: ::models::SettingsReportingEulaItem,
-    ) -> Box<Future<Item = ::models::SettingsReportingEulaItem, Error = Error>>;
+        settings_reporting_eula_item: crate::models::SettingsReportingEulaItem,
+    ) -> Box<dyn Future<Item = crate::models::SettingsReportingEulaItem, Error = Error>>;
     fn delete_cloud_access_guid(
         &self,
         cloud_access_guid: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_cloud_account(
         &self,
         cloud_account_id: &str,
         acknowledge_force_delete: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_cloud_pool(
         &self,
         cloud_pool_id: &str,
         acknowledge_force_delete: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_cloud_proxy(&self, cloud_proxy_id: &str) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_settings_reporting_eula(&self) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_cloud_proxy(&self, cloud_proxy_id: &str)
+        -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_settings_reporting_eula(&self) -> Box<dyn Future<Item = (), Error = Error>>;
     fn get_cloud_access_guid(
         &self,
         cloud_access_guid: &str,
-    ) -> Box<Future<Item = ::models::CloudAccess, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CloudAccess, Error = Error>>;
     fn get_cloud_account(
         &self,
         cloud_account_id: &str,
-    ) -> Box<Future<Item = ::models::CloudAccounts, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CloudAccounts, Error = Error>>;
     fn get_cloud_job(
         &self,
         cloud_job_id: &str,
-    ) -> Box<Future<Item = ::models::CloudJobs, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CloudJobs, Error = Error>>;
     fn get_cloud_jobs_file(
         &self,
         cloud_jobs_file_id: &str,
@@ -96,390 +96,196 @@ pub trait CloudApi {
         limit: i32,
         page: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::CloudJobsFiles, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CloudJobsFiles, Error = Error>>;
     fn get_cloud_pool(
         &self,
         cloud_pool_id: &str,
-    ) -> Box<Future<Item = ::models::CloudPools, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CloudPools, Error = Error>>;
     fn get_cloud_proxy(
         &self,
         cloud_proxy_id: &str,
-    ) -> Box<Future<Item = ::models::CloudProxies, Error = Error>>;
-    fn get_cloud_settings(&self) -> Box<Future<Item = ::models::CloudSettings, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CloudProxies, Error = Error>>;
+    fn get_cloud_settings(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::CloudSettings, Error = Error>>;
     fn list_cloud_access(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::CloudAccessExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CloudAccessExtended, Error = Error>>;
     fn list_cloud_accounts(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::CloudAccountsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CloudAccountsExtended, Error = Error>>;
     fn list_cloud_jobs(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::CloudJobsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CloudJobsExtended, Error = Error>>;
     fn list_cloud_pools(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::CloudPoolsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CloudPoolsExtended, Error = Error>>;
     fn list_cloud_proxies(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::CloudProxiesExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CloudProxiesExtended, Error = Error>>;
     fn list_settings_reporting_eula(
         &self,
-    ) -> Box<Future<Item = ::models::SettingsReportingEulaItem, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SettingsReportingEulaItem, Error = Error>>;
     fn update_cloud_account(
         &self,
-        cloud_account: ::models::CloudAccount,
+        cloud_account: crate::models::CloudAccount,
         cloud_account_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_cloud_job(
         &self,
-        cloud_job: ::models::CloudJob,
+        cloud_job: crate::models::CloudJob,
         cloud_job_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_cloud_pool(
         &self,
-        cloud_pool: ::models::CloudPool,
+        cloud_pool: crate::models::CloudPool,
         cloud_pool_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_cloud_proxy(
         &self,
-        cloud_proxy: ::models::CloudProxy,
+        cloud_proxy: crate::models::CloudProxy,
         cloud_proxy_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_cloud_settings(
         &self,
-        cloud_settings: ::models::CloudSettingsSettings,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        cloud_settings: crate::models::CloudSettingsSettings,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C> {
     fn create_cloud_access_item(
         &self,
-        cloud_access_item: ::models::CloudAccessItem,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
+        cloud_access_item: crate::models::CloudAccessItem,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let uri_str = format!("{}/platform/3/cloud/access", self.configuration.base_path);
 
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/cloud/access", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cloud_access_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &cloud_access_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_cloud_account(
         &self,
-        cloud_account: ::models::CloudAccountCreateParams,
-    ) -> Box<Future<Item = ::models::CreateCloudAccountResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
+        cloud_account: crate::models::CloudAccountCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateCloudAccountResponse, Error = Error>> {
+        let uri_str = format!("{}/platform/4/cloud/accounts", self.configuration.base_path);
 
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/4/cloud/accounts", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cloud_account).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateCloudAccountResponse, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &cloud_account,
+            hyper::Method::POST,
         )
     }
 
     fn create_cloud_job(
         &self,
-        cloud_job: ::models::CloudJobCreateParams,
-    ) -> Box<Future<Item = ::models::CreateCloudJobResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
+        cloud_job: crate::models::CloudJobCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateCloudJobResponse, Error = Error>> {
+        let uri_str = format!("{}/platform/3/cloud/jobs", self.configuration.base_path);
 
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/cloud/jobs", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cloud_job).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateCloudJobResponse, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &cloud_job,
+            hyper::Method::POST,
         )
     }
 
     fn create_cloud_pool(
         &self,
-        cloud_pool: ::models::CloudPoolCreateParams,
-    ) -> Box<Future<Item = ::models::CreateCloudPoolResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
+        cloud_pool: crate::models::CloudPoolCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateCloudPoolResponse, Error = Error>> {
+        let uri_str = format!("{}/platform/3/cloud/pools", self.configuration.base_path);
 
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/cloud/pools", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cloud_pool).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateCloudPoolResponse, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &cloud_pool,
+            hyper::Method::POST,
         )
     }
 
     fn create_cloud_proxy(
         &self,
-        cloud_proxy: ::models::CloudProxyCreateParams,
-    ) -> Box<Future<Item = ::models::CreateCloudProxyResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
+        cloud_proxy: crate::models::CloudProxyCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateCloudProxyResponse, Error = Error>> {
+        let uri_str = format!("{}/platform/4/cloud/proxies", self.configuration.base_path);
 
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/4/cloud/proxies", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cloud_proxy).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateCloudProxyResponse, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &cloud_proxy,
+            hyper::Method::POST,
         )
     }
 
     fn create_settings_encryption_key_item(
         &self,
-        settings_encryption_key_item: ::models::Empty,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        settings_encryption_key_item: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cloud/settings/encryption-key",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&settings_encryption_key_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &settings_encryption_key_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_settings_reporting_eula_item(
         &self,
-        settings_reporting_eula_item: ::models::SettingsReportingEulaItem,
-    ) -> Box<Future<Item = ::models::SettingsReportingEulaItem, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        settings_reporting_eula_item: crate::models::SettingsReportingEulaItem,
+    ) -> Box<dyn Future<Item = crate::models::SettingsReportingEulaItem, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cloud/settings/reporting-eula",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&settings_reporting_eula_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SettingsReportingEulaItem, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &settings_reporting_eula_item,
+            hyper::Method::POST,
         )
     }
 
     fn delete_cloud_access_guid(
         &self,
         cloud_access_guid: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cloud/access/{CloudAccessGuid}",
-            configuration.base_path,
+            self.configuration.base_path,
             CloudAccessGuid = cloud_access_guid
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -487,12 +293,8 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
         &self,
         cloud_account_id: &str,
         acknowledge_force_delete: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair(
                 "acknowledge_force_delete",
                 &acknowledge_force_delete.to_string(),
@@ -500,27 +302,15 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/4/cloud/accounts/{CloudAccountId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             CloudAccountId = cloud_account_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -528,12 +318,8 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
         &self,
         cloud_pool_id: &str,
         acknowledge_force_delete: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair(
                 "acknowledge_force_delete",
                 &acknowledge_force_delete.to_string(),
@@ -541,197 +327,99 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/cloud/pools/{CloudPoolId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             CloudPoolId = cloud_pool_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_cloud_proxy(&self, cloud_proxy_id: &str) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_cloud_proxy(
+        &self,
+        cloud_proxy_id: &str,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/4/cloud/proxies/{CloudProxyId}",
-            configuration.base_path,
+            self.configuration.base_path,
             CloudProxyId = cloud_proxy_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_settings_reporting_eula(&self) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_settings_reporting_eula(&self) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cloud/settings/reporting-eula",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn get_cloud_access_guid(
         &self,
         cloud_access_guid: &str,
-    ) -> Box<Future<Item = ::models::CloudAccess, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::CloudAccess, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cloud/access/{CloudAccessGuid}",
-            configuration.base_path,
+            self.configuration.base_path,
             CloudAccessGuid = cloud_access_guid
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CloudAccess, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_cloud_account(
         &self,
         cloud_account_id: &str,
-    ) -> Box<Future<Item = ::models::CloudAccounts, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::CloudAccounts, Error = Error>> {
         let uri_str = format!(
             "{}/platform/4/cloud/accounts/{CloudAccountId}",
-            configuration.base_path,
+            self.configuration.base_path,
             CloudAccountId = cloud_account_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CloudAccounts, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_cloud_job(
         &self,
         cloud_job_id: &str,
-    ) -> Box<Future<Item = ::models::CloudJobs, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::CloudJobs, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cloud/jobs/{CloudJobId}",
-            configuration.base_path,
+            self.configuration.base_path,
             CloudJobId = cloud_job_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CloudJobs, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -744,12 +432,8 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
         limit: i32,
         page: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::CloudJobsFiles, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CloudJobsFiles, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("resume", &resume.to_string())
             .append_pair("batch", &batch.to_string())
@@ -759,135 +443,65 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/cloud/jobs-files/{CloudJobsFileId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             CloudJobsFileId = cloud_jobs_file_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CloudJobsFiles, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_cloud_pool(
         &self,
         cloud_pool_id: &str,
-    ) -> Box<Future<Item = ::models::CloudPools, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::CloudPools, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cloud/pools/{CloudPoolId}",
-            configuration.base_path,
+            self.configuration.base_path,
             CloudPoolId = cloud_pool_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CloudPools, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_cloud_proxy(
         &self,
         cloud_proxy_id: &str,
-    ) -> Box<Future<Item = ::models::CloudProxies, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::CloudProxies, Error = Error>> {
         let uri_str = format!(
             "{}/platform/4/cloud/proxies/{CloudProxyId}",
-            configuration.base_path,
+            self.configuration.base_path,
             CloudProxyId = cloud_proxy_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CloudProxies, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_cloud_settings(&self) -> Box<Future<Item = ::models::CloudSettings, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
+    fn get_cloud_settings(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::CloudSettings, Error = Error>> {
+        let uri_str = format!("{}/platform/3/cloud/settings", self.configuration.base_path);
 
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/3/cloud/settings", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CloudSettings, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -896,42 +510,22 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::CloudAccessExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CloudAccessExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/cloud/access?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CloudAccessExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -940,42 +534,22 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::CloudAccountsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CloudAccountsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/4/cloud/accounts?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CloudAccountsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -984,42 +558,22 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::CloudJobsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CloudJobsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/cloud/jobs?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CloudJobsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -1028,42 +582,22 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::CloudPoolsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CloudPoolsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/cloud/pools?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CloudPoolsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -1072,273 +606,98 @@ impl<C: hyper::client::Connect> CloudApi for CloudApiClient<C> {
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::CloudProxiesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CloudProxiesExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/4/cloud/proxies?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CloudProxiesExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_settings_reporting_eula(
         &self,
-    ) -> Box<Future<Item = ::models::SettingsReportingEulaItem, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SettingsReportingEulaItem, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/cloud/settings/reporting-eula",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SettingsReportingEulaItem, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn update_cloud_account(
         &self,
-        cloud_account: ::models::CloudAccount,
+        cloud_account: crate::models::CloudAccount,
         cloud_account_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/4/cloud/accounts/{CloudAccountId}",
-            configuration.base_path,
+            self.configuration.base_path,
             CloudAccountId = cloud_account_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cloud_account).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &cloud_account)
     }
 
     fn update_cloud_job(
         &self,
-        cloud_job: ::models::CloudJob,
+        cloud_job: crate::models::CloudJob,
         cloud_job_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/3/cloud/jobs/{CloudJobId}",
-            configuration.base_path,
+            self.configuration.base_path,
             CloudJobId = cloud_job_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cloud_job).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &cloud_job)
     }
 
     fn update_cloud_pool(
         &self,
-        cloud_pool: ::models::CloudPool,
+        cloud_pool: crate::models::CloudPool,
         cloud_pool_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/3/cloud/pools/{CloudPoolId}",
-            configuration.base_path,
+            self.configuration.base_path,
             CloudPoolId = cloud_pool_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cloud_pool).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &cloud_pool)
     }
 
     fn update_cloud_proxy(
         &self,
-        cloud_proxy: ::models::CloudProxy,
+        cloud_proxy: crate::models::CloudProxy,
         cloud_proxy_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/4/cloud/proxies/{CloudProxyId}",
-            configuration.base_path,
+            self.configuration.base_path,
             CloudProxyId = cloud_proxy_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cloud_proxy).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &cloud_proxy)
     }
 
     fn update_cloud_settings(
         &self,
-        cloud_settings: ::models::CloudSettingsSettings,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!("{}/platform/3/cloud/settings", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&cloud_settings).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        cloud_settings: crate::models::CloudSettingsSettings,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!("{}/platform/3/cloud/settings", self.configuration.base_path);
+        put(self.configuration.borrow(), &uri, &cloud_settings)
     }
 }

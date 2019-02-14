@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct ProgressGlobal {
     /// Lists the current global audit log times.
     #[serde(rename = "progress")]
-    pub progress: Option<::models::ProgressGlobalProgress>,
+    pub progress: Option <crate::models::ProgressGlobalProgress>,
 }

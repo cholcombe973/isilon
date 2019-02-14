@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**actions** | [**Vec<::models::FilepoolPolicyActionExtended>**](FilepoolPolicyActionExtended.md) | A list of actions to be taken for matching files | [optional] [default to null]
+**actions** | [**Vec <crate::models::FilepoolPolicyActionExtended>**](FilepoolPolicyActionExtended.md) | A list of actions to be taken for matching files | [optional] [default to null]
 **apply_order** | **i32** | The order in which this policy should be applied (relative to other policies) | [optional] [default to null]
 **birth_cluster_id** | **String** | The guid assigned to the cluster on which the account was created | [optional] [default to null]
 **description** | **String** | A description for this policy | [optional] [default to null]

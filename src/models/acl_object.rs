@@ -12,5 +12,5 @@ pub struct AclObject {
     #[serde(rename = "op")]
     pub op: Option<String>,
     #[serde(rename = "trustee")]
-    pub trustee: Option<::models::MemberObject>,
+    pub trustee: Option <crate::models::MemberObject>,
 }

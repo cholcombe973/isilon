@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 
 # **create_audit_topic**
-> ::models::CreateResponse create_audit_topic(ctx, audit_topic)
+>crate::models::CreateResponse create_audit_topic(ctx, audit_topic)
 
 
 Create a new audit topic.
@@ -74,7 +74,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_audit_progress**
-> ::models::AuditProgress get_audit_progress(ctx, optional)
+>crate::models::AuditProgress get_audit_progress(ctx, optional)
 
 
 View current audit log time.
@@ -109,7 +109,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_audit_settings**
-> ::models::AuditSettings get_audit_settings(ctx, optional)
+>crate::models::AuditSettings get_audit_settings(ctx, optional)
 
 
 View per-Access Zone Audit settings.
@@ -144,7 +144,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_audit_topic**
-> ::models::AuditTopics get_audit_topic(ctx, audit_topic_id)
+>crate::models::AuditTopics get_audit_topic(ctx, audit_topic_id)
 
 
 Retrieve the audit topic information.
@@ -172,7 +172,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_progress_global**
-> ::models::ProgressGlobal get_progress_global(ctx, )
+>crate::models::ProgressGlobal get_progress_global(ctx, )
 
 
 View the global audit log time.
@@ -196,7 +196,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_settings_global**
-> ::models::SettingsGlobalExtended get_settings_global(ctx, )
+>crate::models::SettingsGlobalExtended get_settings_global(ctx, )
 
 
 View Global Audit settings.
@@ -220,7 +220,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_audit_topics**
-> ::models::AuditTopicsExtended list_audit_topics(ctx, )
+>crate::models::AuditTopicsExtended list_audit_topics(ctx, )
 
 
 Retrieve a list of audit topics.

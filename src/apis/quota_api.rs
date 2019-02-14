@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, put, query, Error};
 
-pub struct QuotaApiClient<C: hyper::client::Connect> {
+pub struct QuotaApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> QuotaApiClient<C> {
+impl<C: hyper::client::connect::Connect> QuotaApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> QuotaApiClient<C> {
         QuotaApiClient {
             configuration: configuration,
@@ -33,22 +32,23 @@ impl<C: hyper::client::Connect> QuotaApiClient<C> {
 pub trait QuotaApi {
     fn create_quota_quota(
         &self,
-        quota_quota: ::models::QuotaQuotaCreateParams,
+        quota_quota: crate::models::QuotaQuotaCreateParams,
         zone: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_quota_report(
         &self,
-        quota_report: ::models::Empty,
-    ) -> Box<Future<Item = ::models::CreateQuotaReportResponse, Error = Error>>;
+        quota_report: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::CreateQuotaReportResponse, Error = Error>>;
     fn create_settings_mapping(
         &self,
-        settings_mapping: ::models::SettingsMappingExtendedExtended,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+        settings_mapping: crate::models::SettingsMappingExtendedExtended,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_settings_notification(
         &self,
-        settings_notification: ::models::QuotaNotificationCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
-    fn delete_quota_quota(&self, quota_quota_id: &str) -> Box<Future<Item = (), Error = Error>>;
+        settings_notification: crate::models::QuotaNotificationCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
+    fn delete_quota_quota(&self, quota_quota_id: &str)
+        -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_quota_quotas(
         &self,
         enforced: bool,
@@ -59,42 +59,49 @@ pub trait QuotaApi {
         persona: &str,
         path: &str,
         _type: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_quota_report(&self, quota_report_id: &str) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_quota_report(
+        &self,
+        quota_report_id: &str,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_settings_mapping(
         &self,
         settings_mapping_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_settings_mappings(&self) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_settings_mappings(&self) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_settings_notification(
         &self,
         settings_notification_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_settings_notifications(&self) -> Box<Future<Item = (), Error = Error>>;
-    fn get_quota_license(&self) -> Box<Future<Item = ::models::LicenseLicense, Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_settings_notifications(&self) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn get_quota_license(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::LicenseLicense, Error = Error>>;
     fn get_quota_quota(
         &self,
         quota_quota_id: &str,
         resolve_names: bool,
         zone: &str,
-    ) -> Box<Future<Item = ::models::QuotaQuotas, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::QuotaQuotas, Error = Error>>;
     fn get_quota_quotas_summary(
         &self,
-    ) -> Box<Future<Item = ::models::QuotaQuotasSummary, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::QuotaQuotasSummary, Error = Error>>;
     fn get_quota_report(
         &self,
         quota_report_id: &str,
         contents: bool,
-    ) -> Box<Future<Item = ::models::ReportAbout, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ReportAbout, Error = Error>>;
     fn get_settings_mapping(
         &self,
         settings_mapping_id: &str,
-    ) -> Box<Future<Item = ::models::SettingsMappings, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SettingsMappings, Error = Error>>;
     fn get_settings_notification(
         &self,
         settings_notification_id: &str,
-    ) -> Box<Future<Item = ::models::QuotaNotifications, Error = Error>>;
-    fn get_settings_reports(&self) -> Box<Future<Item = ::models::SettingsReports, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::QuotaNotifications, Error = Error>>;
+    fn get_settings_reports(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::SettingsReports, Error = Error>>;
     fn list_quota_quotas(
         &self,
         enforced: bool,
@@ -110,7 +117,7 @@ pub trait QuotaApi {
         path: &str,
         _type: &str,
         report_id: &str,
-    ) -> Box<Future<Item = ::models::QuotaQuotasExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::QuotaQuotasExtended, Error = Error>>;
     fn list_quota_reports(
         &self,
         sort: &str,
@@ -119,232 +126,114 @@ pub trait QuotaApi {
         limit: i32,
         _type: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::QuotaReports, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::QuotaReports, Error = Error>>;
     fn list_settings_mappings(
         &self,
-    ) -> Box<Future<Item = ::models::SettingsMappings, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SettingsMappings, Error = Error>>;
     fn list_settings_notifications(
         &self,
-    ) -> Box<Future<Item = ::models::QuotaNotificationsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::QuotaNotificationsExtended, Error = Error>>;
     fn update_quota_quota(
         &self,
-        quota_quota: ::models::QuotaQuota,
+        quota_quota: crate::models::QuotaQuota,
         quota_quota_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_settings_mapping(
         &self,
-        settings_mapping: ::models::SettingsMappingExtended,
+        settings_mapping: crate::models::SettingsMappingExtended,
         settings_mapping_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_settings_notification(
         &self,
-        settings_notification: ::models::QuotaNotification,
+        settings_notification: crate::models::QuotaNotification,
         settings_notification_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_settings_reports(
         &self,
-        settings_reports: ::models::SettingsReportsExtended,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        settings_reports: crate::models::SettingsReportsExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> QuotaApi for QuotaApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> QuotaApi for QuotaApiClient<C> {
     fn create_quota_quota(
         &self,
-        quota_quota: ::models::QuotaQuotaCreateParams,
+        quota_quota: crate::models::QuotaQuotaCreateParams,
         zone: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/quota/quotas?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&quota_quota).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &quota_quota,
+            hyper::Method::POST,
         )
     }
 
     fn create_quota_report(
         &self,
-        quota_report: ::models::Empty,
-    ) -> Box<Future<Item = ::models::CreateQuotaReportResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/1/quota/reports", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&quota_report).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateQuotaReportResponse, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        quota_report: crate::models::Empty,
+    ) -> Box<dyn Future<Item = crate::models::CreateQuotaReportResponse, Error = Error>> {
+        let uri_str = format!("{}/platform/1/quota/reports", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &quota_report,
+            hyper::Method::POST,
         )
     }
 
     fn create_settings_mapping(
         &self,
-        settings_mapping: ::models::SettingsMappingExtendedExtended,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        settings_mapping: crate::models::SettingsMappingExtendedExtended,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/settings/mappings",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&settings_mapping).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &settings_mapping,
+            hyper::Method::POST,
         )
     }
 
     fn create_settings_notification(
         &self,
-        settings_notification: ::models::QuotaNotificationCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        settings_notification: crate::models::QuotaNotificationCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/settings/notifications",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&settings_notification).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &settings_notification,
+            hyper::Method::POST,
         )
     }
 
-    fn delete_quota_quota(&self, quota_quota_id: &str) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_quota_quota(
+        &self,
+        quota_quota_id: &str,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/quotas/{QuotaQuotaId}",
-            configuration.base_path,
+            self.configuration.base_path,
             QuotaQuotaId = quota_quota_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -358,12 +247,8 @@ impl<C: hyper::client::Connect> QuotaApi for QuotaApiClient<C> {
         persona: &str,
         path: &str,
         _type: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("enforced", &enforced.to_string())
             .append_pair("include_snapshots", &include_snapshots.to_string())
             .append_pair("zone", &zone.to_string())
@@ -375,209 +260,102 @@ impl<C: hyper::client::Connect> QuotaApi for QuotaApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/quota/quotas?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_quota_report(&self, quota_report_id: &str) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_quota_report(
+        &self,
+        quota_report_id: &str,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/reports/{QuotaReportId}",
-            configuration.base_path,
+            self.configuration.base_path,
             QuotaReportId = quota_report_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_settings_mapping(
         &self,
         settings_mapping_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/settings/mappings/{SettingsMappingId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SettingsMappingId = settings_mapping_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_settings_mappings(&self) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_settings_mappings(&self) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/settings/mappings",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_settings_notification(
         &self,
         settings_notification_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/settings/notifications/{SettingsNotificationId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SettingsNotificationId = settings_notification_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_settings_notifications(&self) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_settings_notifications(&self) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/settings/notifications",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn get_quota_license(&self) -> Box<Future<Item = ::models::LicenseLicense, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/5/quota/license", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::LicenseLicense, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn get_quota_license(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::LicenseLicense, Error = Error>> {
+        let uri_str = format!("{}/platform/5/quota/license", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -586,78 +364,37 @@ impl<C: hyper::client::Connect> QuotaApi for QuotaApiClient<C> {
         quota_quota_id: &str,
         resolve_names: bool,
         zone: &str,
-    ) -> Box<Future<Item = ::models::QuotaQuotas, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::QuotaQuotas, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("resolve_names", &resolve_names.to_string())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/quota/quotas/{QuotaQuotaId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             QuotaQuotaId = quota_quota_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::QuotaQuotas, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_quota_quotas_summary(
         &self,
-    ) -> Box<Future<Item = ::models::QuotaQuotasSummary, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::QuotaQuotasSummary, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/quotas-summary",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::QuotaQuotasSummary, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -665,151 +402,70 @@ impl<C: hyper::client::Connect> QuotaApi for QuotaApiClient<C> {
         &self,
         quota_report_id: &str,
         contents: bool,
-    ) -> Box<Future<Item = ::models::ReportAbout, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ReportAbout, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("contents", &contents.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/quota/reports/{QuotaReportId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             QuotaReportId = quota_report_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ReportAbout, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_settings_mapping(
         &self,
         settings_mapping_id: &str,
-    ) -> Box<Future<Item = ::models::SettingsMappings, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SettingsMappings, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/settings/mappings/{SettingsMappingId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SettingsMappingId = settings_mapping_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SettingsMappings, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_settings_notification(
         &self,
         settings_notification_id: &str,
-    ) -> Box<Future<Item = ::models::QuotaNotifications, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::QuotaNotifications, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/settings/notifications/{SettingsNotificationId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SettingsNotificationId = settings_notification_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::QuotaNotifications, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_settings_reports(&self) -> Box<Future<Item = ::models::SettingsReports, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    fn get_settings_reports(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::SettingsReports, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/settings/reports",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SettingsReports, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -828,12 +484,8 @@ impl<C: hyper::client::Connect> QuotaApi for QuotaApiClient<C> {
         path: &str,
         _type: &str,
         report_id: &str,
-    ) -> Box<Future<Item = ::models::QuotaQuotasExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::QuotaQuotasExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("enforced", &enforced.to_string())
             .append_pair("include_snapshots", &include_snapshots.to_string())
             .append_pair("zone", &zone.to_string())
@@ -850,30 +502,13 @@ impl<C: hyper::client::Connect> QuotaApi for QuotaApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/quota/quotas?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::QuotaQuotasExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -885,12 +520,8 @@ impl<C: hyper::client::Connect> QuotaApi for QuotaApiClient<C> {
         limit: i32,
         _type: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::QuotaReports, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::QuotaReports, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("resume", &resume.to_string())
             .append_pair("generated", &generated.to_string())
@@ -900,259 +531,97 @@ impl<C: hyper::client::Connect> QuotaApi for QuotaApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/quota/reports?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::QuotaReports, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_settings_mappings(
         &self,
-    ) -> Box<Future<Item = ::models::SettingsMappings, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SettingsMappings, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/settings/mappings",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SettingsMappings, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_settings_notifications(
         &self,
-    ) -> Box<Future<Item = ::models::QuotaNotificationsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::QuotaNotificationsExtended, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/settings/notifications",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::QuotaNotificationsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn update_quota_quota(
         &self,
-        quota_quota: ::models::QuotaQuota,
+        quota_quota: crate::models::QuotaQuota,
         quota_quota_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/quotas/{QuotaQuotaId}",
-            configuration.base_path,
+            self.configuration.base_path,
             QuotaQuotaId = quota_quota_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&quota_quota).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &quota_quota)
     }
 
     fn update_settings_mapping(
         &self,
-        settings_mapping: ::models::SettingsMappingExtended,
+        settings_mapping: crate::models::SettingsMappingExtended,
         settings_mapping_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/settings/mappings/{SettingsMappingId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SettingsMappingId = settings_mapping_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&settings_mapping).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &settings_mapping)
     }
 
     fn update_settings_notification(
         &self,
-        settings_notification: ::models::QuotaNotification,
+        settings_notification: crate::models::QuotaNotification,
         settings_notification_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/settings/notifications/{SettingsNotificationId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SettingsNotificationId = settings_notification_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&settings_notification).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        put(
+            self.configuration.borrow(),
+            &uri_str,
+            &settings_notification,
         )
     }
 
     fn update_settings_reports(
         &self,
-        settings_reports: ::models::SettingsReportsExtended,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+        settings_reports: crate::models::SettingsReportsExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/quota/settings/reports",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&settings_reports).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &settings_reports)
     }
 }

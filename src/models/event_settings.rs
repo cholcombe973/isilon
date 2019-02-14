@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct EventSettings {
     /// Settings for CELOG system
     #[serde(rename = "settings")]
-    pub settings: Option<::models::EventSettingsSettings>,
+    pub settings: Option <crate::models::EventSettingsSettings>,
 }

@@ -4,5 +4,5 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NdmpUsers {
     #[serde(rename = "users")]
-    pub users: Option<Vec<::models::NdmpUserExtended>>,
+    pub users: Option<Vec <crate::models::NdmpUserExtended>>,
 }

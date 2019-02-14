@@ -5,7 +5,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **access_based_share_enum** | **bool** | Only enumerate files and folders the requesting user has access to. | [optional] [default to null]
 **audit_fileshare** | **String** | Specify level of file share audit events to log. | [optional] [default to null]
-**audit_global_sacl** | [**Vec<::models::SmbSettingsGlobalSettingsAuditGlobalSaclItem>**](SmbSettingsGlobalSettingsAuditGlobalSaclItem.md) | Specifies a list of permissions to audit. | [optional] [default to null]
+**audit_global_sacl** | [**Vec <crate::models::SmbSettingsGlobalSettingsAuditGlobalSaclItem>**](SmbSettingsGlobalSettingsAuditGlobalSaclItem.md) | Specifies a list of permissions to audit. | [optional] [default to null]
 **audit_logon** | **String** | Specify the level of logon audit events to log. | [optional] [default to null]
 **dot_snap_accessible_child** | **bool** | Allow access to .snapshot directories in share subdirectories. | [optional] [default to null]
 **dot_snap_accessible_root** | **bool** | Allow access to the .snapshot directory in the root of the share. | [optional] [default to null]

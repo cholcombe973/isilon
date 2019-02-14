@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, put, query, Error};
 
-pub struct ProtocolsApiClient<C: hyper::client::Connect> {
+pub struct ProtocolsApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> ProtocolsApiClient<C> {
+impl<C: hyper::client::connect::Connect> ProtocolsApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> ProtocolsApiClient<C> {
         ProtocolsApiClient {
             configuration: configuration,
@@ -33,214 +32,228 @@ impl<C: hyper::client::Connect> ProtocolsApiClient<C> {
 pub trait ProtocolsApi {
     fn create_hdfs_proxyuser(
         &self,
-        hdfs_proxyuser: ::models::HdfsProxyuserCreateParams,
+        hdfs_proxyuser: crate::models::HdfsProxyuserCreateParams,
         zone: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_hdfs_rack(
         &self,
-        hdfs_rack: ::models::HdfsRackCreateParams,
+        hdfs_rack: crate::models::HdfsRackCreateParams,
         zone: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_ndmp_settings_preferred_ip(
         &self,
-        ndmp_settings_preferred_ip: ::models::NdmpSettingsPreferredIpCreateParams,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        ndmp_settings_preferred_ip: crate::models::NdmpSettingsPreferredIpCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_ndmp_settings_variable(
         &self,
-        ndmp_settings_variable: ::models::NdmpSettingsVariableCreateParams,
+        ndmp_settings_variable: crate::models::NdmpSettingsVariableCreateParams,
         ndmp_settings_variable_id: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_ndmp_user(
         &self,
-        ndmp_user: ::models::NdmpUserCreateParams,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        ndmp_user: crate::models::NdmpUserCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_nfs_alias(
         &self,
-        nfs_alias: ::models::NfsAliasCreateParams,
+        nfs_alias: crate::models::NfsAliasCreateParams,
         zone: &str,
-    ) -> Box<Future<Item = ::models::CreateNfsAliasResponse, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateNfsAliasResponse, Error = Error>>;
     fn create_nfs_export(
         &self,
-        nfs_export: ::models::NfsExportCreateParams,
+        nfs_export: crate::models::NfsExportCreateParams,
         force: bool,
         ignore_unresolvable_hosts: bool,
         zone: &str,
         ignore_conflicts: bool,
         ignore_bad_paths: bool,
         ignore_bad_auth: bool,
-    ) -> Box<Future<Item = ::models::CreateQuotaReportResponse, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateQuotaReportResponse, Error = Error>>;
     fn create_nfs_netgroup_check_item(
         &self,
-        nfs_netgroup_check_item: ::models::Empty,
+        nfs_netgroup_check_item: crate::models::Empty,
         host: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_nfs_netgroup_flush_item(
         &self,
-        nfs_netgroup_flush_item: ::models::Empty,
+        nfs_netgroup_flush_item: crate::models::Empty,
         host: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_nfs_nlm_sessions_check_item(
         &self,
-        nfs_nlm_sessions_check_item: ::models::Empty,
+        nfs_nlm_sessions_check_item: crate::models::Empty,
         cluster_ip: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::CreateNfsNlmSessionsCheckItemResponse, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateNfsNlmSessionsCheckItemResponse, Error = Error>>;
     fn create_nfs_reload_item(
         &self,
-        nfs_reload_item: ::models::Empty,
+        nfs_reload_item: crate::models::Empty,
         zone: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_ntp_server(
         &self,
-        ntp_server: ::models::NtpServerCreateParams,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        ntp_server: crate::models::NtpServerCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn create_smb_log_level_filter(
         &self,
-        smb_log_level_filter: ::models::SmbLogLevelFilter,
-    ) -> Box<Future<Item = ::models::CreateAuthRefreshItemResponse, Error = Error>>;
+        smb_log_level_filter: crate::models::SmbLogLevelFilter,
+    ) -> Box<dyn Future<Item = crate::models::CreateAuthRefreshItemResponse, Error = Error>>;
     fn create_smb_share(
         &self,
-        smb_share: ::models::SmbShareCreateParams,
+        smb_share: crate::models::SmbShareCreateParams,
         zone: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_swift_account(
         &self,
-        swift_account: ::models::SwiftAccount,
+        swift_account: crate::models::SwiftAccount,
         zone: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn delete_hdfs_proxyuser(
         &self,
         hdfs_proxyuser_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_hdfs_rack(
         &self,
         hdfs_rack_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_ndmp_contexts_backup_by_id(
         &self,
         ndmp_contexts_backup_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_ndmp_contexts_bre_by_id(
         &self,
         ndmp_contexts_bre_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_ndmp_contexts_restore_by_id(
         &self,
         ndmp_contexts_restore_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_ndmp_dumpdate(
         &self,
         ndmp_dumpdate_id: &str,
         level: i32,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_ndmp_session(
         &self,
         ndmp_session_id: &str,
         lnn: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_ndmp_settings_preferred_ip(
         &self,
         ndmp_settings_preferred_ip_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_ndmp_settings_variable(
         &self,
         ndmp_settings_variable_id: &str,
         name: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_ndmp_user(&self, ndmp_user_id: &str) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_ndmp_user(&self, ndmp_user_id: &str) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_nfs_alias(
         &self,
         nfs_alias_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_nfs_export(
         &self,
         nfs_export_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_nfs_nlm_session(
         &self,
         nfs_nlm_session_id: &str,
         cluster_ip: &str,
         zone: &str,
         refresh: bool,
-    ) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_ntp_server(&self, ntp_server_id: &str) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_ntp_servers(&self) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_ntp_server(&self, ntp_server_id: &str) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_ntp_servers(&self) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_smb_log_level_filter(
         &self,
         smb_log_level_filter_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_smb_log_level_filters(&self, level: &str) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_smb_openfile(&self, smb_openfile_id: &str) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_smb_session(&self, smb_session_id: &str) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_smb_log_level_filters(
+        &self,
+        level: &str,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_smb_openfile(
+        &self,
+        smb_openfile_id: &str,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_smb_session(&self, smb_session_id: &str)
+        -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_smb_sessions_computer_user(
         &self,
         smb_sessions_computer_user: &str,
         computer: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_smb_share(
         &self,
         smb_share_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_smb_shares(&self) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_smb_shares(&self) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_swift_account(
         &self,
         swift_account_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
-    fn get_ftp_settings(&self) -> Box<Future<Item = ::models::FtpSettings, Error = Error>>;
-    fn get_hdfs_log_level(&self) -> Box<Future<Item = ::models::HdfsLogLevel, Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn get_ftp_settings(&self)
+        -> Box<dyn Future<Item = crate::models::FtpSettings, Error = Error>>;
+    fn get_hdfs_log_level(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::HdfsLogLevel, Error = Error>>;
     fn get_hdfs_proxyuser(
         &self,
         hdfs_proxyuser_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::HdfsProxyusers, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::HdfsProxyusers, Error = Error>>;
     fn get_hdfs_rack(
         &self,
         hdfs_rack_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::HdfsRacks, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::HdfsRacks, Error = Error>>;
     fn get_hdfs_ranger_plugin_settings(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::HdfsRangerPluginSettings, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::HdfsRangerPluginSettings, Error = Error>>;
     fn get_hdfs_settings(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::HdfsSettings, Error = Error>>;
-    fn get_http_settings(&self) -> Box<Future<Item = ::models::HttpSettings, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::HdfsSettings, Error = Error>>;
+    fn get_http_settings(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::HttpSettings, Error = Error>>;
     fn get_ndmp_contexts_backup(
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NdmpContextsBackupExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NdmpContextsBackupExtended, Error = Error>>;
     fn get_ndmp_contexts_backup_by_id(
         &self,
         ndmp_contexts_backup_id: &str,
-    ) -> Box<Future<Item = ::models::NdmpContextsBackup, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NdmpContextsBackup, Error = Error>>;
     fn get_ndmp_contexts_bre(
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NdmpContextsBreExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NdmpContextsBreExtended, Error = Error>>;
     fn get_ndmp_contexts_bre_by_id(
         &self,
         ndmp_contexts_bre_id: &str,
-    ) -> Box<Future<Item = ::models::NdmpContextsBre, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NdmpContextsBre, Error = Error>>;
     fn get_ndmp_contexts_restore(
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NdmpContextsBackupExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NdmpContextsBackupExtended, Error = Error>>;
     fn get_ndmp_contexts_restore_by_id(
         &self,
         ndmp_contexts_restore_id: &str,
-    ) -> Box<Future<Item = ::models::NdmpContextsBackup, Error = Error>>;
-    fn get_ndmp_diagnostics(&self) -> Box<Future<Item = ::models::NdmpDiagnostics, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NdmpContextsBackup, Error = Error>>;
+    fn get_ndmp_diagnostics(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::NdmpDiagnostics, Error = Error>>;
     fn get_ndmp_dumpdate(
         &self,
         ndmp_dumpdate_id: &str,
@@ -250,18 +263,18 @@ pub trait ProtocolsApi {
         limit: i32,
         path: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::NdmpDumpdates, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NdmpDumpdates, Error = Error>>;
     fn get_ndmp_logs(
         &self,
         lnn: &str,
         page: i32,
         pagesize: i32,
-    ) -> Box<Future<Item = ::models::NdmpLogs, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NdmpLogs, Error = Error>>;
     fn get_ndmp_session(
         &self,
         ndmp_session_id: &str,
         lnn: &str,
-    ) -> Box<Future<Item = ::models::NdmpSessions, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NdmpSessions, Error = Error>>;
     fn get_ndmp_sessions(
         &self,
         consolidate: bool,
@@ -269,57 +282,59 @@ pub trait ProtocolsApi {
         session: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NdmpSessionsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NdmpSessionsExtended, Error = Error>>;
     fn get_ndmp_settings_dmas(
         &self,
-    ) -> Box<Future<Item = ::models::NdmpSettingsDmas, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NdmpSettingsDmas, Error = Error>>;
     fn get_ndmp_settings_global(
         &self,
-    ) -> Box<Future<Item = ::models::NdmpSettingsGlobal, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NdmpSettingsGlobal, Error = Error>>;
     fn get_ndmp_settings_preferred_ip(
         &self,
         ndmp_settings_preferred_ip_id: &str,
-    ) -> Box<Future<Item = ::models::NdmpSettingsPreferredIps, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NdmpSettingsPreferredIps, Error = Error>>;
     fn get_ndmp_settings_variable(
         &self,
         ndmp_settings_variable_id: &str,
         path: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NdmpSettingsVariables, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NdmpSettingsVariables, Error = Error>>;
     fn get_ndmp_user(
         &self,
         ndmp_user_id: &str,
-    ) -> Box<Future<Item = ::models::NdmpUsers, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NdmpUsers, Error = Error>>;
     fn get_nfs_alias(
         &self,
         nfs_alias_id: &str,
         scope: &str,
         check: bool,
         zone: &str,
-    ) -> Box<Future<Item = ::models::NfsAliases, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NfsAliases, Error = Error>>;
     fn get_nfs_check(
         &self,
         ignore_bad_paths: bool,
         ignore_bad_auth: bool,
         zone: &str,
         ignore_unresolvable_hosts: bool,
-    ) -> Box<Future<Item = ::models::NfsCheckExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NfsCheckExtended, Error = Error>>;
     fn get_nfs_export(
         &self,
         nfs_export_id: &str,
         scope: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::NfsExports, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NfsExports, Error = Error>>;
     fn get_nfs_exports_summary(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::NfsExportsSummary, Error = Error>>;
-    fn get_nfs_log_level(&self) -> Box<Future<Item = ::models::NfsLogLevel, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NfsExportsSummary, Error = Error>>;
+    fn get_nfs_log_level(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::NfsLogLevel, Error = Error>>;
     fn get_nfs_netgroup(
         &self,
         host: &str,
-    ) -> Box<Future<Item = ::models::NfsNetgroup, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NfsNetgroup, Error = Error>>;
     fn get_nfs_nlm_locks(
         &self,
         sort: &str,
@@ -331,13 +346,13 @@ pub trait ProtocolsApi {
         client_id: &str,
         path: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::NfsNlmLocks, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NfsNlmLocks, Error = Error>>;
     fn get_nfs_nlm_session(
         &self,
         nfs_nlm_session_id: &str,
         cluster_ip: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::NfsNlmSessions, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NfsNlmSessions, Error = Error>>;
     fn get_nfs_nlm_sessions(
         &self,
         sort: &str,
@@ -345,91 +360,98 @@ pub trait ProtocolsApi {
         limit: i32,
         zone: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::NfsNlmSessionsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NfsNlmSessionsExtended, Error = Error>>;
     fn get_nfs_nlm_waiters(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NfsNlmWaiters, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NfsNlmWaiters, Error = Error>>;
     fn get_nfs_settings_export(
         &self,
         scope: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::NfsSettingsExport, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NfsSettingsExport, Error = Error>>;
     fn get_nfs_settings_global(
         &self,
         scope: &str,
-    ) -> Box<Future<Item = ::models::NfsSettingsGlobal, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NfsSettingsGlobal, Error = Error>>;
     fn get_nfs_settings_zone(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::NfsSettingsZone, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NfsSettingsZone, Error = Error>>;
     fn get_ntp_server(
         &self,
         ntp_server_id: &str,
-    ) -> Box<Future<Item = ::models::NtpServers, Error = Error>>;
-    fn get_ntp_settings(&self) -> Box<Future<Item = ::models::NtpSettings, Error = Error>>;
-    fn get_smb_log_level(&self) -> Box<Future<Item = ::models::SmbLogLevel, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NtpServers, Error = Error>>;
+    fn get_ntp_settings(&self)
+        -> Box<dyn Future<Item = crate::models::NtpSettings, Error = Error>>;
+    fn get_smb_log_level(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::SmbLogLevel, Error = Error>>;
     fn get_smb_log_level_filter(
         &self,
         smb_log_level_filter_id: &str,
-    ) -> Box<Future<Item = ::models::SmbLogLevelFilters, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SmbLogLevelFilters, Error = Error>>;
     fn get_smb_openfiles(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SmbOpenfiles, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SmbOpenfiles, Error = Error>>;
     fn get_smb_sessions(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SmbSessions, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SmbSessions, Error = Error>>;
     fn get_smb_settings_global(
         &self,
         scope: &str,
-    ) -> Box<Future<Item = ::models::SmbSettingsGlobal, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SmbSettingsGlobal, Error = Error>>;
     fn get_smb_settings_share(
         &self,
         scope: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::SmbSettingsShare, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SmbSettingsShare, Error = Error>>;
     fn get_smb_share(
         &self,
         smb_share_id: &str,
         scope: &str,
         resolve_names: bool,
         zone: &str,
-    ) -> Box<Future<Item = ::models::SmbShares, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SmbShares, Error = Error>>;
     fn get_smb_shares_summary(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::SmbSharesSummary, Error = Error>>;
-    fn get_snmp_settings(&self) -> Box<Future<Item = ::models::SnmpSettings, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SmbSharesSummary, Error = Error>>;
+    fn get_snmp_settings(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::SnmpSettings, Error = Error>>;
     fn get_swift_account(
         &self,
         swift_account_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::SwiftAccounts, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SwiftAccounts, Error = Error>>;
     fn list_hdfs_proxyusers(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::HdfsProxyusers, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::HdfsProxyusers, Error = Error>>;
     fn list_hdfs_racks(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::HdfsRacksExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::HdfsRacksExtended, Error = Error>>;
     fn list_ndmp_settings_preferred_ips(
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NdmpSettingsPreferredIps, Error = Error>>;
-    fn list_ndmp_users(&self) -> Box<Future<Item = ::models::NdmpUsersExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NdmpSettingsPreferredIps, Error = Error>>;
+    fn list_ndmp_users(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::NdmpUsersExtended, Error = Error>>;
     fn list_nfs_aliases(
         &self,
         sort: &str,
@@ -438,7 +460,7 @@ pub trait ProtocolsApi {
         limit: i32,
         check: bool,
         dir: &str,
-    ) -> Box<Future<Item = ::models::NfsAliasesExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NfsAliasesExtended, Error = Error>>;
     fn list_nfs_exports(
         &self,
         sort: &str,
@@ -450,20 +472,20 @@ pub trait ProtocolsApi {
         path: &str,
         check: bool,
         dir: &str,
-    ) -> Box<Future<Item = ::models::NfsExportsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NfsExportsExtended, Error = Error>>;
     fn list_ntp_servers(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NtpServersExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::NtpServersExtended, Error = Error>>;
     fn list_smb_log_level_filters(
         &self,
         sort: &str,
         dir: &str,
         level: &str,
-    ) -> Box<Future<Item = ::models::SmbLogLevelFilters, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SmbLogLevelFilters, Error = Error>>;
     fn list_smb_shares(
         &self,
         sort: &str,
@@ -474,78 +496,78 @@ pub trait ProtocolsApi {
         offset: i32,
         scope: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::SmbSharesExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SmbSharesExtended, Error = Error>>;
     fn list_swift_accounts(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::SwiftAccountsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SwiftAccountsExtended, Error = Error>>;
     fn update_ftp_settings(
         &self,
-        ftp_settings: ::models::FtpSettingsExtended,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        ftp_settings: crate::models::FtpSettingsExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_hdfs_log_level(
         &self,
-        hdfs_log_level: ::models::HdfsLogLevel,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        hdfs_log_level: crate::models::HdfsLogLevel,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_hdfs_proxyuser(
         &self,
-        hdfs_proxyuser: ::models::Empty,
+        hdfs_proxyuser: crate::models::Empty,
         hdfs_proxyuser_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_hdfs_rack(
         &self,
-        hdfs_rack: ::models::HdfsRack,
+        hdfs_rack: crate::models::HdfsRack,
         hdfs_rack_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_hdfs_ranger_plugin_settings(
         &self,
-        hdfs_ranger_plugin_settings: ::models::HdfsRangerPluginSettingsSettings,
+        hdfs_ranger_plugin_settings: crate::models::HdfsRangerPluginSettingsSettings,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_hdfs_settings(
         &self,
-        hdfs_settings: ::models::HdfsSettingsSettings,
+        hdfs_settings: crate::models::HdfsSettingsSettings,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_http_settings(
         &self,
-        http_settings: ::models::HttpSettingsSettings,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        http_settings: crate::models::HttpSettingsSettings,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_ndmp_diagnostics(
         &self,
-        ndmp_diagnostics: ::models::NdmpDiagnosticsDiagnostics,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        ndmp_diagnostics: crate::models::NdmpDiagnosticsDiagnostics,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_ndmp_settings_global(
         &self,
-        ndmp_settings_global: ::models::NdmpSettingsGlobalGlobal,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        ndmp_settings_global: crate::models::NdmpSettingsGlobalGlobal,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_ndmp_settings_preferred_ip(
         &self,
-        ndmp_settings_preferred_ip: ::models::NdmpSettingsPreferredIp,
+        ndmp_settings_preferred_ip: crate::models::NdmpSettingsPreferredIp,
         ndmp_settings_preferred_ip_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_ndmp_settings_variable(
         &self,
-        ndmp_settings_variable: ::models::NdmpSettingsVariable,
+        ndmp_settings_variable: crate::models::NdmpSettingsVariable,
         ndmp_settings_variable_id: &str,
         name: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_ndmp_user(
         &self,
-        ndmp_user: ::models::NdmpUser,
+        ndmp_user: crate::models::NdmpUser,
         ndmp_user_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_nfs_alias(
         &self,
-        nfs_alias: ::models::NfsAlias,
+        nfs_alias: crate::models::NfsAlias,
         nfs_alias_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_nfs_export(
         &self,
-        nfs_export: ::models::NfsExport,
+        nfs_export: crate::models::NfsExport,
         nfs_export_id: &str,
         force: bool,
         ignore_unresolvable_hosts: bool,
@@ -553,354 +575,199 @@ pub trait ProtocolsApi {
         ignore_conflicts: bool,
         ignore_bad_paths: bool,
         ignore_bad_auth: bool,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_nfs_log_level(
         &self,
-        nfs_log_level: ::models::NfsLogLevel,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        nfs_log_level: crate::models::NfsLogLevel,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_nfs_netgroup(
         &self,
-        nfs_netgroup: ::models::NfsNetgroup,
+        nfs_netgroup: crate::models::NfsNetgroup,
         host: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_nfs_settings_export(
         &self,
-        nfs_settings_export: ::models::NfsSettingsExportSettings,
+        nfs_settings_export: crate::models::NfsSettingsExportSettings,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_nfs_settings_global(
         &self,
-        nfs_settings_global: ::models::NfsSettingsGlobalSettings,
+        nfs_settings_global: crate::models::NfsSettingsGlobalSettings,
         scope: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_nfs_settings_zone(
         &self,
-        nfs_settings_zone: ::models::NfsSettingsZoneSettings,
+        nfs_settings_zone: crate::models::NfsSettingsZoneSettings,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_ntp_server(
         &self,
-        ntp_server: ::models::NtpServer,
+        ntp_server: crate::models::NtpServer,
         ntp_server_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_ntp_settings(
         &self,
-        ntp_settings: ::models::NtpSettingsSettings,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        ntp_settings: crate::models::NtpSettingsSettings,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_smb_log_level(
         &self,
-        smb_log_level: ::models::SmbLogLevel,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        smb_log_level: crate::models::SmbLogLevel,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_smb_settings_global(
         &self,
-        smb_settings_global: ::models::SmbSettingsGlobalExtended,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        smb_settings_global: crate::models::SmbSettingsGlobalExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_smb_settings_share(
         &self,
-        smb_settings_share: ::models::SmbSettingsShareExtended,
+        smb_settings_share: crate::models::SmbSettingsShareExtended,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_smb_share(
         &self,
-        smb_share: ::models::SmbShare,
+        smb_share: crate::models::SmbShare,
         smb_share_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_snmp_settings(
         &self,
-        snmp_settings: ::models::SnmpSettingsExtended,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        snmp_settings: crate::models::SnmpSettingsExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn update_swift_account(
         &self,
-        swift_account: ::models::SwiftAccount,
+        swift_account: crate::models::SwiftAccount,
         swift_account_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> ProtocolsApi for ProtocolsApiClient<C> {
     fn create_hdfs_proxyuser(
         &self,
-        hdfs_proxyuser: ::models::HdfsProxyuserCreateParams,
+        hdfs_proxyuser: crate::models::HdfsProxyuserCreateParams,
         zone: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/protocols/hdfs/proxyusers?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&hdfs_proxyuser).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &hdfs_proxyuser,
+            hyper::Method::POST,
         )
     }
 
     fn create_hdfs_rack(
         &self,
-        hdfs_rack: ::models::HdfsRackCreateParams,
+        hdfs_rack: crate::models::HdfsRackCreateParams,
         zone: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/protocols/hdfs/racks?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&hdfs_rack).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &hdfs_rack,
+            hyper::Method::POST,
         )
     }
 
     fn create_ndmp_settings_preferred_ip(
         &self,
-        ndmp_settings_preferred_ip: ::models::NdmpSettingsPreferredIpCreateParams,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        ndmp_settings_preferred_ip: crate::models::NdmpSettingsPreferredIpCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/4/protocols/ndmp/settings/preferred-ips",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&ndmp_settings_preferred_ip).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &ndmp_settings_preferred_ip,
+            hyper::Method::POST,
         )
     }
 
     fn create_ndmp_settings_variable(
         &self,
-        ndmp_settings_variable: ::models::NdmpSettingsVariableCreateParams,
+        ndmp_settings_variable: crate::models::NdmpSettingsVariableCreateParams,
         ndmp_settings_variable_id: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/settings/variables/{NdmpSettingsVariableId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NdmpSettingsVariableId = ndmp_settings_variable_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&ndmp_settings_variable).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &ndmp_settings_variable,
+            hyper::Method::POST,
         )
     }
 
     fn create_ndmp_user(
         &self,
-        ndmp_user: ::models::NdmpUserCreateParams,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        ndmp_user: crate::models::NdmpUserCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/users",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&ndmp_user).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &ndmp_user,
+            hyper::Method::POST,
         )
     }
 
     fn create_nfs_alias(
         &self,
-        nfs_alias: ::models::NfsAliasCreateParams,
+        nfs_alias: crate::models::NfsAliasCreateParams,
         zone: &str,
-    ) -> Box<Future<Item = ::models::CreateNfsAliasResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CreateNfsAliasResponse, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/2/protocols/nfs/aliases?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&nfs_alias).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateNfsAliasResponse, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &nfs_alias,
+            hyper::Method::POST,
         )
     }
 
     fn create_nfs_export(
         &self,
-        nfs_export: ::models::NfsExportCreateParams,
+        nfs_export: crate::models::NfsExportCreateParams,
         force: bool,
         ignore_unresolvable_hosts: bool,
         zone: &str,
         ignore_conflicts: bool,
         ignore_bad_paths: bool,
         ignore_bad_auth: bool,
-    ) -> Box<Future<Item = ::models::CreateQuotaReportResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CreateQuotaReportResponse, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .append_pair(
                 "ignore_unresolvable_hosts",
@@ -913,404 +780,177 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/4/protocols/nfs/exports?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&nfs_export).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateQuotaReportResponse, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &nfs_export,
+            hyper::Method::POST,
         )
     }
 
     fn create_nfs_netgroup_check_item(
         &self,
-        nfs_netgroup_check_item: ::models::Empty,
+        nfs_netgroup_check_item: crate::models::Empty,
         host: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("host", &host.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/nfs/netgroup/check?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&nfs_netgroup_check_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &nfs_netgroup_check_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_nfs_netgroup_flush_item(
         &self,
-        nfs_netgroup_flush_item: ::models::Empty,
+        nfs_netgroup_flush_item: crate::models::Empty,
         host: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("host", &host.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/nfs/netgroup/flush?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&nfs_netgroup_flush_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &nfs_netgroup_flush_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_nfs_nlm_sessions_check_item(
         &self,
-        nfs_nlm_sessions_check_item: ::models::Empty,
+        nfs_nlm_sessions_check_item: crate::models::Empty,
         cluster_ip: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::CreateNfsNlmSessionsCheckItemResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CreateNfsNlmSessionsCheckItemResponse, Error = Error>>
+    {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("cluster_ip", &cluster_ip.to_string())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/nfs/nlm/sessions-check?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&nfs_nlm_sessions_check_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CreateNfsNlmSessionsCheckItemResponse,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &nfs_nlm_sessions_check_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_nfs_reload_item(
         &self,
-        nfs_reload_item: ::models::Empty,
+        nfs_reload_item: crate::models::Empty,
         zone: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/nfs/reload?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&nfs_reload_item).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &nfs_reload_item,
+            hyper::Method::POST,
         )
     }
 
     fn create_ntp_server(
         &self,
-        ntp_server: ::models::NtpServerCreateParams,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        ntp_server: crate::models::NtpServerCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ntp/servers",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&ntp_server).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &ntp_server,
+            hyper::Method::POST,
         )
     }
 
     fn create_smb_log_level_filter(
         &self,
-        smb_log_level_filter: ::models::SmbLogLevelFilter,
-    ) -> Box<Future<Item = ::models::CreateAuthRefreshItemResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+        smb_log_level_filter: crate::models::SmbLogLevelFilter,
+    ) -> Box<dyn Future<Item = crate::models::CreateAuthRefreshItemResponse, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/smb/log-level/filters",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&smb_log_level_filter).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<
-                        ::models::CreateAuthRefreshItemResponse,
-                        _,
-                    > = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &smb_log_level_filter,
+            hyper::Method::POST,
         )
     }
 
     fn create_smb_share(
         &self,
-        smb_share: ::models::SmbShareCreateParams,
+        smb_share: crate::models::SmbShareCreateParams,
         zone: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/4/protocols/smb/shares?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&smb_share).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &smb_share,
+            hyper::Method::POST,
         )
     }
 
     fn create_swift_account(
         &self,
-        swift_account: ::models::SwiftAccount,
+        swift_account: crate::models::SwiftAccount,
         zone: &str,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/swift/accounts?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&swift_account).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &swift_account,
+            hyper::Method::POST,
         )
     }
 
@@ -1318,37 +958,21 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         hdfs_proxyuser_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/protocols/hdfs/proxyusers/{HdfsProxyuserId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             HdfsProxyuserId = hdfs_proxyuser_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -1356,136 +980,72 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         hdfs_rack_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/protocols/hdfs/racks/{HdfsRackId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             HdfsRackId = hdfs_rack_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_ndmp_contexts_backup_by_id(
         &self,
         ndmp_contexts_backup_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/contexts/backup/{NdmpContextsBackupId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NdmpContextsBackupId = ndmp_contexts_backup_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_ndmp_contexts_bre_by_id(
         &self,
         ndmp_contexts_bre_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/contexts/bre/{NdmpContextsBreId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NdmpContextsBreId = ndmp_contexts_bre_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_ndmp_contexts_restore_by_id(
         &self,
         ndmp_contexts_restore_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/contexts/restore/{NdmpContextsRestoreId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NdmpContextsRestoreId = ndmp_contexts_restore_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -1493,37 +1053,21 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         ndmp_dumpdate_id: &str,
         level: i32,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("level", &level.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/dumpdates/{NdmpDumpdateId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NdmpDumpdateId = ndmp_dumpdate_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -1531,70 +1075,38 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         ndmp_session_id: &str,
         lnn: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("lnn", &lnn.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/sessions/{NdmpSessionId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NdmpSessionId = ndmp_session_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_ndmp_settings_preferred_ip(
         &self,
         ndmp_settings_preferred_ip_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/4/protocols/ndmp/settings/preferred-ips/{NdmpSettingsPreferredIpId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NdmpSettingsPreferredIpId = ndmp_settings_preferred_ip_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -1602,67 +1114,35 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         ndmp_settings_variable_id: &str,
         name: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("name", &name.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/settings/variables/{NdmpSettingsVariableId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NdmpSettingsVariableId = ndmp_settings_variable_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_ndmp_user(&self, ndmp_user_id: &str) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_ndmp_user(&self, ndmp_user_id: &str) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/users/{NdmpUserId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NdmpUserId = ndmp_user_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -1670,37 +1150,21 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         nfs_alias_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/2/protocols/nfs/aliases/{NfsAliasId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NfsAliasId = nfs_alias_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -1708,37 +1172,21 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         nfs_export_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/4/protocols/nfs/exports/{NfsExportId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NfsExportId = nfs_export_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -1748,223 +1196,120 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         cluster_ip: &str,
         zone: &str,
         refresh: bool,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("cluster_ip", &cluster_ip.to_string())
             .append_pair("zone", &zone.to_string())
             .append_pair("refresh", &refresh.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/nfs/nlm/sessions/{NfsNlmSessionId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NfsNlmSessionId = nfs_nlm_session_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_ntp_server(&self, ntp_server_id: &str) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_ntp_server(&self, ntp_server_id: &str) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ntp/servers/{NtpServerId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NtpServerId = ntp_server_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_ntp_servers(&self) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_ntp_servers(&self) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ntp/servers",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
     fn delete_smb_log_level_filter(
         &self,
         smb_log_level_filter_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/smb/log-level/filters/{SmbLogLevelFilterId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SmbLogLevelFilterId = smb_log_level_filter_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_smb_log_level_filters(&self, level: &str) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    fn delete_smb_log_level_filters(
+        &self,
+        level: &str,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("level", &level.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/smb/log-level/filters?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_smb_openfile(&self, smb_openfile_id: &str) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_smb_openfile(
+        &self,
+        smb_openfile_id: &str,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/protocols/smb/openfiles/{SmbOpenfileId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SmbOpenfileId = smb_openfile_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_smb_session(&self, smb_session_id: &str) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_smb_session(
+        &self,
+        smb_session_id: &str,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/protocols/smb/sessions/{SmbSessionId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SmbSessionId = smb_session_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -1972,34 +1317,18 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         smb_sessions_computer_user: &str,
         computer: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/protocols/smb/sessions/{Computer}/{SmbSessionsComputerUser}",
-            configuration.base_path,
+            self.configuration.base_path,
             SmbSessionsComputerUser = smb_sessions_computer_user,
             Computer = computer
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -2007,66 +1336,34 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         smb_share_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/4/protocols/smb/shares/{SmbShareId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             SmbShareId = smb_share_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn delete_smb_shares(&self) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_smb_shares(&self) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/4/protocols/smb/shares",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -2074,103 +1371,55 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         swift_account_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/swift/accounts/{SwiftAccountId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             SwiftAccountId = swift_account_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn get_ftp_settings(&self) -> Box<Future<Item = ::models::FtpSettings, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    fn get_ftp_settings(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::FtpSettings, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ftp/settings",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::FtpSettings, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::FtpSettings, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_hdfs_log_level(&self) -> Box<Future<Item = ::models::HdfsLogLevel, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    fn get_hdfs_log_level(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::HdfsLogLevel, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/hdfs/log-level",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::HdfsLogLevel, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::HdfsLogLevel, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2178,41 +1427,22 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         hdfs_proxyuser_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::HdfsProxyusers, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::HdfsProxyusers, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/protocols/hdfs/proxyusers/{HdfsProxyuserId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             HdfsProxyuserId = hdfs_proxyuser_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::HdfsProxyusers, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2220,153 +1450,78 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         hdfs_rack_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::HdfsRacks, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::HdfsRacks, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/protocols/hdfs/racks/{HdfsRackId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             HdfsRackId = hdfs_rack_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::HdfsRacks, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_hdfs_ranger_plugin_settings(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::HdfsRangerPluginSettings, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::HdfsRangerPluginSettings, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/4/protocols/hdfs/ranger-plugin/settings?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::HdfsRangerPluginSettings, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_hdfs_settings(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::HdfsSettings, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::HdfsSettings, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/4/protocols/hdfs/settings?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::HdfsSettings, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_http_settings(&self) -> Box<Future<Item = ::models::HttpSettings, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    fn get_http_settings(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::HttpSettings, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/http/settings",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::HttpSettings, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2374,79 +1529,39 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NdmpContextsBackupExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NdmpContextsBackupExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("limit", &limit.to_string())
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/contexts/backup?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpContextsBackupExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_ndmp_contexts_backup_by_id(
         &self,
         ndmp_contexts_backup_id: &str,
-    ) -> Box<Future<Item = ::models::NdmpContextsBackup, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NdmpContextsBackup, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/contexts/backup/{NdmpContextsBackupId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NdmpContextsBackupId = ndmp_contexts_backup_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpContextsBackup, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2454,79 +1569,39 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NdmpContextsBreExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NdmpContextsBreExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("limit", &limit.to_string())
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/contexts/bre?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpContextsBreExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_ndmp_contexts_bre_by_id(
         &self,
         ndmp_contexts_bre_id: &str,
-    ) -> Box<Future<Item = ::models::NdmpContextsBre, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NdmpContextsBre, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/contexts/bre/{NdmpContextsBreId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NdmpContextsBreId = ndmp_contexts_bre_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpContextsBre, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2534,113 +1609,55 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NdmpContextsBackupExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NdmpContextsBackupExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("limit", &limit.to_string())
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/contexts/restore?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpContextsBackupExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_ndmp_contexts_restore_by_id(
         &self,
         ndmp_contexts_restore_id: &str,
-    ) -> Box<Future<Item = ::models::NdmpContextsBackup, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NdmpContextsBackup, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/contexts/restore/{NdmpContextsRestoreId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NdmpContextsRestoreId = ndmp_contexts_restore_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpContextsBackup, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_ndmp_diagnostics(&self) -> Box<Future<Item = ::models::NdmpDiagnostics, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    fn get_ndmp_diagnostics(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::NdmpDiagnostics, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/diagnostics",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpDiagnostics, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2653,12 +1670,8 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         limit: i32,
         path: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::NdmpDumpdates, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NdmpDumpdates, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("resume", &resume.to_string())
             .append_pair("level", &level.to_string())
@@ -2668,31 +1681,17 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/dumpdates/{NdmpDumpdateId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NdmpDumpdateId = ndmp_dumpdate_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpDumpdates, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NdmpDumpdates, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2701,41 +1700,23 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         lnn: &str,
         page: i32,
         pagesize: i32,
-    ) -> Box<Future<Item = ::models::NdmpLogs, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NdmpLogs, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("lnn", &lnn.to_string())
             .append_pair("page", &page.to_string())
             .append_pair("pagesize", &pagesize.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/logs?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpLogs, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NdmpLogs, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2743,41 +1724,23 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         ndmp_session_id: &str,
         lnn: &str,
-    ) -> Box<Future<Item = ::models::NdmpSessions, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NdmpSessions, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("lnn", &lnn.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/sessions/{NdmpSessionId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NdmpSessionId = ndmp_session_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpSessions, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //       let parsed: Result<crate::models::NdmpSessions, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2788,12 +1751,8 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         session: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NdmpSessionsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NdmpSessionsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("consolidate", &consolidate.to_string())
             .append_pair("node", &node.to_string())
             .append_pair("session", &session.to_string())
@@ -2802,140 +1761,69 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/sessions?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpSessionsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NdmpSessionsExtended, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_ndmp_settings_dmas(
         &self,
-    ) -> Box<Future<Item = ::models::NdmpSettingsDmas, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NdmpSettingsDmas, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/settings/dmas",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpSettingsDmas, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NdmpSettingsDmas, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_ndmp_settings_global(
         &self,
-    ) -> Box<Future<Item = ::models::NdmpSettingsGlobal, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NdmpSettingsGlobal, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/settings/global",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpSettingsGlobal, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NdmpSettingsGlobal, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_ndmp_settings_preferred_ip(
         &self,
         ndmp_settings_preferred_ip_id: &str,
-    ) -> Box<Future<Item = ::models::NdmpSettingsPreferredIps, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NdmpSettingsPreferredIps, Error = Error>> {
         let uri_str = format!(
             "{}/platform/4/protocols/ndmp/settings/preferred-ips/{NdmpSettingsPreferredIpId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NdmpSettingsPreferredIpId = ndmp_settings_preferred_ip_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpSettingsPreferredIps, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NdmpSettingsPreferredIps, _> =
+        //   serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -2945,81 +1833,44 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         path: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NdmpSettingsVariables, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NdmpSettingsVariables, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("path", &path.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/settings/variables/{NdmpSettingsVariableId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NdmpSettingsVariableId = ndmp_settings_variable_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpSettingsVariables, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //        let parsed: Result<crate::models::NdmpSettingsVariables, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_ndmp_user(
         &self,
         ndmp_user_id: &str,
-    ) -> Box<Future<Item = ::models::NdmpUsers, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NdmpUsers, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/users/{NdmpUserId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NdmpUserId = ndmp_user_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpUsers, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NdmpUsers, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -3029,43 +1880,25 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         scope: &str,
         check: bool,
         zone: &str,
-    ) -> Box<Future<Item = ::models::NfsAliases, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NfsAliases, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .append_pair("check", &check.to_string())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/2/protocols/nfs/aliases/{NfsAliasId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NfsAliasId = nfs_alias_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NfsAliases, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //        let parsed: Result<crate::models::NfsAliases, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -3075,12 +1908,8 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         ignore_bad_auth: bool,
         zone: &str,
         ignore_unresolvable_hosts: bool,
-    ) -> Box<Future<Item = ::models::NfsCheckExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NfsCheckExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("ignore_bad_paths", &ignore_bad_paths.to_string())
             .append_pair("ignore_bad_auth", &ignore_bad_auth.to_string())
             .append_pair("zone", &zone.to_string())
@@ -3091,30 +1920,15 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/2/protocols/nfs/check?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NfsCheckExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NfsCheckExtended, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -3123,154 +1937,83 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         nfs_export_id: &str,
         scope: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::NfsExports, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NfsExports, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/4/protocols/nfs/exports/{NfsExportId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NfsExportId = nfs_export_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NfsExports, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //        let parsed: Result<crate::models::NfsExports, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_nfs_exports_summary(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::NfsExportsSummary, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NfsExportsSummary, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/2/protocols/nfs/exports-summary?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NfsExportsSummary, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NfsExportsSummary, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_nfs_log_level(&self) -> Box<Future<Item = ::models::NfsLogLevel, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    fn get_nfs_log_level(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::NfsLogLevel, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/nfs/log-level",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NfsLogLevel, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NfsLogLevel, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_nfs_netgroup(
         &self,
         host: &str,
-    ) -> Box<Future<Item = ::models::NfsNetgroup, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NfsNetgroup, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("host", &host.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/nfs/netgroup?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NfsNetgroup, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NfsNetgroup, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -3285,12 +2028,8 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         client_id: &str,
         path: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::NfsNlmLocks, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NfsNlmLocks, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("created", &created.to_string())
             .append_pair("lin", &lin.to_string())
@@ -3303,29 +2042,15 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/2/protocols/nfs/nlm/locks?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NfsNlmLocks, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NfsNlmLocks, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -3334,42 +2059,24 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         nfs_nlm_session_id: &str,
         cluster_ip: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::NfsNlmSessions, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NfsNlmSessions, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("cluster_ip", &cluster_ip.to_string())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/nfs/nlm/sessions/{NfsNlmSessionId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NfsNlmSessionId = nfs_nlm_session_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NfsNlmSessions, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //        let parsed: Result<crate::models::NfsNlmSessions, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -3380,12 +2087,8 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         limit: i32,
         zone: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::NfsNlmSessionsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NfsNlmSessionsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("ip", &ip.to_string())
             .append_pair("limit", &limit.to_string())
@@ -3394,30 +2097,16 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/nfs/nlm/sessions?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NfsNlmSessionsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NfsNlmSessionsExtended, _> =
+        //   serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -3427,12 +2116,8 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NfsNlmWaiters, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NfsNlmWaiters, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
@@ -3440,29 +2125,15 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/2/protocols/nfs/nlm/waiters?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NfsNlmWaiters, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NfsNlmWaiters, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -3470,262 +2141,136 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         scope: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::NfsSettingsExport, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NfsSettingsExport, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/2/protocols/nfs/settings/export?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NfsSettingsExport, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NfsSettingsExport, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_nfs_settings_global(
         &self,
         scope: &str,
-    ) -> Box<Future<Item = ::models::NfsSettingsGlobal, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NfsSettingsGlobal, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/nfs/settings/global?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NfsSettingsGlobal, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NfsSettingsGlobal, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_nfs_settings_zone(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::NfsSettingsZone, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NfsSettingsZone, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/2/protocols/nfs/settings/zone?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NfsSettingsZone, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NfsSettingsZone, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_ntp_server(
         &self,
         ntp_server_id: &str,
-    ) -> Box<Future<Item = ::models::NtpServers, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::NtpServers, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ntp/servers/{NtpServerId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NtpServerId = ntp_server_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NtpServers, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::NtpServers, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_ntp_settings(&self) -> Box<Future<Item = ::models::NtpSettings, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    fn get_ntp_settings(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::NtpSettings, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ntp/settings",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NtpSettings, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        // let parsed: Result<crate::models::NtpSettings, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_smb_log_level(&self) -> Box<Future<Item = ::models::SmbLogLevel, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    fn get_smb_log_level(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::SmbLogLevel, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/smb/log-level",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SmbLogLevel, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::SmbLogLevel, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_smb_log_level_filter(
         &self,
         smb_log_level_filter_id: &str,
-    ) -> Box<Future<Item = ::models::SmbLogLevelFilters, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::SmbLogLevelFilters, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/smb/log-level/filters/{SmbLogLevelFilterId}",
-            configuration.base_path,
+            self.configuration.base_path,
             SmbLogLevelFilterId = smb_log_level_filter_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SmbLogLevelFilters, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::SmbLogLevelFilters, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -3735,12 +2280,8 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SmbOpenfiles, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SmbOpenfiles, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
@@ -3748,29 +2289,15 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/protocols/smb/openfiles?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SmbOpenfiles, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::SmbOpenfiles, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -3780,12 +2307,8 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::SmbSessions, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SmbSessions, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
@@ -3793,69 +2316,36 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/protocols/smb/sessions?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SmbSessions, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::SmbSessions, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_smb_settings_global(
         &self,
         scope: &str,
-    ) -> Box<Future<Item = ::models::SmbSettingsGlobal, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SmbSettingsGlobal, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/smb/settings/global?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SmbSettingsGlobal, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::SmbSettingsGlobal, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -3863,41 +2353,22 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         scope: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::SmbSettingsShare, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SmbSettingsShare, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/smb/settings/share?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SmbSettingsShare, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //        let parsed: Result<crate::models::SmbSettingsShare, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -3907,116 +2378,63 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         scope: &str,
         resolve_names: bool,
         zone: &str,
-    ) -> Box<Future<Item = ::models::SmbShares, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SmbShares, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .append_pair("resolve_names", &resolve_names.to_string())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/4/protocols/smb/shares/{SmbShareId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             SmbShareId = smb_share_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SmbShares, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::SmbShares, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_smb_shares_summary(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::SmbSharesSummary, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SmbSharesSummary, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/protocols/smb/shares-summary?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SmbSharesSummary, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::SmbSharesSummary, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_snmp_settings(&self) -> Box<Future<Item = ::models::SnmpSettings, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    fn get_snmp_settings(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::SnmpSettings, Error = Error>> {
         let uri_str = format!(
             "{}/platform/5/protocols/snmp/settings",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SnmpSettings, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::SnmpSettings, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -4024,120 +2442,64 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         swift_account_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = ::models::SwiftAccounts, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SwiftAccounts, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/swift/accounts/{SwiftAccountId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             SwiftAccountId = swift_account_id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SwiftAccounts, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //        let parsed: Result<crate::models::SwiftAccounts, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_hdfs_proxyusers(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::HdfsProxyusers, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::HdfsProxyusers, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/protocols/hdfs/proxyusers?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::HdfsProxyusers, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::HdfsProxyusers, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_hdfs_racks(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::HdfsRacksExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::HdfsRacksExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/protocols/hdfs/racks?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::HdfsRacksExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -4145,75 +2507,37 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NdmpSettingsPreferredIps, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NdmpSettingsPreferredIps, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("limit", &limit.to_string())
             .append_pair("resume", &resume.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/4/protocols/ndmp/settings/preferred-ips?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpSettingsPreferredIps, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn list_ndmp_users(&self) -> Box<Future<Item = ::models::NdmpUsersExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    fn list_ndmp_users(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::NdmpUsersExtended, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/protocols/ndmp/users",
-            configuration.base_path
+            self.configuration.base_path
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NdmpUsersExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -4225,12 +2549,8 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         limit: i32,
         check: bool,
         dir: &str,
-    ) -> Box<Future<Item = ::models::NfsAliasesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NfsAliasesExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("zone", &zone.to_string())
             .append_pair("resume", &resume.to_string())
@@ -4240,30 +2560,14 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/2/protocols/nfs/aliases?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NfsAliasesExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -4278,12 +2582,8 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         path: &str,
         check: bool,
         dir: &str,
-    ) -> Box<Future<Item = ::models::NfsExportsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NfsExportsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("zone", &zone.to_string())
             .append_pair("resume", &resume.to_string())
@@ -4296,30 +2596,14 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/4/protocols/nfs/exports?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NfsExportsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -4329,12 +2613,8 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<Future<Item = ::models::NtpServersExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::NtpServersExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("dir", &dir.to_string())
@@ -4342,30 +2622,14 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/ntp/servers?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::NtpServersExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -4374,42 +2638,22 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         sort: &str,
         dir: &str,
         level: &str,
-    ) -> Box<Future<Item = ::models::SmbLogLevelFilters, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SmbLogLevelFilters, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("dir", &dir.to_string())
             .append_pair("level", &level.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/smb/log-level/filters?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SmbLogLevelFilters, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -4423,12 +2667,8 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         offset: i32,
         scope: &str,
         dir: &str,
-    ) -> Box<Future<Item = ::models::SmbSharesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SmbSharesExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("zone", &zone.to_string())
             .append_pair("resume", &resume.to_string())
@@ -4440,610 +2680,231 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/4/protocols/smb/shares?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SmbSharesExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_swift_accounts(
         &self,
         zone: &str,
-    ) -> Box<Future<Item = ::models::SwiftAccountsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SwiftAccountsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/protocols/swift/accounts?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SwiftAccountsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn update_ftp_settings(
         &self,
-        ftp_settings: ::models::FtpSettingsExtended,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+        ftp_settings: crate::models::FtpSettingsExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/3/protocols/ftp/settings",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&ftp_settings).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &ftp_settings)
     }
 
     fn update_hdfs_log_level(
         &self,
-        hdfs_log_level: ::models::HdfsLogLevel,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+        hdfs_log_level: crate::models::HdfsLogLevel,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/3/protocols/hdfs/log-level",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&hdfs_log_level).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &hdfs_log_level)
     }
 
     fn update_hdfs_proxyuser(
         &self,
-        hdfs_proxyuser: ::models::Empty,
+        hdfs_proxyuser: crate::models::Empty,
         hdfs_proxyuser_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/1/protocols/hdfs/proxyusers/{HdfsProxyuserId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             HdfsProxyuserId = hdfs_proxyuser_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&hdfs_proxyuser).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &hdfs_proxyuser)
     }
 
     fn update_hdfs_rack(
         &self,
-        hdfs_rack: ::models::HdfsRack,
+        hdfs_rack: crate::models::HdfsRack,
         hdfs_rack_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/1/protocols/hdfs/racks/{HdfsRackId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             HdfsRackId = hdfs_rack_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&hdfs_rack).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &hdfs_rack)
     }
 
     fn update_hdfs_ranger_plugin_settings(
         &self,
-        hdfs_ranger_plugin_settings: ::models::HdfsRangerPluginSettingsSettings,
+        hdfs_ranger_plugin_settings: crate::models::HdfsRangerPluginSettingsSettings,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/4/protocols/hdfs/ranger-plugin/settings?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&hdfs_ranger_plugin_settings).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        put(
+            self.configuration.borrow(),
+            &uri,
+            &hdfs_ranger_plugin_settings,
         )
     }
 
     fn update_hdfs_settings(
         &self,
-        hdfs_settings: ::models::HdfsSettingsSettings,
+        hdfs_settings: crate::models::HdfsSettingsSettings,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/4/protocols/hdfs/settings?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&hdfs_settings).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &hdfs_settings)
     }
 
     fn update_http_settings(
         &self,
-        http_settings: ::models::HttpSettingsSettings,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+        http_settings: crate::models::HttpSettingsSettings,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/3/protocols/http/settings",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&http_settings).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &http_settings)
     }
 
     fn update_ndmp_diagnostics(
         &self,
-        ndmp_diagnostics: ::models::NdmpDiagnosticsDiagnostics,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+        ndmp_diagnostics: crate::models::NdmpDiagnosticsDiagnostics,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/3/protocols/ndmp/diagnostics",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&ndmp_diagnostics).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &ndmp_diagnostics)
     }
 
     fn update_ndmp_settings_global(
         &self,
-        ndmp_settings_global: ::models::NdmpSettingsGlobalGlobal,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+        ndmp_settings_global: crate::models::NdmpSettingsGlobalGlobal,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/3/protocols/ndmp/settings/global",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&ndmp_settings_global).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &ndmp_settings_global)
     }
 
     fn update_ndmp_settings_preferred_ip(
         &self,
-        ndmp_settings_preferred_ip: ::models::NdmpSettingsPreferredIp,
+        ndmp_settings_preferred_ip: crate::models::NdmpSettingsPreferredIp,
         ndmp_settings_preferred_ip_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/4/protocols/ndmp/settings/preferred-ips/{NdmpSettingsPreferredIpId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NdmpSettingsPreferredIpId = ndmp_settings_preferred_ip_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&ndmp_settings_preferred_ip).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        put(
+            self.configuration.borrow(),
+            &uri,
+            &ndmp_settings_preferred_ip,
         )
     }
 
     fn update_ndmp_settings_variable(
         &self,
-        ndmp_settings_variable: ::models::NdmpSettingsVariable,
+        ndmp_settings_variable: crate::models::NdmpSettingsVariable,
         ndmp_settings_variable_id: &str,
         name: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("name", &name.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/3/protocols/ndmp/settings/variables/{NdmpSettingsVariableId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NdmpSettingsVariableId = ndmp_settings_variable_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&ndmp_settings_variable).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &ndmp_settings_variable)
     }
 
     fn update_ndmp_user(
         &self,
-        ndmp_user: ::models::NdmpUser,
+        ndmp_user: crate::models::NdmpUser,
         ndmp_user_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/3/protocols/ndmp/users/{NdmpUserId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NdmpUserId = ndmp_user_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&ndmp_user).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &ndmp_user)
     }
 
     fn update_nfs_alias(
         &self,
-        nfs_alias: ::models::NfsAlias,
+        nfs_alias: crate::models::NfsAlias,
         nfs_alias_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/2/protocols/nfs/aliases/{NfsAliasId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NfsAliasId = nfs_alias_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&nfs_alias).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &nfs_alias)
     }
 
     fn update_nfs_export(
         &self,
-        nfs_export: ::models::NfsExport,
+        nfs_export: crate::models::NfsExport,
         nfs_export_id: &str,
         force: bool,
         ignore_unresolvable_hosts: bool,
@@ -5051,12 +2912,8 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
         ignore_conflicts: bool,
         ignore_bad_paths: bool,
         ignore_bad_auth: bool,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .append_pair(
                 "ignore_unresolvable_hosts",
@@ -5067,565 +2924,191 @@ impl<C: hyper::client::Connect> ProtocolsApi for ProtocolsApiClient<C> {
             .append_pair("ignore_bad_paths", &ignore_bad_paths.to_string())
             .append_pair("ignore_bad_auth", &ignore_bad_auth.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/4/protocols/nfs/exports/{NfsExportId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             NfsExportId = nfs_export_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&nfs_export).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &nfs_export)
     }
 
     fn update_nfs_log_level(
         &self,
-        nfs_log_level: ::models::NfsLogLevel,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+        nfs_log_level: crate::models::NfsLogLevel,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/3/protocols/nfs/log-level",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&nfs_log_level).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &nfs_log_level)
     }
 
     fn update_nfs_netgroup(
         &self,
-        nfs_netgroup: ::models::NfsNetgroup,
+        nfs_netgroup: crate::models::NfsNetgroup,
         host: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("host", &host.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/3/protocols/nfs/netgroup?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&nfs_netgroup).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &nfs_netgroup)
     }
 
     fn update_nfs_settings_export(
         &self,
-        nfs_settings_export: ::models::NfsSettingsExportSettings,
+        nfs_settings_export: crate::models::NfsSettingsExportSettings,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/2/protocols/nfs/settings/export?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&nfs_settings_export).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &nfs_settings_export)
     }
 
     fn update_nfs_settings_global(
         &self,
-        nfs_settings_global: ::models::NfsSettingsGlobalSettings,
+        nfs_settings_global: crate::models::NfsSettingsGlobalSettings,
         scope: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/3/protocols/nfs/settings/global?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&nfs_settings_global).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &nfs_settings_global)
     }
 
     fn update_nfs_settings_zone(
         &self,
-        nfs_settings_zone: ::models::NfsSettingsZoneSettings,
+        nfs_settings_zone: crate::models::NfsSettingsZoneSettings,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/2/protocols/nfs/settings/zone?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&nfs_settings_zone).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &nfs_settings_zone)
     }
 
     fn update_ntp_server(
         &self,
-        ntp_server: ::models::NtpServer,
+        ntp_server: crate::models::NtpServer,
         ntp_server_id: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/3/protocols/ntp/servers/{NtpServerId}",
-            configuration.base_path,
+            self.configuration.base_path,
             NtpServerId = ntp_server_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&ntp_server).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &ntp_server)
     }
 
     fn update_ntp_settings(
         &self,
-        ntp_settings: ::models::NtpSettingsSettings,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+        ntp_settings: crate::models::NtpSettingsSettings,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/3/protocols/ntp/settings",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&ntp_settings).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &ntp_settings)
     }
 
     fn update_smb_log_level(
         &self,
-        smb_log_level: ::models::SmbLogLevel,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+        smb_log_level: crate::models::SmbLogLevel,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/3/protocols/smb/log-level",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&smb_log_level).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &smb_log_level)
     }
 
     fn update_smb_settings_global(
         &self,
-        smb_settings_global: ::models::SmbSettingsGlobalExtended,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+        smb_settings_global: crate::models::SmbSettingsGlobalExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/3/protocols/smb/settings/global",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&smb_settings_global).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &smb_settings_global)
     }
 
     fn update_smb_settings_share(
         &self,
-        smb_settings_share: ::models::SmbSettingsShareExtended,
+        smb_settings_share: crate::models::SmbSettingsShareExtended,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/3/protocols/smb/settings/share?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&smb_settings_share).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &smb_settings_share)
     }
 
     fn update_smb_share(
         &self,
-        smb_share: ::models::SmbShare,
+        smb_share: crate::models::SmbShare,
         smb_share_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/4/protocols/smb/shares/{SmbShareId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             SmbShareId = smb_share_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&smb_share).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &smb_share)
     }
 
     fn update_snmp_settings(
         &self,
-        snmp_settings: ::models::SnmpSettingsExtended,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let uri_str = format!(
+        snmp_settings: crate::models::SnmpSettingsExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri = format!(
             "{}/platform/5/protocols/snmp/settings",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&snmp_settings).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &snmp_settings)
     }
 
     fn update_swift_account(
         &self,
-        swift_account: ::models::SwiftAccount,
+        swift_account: crate::models::SwiftAccount,
         swift_account_id: &str,
         zone: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
-        let uri_str = format!(
+        let uri = format!(
             "{}/platform/3/protocols/swift/accounts/{SwiftAccountId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             SwiftAccountId = swift_account_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&swift_account).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri, &swift_account)
     }
 }

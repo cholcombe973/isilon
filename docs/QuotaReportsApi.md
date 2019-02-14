@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **get_report_about**
-> ::models::ReportAbout get_report_about(ctx, rid)
+>crate::models::ReportAbout get_report_about(ctx, rid)
 
 
 Retrieve report meta-data information.

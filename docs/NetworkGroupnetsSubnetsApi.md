@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 
 # **create_pools_pool_rebalance_ip**
-> ::models::Empty create_pools_pool_rebalance_ip(ctx, pools_pool_rebalance_ip, groupnet, subnet, pool)
+>crate::models::Empty create_pools_pool_rebalance_ip(ctx, pools_pool_rebalance_ip, groupnet, subnet, pool)
 
 
 Rebalance IP addresses in specified pool.
@@ -47,7 +47,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_pools_pool_rule**
-> ::models::CreateResponse create_pools_pool_rule(ctx, pools_pool_rule, groupnet, subnet, pool)
+>crate::models::CreateResponse create_pools_pool_rule(ctx, pools_pool_rule, groupnet, subnet, pool)
 
 
 Create a new rule.
@@ -78,7 +78,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_pools_pool_sc_resume_node**
-> ::models::Empty create_pools_pool_sc_resume_node(ctx, pools_pool_sc_resume_node, groupnet, subnet, pool)
+>crate::models::Empty create_pools_pool_sc_resume_node(ctx, pools_pool_sc_resume_node, groupnet, subnet, pool)
 
 
 Resume suspended nodes.
@@ -109,7 +109,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_pools_pool_sc_suspend_node**
-> ::models::Empty create_pools_pool_sc_suspend_node(ctx, pools_pool_sc_suspend_node, groupnet, subnet, pool)
+>crate::models::Empty create_pools_pool_sc_suspend_node(ctx, pools_pool_sc_suspend_node, groupnet, subnet, pool)
 
 
 Suspend nodes.
@@ -171,7 +171,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_pools_pool_interfaces**
-> ::models::PoolsPoolInterfaces get_pools_pool_interfaces(ctx, groupnet, subnet, pool, optional)
+>crate::models::PoolsPoolInterfaces get_pools_pool_interfaces(ctx, groupnet, subnet, pool, optional)
 
 
 Get a list of interfaces.
@@ -216,7 +216,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_pools_pool_rule**
-> ::models::PoolsPoolRules get_pools_pool_rule(ctx, pools_pool_rule_id, groupnet, subnet, pool)
+>crate::models::PoolsPoolRules get_pools_pool_rule(ctx, pools_pool_rule_id, groupnet, subnet, pool)
 
 
 View a single network rule.
@@ -247,7 +247,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_pools_pool_rules**
-> ::models::PoolsPoolRulesExtended list_pools_pool_rules(ctx, groupnet, subnet, pool, optional)
+>crate::models::PoolsPoolRulesExtended list_pools_pool_rules(ctx, groupnet, subnet, pool, optional)
 
 
 Get a list of network rules.

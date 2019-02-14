@@ -30,7 +30,7 @@ Method | HTTP request | Description
 
 
 # **create_cluster_add_remaining_node**
-> ::models::Empty create_cluster_add_remaining_node(ctx, cluster_add_remaining_node)
+>crate::models::Empty create_cluster_add_remaining_node(ctx, cluster_add_remaining_node)
 
 
 Let system absorb any remaining or new nodes inside the existing upgrade.
@@ -58,7 +58,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_cluster_archive_item**
-> ::models::Empty create_cluster_archive_item(ctx, cluster_archive_item)
+>crate::models::Empty create_cluster_archive_item(ctx, cluster_archive_item)
 
 
 Start an archive of an upgrade.
@@ -86,7 +86,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_cluster_assess_item**
-> ::models::Empty create_cluster_assess_item(ctx, cluster_assess_item)
+>crate::models::Empty create_cluster_assess_item(ctx, cluster_assess_item)
 
 
 Start upgrade assessment on cluster.
@@ -114,7 +114,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_cluster_commit_item**
-> ::models::Empty create_cluster_commit_item(ctx, cluster_commit_item)
+>crate::models::Empty create_cluster_commit_item(ctx, cluster_commit_item)
 
 
 Commit the upgrade of a cluster.
@@ -142,7 +142,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_cluster_firmware_assess_item**
-> ::models::Empty create_cluster_firmware_assess_item(ctx, cluster_firmware_assess_item)
+>crate::models::Empty create_cluster_firmware_assess_item(ctx, cluster_firmware_assess_item)
 
 
 Start firmware upgrade assessment on cluster.
@@ -170,7 +170,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_cluster_firmware_upgrade_item**
-> ::models::Empty create_cluster_firmware_upgrade_item(ctx, cluster_firmware_upgrade_item)
+>crate::models::Empty create_cluster_firmware_upgrade_item(ctx, cluster_firmware_upgrade_item)
 
 
 The settings necessary to start a firmware upgrade.
@@ -198,7 +198,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_cluster_patch_abort_item**
-> ::models::Empty create_cluster_patch_abort_item(ctx, cluster_patch_abort_item)
+>crate::models::Empty create_cluster_patch_abort_item(ctx, cluster_patch_abort_item)
 
 
 Abort the previous action performed by the patch system.
@@ -226,7 +226,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_cluster_patch_patch**
-> ::models::CreateResponse create_cluster_patch_patch(ctx, cluster_patch_patch, optional)
+>crate::models::CreateResponse create_cluster_patch_patch(ctx, cluster_patch_patch, optional)
 
 
 Install a patch.
@@ -264,7 +264,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_cluster_retry_last_action_item**
-> ::models::Empty create_cluster_retry_last_action_item(ctx, cluster_retry_last_action_item)
+>crate::models::Empty create_cluster_retry_last_action_item(ctx, cluster_retry_last_action_item)
 
 
 Retry the last upgrade action, in-case the previous attempt failed.
@@ -292,7 +292,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_cluster_rollback_item**
-> ::models::Empty create_cluster_rollback_item(ctx, cluster_rollback_item)
+>crate::models::Empty create_cluster_rollback_item(ctx, cluster_rollback_item)
 
 
 Rollback the upgrade of a cluster.
@@ -320,7 +320,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_cluster_upgrade_item**
-> ::models::Empty create_cluster_upgrade_item(ctx, cluster_upgrade_item)
+>crate::models::Empty create_cluster_upgrade_item(ctx, cluster_upgrade_item)
 
 
 The settings necessary to start an upgrade.
@@ -442,7 +442,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cluster_firmware_progress**
-> ::models::ClusterFirmwareProgress get_cluster_firmware_progress(ctx, )
+>crate::models::ClusterFirmwareProgress get_cluster_firmware_progress(ctx, )
 
 
 Cluster wide firmware upgrade status info.
@@ -466,7 +466,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cluster_firmware_status**
-> ::models::ClusterFirmwareStatus get_cluster_firmware_status(ctx, optional)
+>crate::models::ClusterFirmwareStatus get_cluster_firmware_status(ctx, optional)
 
 
 The firmware status for the cluster.
@@ -502,7 +502,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cluster_node**
-> ::models::ClusterNodes get_cluster_node(ctx, cluster_node_id)
+>crate::models::ClusterNodes get_cluster_node(ctx, cluster_node_id)
 
 
 The node details useful during an upgrade or assessment.
@@ -530,7 +530,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cluster_nodes**
-> ::models::ClusterNodesExtended get_cluster_nodes(ctx, )
+>crate::models::ClusterNodesExtended get_cluster_nodes(ctx, )
 
 
 View information about nodes during an upgrade, rollback, or pre-upgrade assessment.
@@ -554,7 +554,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cluster_patch_patch**
-> ::models::ClusterPatchPatches get_cluster_patch_patch(ctx, cluster_patch_patch_id, optional)
+>crate::models::ClusterPatchPatches get_cluster_patch_patch(ctx, cluster_patch_patch_id, optional)
 
 
 View a single patch.
@@ -592,7 +592,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_hardware_status**
-> ::models::HardwareStatus get_hardware_status(ctx, )
+>crate::models::HardwareStatus get_hardware_status(ctx, )
 
 
 View the status of hardware upgrades in progress
@@ -616,7 +616,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_upgrade_cluster**
-> ::models::UpgradeCluster get_upgrade_cluster(ctx, )
+>crate::models::UpgradeCluster get_upgrade_cluster(ctx, )
 
 
 Cluster wide upgrade status info.
@@ -640,7 +640,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_cluster_patch_patches**
-> ::models::ClusterPatchPatchesExtended list_cluster_patch_patches(ctx, optional)
+>crate::models::ClusterPatchPatchesExtended list_cluster_patch_patches(ctx, optional)
 
 
 List all patches.

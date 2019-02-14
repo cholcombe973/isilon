@@ -9,5 +9,5 @@ pub struct AdsProviderSearchObject {
     pub display_name: Option<String>,
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "id")]
-    pub id: Option<::models::AuthAccessAccessItemFileGroup>,
+    pub id: Option <crate::models::AuthAccessAccessItemFileGroup>,
 }

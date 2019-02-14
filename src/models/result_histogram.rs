@@ -14,5 +14,5 @@ pub struct ResultHistogram {
     pub begin_time: i32,
     /// Histogram data of specified file count parameter.
     #[serde(rename = "histogram")]
-    pub histogram: Vec<::models::ResultHistogramHistogramItem>,
+    pub histogram: Vec <crate::models::ResultHistogramHistogramItem>,
 }

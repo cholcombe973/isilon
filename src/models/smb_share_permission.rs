@@ -11,5 +11,5 @@ pub struct SmbSharePermission {
     pub permission_type: String,
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "trustee")]
-    pub trustee: ::models::AuthAccessAccessItemFileGroup,
+    pub trustee:crate::models::AuthAccessAccessItemFileGroup,
 }

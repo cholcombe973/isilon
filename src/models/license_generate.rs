@@ -11,7 +11,7 @@ pub struct LicenseGenerate {
     pub activation: Option<String>,
     /// Array of licenses included in activation file.
     #[serde(rename = "hardware")]
-    pub hardware: Option<Vec<::models::LicenseGenerateHardwareItem>>,
+    pub hardware: Option<Vec <crate::models::LicenseGenerateHardwareItem>>,
     /// An array of licenses not included in activation file.
     #[serde(rename = "not_activated_license_list")]
     pub not_activated_license_list: Option<Vec<String>>,

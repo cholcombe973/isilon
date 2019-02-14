@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct EventEventgroupDefinitions {
     #[serde(rename = "eventgroup-definitions")]
     pub eventgroup_definitions:
-        Option<Vec<::models::EventEventgroupDefinitionsEventgroupDefinition>>,
+        Option<Vec <crate::models::EventEventgroupDefinitionsEventgroupDefinition>>,
 }

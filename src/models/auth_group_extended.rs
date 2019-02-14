@@ -14,24 +14,24 @@ pub struct AuthGroupExtended {
     pub generated_gid: Option<bool>,
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "gid")]
-    pub gid: Option<::models::AuthAccessAccessItemFileGroup>,
+    pub gid: Option <crate::models::AuthAccessAccessItemFileGroup>,
     /// Specifies the user or group ID.
     #[serde(rename = "id")]
     pub id: String,
     #[serde(rename = "member_of")]
-    pub member_of: Option<Vec<::models::AuthAccessAccessItemFileGroup>>,
+    pub member_of: Option<Vec <crate::models::AuthAccessAccessItemFileGroup>>,
     /// Specifies a user or group name.
     #[serde(rename = "name")]
     pub name: String,
     #[serde(rename = "object_history")]
-    pub object_history: Option<Vec<::models::AuthGroupObjectHistoryItem>>,
+    pub object_history: Option<Vec <crate::models::AuthGroupObjectHistoryItem>>,
     #[serde(rename = "provider")]
     pub provider: Option<String>,
     #[serde(rename = "sam_account_name")]
     pub sam_account_name: Option<String>,
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "sid")]
-    pub sid: Option<::models::AuthAccessAccessItemFileGroup>,
+    pub sid: Option <crate::models::AuthAccessAccessItemFileGroup>,
     /// Specifies the object type.
     #[serde(rename = "type")]
     pub _type: String,

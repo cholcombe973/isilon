@@ -12,5 +12,5 @@ pub struct NdmpSettingsVariables {
     #[serde(rename = "total")]
     pub total: Option<i32>,
     #[serde(rename = "variables")]
-    pub variables: Option<Vec<::models::NdmpSettingsVariablesVariable>>,
+    pub variables: Option<Vec <crate::models::NdmpSettingsVariablesVariable>>,
 }

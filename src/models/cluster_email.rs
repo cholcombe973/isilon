@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct ClusterEmail {
     /// Cluster email notification settings.
     #[serde(rename = "settings")]
-    pub settings: Option<::models::ClusterEmailSettings>,
+    pub settings: Option <crate::models::ClusterEmailSettings>,
 }

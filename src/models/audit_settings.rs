@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct AuditSettings {
     /// Per-Access Zone Audit settings
     #[serde(rename = "settings")]
-    pub settings: Option<::models::AuditSettingsSettings>,
+    pub settings: Option <crate::models::AuditSettingsSettings>,
 }

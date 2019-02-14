@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 
 # **get_histogram_stat_by**
-> ::models::HistogramStatBy get_histogram_stat_by(ctx, id, stat)
+>crate::models::HistogramStatBy get_histogram_stat_by(ctx, id, stat)
 
 
 This resource retrieves a histogram breakout for an individual FSA result set. ID in the resource path is the result set ID.
@@ -46,7 +46,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_histogram_stat_by_breakout**
-> ::models::HistogramStatBy get_histogram_stat_by_breakout(ctx, histogram_stat_by_breakout, id, stat, optional)
+>crate::models::HistogramStatBy get_histogram_stat_by_breakout(ctx, histogram_stat_by_breakout, id, stat, optional)
 
 
 This resource retrieves a histogram breakout for an individual FSA result set. ID in the resource path is the result set ID.
@@ -98,7 +98,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_result_directories**
-> ::models::ResultDirectories get_result_directories(ctx, id, optional)
+>crate::models::ResultDirectories get_result_directories(ctx, id, optional)
 
 
 This resource retrieves directory information. ID in the resource path is the result set ID.
@@ -139,7 +139,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_result_directory**
-> ::models::ResultDirectories get_result_directory(ctx, result_directory_id, id, optional)
+>crate::models::ResultDirectories get_result_directory(ctx, result_directory_id, id, optional)
 
 
 This resource retrieves directory information. ID in the resource path is the result set ID.
@@ -181,7 +181,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_result_histogram**
-> ::models::ResultHistogram get_result_histogram(ctx, id)
+>crate::models::ResultHistogram get_result_histogram(ctx, id)
 
 
 This resource retrieves a histogram of file counts for an individual FSA result set. ID in the resource path is the result set ID.
@@ -209,7 +209,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_result_histogram_stat**
-> ::models::ResultHistogram get_result_histogram_stat(ctx, result_histogram_stat, id, optional)
+>crate::models::ResultHistogram get_result_histogram_stat(ctx, result_histogram_stat, id, optional)
 
 
 This resource retrieves a histogram of file counts for an individual FSA result set. ID in the resource path is the result set ID.
@@ -258,7 +258,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_result_top_dir**
-> ::models::ResultTopDirs get_result_top_dir(ctx, result_top_dir_id, id, optional)
+>crate::models::ResultTopDirs get_result_top_dir(ctx, result_top_dir_id, id, optional)
 
 
 This resource retrieves the top directories. ID in the resource path is the result set ID.
@@ -301,7 +301,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_result_top_dirs**
-> ::models::ResultTopDirs get_result_top_dirs(ctx, id)
+>crate::models::ResultTopDirs get_result_top_dirs(ctx, id)
 
 
 This resource retrieves the top directories. ID in the resource path is the result set ID.
@@ -329,7 +329,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_result_top_file**
-> ::models::ResultTopFiles get_result_top_file(ctx, result_top_file_id, id, optional)
+>crate::models::ResultTopFiles get_result_top_file(ctx, result_top_file_id, id, optional)
 
 
 This resource retrieves the top files. ID in the resource path is the result set ID.
@@ -372,7 +372,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_result_top_files**
-> ::models::ResultTopFiles get_result_top_files(ctx, id)
+>crate::models::ResultTopFiles get_result_top_files(ctx, id)
 
 
 This resource retrieves the top files. ID in the resource path is the result set ID.

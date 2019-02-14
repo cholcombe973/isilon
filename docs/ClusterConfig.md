@@ -4,7 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **description** | **String** | Customer configurable description. | [default to null]
-**devices** | [**Vec<::models::ClusterConfigDevice>**](ClusterConfigDevice.md) |  | [default to null]
+**devices** | [**Vec <crate::models::ClusterConfigDevice>**](ClusterConfigDevice.md) |  | [default to null]
 **encoding** | **String** | Default encoding. | [default to null]
 **guid** | **String** | Cluster GUID. | [default to null]
 **has_quorum** | **bool** | If true, the local node is in a group with quorum: It is communicating, storing, and protecting data normally with other nodes in its group.  Under normal circumstances, every node in the cluster is part of one group. | [default to null]

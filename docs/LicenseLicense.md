@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **id** | **String** | Name of the licensed feature. | [default to null]
 **name** | **String** | Name of the licensed feature. | [default to null]
 **status** | **String** | Current status of the license. | [default to null]
-**tiers** | [**Vec<::models::LicenseLicenseTier>**](LicenseLicenseTier.md) | Tiered License details. | [default to null]
+**tiers** | [**Vec <crate::models::LicenseLicenseTier>**](LicenseLicenseTier.md) | Tiered License details. | [default to null]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

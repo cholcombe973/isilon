@@ -8,7 +8,7 @@ pub struct SyncReportPolicy {
     pub action: Option<String>,
     /// A file matching pattern, organized as an OR'ed set of AND'ed file criteria, for example ((a AND b) OR (x AND y)) used to define a set of files with specific properties.  Policies of type 'sync' cannot use 'path' or time criteria in their matching patterns, but policies of type 'copy' can use all listed criteria.
     #[serde(rename = "file_matching_pattern")]
-    pub file_matching_pattern: Option<::models::SyncJobPolicyFileMatchingPattern>,
+    pub file_matching_pattern: Option <crate::models::SyncJobPolicyFileMatchingPattern>,
     /// User-assigned name of this sync policy.
     #[serde(rename = "name")]
     pub name: Option<String>,

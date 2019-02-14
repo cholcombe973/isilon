@@ -7,7 +7,7 @@ use serde_json::Value;
 pub struct HardwareTapes {
     /// Information of Tape/MC device
     #[serde(rename = "devices")]
-    pub devices: Option<::models::HardwareTapesDevices>,
+    pub devices: Option <crate::models::HardwareTapesDevices>,
     /// Resume string returned by previous query.
     #[serde(rename = "resume")]
     pub resume: Option<String>,

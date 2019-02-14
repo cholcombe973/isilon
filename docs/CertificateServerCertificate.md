@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **description** | **String** | Description field associated with a certificate provided for administrative convenience. | [default to null]
 **dnsnames** | **Vec<String>** | A list of DNS names/patterns for which this certificate is valid. This list is extracted from the certificates CN (Common Name) and subjectAtlName extension fields. | [default to null]
 **expired** | **bool** | True if the certificate has expired and is no longer valid. | [default to null]
-**fingerprints** | [**Vec<::models::CertificateServerCertificateFingerprint>**](CertificateServerCertificateFingerprint.md) | A list of zero or more certificate fingerprints which can be used for certificate identification. | [default to null]
+**fingerprints** | [**Vec <crate::models::CertificateServerCertificateFingerprint>**](CertificateServerCertificateFingerprint.md) | A list of zero or more certificate fingerprints which can be used for certificate identification. | [default to null]
 **id** | **String** | Unique server certificate identifier. | [default to null]
 **issuer** | **String** | Certificate issuer field extracted from the certificate. | [default to null]
 **name** | **String** | Subject common name extracted from the certificate. | [default to null]

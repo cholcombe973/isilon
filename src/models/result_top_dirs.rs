@@ -11,7 +11,7 @@ pub struct ResultTopDirs {
     pub dir_atime_enabled: bool,
     /// Directory listing.
     #[serde(rename = "dirs")]
-    pub dirs: Vec<::models::ResultTopDirsDir>,
+    pub dirs: Vec <crate::models::ResultTopDirsDir>,
     /// Limit on number of top results.
     #[serde(rename = "top_n_max")]
     pub top_n_max: i32,

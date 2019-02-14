@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 
 # **create_policies_policy_cancel_item**
-> ::models::CreateResponse create_policies_policy_cancel_item(ctx, policies_policy_cancel_item, policy)
+>crate::models::CreateResponse create_policies_policy_cancel_item(ctx, policies_policy_cancel_item, policy)
 
 
 Cancel the most recent SyncIQ job for this policy from the target side.
@@ -39,7 +39,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_reports_report_subreport**
-> ::models::ReportsReportSubreports get_reports_report_subreport(ctx, reports_report_subreport_id, rid)
+>crate::models::ReportsReportSubreports get_reports_report_subreport(ctx, reports_report_subreport_id, rid)
 
 
 View a single SyncIQ target subreport.
@@ -68,7 +68,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_reports_report_subreports**
-> ::models::ReportsReportSubreportsExtended get_reports_report_subreports(ctx, rid, optional)
+>crate::models::ReportsReportSubreportsExtended get_reports_report_subreports(ctx, rid, optional)
 
 
 Get a list of SyncIQ target subreports for a report.

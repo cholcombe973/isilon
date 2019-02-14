@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct RemotesupportConnectemc {
     ///
     #[serde(rename = "connectemc")]
-    pub connectemc: Option<::models::RemotesupportConnectemcConnectemc>,
+    pub connectemc: Option <crate::models::RemotesupportConnectemcConnectemc>,
 }

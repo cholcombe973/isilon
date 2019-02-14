@@ -20,10 +20,10 @@ pub struct QuotaQuotaCreateParams {
     pub path: String,
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "persona")]
-    pub persona: Option<::models::AuthAccessAccessItemFileGroup>,
+    pub persona: Option <crate::models::AuthAccessAccessItemFileGroup>,
     ///
     #[serde(rename = "thresholds")]
-    pub thresholds: Option<::models::QuotaQuotaThresholds>,
+    pub thresholds: Option <crate::models::QuotaQuotaThresholds>,
     /// If true, thresholds apply to data plus filesystem overhead required to store the data (i.e. 'physical' usage).
     #[serde(rename = "thresholds_include_overhead")]
     pub thresholds_include_overhead: bool,

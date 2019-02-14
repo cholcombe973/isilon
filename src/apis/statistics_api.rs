@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, query, Error};
 
-pub struct StatisticsApiClient<C: hyper::client::Connect> {
+pub struct StatisticsApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> StatisticsApiClient<C> {
+impl<C: hyper::client::connect::Connect> StatisticsApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> StatisticsApiClient<C> {
         StatisticsApiClient {
             configuration: configuration,
@@ -44,7 +43,7 @@ pub trait StatisticsApi {
         key: Vec<String>,
         degraded: bool,
         nodes: Vec<String>,
-    ) -> Box<Future<Item = ::models::StatisticsCurrent, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::StatisticsCurrent, Error = Error>>;
     fn get_statistics_history(
         &self,
         begin: i32,
@@ -63,26 +62,26 @@ pub trait StatisticsApi {
         show_nodes: bool,
         resolution: i32,
         nodes: Vec<String>,
-    ) -> Box<Future<Item = ::models::StatisticsHistory, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::StatisticsHistory, Error = Error>>;
     fn get_statistics_key(
         &self,
         statistics_key_id: &str,
-    ) -> Box<Future<Item = ::models::StatisticsKeys, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::StatisticsKeys, Error = Error>>;
     fn get_statistics_keys(
         &self,
         count: bool,
         limit: i32,
         queryable: bool,
         resume: &str,
-    ) -> Box<Future<Item = ::models::StatisticsKeysExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::StatisticsKeysExtended, Error = Error>>;
     fn get_statistics_operations(
         &self,
         protocols: Vec<String>,
-    ) -> Box<Future<Item = ::models::StatisticsOperations, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::StatisticsOperations, Error = Error>>;
     fn get_statistics_protocols(
         &self,
         _type: &str,
-    ) -> Box<Future<Item = ::models::StatisticsProtocols, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::StatisticsProtocols, Error = Error>>;
     fn get_summary_client(
         &self,
         sort: &str,
@@ -99,7 +98,7 @@ pub trait StatisticsApi {
         remote_names: &str,
         nodes: &str,
         protocols: &str,
-    ) -> Box<Future<Item = ::models::SummaryClient, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SummaryClient, Error = Error>>;
     fn get_summary_drive(
         &self,
         sort: &str,
@@ -107,7 +106,7 @@ pub trait StatisticsApi {
         _type: &str,
         nodes: &str,
         timeout: i32,
-    ) -> Box<Future<Item = ::models::SummaryDrive, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SummaryDrive, Error = Error>>;
     fn get_summary_heat(
         &self,
         sort: &str,
@@ -121,7 +120,7 @@ pub trait StatisticsApi {
         timeout: i32,
         nodes: &str,
         degraded: bool,
-    ) -> Box<Future<Item = ::models::SummaryHeat, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SummaryHeat, Error = Error>>;
     fn get_summary_protocol(
         &self,
         operations: &str,
@@ -133,14 +132,14 @@ pub trait StatisticsApi {
         degraded: bool,
         nodes: &str,
         protocols: &str,
-    ) -> Box<Future<Item = ::models::SummaryProtocol, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SummaryProtocol, Error = Error>>;
     fn get_summary_protocol_stats(
         &self,
         degraded: bool,
         protocol: Option<&str>,
         nodes: Option<&str>,
         timeout: i32,
-    ) -> Box<Future<Item = ::models::SummaryProtocolStats, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SummaryProtocolStats, Error = Error>>;
     fn get_summary_system(
         &self,
         sort: &str,
@@ -148,7 +147,7 @@ pub trait StatisticsApi {
         degraded: bool,
         nodes: &str,
         timeout: i32,
-    ) -> Box<Future<Item = ::models::SummarySystem, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SummarySystem, Error = Error>>;
     fn get_summary_workload(
         &self,
         sort: &str,
@@ -158,10 +157,10 @@ pub trait StatisticsApi {
         degraded: bool,
         nodes: &str,
         system_names: &str,
-    ) -> Box<Future<Item = ::models::SummaryWorkload, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::SummaryWorkload, Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> StatisticsApi for StatisticsApiClient<C> {
     fn get_statistics_current(
         &self,
         timeout: i32,
@@ -175,12 +174,8 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
         key: Vec<String>,
         degraded: bool,
         nodes: Vec<String>,
-    ) -> Box<Future<Item = ::models::StatisticsCurrent, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::StatisticsCurrent, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("timeout", &timeout.to_string())
             .append_pair("show_nodes", &show_nodes.to_string())
             .append_pair("keys", &keys.join(",").to_string())
@@ -195,30 +190,13 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/statistics/current?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::StatisticsCurrent, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -240,12 +218,8 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
         show_nodes: bool,
         resolution: i32,
         nodes: Vec<String>,
-    ) -> Box<Future<Item = ::models::StatisticsHistory, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::StatisticsHistory, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("begin", &begin.to_string())
             .append_pair("interval", &interval.to_string())
             .append_pair("end", &end.to_string())
@@ -265,67 +239,30 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/statistics/history?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::StatisticsHistory, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_statistics_key(
         &self,
         statistics_key_id: &str,
-    ) -> Box<Future<Item = ::models::StatisticsKeys, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::StatisticsKeys, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/statistics/keys/{StatisticsKeyId}",
-            configuration.base_path,
+            self.configuration.base_path,
             StatisticsKeyId = statistics_key_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::StatisticsKeys, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -335,12 +272,8 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
         limit: i32,
         queryable: bool,
         resume: &str,
-    ) -> Box<Future<Item = ::models::StatisticsKeysExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::StatisticsKeysExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("count", &count.to_string())
             .append_pair("limit", &limit.to_string())
             .append_pair("queryable", &queryable.to_string())
@@ -348,110 +281,51 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/statistics/keys?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::StatisticsKeysExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_statistics_operations(
         &self,
         protocols: Vec<String>,
-    ) -> Box<Future<Item = ::models::StatisticsOperations, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::StatisticsOperations, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("protocols", &protocols.join(",").to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/statistics/operations?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::StatisticsOperations, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_statistics_protocols(
         &self,
         _type: &str,
-    ) -> Box<Future<Item = ::models::StatisticsProtocols, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::StatisticsProtocols, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("type", &_type.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/statistics/protocols?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::StatisticsProtocols, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -471,12 +345,8 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
         remote_names: &str,
         nodes: &str,
         protocols: &str,
-    ) -> Box<Future<Item = ::models::SummaryClient, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SummaryClient, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("totalby", &totalby.to_string())
             .append_pair("user_names", &user_names.to_string())
@@ -494,29 +364,13 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/statistics/summary/client?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SummaryClient, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -527,12 +381,8 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
         _type: &str,
         nodes: &str,
         timeout: i32,
-    ) -> Box<Future<Item = ::models::SummaryDrive, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SummaryDrive, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("degraded", &degraded.to_string())
             .append_pair("type", &_type.to_string())
@@ -541,29 +391,13 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/statistics/summary/drive?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SummaryDrive, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -580,12 +414,8 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
         timeout: i32,
         nodes: &str,
         degraded: bool,
-    ) -> Box<Future<Item = ::models::SummaryHeat, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SummaryHeat, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("convertlin", &convertlin.to_string())
             .append_pair("totalby", &totalby.to_string())
@@ -600,29 +430,13 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/statistics/summary/heat?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SummaryHeat, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -637,12 +451,8 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
         degraded: bool,
         nodes: &str,
         protocols: &str,
-    ) -> Box<Future<Item = ::models::SummaryProtocol, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SummaryProtocol, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("operations", &operations.to_string())
             .append_pair("sort", &sort.to_string())
             .append_pair("totalby", &totalby.to_string())
@@ -655,30 +465,13 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/statistics/summary/protocol?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SummaryProtocol, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -688,50 +481,29 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
         protocol: Option<&str>,
         nodes: Option<&str>,
         timeout: i32,
-    ) -> Box<Future<Item = ::models::SummaryProtocolStats, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let mut buff = String::new();
-        let mut query = ::url::form_urlencoded::Serializer::new(buff);
-        query.append_pair("degraded", &degraded.to_string());
-        query.append_pair("timeout", &timeout.to_string());
+    ) -> Box<dyn Future<Item = crate::models::SummaryProtocolStats, Error = Error>> {
+        let buff = String::new();
+        let mut q = ::url::form_urlencoded::Serializer::new(buff);
+        q.append_pair("degraded", &degraded.to_string());
+        q.append_pair("timeout", &timeout.to_string());
         if let Some(protocol) = protocol {
-            query.append_pair("protocol", &protocol.to_string());
+            q.append_pair("protocol", &protocol.to_string());
         }
         if let Some(nodes) = nodes {
-            query.append_pair("nodes", &nodes.to_string());
+            q.append_pair("nodes", &nodes.to_string());
         }
-        let query = query.finish();
+        let q = q.finish();
 
         let uri_str = format!(
             "{}/platform/3/statistics/summary/protocol-stats?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
         debug!("summary_protocol uri_str: {}", uri_str);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SummaryProtocolStats, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -742,12 +514,8 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
         degraded: bool,
         nodes: &str,
         timeout: i32,
-    ) -> Box<Future<Item = ::models::SummarySystem, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SummarySystem, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("oprates", &oprates.to_string())
             .append_pair("degraded", &degraded.to_string())
@@ -756,29 +524,13 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/3/statistics/summary/system?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SummarySystem, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -791,12 +543,8 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
         degraded: bool,
         nodes: &str,
         system_names: &str,
-    ) -> Box<Future<Item = ::models::SummaryWorkload, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::SummaryWorkload, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("job_types", &job_types.join(",").to_string())
             .append_pair("totalby", &totalby.to_string())
@@ -807,30 +555,13 @@ impl<C: hyper::client::Connect> StatisticsApi for StatisticsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/4/statistics/summary/workload?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::SummaryWorkload, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 }

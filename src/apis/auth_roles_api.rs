@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, query, Error};
 
-pub struct AuthRolesApiClient<C: hyper::client::Connect> {
+pub struct AuthRolesApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> AuthRolesApiClient<C> {
+impl<C: hyper::client::connect::Connect> AuthRolesApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> AuthRolesApiClient<C> {
         AuthRolesApiClient {
             configuration: configuration,
@@ -33,121 +32,71 @@ impl<C: hyper::client::Connect> AuthRolesApiClient<C> {
 pub trait AuthRolesApi {
     fn create_role_member(
         &self,
-        role_member: ::models::AuthAccessAccessItemFileGroup,
+        role_member: crate::models::AuthAccessAccessItemFileGroup,
         role: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn create_role_privilege(
         &self,
-        role_privilege: ::models::AuthIdNtokenPrivilegeItem,
+        role_privilege: crate::models::AuthIdNtokenPrivilegeItem,
         role: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
     fn delete_role_member(
         &self,
         role_member_id: &str,
         role: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn delete_role_privilege(
         &self,
         role_privilege_id: &str,
         role: &str,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
     fn list_role_members(
         &self,
         role: &str,
         resolve_names: bool,
-    ) -> Box<Future<Item = ::models::GroupMembers, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::GroupMembers, Error = Error>>;
     fn list_role_privileges(
         &self,
         role: &str,
-    ) -> Box<Future<Item = ::models::RolePrivileges, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::RolePrivileges, Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> AuthRolesApi for AuthRolesApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> AuthRolesApi for AuthRolesApiClient<C> {
     fn create_role_member(
         &self,
-        role_member: ::models::AuthAccessAccessItemFileGroup,
+        role_member: crate::models::AuthAccessAccessItemFileGroup,
         role: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/auth/roles/{Role}/members",
-            configuration.base_path,
+            self.configuration.base_path,
             Role = role
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&role_member).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &role_member,
+            hyper::Method::POST,
         )
     }
 
     fn create_role_privilege(
         &self,
-        role_privilege: ::models::AuthIdNtokenPrivilegeItem,
+        role_privilege: crate::models::AuthIdNtokenPrivilegeItem,
         role: &str,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/auth/roles/{Role}/privileges",
-            configuration.base_path,
+            self.configuration.base_path,
             Role = role
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&role_privilege).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &role_privilege,
+            hyper::Method::POST,
         )
     }
 
@@ -155,34 +104,18 @@ impl<C: hyper::client::Connect> AuthRolesApi for AuthRolesApiClient<C> {
         &self,
         role_member_id: &str,
         role: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/auth/roles/{Role}/members/{RoleMemberId}",
-            configuration.base_path,
+            self.configuration.base_path,
             RoleMemberId = role_member_id,
             Role = role
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -190,34 +123,18 @@ impl<C: hyper::client::Connect> AuthRolesApi for AuthRolesApiClient<C> {
         &self,
         role_privilege_id: &str,
         role: &str,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/auth/roles/{Role}/privileges/{RolePrivilegeId}",
-            configuration.base_path,
+            self.configuration.base_path,
             RolePrivilegeId = role_privilege_id,
             Role = role
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
@@ -225,78 +142,41 @@ impl<C: hyper::client::Connect> AuthRolesApi for AuthRolesApiClient<C> {
         &self,
         role: &str,
         resolve_names: bool,
-    ) -> Box<Future<Item = ::models::GroupMembers, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::GroupMembers, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("resolve_names", &resolve_names.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/roles/{Role}/members?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             Role = role
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::GroupMembers, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        //let parsed: Result<crate::models::GroupMembers, _> = serde_json::from_slice(&body);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_role_privileges(
         &self,
         role: &str,
-    ) -> Box<Future<Item = ::models::RolePrivileges, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::RolePrivileges, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/auth/roles/{Role}/privileges",
-            configuration.base_path,
+            self.configuration.base_path,
             Role = role
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::RolePrivileges, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 }

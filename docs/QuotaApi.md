@@ -33,7 +33,7 @@ Method | HTTP request | Description
 
 
 # **create_quota_quota**
-> ::models::CreateResponse create_quota_quota(ctx, quota_quota, optional)
+>crate::models::CreateResponse create_quota_quota(ctx, quota_quota, optional)
 
 
 Create a new quota.
@@ -70,7 +70,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_quota_report**
-> ::models::CreateQuotaReportResponse create_quota_report(ctx, quota_report)
+>crate::models::CreateQuotaReportResponse create_quota_report(ctx, quota_report)
 
 
 Create a new report. The type of this report is 'manual'; it is also sometimes called 'live' or 'ad-hoc'.
@@ -98,7 +98,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_settings_mapping**
-> ::models::CreateResponse create_settings_mapping(ctx, settings_mapping)
+>crate::models::CreateResponse create_settings_mapping(ctx, settings_mapping)
 
 
 Create a new rule. The new rule must not conflict with an existing rule (e.g. match both the type and domain fields).
@@ -126,7 +126,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_settings_notification**
-> ::models::CreateResponse create_settings_notification(ctx, settings_notification)
+>crate::models::CreateResponse create_settings_notification(ctx, settings_notification)
 
 
 Create a new global notification rule.
@@ -356,7 +356,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_quota_license**
-> ::models::LicenseLicense get_quota_license(ctx, )
+>crate::models::LicenseLicense get_quota_license(ctx, )
 
 
 Retrieve license information.
@@ -380,7 +380,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_quota_quota**
-> ::models::QuotaQuotas get_quota_quota(ctx, quota_quota_id, optional)
+>crate::models::QuotaQuotas get_quota_quota(ctx, quota_quota_id, optional)
 
 
 Retrieve quota information.
@@ -418,7 +418,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_quota_quotas_summary**
-> ::models::QuotaQuotasSummary get_quota_quotas_summary(ctx, )
+>crate::models::QuotaQuotasSummary get_quota_quotas_summary(ctx, )
 
 
 Return summary information about quotas.
@@ -442,7 +442,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_quota_report**
-> ::models::ReportAbout get_quota_report(ctx, quota_report_id, optional)
+>crate::models::ReportAbout get_quota_report(ctx, quota_report_id, optional)
 
 
 Retrieve report data (XML) or contents (meta-data).
@@ -479,7 +479,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_settings_mapping**
-> ::models::SettingsMappings get_settings_mapping(ctx, settings_mapping_id)
+>crate::models::SettingsMappings get_settings_mapping(ctx, settings_mapping_id)
 
 
 Retrieve the mapping information.
@@ -507,7 +507,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_settings_notification**
-> ::models::QuotaNotifications get_settings_notification(ctx, settings_notification_id)
+>crate::models::QuotaNotifications get_settings_notification(ctx, settings_notification_id)
 
 
 Retrieve notification rule information.
@@ -535,7 +535,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_settings_reports**
-> ::models::SettingsReports get_settings_reports(ctx, )
+>crate::models::SettingsReports get_settings_reports(ctx, )
 
 
 List all settings.
@@ -559,7 +559,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_quota_quotas**
-> ::models::QuotaQuotasExtended list_quota_quotas(ctx, optional)
+>crate::models::QuotaQuotasExtended list_quota_quotas(ctx, optional)
 
 
 List all or matching quotas. Can also be used to retrieve quota state from existing reports. For any query argument not supplied, the default behavior is return all.
@@ -606,7 +606,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_quota_reports**
-> ::models::QuotaReports list_quota_reports(ctx, optional)
+>crate::models::QuotaReports list_quota_reports(ctx, optional)
 
 
 List all or matching reports.
@@ -646,7 +646,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_settings_mappings**
-> ::models::SettingsMappings list_settings_mappings(ctx, )
+>crate::models::SettingsMappings list_settings_mappings(ctx, )
 
 
 List all rules.
@@ -670,7 +670,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_settings_notifications**
-> ::models::QuotaNotificationsExtended list_settings_notifications(ctx, )
+>crate::models::QuotaNotificationsExtended list_settings_notifications(ctx, )
 
 
 List all rules.

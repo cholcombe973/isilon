@@ -5,7 +5,7 @@ use serde_json::Value;
 pub struct DrivesDriveFirmwareNode {
     /// List of the firmware revisions on the drives in this node.
     #[serde(rename = "drives")]
-    pub drives: Option<Vec<::models::DrivesDriveFirmwareNodeDrive>>,
+    pub drives: Option<Vec <crate::models::DrivesDriveFirmwareNodeDrive>>,
     /// Error message, if the HTTP status returned from this node was not 200.
     #[serde(rename = "error")]
     pub error: Option<String>,

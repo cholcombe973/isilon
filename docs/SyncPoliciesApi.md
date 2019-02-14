@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **create_policy_reset_item**
-> ::models::CreateResponse create_policy_reset_item(ctx, policy_reset_item, policy)
+>crate::models::CreateResponse create_policy_reset_item(ctx, policy_reset_item, policy)
 
 
 Reset a SyncIQ policy incremental state and force a full sync/copy.

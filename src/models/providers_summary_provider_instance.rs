@@ -8,7 +8,7 @@ pub struct ProvidersSummaryProviderInstance {
     #[serde(rename = "client_site")]
     pub client_site: Option<String>,
     #[serde(rename = "connections")]
-    pub connections: Option<Vec<::models::ProvidersSummaryProviderInstanceConnection>>,
+    pub connections: Option<Vec <crate::models::ProvidersSummaryProviderInstanceConnection>>,
     #[serde(rename = "dc_site")]
     pub dc_site: Option<String>,
     #[serde(rename = "forest")]

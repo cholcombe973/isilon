@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct NfsExportsSummary {
     /// The summary of a collection of objects.
     #[serde(rename = "summary")]
-    pub summary: Option<::models::NfsExportsSummarySummary>,
+    pub summary: Option <crate::models::NfsExportsSummarySummary>,
 }

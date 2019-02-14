@@ -28,7 +28,7 @@ pub struct AuthUser {
     pub password_expires: Option<bool>,
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "primary_group")]
-    pub primary_group: Option<::models::AuthAccessAccessItemFileGroup>,
+    pub primary_group: Option <crate::models::AuthAccessAccessItemFileGroup>,
     /// If true, prompts the user to change their password at the next login.
     #[serde(rename = "prompt_password_change")]
     pub prompt_password_change: Option<bool>,

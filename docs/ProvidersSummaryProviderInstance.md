@@ -5,7 +5,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **active_server** | **String** |  | [optional] [default to null]
 **client_site** | **String** |  | [optional] [default to null]
-**connections** | [**Vec<::models::ProvidersSummaryProviderInstanceConnection>**](ProvidersSummaryProviderInstanceConnection.md) |  | [optional] [default to null]
+**connections** | [**Vec <crate::models::ProvidersSummaryProviderInstanceConnection>**](ProvidersSummaryProviderInstanceConnection.md) |  | [optional] [default to null]
 **dc_site** | **String** |  | [optional] [default to null]
 **forest** | **String** |  | [optional] [default to null]
 **groupnet** | **String** |  | [optional] [default to null]

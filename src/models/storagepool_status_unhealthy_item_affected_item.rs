@@ -5,7 +5,7 @@ use serde_json::Value;
 pub struct StoragepoolStatusUnhealthyItemAffectedItem {
     ///
     #[serde(rename = "device")]
-    pub device: Option<::models::StoragepoolStatusUnprovisionedItem>,
+    pub device: Option <crate::models::StoragepoolStatusUnprovisionedItem>,
     /// Whether or not the device is currently down.
     #[serde(rename = "down")]
     pub down: bool,

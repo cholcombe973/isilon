@@ -7,7 +7,7 @@ pub struct SnapshotSchedulesExtended {
     #[serde(rename = "resume")]
     pub resume: Option<String>,
     #[serde(rename = "schedules")]
-    pub schedules: Option<Vec<::models::SnapshotScheduleExtendedExtended>>,
+    pub schedules: Option<Vec <crate::models::SnapshotScheduleExtendedExtended>>,
     /// Total number of items available.
     #[serde(rename = "total")]
     pub total: Option<i32>,

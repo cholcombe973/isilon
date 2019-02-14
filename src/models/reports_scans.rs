@@ -4,5 +4,5 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ReportsScans {
     #[serde(rename = "reports")]
-    pub reports: Option<Vec<::models::ReportsScansReport>>,
+    pub reports: Option<Vec <crate::models::ReportsScansReport>>,
 }

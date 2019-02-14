@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct FtpSettings {
     /// FTP settings.
     #[serde(rename = "settings")]
-    pub settings: Option<::models::FtpSettingsSettings>,
+    pub settings: Option <crate::models::FtpSettingsSettings>,
 }

@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct MappingUsersRules {
     /// Specifies the properties for user mapping rules.
     #[serde(rename = "rules")]
-    pub rules: Option<::models::MappingUsersRulesRules>,
+    pub rules: Option <crate::models::MappingUsersRulesRules>,
 }

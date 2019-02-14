@@ -10,7 +10,7 @@ pub struct HdfsProxyuserCreateParams {
     pub id: Option<String>,
     /// Users or groups impersonated by proxyuser.
     #[serde(rename = "members")]
-    pub members: Option<Vec<::models::AuthAccessAccessItemFileGroup>>,
+    pub members: Option<Vec <crate::models::AuthAccessAccessItemFileGroup>>,
     /// The name of the proxyuser.
     #[serde(rename = "name")]
     pub name: String,

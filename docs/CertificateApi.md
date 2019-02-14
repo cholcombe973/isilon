@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 
 # **create_certificate_server_item**
-> ::models::CreateResponse create_certificate_server_item(ctx, certificate_server_item)
+>crate::models::CreateResponse create_certificate_server_item(ctx, certificate_server_item)
 
 
 Import a TLS server certificate.
@@ -68,7 +68,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_certificate_server_by_id**
-> ::models::CertificateServer get_certificate_server_by_id(ctx, certificate_server_id)
+>crate::models::CertificateServer get_certificate_server_by_id(ctx, certificate_server_id)
 
 
 Retrieve a single TLS server certificate.
@@ -96,7 +96,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_certificate_server**
-> ::models::CertificateServerExtended list_certificate_server(ctx, optional)
+>crate::models::CertificateServerExtended list_certificate_server(ctx, optional)
 
 
 Retrieve a list of all configured TLS server certificates.

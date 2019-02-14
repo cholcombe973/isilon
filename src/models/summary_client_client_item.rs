@@ -68,5 +68,5 @@ pub struct SummaryClientClientItem {
     pub time_min: f32,
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "user")]
-    pub user: Option<::models::AuthAccessAccessItemFileGroup>,
+    pub user: Option <crate::models::AuthAccessAccessItemFileGroup>,
 }

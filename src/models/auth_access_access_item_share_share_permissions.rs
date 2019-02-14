@@ -18,5 +18,5 @@ pub struct AuthAccessAccessItemShareSharePermissions {
     /// Specifies a list of the relevant Access Control Entries withrespect to the user in the share.
     #[serde(rename = "share_relevant_aces")]
     pub share_relevant_aces:
-        Option<Vec<::models::AuthAccessAccessItemShareSharePermissionsShareRelevantAce>>,
+        Option<Vec <crate::models::AuthAccessAccessItemShareSharePermissionsShareRelevantAce>>,
 }

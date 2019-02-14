@@ -5,8 +5,8 @@ use serde_json::Value;
 pub struct JobStatisticsJobNodeIo {
     ///
     #[serde(rename = "read")]
-    pub read: ::models::JobStatisticsJobNodeIoRead,
+    pub read:crate::models::JobStatisticsJobNodeIoRead,
     ///
     #[serde(rename = "write")]
-    pub write: ::models::JobStatisticsJobNodeIoWrite,
+    pub write:crate::models::JobStatisticsJobNodeIoWrite,
 }

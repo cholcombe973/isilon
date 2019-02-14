@@ -7,7 +7,7 @@ pub struct JobStatisticsJob {
     #[serde(rename = "job_id")]
     pub job_id: i32,
     #[serde(rename = "nodes")]
-    pub nodes: Vec<::models::JobStatisticsJobNode>,
+    pub nodes: Vec <crate::models::JobStatisticsJobNode>,
     /// The current phase of the job.
     #[serde(rename = "phase")]
     pub phase: i32,

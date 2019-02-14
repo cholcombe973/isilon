@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct AuthLogLevel {
     ///
     #[serde(rename = "level")]
-    pub level: Option<::models::AuthLogLevelLevel>,
+    pub level: Option <crate::models::AuthLogLevelLevel>,
 }

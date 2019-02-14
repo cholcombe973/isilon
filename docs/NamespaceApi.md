@@ -31,7 +31,7 @@ Method | HTTP request | Description
 
 
 # **copy_directory**
-> ::models::CopyErrors copy_directory(ctx, directory_copy_target, x_isi_ifs_copy_source, optional)
+>crate::models::CopyErrors copy_directory(ctx, directory_copy_target, x_isi_ifs_copy_source, optional)
 
 
 Recursively copies a directory to a specified destination path. Symbolic links are copied as regular files.
@@ -72,7 +72,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **copy_file**
-> ::models::CopyErrors copy_file(ctx, file_copy_target, x_isi_ifs_copy_source, optional)
+>crate::models::CopyErrors copy_file(ctx, file_copy_target, x_isi_ifs_copy_source, optional)
 
 
 Copies a file to the specified destination path.
@@ -113,7 +113,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_access_point**
-> ::models::Empty create_access_point(ctx, access_point_name, access_point)
+>crate::models::Empty create_access_point(ctx, access_point_name, access_point)
 
 
 Creates a namespace access point in the file system. Only root users can create or change namespace access points.
@@ -142,7 +142,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_directory**
-> ::models::Empty create_directory(ctx, directory_path, x_isi_ifs_target_type, optional)
+>crate::models::Empty create_directory(ctx, directory_path, x_isi_ifs_target_type, optional)
 
 
 Creates a directory with a specified path.
@@ -184,7 +184,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_file**
-> ::models::Empty create_file(ctx, file_path, x_isi_ifs_target_type, file_contents, optional)
+>crate::models::Empty create_file(ctx, file_path, x_isi_ifs_target_type, file_contents, optional)
 
 
 Creates a file object with a given path. Note that file streaming is not supported.
@@ -228,7 +228,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_access_point**
-> ::models::Empty delete_access_point(ctx, access_point_name)
+>crate::models::Empty delete_access_point(ctx, access_point_name)
 
 
 Deletes a namespace access point. Only root users can delete namespace access points.
@@ -256,7 +256,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_directory**
-> ::models::Empty delete_directory(ctx, directory_path, optional)
+>crate::models::Empty delete_directory(ctx, directory_path, optional)
 
 
 Deletes the directory at the specified path.
@@ -293,7 +293,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_file**
-> ::models::Empty delete_file(ctx, file_path)
+>crate::models::Empty delete_file(ctx, file_path)
 
 
 Deletes the specified file.
@@ -321,7 +321,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_acl**
-> ::models::NamespaceAcl get_acl(ctx, namespace_path, acl, optional)
+>crate::models::NamespaceAcl get_acl(ctx, namespace_path, acl, optional)
 
 
 Retrieves the access control list for a namespace object.
@@ -360,7 +360,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_directory_attributes**
-> ::models::Empty get_directory_attributes(ctx, directory_path, optional)
+>crate::models::Empty get_directory_attributes(ctx, directory_path, optional)
 
 
 Retrieves the attribute information for a specified directory without transferring the contents of the directory.
@@ -398,7 +398,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_directory_contents**
-> ::models::NamespaceObjects get_directory_contents(ctx, directory_path, optional)
+>crate::models::NamespaceObjects get_directory_contents(ctx, directory_path, optional)
 
 
 Retrieves a list of files and subdirectories from a directory.
@@ -441,7 +441,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_directory_metadata**
-> ::models::NamespaceMetadataList get_directory_metadata(ctx, directory_metadata_path, metadata)
+>crate::models::NamespaceMetadataList get_directory_metadata(ctx, directory_metadata_path, metadata)
 
 
 Retrieves the attribute information for a specified directory with the metadata query argument.
@@ -470,7 +470,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_file_attributes**
-> ::models::Empty get_file_attributes(ctx, file_path, optional)
+>crate::models::Empty get_file_attributes(ctx, file_path, optional)
 
 
 Retrieves the attribute information for a specified file.
@@ -508,7 +508,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_file_contents**
-> ::models::Empty get_file_contents(ctx, file_path, optional)
+>crate::models::Empty get_file_contents(ctx, file_path, optional)
 
 
 Retrieves the contents of a file from a specified path. Note that file streaming is not supported.
@@ -547,7 +547,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_file_metadata**
-> ::models::NamespaceMetadataList get_file_metadata(ctx, file_metadata_path, metadata)
+>crate::models::NamespaceMetadataList get_file_metadata(ctx, file_metadata_path, metadata)
 
 
 Retrieves the attribute information for a specified file with the metadata query argument.
@@ -576,7 +576,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_worm_properties**
-> ::models::WormProperties get_worm_properties(ctx, worm_file_path, worm)
+>crate::models::WormProperties get_worm_properties(ctx, worm_file_path, worm)
 
 
 Retrieves the WORM retention date and committed state of the file.
@@ -605,7 +605,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_access_points**
-> ::models::NamespaceAccessPoints list_access_points(ctx, optional)
+>crate::models::NamespaceAccessPoints list_access_points(ctx, optional)
 
 
 Retrieves the namespace access points available for the authenticated user.
@@ -640,7 +640,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **move_directory**
-> ::models::Empty move_directory(ctx, directory_path, x_isi_ifs_set_location)
+>crate::models::Empty move_directory(ctx, directory_path, x_isi_ifs_set_location)
 
 
 Moves a directory from an existing source to a new destination path.
@@ -669,7 +669,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **move_file**
-> ::models::Empty move_file(ctx, file_path, x_isi_ifs_set_location)
+>crate::models::Empty move_file(ctx, file_path, x_isi_ifs_set_location)
 
 
 Moves a file to a destination path that does not yet exist.
@@ -698,7 +698,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **query_directory**
-> ::models::NamespaceObjects query_directory(ctx, query_path, query, directory_query, optional)
+>crate::models::NamespaceObjects query_directory(ctx, query_path, query, directory_query, optional)
 
 
 Query objects by system-defined and user-defined attributes in a directory.
@@ -741,7 +741,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **set_acl**
-> ::models::Empty set_acl(ctx, namespace_path, acl, namespace_acl, optional)
+>crate::models::Empty set_acl(ctx, namespace_path, acl, namespace_acl, optional)
 
 
 Sets the access control list for a namespace.
@@ -782,7 +782,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **set_directory_metadata**
-> ::models::Empty set_directory_metadata(ctx, directory_metadata_path, metadata, directory_metadata)
+>crate::models::Empty set_directory_metadata(ctx, directory_metadata_path, metadata, directory_metadata)
 
 
 Sets attributes on a specified directory with the metadata query argument.
@@ -812,7 +812,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **set_file_metadata**
-> ::models::Empty set_file_metadata(ctx, file_metadata_path, metadata, file_metadata)
+>crate::models::Empty set_file_metadata(ctx, file_metadata_path, metadata, file_metadata)
 
 
 Sets attributes on a specified file with the metadata query argument through the JSON body.
@@ -842,7 +842,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **set_worm_properties**
-> ::models::Empty set_worm_properties(ctx, worm_file_path, worm, worm_properties)
+>crate::models::Empty set_worm_properties(ctx, worm_file_path, worm, worm_properties)
 
 
 Sets the retention period and commits a file in a SmartLock directory.

@@ -6,7 +6,7 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NdmpContextsBackupExtended {
     #[serde(rename = "contexts")]
-    pub contexts: Option<Vec<::models::NdmpContextsBackupContext>>,
+    pub contexts: Option<Vec <crate::models::NdmpContextsBackupContext>>,
     /// Resume string returned by previous query.
     #[serde(rename = "resume")]
     pub resume: Option<String>,

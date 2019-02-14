@@ -17,7 +17,7 @@ pub struct CertificateServerCertificate {
     pub expired: bool,
     /// A list of zero or more certificate fingerprints which can be used for certificate identification.
     #[serde(rename = "fingerprints")]
-    pub fingerprints: Vec<::models::CertificateServerCertificateFingerprint>,
+    pub fingerprints: Vec <crate::models::CertificateServerCertificateFingerprint>,
     /// Unique server certificate identifier.
     #[serde(rename = "id")]
     pub id: String,

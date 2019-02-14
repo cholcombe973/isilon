@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **create_path** | **bool** | Determines if a path is created when a path does not exist. | [optional] [default to null]
 **force_overlap** | **bool** | Allow for overlapping base path. | [optional] [default to null]
 **home_directory_umask** | **i32** | Specifies the permissions set on automatically created user home directories. | [optional] [default to null]
-**ifs_restricted** | [**Vec<::models::AuthAccessAccessItemFileGroup>**](AuthAccessAccessItemFileGroup.md) | Specifies a list of users and groups that have read and write access to /ifs. | [optional] [default to null]
+**ifs_restricted** | [**Vec <crate::models::AuthAccessAccessItemFileGroup>**](AuthAccessAccessItemFileGroup.md) | Specifies a list of users and groups that have read and write access to /ifs. | [optional] [default to null]
 **map_untrusted** | **String** | Maps untrusted domains to this NetBIOS domain during authentication. | [optional] [default to null]
 **name** | **String** | Specifies the access zone name. | [optional] [default to null]
 **negative_cache_entry_expiry** | **i32** | Specifies number of seconds the negative cache entry is valid. | [optional] [default to null]

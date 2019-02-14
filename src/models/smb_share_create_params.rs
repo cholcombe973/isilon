@@ -104,10 +104,10 @@ pub struct SmbShareCreateParams {
     pub path: String,
     /// Specifies an ordered list of permission modifications.
     #[serde(rename = "permissions")]
-    pub permissions: Option<Vec<::models::SmbSharePermission>>,
+    pub permissions: Option<Vec <crate::models::SmbSharePermission>>,
     /// Allow account to run as root.
     #[serde(rename = "run_as_root")]
-    pub run_as_root: Option<Vec<::models::AuthAccessAccessItemFileGroup>>,
+    pub run_as_root: Option<Vec <crate::models::AuthAccessAccessItemFileGroup>>,
     /// Specifies if persistent opens would do strict lockout on the share.
     #[serde(rename = "strict_ca_lockout")]
     pub strict_ca_lockout: Option<bool>,

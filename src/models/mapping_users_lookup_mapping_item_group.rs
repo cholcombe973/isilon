@@ -32,7 +32,7 @@ pub struct MappingUsersLookupMappingItemGroup {
     pub generated_upn: Option<bool>,
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "gid")]
-    pub gid: Option<::models::AuthAccessAccessItemFileGroup>,
+    pub gid: Option <crate::models::AuthAccessAccessItemFileGroup>,
     #[serde(rename = "home_directory")]
     pub home_directory: Option<String>,
     /// Specifies the user or group ID.
@@ -45,18 +45,18 @@ pub struct MappingUsersLookupMappingItemGroup {
     #[serde(rename = "max_password_age")]
     pub max_password_age: Option<i32>,
     #[serde(rename = "member_of")]
-    pub member_of: Option<Vec<::models::AuthAccessAccessItemFileGroup>>,
+    pub member_of: Option<Vec <crate::models::AuthAccessAccessItemFileGroup>>,
     /// Specifies a user or group name.
     #[serde(rename = "name")]
     pub name: String,
     #[serde(rename = "object_history")]
-    pub object_history: Option<Vec<::models::AuthGroupObjectHistoryItem>>,
+    pub object_history: Option<Vec <crate::models::AuthGroupObjectHistoryItem>>,
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "on_disk_group_identity")]
-    pub on_disk_group_identity: Option<::models::AuthAccessAccessItemFileGroup>,
+    pub on_disk_group_identity: Option <crate::models::AuthAccessAccessItemFileGroup>,
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "on_disk_user_identity")]
-    pub on_disk_user_identity: Option<::models::AuthAccessAccessItemFileGroup>,
+    pub on_disk_user_identity: Option <crate::models::AuthAccessAccessItemFileGroup>,
     /// If true, the password has expired.
     #[serde(rename = "password_expired")]
     pub password_expired: Option<bool>,
@@ -69,7 +69,7 @@ pub struct MappingUsersLookupMappingItemGroup {
     pub password_last_set: Option<i32>,
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "primary_group_sid")]
-    pub primary_group_sid: Option<::models::AuthAccessAccessItemFileGroup>,
+    pub primary_group_sid: Option <crate::models::AuthAccessAccessItemFileGroup>,
     /// If true, prompts the user to change their password on next login.
     #[serde(rename = "prompt_password_change")]
     pub prompt_password_change: Option<bool>,
@@ -81,13 +81,13 @@ pub struct MappingUsersLookupMappingItemGroup {
     pub shell: Option<String>,
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "sid")]
-    pub sid: Option<::models::AuthAccessAccessItemFileGroup>,
+    pub sid: Option <crate::models::AuthAccessAccessItemFileGroup>,
     /// Specifies the object type.
     #[serde(rename = "type")]
     pub _type: String,
     /// Specifies properties for a persona, which consists of either a 'type' and a 'name' or an 'ID'.
     #[serde(rename = "uid")]
-    pub uid: Option<::models::AuthAccessAccessItemFileGroup>,
+    pub uid: Option <crate::models::AuthAccessAccessItemFileGroup>,
     #[serde(rename = "upn")]
     pub upn: Option<String>,
     /// If true, the user password can be changed.

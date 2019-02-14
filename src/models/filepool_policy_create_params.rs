@@ -5,7 +5,7 @@ use serde_json::Value;
 pub struct FilepoolPolicyCreateParams {
     /// A list of actions to be taken for matching files
     #[serde(rename = "actions")]
-    pub actions: Option<Vec<::models::FilepoolDefaultPolicyAction>>,
+    pub actions: Option<Vec <crate::models::FilepoolDefaultPolicyAction>>,
     /// The order in which this policy should be applied (relative to other policies)
     #[serde(rename = "apply_order")]
     pub apply_order: Option<i32>,
@@ -14,7 +14,7 @@ pub struct FilepoolPolicyCreateParams {
     pub description: Option<String>,
     /// The file matching rules for this policy
     #[serde(rename = "file_matching_pattern")]
-    pub file_matching_pattern: ::models::FilepoolPolicyFileMatchingPattern,
+    pub file_matching_pattern:crate::models::FilepoolPolicyFileMatchingPattern,
     /// A unique name for this policy
     #[serde(rename = "name")]
     pub name: String,

@@ -4,5 +4,5 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CopyErrors {
     #[serde(rename = "copy_errors")]
-    pub copy_errors: Option<Vec<::models::CopyErrorsCopyErrors>>,
+    pub copy_errors: Option<Vec <crate::models::CopyErrorsCopyErrors>>,
 }

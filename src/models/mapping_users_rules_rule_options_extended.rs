@@ -8,7 +8,7 @@ pub struct MappingUsersRulesRuleOptionsExtended {
     pub _break: Option<bool>,
     ///
     #[serde(rename = "default_user")]
-    pub default_user: Option<::models::MappingUsersRulesRuleOptionsDefaultUser>,
+    pub default_user: Option <crate::models::MappingUsersRulesRuleOptionsDefaultUser>,
     /// If true, the primary GID and primary group SID should be copied to the existing credential.
     #[serde(rename = "group")]
     pub group: Option<bool>,

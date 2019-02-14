@@ -4,7 +4,7 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SmbSharesExtended {
     #[serde(rename = "shares")]
-    pub shares: Option<Vec<::models::SmbShareExtended>>,
+    pub shares: Option<Vec <crate::models::SmbShareExtended>>,
     /// An identifier for a set of shares.
     #[serde(rename = "digest")]
     pub digest: Option<String>,

@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct SettingsAccessTime {
     ///
     #[serde(rename = "settings")]
-    pub settings: Option<::models::SettingsAccessTimeSettings>,
+    pub settings: Option <crate::models::SettingsAccessTimeSettings>,
 }

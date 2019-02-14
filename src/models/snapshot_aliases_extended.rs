@@ -4,7 +4,7 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SnapshotAliasesExtended {
     #[serde(rename = "aliases")]
-    pub aliases: Option<Vec<::models::SnapshotAliasExtended>>,
+    pub aliases: Option<Vec <crate::models::SnapshotAliasExtended>>,
     /// Resume token value to use in subsequent calls for continuation.
     #[serde(rename = "resume")]
     pub resume: Option<String>,

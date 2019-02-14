@@ -44,7 +44,7 @@ pub struct SyncPolicyExtendedExtended {
     pub expected_dataloss: Option<bool>,
     /// A file matching pattern, organized as an OR'ed set of AND'ed file criteria, for example ((a AND b) OR (x AND y)) used to define a set of files with specific properties.  Policies of type 'sync' cannot use 'path' or time criteria in their matching patterns, but policies of type 'copy' can use all listed criteria.
     #[serde(rename = "file_matching_pattern")]
-    pub file_matching_pattern: Option<::models::SyncJobPolicyFileMatchingPattern>,
+    pub file_matching_pattern: Option <crate::models::SyncJobPolicyFileMatchingPattern>,
     /// NOTE: This field should not be changed without the help of Isilon support.  Determines whether data is sent only through the subnet and pool specified in the \"source_network\" field. This option can be useful if there are multiple interfaces for the given source subnet.  If you enable this option, the net.inet.ip.choose_ifa_by_ipsrc sysctl should be set.
     #[serde(rename = "force_interface")]
     pub force_interface: Option<bool>,
@@ -118,7 +118,7 @@ pub struct SyncPolicyExtendedExtended {
     pub source_include_directories: Option<Vec<String>>,
     /// Restricts replication policies on the local cluster to running on the specified subnet and pool.
     #[serde(rename = "source_network")]
-    pub source_network: Option<::models::SyncPolicySourceNetwork>,
+    pub source_network: Option <crate::models::SyncPolicySourceNetwork>,
     /// The root directory on the source cluster the files will be synced from.  Modifying this field will result in a full synchronization of all data.
     #[serde(rename = "source_root_path")]
     pub source_root_path: String,

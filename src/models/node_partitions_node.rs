@@ -17,7 +17,7 @@ pub struct NodePartitionsNode {
     pub lnn: Option<i32>,
     /// Partition information.
     #[serde(rename = "partitions")]
-    pub partitions: Option<Vec<::models::NodePartitionsNodePartition>>,
+    pub partitions: Option<Vec <crate::models::NodePartitionsNodePartition>>,
     /// Status of the HTTP response from this node if not 200.  If 200, this field does not appear.
     #[serde(rename = "status")]
     pub status: Option<i32>,

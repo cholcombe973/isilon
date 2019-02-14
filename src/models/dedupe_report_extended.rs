@@ -20,5 +20,5 @@ pub struct DedupeReportExtended {
     pub job_type: Option<String>,
     /// A list of report entries for this dedupe job.
     #[serde(rename = "reports")]
-    pub reports: Option<Vec<::models::DedupeReport>>,
+    pub reports: Option<Vec <crate::models::DedupeReport>>,
 }

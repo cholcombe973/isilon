@@ -17,5 +17,5 @@ pub struct StoragepoolTierExtended {
     pub lnns: Vec<i32>,
     /// Total pool usage.
     #[serde(rename = "usage")]
-    pub usage: ::models::StoragepoolTierUsage,
+    pub usage:crate::models::StoragepoolTierUsage,
 }

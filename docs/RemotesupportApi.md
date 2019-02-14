@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **get_remotesupport_connectemc**
-> ::models::RemotesupportConnectemc get_remotesupport_connectemc(ctx, )
+>crate::models::RemotesupportConnectemc get_remotesupport_connectemc(ctx, )
 
 
 List all settings.

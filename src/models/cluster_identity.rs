@@ -10,7 +10,7 @@ pub struct ClusterIdentity {
     pub description: String,
     /// The information displayed when a user logs in to the cluster.
     #[serde(rename = "logon")]
-    pub logon: ::models::ClusterIdentityLogon,
+    pub logon:crate::models::ClusterIdentityLogon,
     /// Enum to control the display message about the MTTDL of the cluster. This does NOT change the MTTDL of a cluster in anyway, and is purely a value for displaying messages.
     #[serde(rename = "mttdl_level_msg")]
     pub mttdl_level_msg: String,

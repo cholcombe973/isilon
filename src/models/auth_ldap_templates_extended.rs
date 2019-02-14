@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct AuthLdapTemplatesExtended {
     #[serde(rename = "ldap_configuration_templates")]
     pub ldap_configuration_templates:
-        Option<Vec<::models::AuthLdapTemplatesLdapConfigurationTemplate>>,
+        Option<Vec <crate::models::AuthLdapTemplatesLdapConfigurationTemplate>>,
 }

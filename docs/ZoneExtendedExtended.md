@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **groupnet** | **String** | Groupnet identitier | [optional] [default to null]
 **home_directory_umask** | **i32** | Specifies the permissions set on automatically created user home directories. | [optional] [default to null]
 **id** | **String** | Specifies the system-assigned ID for the access zone. This value is returned when an access zone is created through the POST method | [optional] [default to null]
-**ifs_restricted** | [**Vec<::models::AuthAccessAccessItemFileGroup>**](AuthAccessAccessItemFileGroup.md) | Specifies a list of users and groups that have read and write access to /ifs. | [optional] [default to null]
+**ifs_restricted** | [**Vec <crate::models::AuthAccessAccessItemFileGroup>**](AuthAccessAccessItemFileGroup.md) | Specifies a list of users and groups that have read and write access to /ifs. | [optional] [default to null]
 **map_untrusted** | **String** | Maps untrusted domains to this NetBIOS domain during authentication. | [optional] [default to null]
 **name** | **String** | Specifies the access zone name. | [optional] [default to null]
 **negative_cache_entry_expiry** | **i32** | Specifies number of seconds the negative cache entry is valid. | [optional] [default to null]

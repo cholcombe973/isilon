@@ -11,7 +11,7 @@ pub struct SmbSettingsGlobalExtended {
     pub audit_fileshare: Option<String>,
     /// Specifies a list of permissions to audit.
     #[serde(rename = "audit_global_sacl")]
-    pub audit_global_sacl: Option<Vec<::models::SmbSettingsGlobalSettingsAuditGlobalSaclItem>>,
+    pub audit_global_sacl: Option<Vec <crate::models::SmbSettingsGlobalSettingsAuditGlobalSaclItem>>,
     /// Specify the level of logon audit events to log.
     #[serde(rename = "audit_logon")]
     pub audit_logon: Option<String>,

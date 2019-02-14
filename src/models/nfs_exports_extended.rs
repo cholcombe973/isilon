@@ -4,7 +4,7 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NfsExportsExtended {
     #[serde(rename = "exports")]
-    pub exports: Option<Vec<::models::NfsExportExtended>>,
+    pub exports: Option<Vec <crate::models::NfsExportExtended>>,
     /// An identifier for a set of exports.
     #[serde(rename = "digest")]
     pub digest: Option<String>,

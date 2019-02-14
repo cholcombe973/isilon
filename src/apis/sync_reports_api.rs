@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, query, Error};
 
-pub struct SyncReportsApiClient<C: hyper::client::Connect> {
+pub struct SyncReportsApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> SyncReportsApiClient<C> {
+impl<C: hyper::client::connect::Connect> SyncReportsApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> SyncReportsApiClient<C> {
         SyncReportsApiClient {
             configuration: configuration,
@@ -35,7 +34,7 @@ pub trait SyncReportsApi {
         &self,
         report_subreport_id: &str,
         rid: &str,
-    ) -> Box<Future<Item = ::models::ReportSubreports, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ReportSubreports, Error = Error>>;
     fn get_report_subreports(
         &self,
         rid: &str,
@@ -45,47 +44,26 @@ pub trait SyncReportsApi {
         state: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::ReportSubreportsExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::ReportSubreportsExtended, Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> SyncReportsApi for SyncReportsApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> SyncReportsApi for SyncReportsApiClient<C> {
     fn get_report_subreport(
         &self,
         report_subreport_id: &str,
         rid: &str,
-    ) -> Box<Future<Item = ::models::ReportSubreports, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::ReportSubreports, Error = Error>> {
         let uri_str = format!(
             "{}/platform/4/sync/reports/{Rid}/subreports/{ReportSubreportId}",
-            configuration.base_path,
+            self.configuration.base_path,
             ReportSubreportId = report_subreport_id,
             Rid = rid
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ReportSubreports, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -98,12 +76,8 @@ impl<C: hyper::client::Connect> SyncReportsApi for SyncReportsApiClient<C> {
         state: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::ReportSubreportsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::ReportSubreportsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("resume", &resume.to_string())
             .append_pair("newer_than", &newer_than.to_string())
@@ -113,32 +87,15 @@ impl<C: hyper::client::Connect> SyncReportsApi for SyncReportsApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/4/sync/reports/{Rid}/subreports?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             Rid = rid
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ReportSubreportsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 }

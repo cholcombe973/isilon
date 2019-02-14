@@ -7,10 +7,10 @@ use serde_json::Value;
 pub struct DebugStats {
     /// Per-method statistics.
     #[serde(rename = "DESCRIBE")]
-    pub describe: Option<::models::DebugStatsUnknown>,
+    pub describe: Option <crate::models::DebugStatsUnknown>,
     /// Per-method statistics.
     #[serde(rename = "UNKNOWN")]
-    pub unknown: Option<::models::DebugStatsUnknown>,
+    pub unknown: Option <crate::models::DebugStatsUnknown>,
     #[serde(rename = "handlers")]
-    pub handlers: Option<Vec<::models::DebugStatsHandler>>,
+    pub handlers: Option<Vec <crate::models::DebugStatsHandler>>,
 }

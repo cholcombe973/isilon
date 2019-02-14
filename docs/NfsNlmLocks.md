@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**locks** | [**Vec<::models::NfsNlmLocksLock>**](NfsNlmLocksLock.md) |  | [optional] [default to null]
+**locks** | [**Vec <crate::models::NfsNlmLocksLock>**](NfsNlmLocksLock.md) |  | [optional] [default to null]
 **resume** | **String** | Continue returning results from previous call using this token (token should come from the previous call, resume cannot be used with other options). | [optional] [default to null]
 **total** | **i32** | Total number of items available. | [optional] [default to null]
 

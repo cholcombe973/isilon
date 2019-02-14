@@ -17,7 +17,7 @@ pub struct ClusterNodeDrive {
     pub devname: Option<String>,
     /// Drive firmware information.
     #[serde(rename = "firmware")]
-    pub firmware: Option<::models::NodeDrivesNodeDriveFirmware>,
+    pub firmware: Option <crate::models::NodeDrivesNodeDriveFirmware>,
     /// Drive_d's handle representation for this drive
     #[serde(rename = "handle")]
     pub handle: Option<i32>,

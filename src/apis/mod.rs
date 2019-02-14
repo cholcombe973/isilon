@@ -1,8 +1,11 @@
 use cookie;
-use hyper;
+use futures::{Future, Stream};
+use hyper::{self, header::HeaderName, header::HeaderValue, Request};
 use reqwest;
+use serde::{de::DeserializeOwned, Serialize};
 use serde_json;
 
+use std::collections::HashMap;
 use std::error::Error as err;
 use std::io;
 
@@ -37,7 +40,7 @@ impl err for Error {
         }
     }
 
-    fn cause(&self) -> Option<&::std::error::Error> {
+    fn cause(&self) -> Option<&dyn ::std::error::Error> {
         match *self {
             Error::E(_) => None,
             Error::Cookie(ref e) => e.cause(),
@@ -85,8 +88,6 @@ impl From<serde_json::Error> for Error {
         return Error::Serde(e);
     }
 }
-
-use super::models::*;
 
 mod antivirus_api;
 pub use self::antivirus_api::{AntivirusApi, AntivirusApiClient};
@@ -191,3 +192,115 @@ pub use self::zones_summary_api::{ZonesSummaryApi, ZonesSummaryApiClient};
 
 pub mod client;
 pub mod configuration;
+
+fn query<T, R, C: hyper::client::connect::Connect + 'static>(
+    config: &configuration::Configuration<C>,
+    url: &str,
+    body: &T,
+    method: hyper::Method,
+) -> Box<dyn Future<Item = R, Error = Error>>
+where
+    T: Serialize,
+    R: DeserializeOwned + 'static,
+{
+    let serialized = serde_json::to_string(&body).unwrap();
+    let body = hyper::Body::from(serialized);
+    let mut req = Request::builder()
+        .method(method)
+        .uri(url)
+        .header(
+            hyper::header::CONTENT_TYPE,
+            HeaderValue::from_static("Application/json"),
+        )
+        .body(body)
+        .unwrap();
+    config.set_session(&mut req).unwrap();
+
+    Box::new(
+        config
+            .client
+            .request(req)
+            .and_then(|res| res.into_body().concat2())
+            .map_err(|e| Error::from(e))
+            .and_then(|ref body| {
+                let parsed: Result<R, _> = serde_json::from_slice(&body);
+                parsed.map_err(|e| Error::from(e))
+            })
+            .map_err(|e| Error::from(e)),
+    )
+}
+
+fn put<T, C: hyper::client::connect::Connect + 'static>(
+    config: &configuration::Configuration<C>,
+    url: &str,
+    body: &T,
+) -> Box<dyn Future<Item = (), Error = Error>>
+where
+    T: Serialize,
+{
+    let serialized = serde_json::to_string(&body).unwrap();
+    let body = hyper::Body::from(serialized);
+    let mut req = Request::builder()
+        .method(hyper::Method::PUT)
+        .uri(url)
+        .header(
+            hyper::header::CONTENT_TYPE,
+            HeaderValue::from_static("Application/json"),
+        )
+        .body(body)
+        .unwrap();
+    config.set_session(&mut req).unwrap();
+
+    Box::new(
+        config
+            .client
+            .request(req)
+            .and_then(|res| res.into_body().concat2())
+            .map_err(|e| Error::from(e))
+            .and_then(|_| futures::future::ok(())),
+    )
+}
+
+fn custom_query<T, R, C: hyper::client::connect::Connect + 'static>(
+    config: &configuration::Configuration<C>,
+    url: &str,
+    body: &T,
+    method: hyper::Method,
+    headers: HashMap<String, String>,
+) -> Box<dyn Future<Item = R, Error = Error>>
+where
+    T: Serialize,
+    R: DeserializeOwned + 'static,
+{
+    let serialized = serde_json::to_string(&body).unwrap();
+    let body = hyper::Body::from(serialized.clone());
+    let mut req = Request::builder();
+    req.method(method);
+    req.uri(url);
+    req.header(
+        hyper::header::CONTENT_TYPE,
+        HeaderValue::from_static("Application/json"),
+    );
+    for (key, value) in headers {
+        req.header(
+            HeaderName::from_bytes(&key.as_bytes()).unwrap(),
+            HeaderValue::from_str(&value).unwrap(),
+        );
+    }
+
+    let mut req = req.body(body).unwrap();
+    config.set_session(&mut req).unwrap();
+
+    Box::new(
+        config
+            .client
+            .request(req)
+            .and_then(|res| res.into_body().concat2())
+            .map_err(|e| Error::from(e))
+            .and_then(|ref body| {
+                let parsed: Result<R, _> = serde_json::from_slice(&body);
+                parsed.map_err(|e| Error::from(e))
+            })
+            .map_err(|e| Error::from(e)),
+    )
+}

@@ -43,10 +43,10 @@ pub struct NfsExport {
     pub link_max: Option<i32>,
     /// User and group mapping.
     #[serde(rename = "map_all")]
-    pub map_all: Option<::models::NfsSettingsExportSettingsMapAll>,
+    pub map_all: Option <crate::models::NfsSettingsExportSettingsMapAll>,
     /// User and group mapping.
     #[serde(rename = "map_failure")]
-    pub map_failure: Option<::models::NfsSettingsExportSettingsMapAll>,
+    pub map_failure: Option <crate::models::NfsSettingsExportSettingsMapAll>,
     /// True if user mappings query the OneFS user database. When set to false, user mappings only query local authentication.
     #[serde(rename = "map_full")]
     pub map_full: Option<bool>,
@@ -55,13 +55,13 @@ pub struct NfsExport {
     pub map_lookup_uid: Option<bool>,
     /// User and group mapping.
     #[serde(rename = "map_non_root")]
-    pub map_non_root: Option<::models::NfsSettingsExportSettingsMapAll>,
+    pub map_non_root: Option <crate::models::NfsSettingsExportSettingsMapAll>,
     /// Determines whether searches for users specified in 'map_all', 'map_root' or 'map_nonroot' are retried if the search fails.
     #[serde(rename = "map_retry")]
     pub map_retry: Option<bool>,
     /// User and group mapping.
     #[serde(rename = "map_root")]
-    pub map_root: Option<::models::NfsSettingsExportSettingsMapAll>,
+    pub map_root: Option <crate::models::NfsSettingsExportSettingsMapAll>,
     /// Specifies the maximum file size for any file accessed from the export. This parameter does not affect server behavior, but is included to accommodate legacy client requirements.
     #[serde(rename = "max_file_size")]
     pub max_file_size: Option<i32>,

@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct MappingUsersRulesParameters {
     ///
     #[serde(rename = "default_unix_user")]
-    pub default_unix_user: Option<::models::MappingUsersRulesParametersDefaultUnixUser>,
+    pub default_unix_user: Option <crate::models::MappingUsersRulesParametersDefaultUnixUser>,
 }

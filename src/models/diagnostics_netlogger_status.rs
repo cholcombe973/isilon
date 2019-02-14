@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct DiagnosticsNetloggerStatus {
     ///
     #[serde(rename = "netlogger")]
-    pub netlogger: Option<::models::DiagnosticsGatherStatusGather>,
+    pub netlogger: Option <crate::models::DiagnosticsGatherStatusGather>,
 }

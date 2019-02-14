@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **get_ads_provider_controllers**
-> ::models::AdsProviderControllers get_ads_provider_controllers(ctx, id, optional)
+>crate::models::AdsProviderControllers get_ads_provider_controllers(ctx, id, optional)
 
 
 List all ADS controllers.
@@ -48,7 +48,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ads_provider_domain**
-> ::models::AdsProviderDomains get_ads_provider_domain(ctx, ads_provider_domain_id, id)
+>crate::models::AdsProviderDomains get_ads_provider_domain(ctx, ads_provider_domain_id, id)
 
 
 Retrieve the ADS domain information.
@@ -77,7 +77,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ads_provider_domains**
-> ::models::AdsProviderDomains get_ads_provider_domains(ctx, id, optional)
+>crate::models::AdsProviderDomains get_ads_provider_domains(ctx, id, optional)
 
 
 List all ADS domains.
@@ -114,7 +114,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_ads_provider_search**
-> ::models::AdsProviderSearch get_ads_provider_search(ctx, id, optional)
+>crate::models::AdsProviderSearch get_ads_provider_search(ctx, id, optional)
 
 
 Retrieve search results.

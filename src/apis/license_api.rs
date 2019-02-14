@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, query, Error};
 
-pub struct LicenseApiClient<C: hyper::client::Connect> {
+pub struct LicenseApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> LicenseApiClient<C> {
+impl<C: hyper::client::connect::Connect> LicenseApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> LicenseApiClient<C> {
         LicenseApiClient {
             configuration: configuration,
@@ -33,61 +32,39 @@ impl<C: hyper::client::Connect> LicenseApiClient<C> {
 pub trait LicenseApi {
     fn create_license_license(
         &self,
-        license_license: ::models::LicenseLicenseCreateParams,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>>;
+        license_license: crate::models::LicenseLicenseCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
     fn get_license_generate(
         &self,
         action: &str,
         licenses_to_include: &str,
         licenses_to_exclude: &str,
         only_these_licenses: &str,
-    ) -> Box<Future<Item = ::models::LicenseGenerate, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::LicenseGenerate, Error = Error>>;
     fn get_license_license(
         &self,
         license_license_id: &str,
-    ) -> Box<Future<Item = ::models::LicenseLicenses, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::LicenseLicenses, Error = Error>>;
     fn list_license_licenses(
         &self,
-    ) -> Box<Future<Item = ::models::LicenseLicensesExtended, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::LicenseLicensesExtended, Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> LicenseApi for LicenseApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> LicenseApi for LicenseApiClient<C> {
     fn create_license_license(
         &self,
-        license_license: ::models::LicenseLicenseCreateParams,
-    ) -> Box<Future<Item = ::models::Empty, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
+        license_license: crate::models::LicenseLicenseCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/5/license/licenses",
+            self.configuration.base_path
+        );
 
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/5/license/licenses", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&license_license).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Empty, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &license_license,
+            hyper::Method::POST,
         )
     }
 
@@ -97,12 +74,8 @@ impl<C: hyper::client::Connect> LicenseApi for LicenseApiClient<C> {
         licenses_to_include: &str,
         licenses_to_exclude: &str,
         only_these_licenses: &str,
-    ) -> Box<Future<Item = ::models::LicenseGenerate, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::LicenseGenerate, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("action", &action.to_string())
             .append_pair("licenses_to_include", &licenses_to_include.to_string())
             .append_pair("licenses_to_exclude", &licenses_to_exclude.to_string())
@@ -110,101 +83,45 @@ impl<C: hyper::client::Connect> LicenseApi for LicenseApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/5/license/generate?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::LicenseGenerate, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn get_license_license(
         &self,
         license_license_id: &str,
-    ) -> Box<Future<Item = ::models::LicenseLicenses, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::LicenseLicenses, Error = Error>> {
         let uri_str = format!(
             "{}/platform/5/license/licenses/{LicenseLicenseId}",
-            configuration.base_path,
+            self.configuration.base_path,
             LicenseLicenseId = license_license_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::LicenseLicenses, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn list_license_licenses(
         &self,
-    ) -> Box<Future<Item = ::models::LicenseLicensesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/5/license/licenses", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::LicenseLicensesExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    ) -> Box<dyn Future<Item = crate::models::LicenseLicensesExtended, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/5/license/licenses",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 }

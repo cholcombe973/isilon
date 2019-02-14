@@ -8,11 +8,11 @@ pub struct MappingUsersRulesRule {
     pub operator: Option<String>,
     /// Specifies the properties for user mapping rules.
     #[serde(rename = "options")]
-    pub options: Option<::models::MappingUsersRulesRuleOptions>,
+    pub options: Option <crate::models::MappingUsersRulesRuleOptions>,
     ///
     #[serde(rename = "user1")]
-    pub user1: Option<::models::MappingUsersRulesRuleUser2>,
+    pub user1: Option <crate::models::MappingUsersRulesRuleUser2>,
     ///
     #[serde(rename = "user2")]
-    pub user2: Option<::models::MappingUsersRulesRuleUser2>,
+    pub user2: Option <crate::models::MappingUsersRulesRuleUser2>,
 }

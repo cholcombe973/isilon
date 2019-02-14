@@ -14,5 +14,5 @@ pub struct TimezoneRegion {
     pub region: Option<String>,
     /// A timezone.
     #[serde(rename = "timezone")]
-    pub timezone: Option<::models::TimezoneRegionTimezone>,
+    pub timezone: Option <crate::models::TimezoneRegionTimezone>,
 }

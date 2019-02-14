@@ -8,7 +8,7 @@ pub struct EventSettingsSettings {
     pub heartbeat_interval: Option<String>,
     /// Specifies start and duration of maintenance period during which no alerts will be sent for new eventgroups.
     #[serde(rename = "maintenance")]
-    pub maintenance: Option<::models::EventSettingsSettingsMaintenance>,
+    pub maintenance: Option <crate::models::EventSettingsSettingsMaintenance>,
     /// Retention period in days
     #[serde(rename = "retention_days")]
     pub retention_days: Option<i32>,

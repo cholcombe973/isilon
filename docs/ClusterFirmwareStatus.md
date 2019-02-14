@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**nodes** | [**Vec<::models::ClusterFirmwareStatusNode>**](ClusterFirmwareStatusNode.md) | List of the firmware status information for all the nodes in the cluster. | [optional] [default to null]
+**nodes** | [**Vec <crate::models::ClusterFirmwareStatusNode>**](ClusterFirmwareStatusNode.md) | List of the firmware status information for all the nodes in the cluster. | [optional] [default to null]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

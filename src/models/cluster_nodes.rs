@@ -7,7 +7,7 @@ use serde_json::Value;
 pub struct ClusterNodes {
     /// The current OneFS version before upgrade.
     #[serde(rename = "error")]
-    pub error: Option<::models::ClusterNodesError>,
+    pub error: Option <crate::models::ClusterNodesError>,
     /// The last action performed to completion/failure on this node.  Null if the node_state is 'committed' or 'assessing.' One of the following values: 'upgrade', 'rollback'.
     #[serde(rename = "last_action")]
     pub last_action: Option<String>,
@@ -22,7 +22,7 @@ pub struct ClusterNodes {
     pub node_state: Option<String>,
     /// The current OneFS version before upgrade.
     #[serde(rename = "onefs_version")]
-    pub onefs_version: Option<::models::ClusterNodesOnefsVersion>,
+    pub onefs_version: Option <crate::models::ClusterNodesOnefsVersion>,
     /// What step is the upgrade, assessment, or rollback in? To show via progress indicator. NOTE: the value is an integer between 0 and 100 (percent)
     #[serde(rename = "progress")]
     pub progress: Option<i32>,

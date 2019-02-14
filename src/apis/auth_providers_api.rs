@@ -12,17 +12,15 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
-
-pub struct AuthProvidersApiClient<C: hyper::client::Connect> {
+use super::{configuration, query, Error};
+pub struct AuthProvidersApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> AuthProvidersApiClient<C> {
+impl<C: hyper::client::connect::Connect> AuthProvidersApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> AuthProvidersApiClient<C> {
         AuthProvidersApiClient {
             configuration: configuration,
@@ -35,17 +33,17 @@ pub trait AuthProvidersApi {
         &self,
         id: &str,
         groupnet: &str,
-    ) -> Box<Future<Item = ::models::AdsProviderControllers, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::AdsProviderControllers, Error = Error>>;
     fn get_ads_provider_domain(
         &self,
         ads_provider_domain_id: &str,
         id: &str,
-    ) -> Box<Future<Item = ::models::AdsProviderDomains, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::AdsProviderDomains, Error = Error>>;
     fn get_ads_provider_domains(
         &self,
         id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::AdsProviderDomains, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::AdsProviderDomains, Error = Error>>;
     fn get_ads_provider_search(
         &self,
         id: &str,
@@ -58,50 +56,30 @@ pub trait AuthProvidersApi {
         user: &str,
         password: &str,
         search_groups: bool,
-    ) -> Box<Future<Item = ::models::AdsProviderSearch, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::AdsProviderSearch, Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> AuthProvidersApi for AuthProvidersApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> AuthProvidersApi for AuthProvidersApiClient<C> {
     fn get_ads_provider_controllers(
         &self,
         id: &str,
         groupnet: &str,
-    ) -> Box<Future<Item = ::models::AdsProviderControllers, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::AdsProviderControllers, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("groupnet", &groupnet.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/auth/providers/ads/{Id}/controllers?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             Id = id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AdsProviderControllers, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -109,39 +87,19 @@ impl<C: hyper::client::Connect> AuthProvidersApi for AuthProvidersApiClient<C> {
         &self,
         ads_provider_domain_id: &str,
         id: &str,
-    ) -> Box<Future<Item = ::models::AdsProviderDomains, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::AdsProviderDomains, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/auth/providers/ads/{Id}/domains/{AdsProviderDomainId}",
-            configuration.base_path,
+            self.configuration.base_path,
             AdsProviderDomainId = ads_provider_domain_id,
             Id = id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AdsProviderDomains, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -149,42 +107,22 @@ impl<C: hyper::client::Connect> AuthProvidersApi for AuthProvidersApiClient<C> {
         &self,
         id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::AdsProviderDomains, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::AdsProviderDomains, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/3/auth/providers/ads/{Id}/domains?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             Id = id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AdsProviderDomains, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -200,12 +138,8 @@ impl<C: hyper::client::Connect> AuthProvidersApi for AuthProvidersApiClient<C> {
         user: &str,
         password: &str,
         search_groups: bool,
-    ) -> Box<Future<Item = ::models::AdsProviderSearch, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::AdsProviderSearch, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("domain", &domain.to_string())
             .append_pair("description", &description.to_string())
             .append_pair("resume", &resume.to_string())
@@ -218,32 +152,16 @@ impl<C: hyper::client::Connect> AuthProvidersApi for AuthProvidersApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/auth/providers/ads/{Id}/search?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             Id = id
         );
 
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::AdsProviderSearch, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 }

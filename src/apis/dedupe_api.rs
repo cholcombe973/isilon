@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, put, query, Error};
 
-pub struct DedupeApiClient<C: hyper::client::Connect> {
+pub struct DedupeApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> DedupeApiClient<C> {
+impl<C: hyper::client::connect::Connect> DedupeApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> DedupeApiClient<C> {
         DedupeApiClient {
             configuration: configuration,
@@ -33,12 +32,12 @@ impl<C: hyper::client::Connect> DedupeApiClient<C> {
 pub trait DedupeApi {
     fn get_dedupe_dedupe_summary(
         &self,
-    ) -> Box<Future<Item = ::models::DedupeDedupeSummary, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::DedupeDedupeSummary, Error = Error>>;
     fn get_dedupe_report(
         &self,
         dedupe_report_id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::DedupeReports, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::DedupeReports, Error = Error>>;
     fn get_dedupe_reports(
         &self,
         sort: &str,
@@ -49,48 +48,29 @@ pub trait DedupeApi {
         job_type: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::DedupeReportsExtended, Error = Error>>;
-    fn get_dedupe_settings(&self) -> Box<Future<Item = ::models::DedupeSettings, Error = Error>>;
+    ) -> Box<dyn Future<Item = crate::models::DedupeReportsExtended, Error = Error>>;
+    fn get_dedupe_settings(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::DedupeSettings, Error = Error>>;
     fn update_dedupe_settings(
         &self,
-        dedupe_settings: ::models::DedupeSettingsExtended,
-    ) -> Box<Future<Item = (), Error = Error>>;
+        dedupe_settings: crate::models::DedupeSettingsExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> DedupeApi for DedupeApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> DedupeApi for DedupeApiClient<C> {
     fn get_dedupe_dedupe_summary(
         &self,
-    ) -> Box<Future<Item = ::models::DedupeDedupeSummary, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    ) -> Box<dyn Future<Item = crate::models::DedupeDedupeSummary, Error = Error>> {
         let uri_str = format!(
             "{}/platform/1/dedupe/dedupe-summary",
-            configuration.base_path
+            self.configuration.base_path
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::DedupeDedupeSummary, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -98,41 +78,21 @@ impl<C: hyper::client::Connect> DedupeApi for DedupeApiClient<C> {
         &self,
         dedupe_report_id: &str,
         scope: &str,
-    ) -> Box<Future<Item = ::models::DedupeReports, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::DedupeReports, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
         let uri_str = format!(
             "{}/platform/1/dedupe/reports/{DedupeReportId}?{}",
-            configuration.base_path,
-            query,
+            self.configuration.base_path,
+            q,
             DedupeReportId = dedupe_report_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::DedupeReports, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
@@ -146,12 +106,8 @@ impl<C: hyper::client::Connect> DedupeApi for DedupeApiClient<C> {
         job_type: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<Future<Item = ::models::DedupeReportsExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
+    ) -> Box<dyn Future<Item = crate::models::DedupeReportsExtended, Error = Error>> {
+        let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("begin", &begin.to_string())
             .append_pair("end", &end.to_string())
@@ -163,95 +119,40 @@ impl<C: hyper::client::Connect> DedupeApi for DedupeApiClient<C> {
             .finish();
         let uri_str = format!(
             "{}/platform/1/dedupe/reports?{}",
-            configuration.base_path, query
+            self.configuration.base_path, q
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::DedupeReportsExtended, _> =
-                        serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn get_dedupe_settings(&self) -> Box<Future<Item = ::models::DedupeSettings, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/1/dedupe/settings", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::DedupeSettings, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn get_dedupe_settings(
+        &self,
+    ) -> Box<dyn Future<Item = crate::models::DedupeSettings, Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/1/dedupe/settings",
+            self.configuration.base_path
+        );
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn update_dedupe_settings(
         &self,
-        dedupe_settings: ::models::DedupeSettingsExtended,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
+        dedupe_settings: crate::models::DedupeSettingsExtended,
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
+        let uri_str = format!(
+            "{}/platform/1/dedupe/settings",
+            self.configuration.base_path
+        );
 
-        let method = hyper::Method::Put;
-
-        let uri_str = format!("{}/platform/1/dedupe/settings", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&dedupe_settings).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
-        )
+        put(self.configuration.borrow(), &uri_str, &dedupe_settings)
     }
 }

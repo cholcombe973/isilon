@@ -4,5 +4,5 @@ use serde_json::Value;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SummaryDrive {
     #[serde(rename = "drive")]
-    pub drive: Option<Vec<::models::SummaryDriveDriveItem>>,
+    pub drive: Option<Vec <crate::models::SummaryDriveDriveItem>>,
 }

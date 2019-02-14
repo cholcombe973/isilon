@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 
 # **create_quota_notification**
-> ::models::CreateResponse create_quota_notification(ctx, quota_notification, qid)
+>crate::models::CreateResponse create_quota_notification(ctx, quota_notification, qid)
 
 
 Create a new notification rule specific to this quota.
@@ -100,7 +100,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_quota_notification**
-> ::models::QuotaNotifications get_quota_notification(ctx, quota_notification_id, qid)
+>crate::models::QuotaNotifications get_quota_notification(ctx, quota_notification_id, qid)
 
 
 Retrieve notification rule information.
@@ -129,7 +129,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_quota_notifications**
-> ::models::QuotaNotificationsExtended list_quota_notifications(ctx, qid)
+>crate::models::QuotaNotificationsExtended list_quota_notifications(ctx, qid)
 
 
 List all rules.

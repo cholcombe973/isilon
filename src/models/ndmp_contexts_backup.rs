@@ -18,7 +18,7 @@ pub struct NdmpContextsBackup {
     #[serde(rename = "path")]
     pub path: Option<String>,
     #[serde(rename = "sessions")]
-    pub sessions: Option<Vec<::models::NdmpContextsBackupSession>>,
+    pub sessions: Option<Vec <crate::models::NdmpContextsBackupSession>>,
     /// Snapshot ID reserved for the context. This is not applicable to restore contexts.
     #[serde(rename = "snapid")]
     pub snapid: Option<i32>,

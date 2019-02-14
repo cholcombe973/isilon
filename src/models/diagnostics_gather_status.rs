@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct DiagnosticsGatherStatus {
     ///
     #[serde(rename = "gather")]
-    pub gather: Option<::models::DiagnosticsGatherStatusGather>,
+    pub gather: Option <crate::models::DiagnosticsGatherStatusGather>,
 }

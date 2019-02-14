@@ -14,7 +14,7 @@ pub struct NodeSensorsNode {
     pub lnn: Option<i32>,
     /// This node's sensor information.
     #[serde(rename = "sensors")]
-    pub sensors: Option<Vec<::models::NodeSensorsNodeSensor>>,
+    pub sensors: Option<Vec <crate::models::NodeSensorsNodeSensor>>,
     /// Status of the HTTP response from this node if not 200.  If 200, this field does not appear.
     #[serde(rename = "status")]
     pub status: Option<i32>,

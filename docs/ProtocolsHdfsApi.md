@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **create_proxyusers_name_member**
-> ::models::Empty create_proxyusers_name_member(ctx, proxyusers_name_member, name, optional)
+>crate::models::Empty create_proxyusers_name_member(ctx, proxyusers_name_member, name, optional)
 
 
 Add a member to the HDFS proxyuser.
@@ -89,7 +89,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_proxyusers_name_members**
-> ::models::GroupMembers list_proxyusers_name_members(ctx, name, optional)
+>crate::models::GroupMembers list_proxyusers_name_members(ctx, name, optional)
 
 
 List all the members of the HDFS proxyuser.

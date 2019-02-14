@@ -8,5 +8,5 @@ pub struct NodeDriveconfigExtended {
     /// Configuration settings for automatic replacement recognition (ARR).
     #[serde(rename = "automatic_replacement_recognition")]
     pub automatic_replacement_recognition:
-        Option<::models::NodeDriveconfigNodeAutomaticReplacementRecognition>,
+        Option <crate::models::NodeDriveconfigNodeAutomaticReplacementRecognition>,
 }

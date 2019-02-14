@@ -5,7 +5,7 @@ use serde_json::Value;
 pub struct NodeDrivesNode {
     /// List of the drives in this node.
     #[serde(rename = "drives")]
-    pub drives: Option<Vec<::models::NodeDrivesNodeDrive>>,
+    pub drives: Option<Vec <crate::models::NodeDrivesNodeDrive>>,
     /// Error message, if the HTTP status returned from this node was not 200.
     #[serde(rename = "error")]
     pub error: Option<String>,

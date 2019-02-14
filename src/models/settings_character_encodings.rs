@@ -5,5 +5,5 @@ use serde_json::Value;
 pub struct SettingsCharacterEncodings {
     ///
     #[serde(rename = "settings")]
-    pub settings: Option<::models::SettingsCharacterEncodingsSettings>,
+    pub settings: Option <crate::models::SettingsCharacterEncodingsSettings>,
 }

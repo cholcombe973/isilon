@@ -12,17 +12,16 @@ use std::borrow::Borrow;
 use std::rc::Rc;
 
 use futures;
-use futures::{Future, Stream};
+use futures::Future;
 use hyper;
-use serde_json;
 
-use super::{configuration, Error};
+use super::{configuration, query, Error};
 
-pub struct ZonesApiClient<C: hyper::client::Connect> {
+pub struct ZonesApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> ZonesApiClient<C> {
+impl<C: hyper::client::connect::Connect> ZonesApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> ZonesApiClient<C> {
         ZonesApiClient {
             configuration: configuration,
@@ -33,189 +32,89 @@ impl<C: hyper::client::Connect> ZonesApiClient<C> {
 pub trait ZonesApi {
     fn create_zone(
         &self,
-        zone: ::models::ZoneCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>>;
-    fn delete_zone(&self, zone_id: i32) -> Box<Future<Item = (), Error = Error>>;
-    fn get_zone(&self, zone_id: i32) -> Box<Future<Item = ::models::Zones, Error = Error>>;
-    fn list_zones(&self) -> Box<Future<Item = ::models::ZonesExtended, Error = Error>>;
+        zone: crate::models::ZoneCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
+    fn delete_zone(&self, zone_id: i32) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn get_zone(&self, zone_id: i32)
+        -> Box<dyn Future<Item = crate::models::Zones, Error = Error>>;
+    fn list_zones(&self) -> Box<dyn Future<Item = crate::models::ZonesExtended, Error = Error>>;
     fn update_zone(
         &self,
-        zone: ::models::Zone,
+        zone: crate::models::Zone,
         zone_id: i32,
-    ) -> Box<Future<Item = (), Error = Error>>;
+    ) -> Box<dyn Future<Item = (), Error = Error>>;
 }
 
-impl<C: hyper::client::Connect> ZonesApi for ZonesApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static> ZonesApi for ZonesApiClient<C> {
     fn create_zone(
         &self,
-        zone: ::models::ZoneCreateParams,
-    ) -> Box<Future<Item = ::models::CreateResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/platform/3/zones", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&zone).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::CreateResponse, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        zone: crate::models::ZoneCreateParams,
+    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+        let uri_str = format!("{}/platform/3/zones", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &zone,
+            hyper::Method::POST,
         )
     }
 
-    fn delete_zone(&self, zone_id: i32) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
+    fn delete_zone(&self, zone_id: i32) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/zones/{ZoneId}",
-            configuration.base_path,
+            self.configuration.base_path,
             ZoneId = zone_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::DELETE,
         )
     }
 
-    fn get_zone(&self, zone_id: i32) -> Box<Future<Item = ::models::Zones, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
+    fn get_zone(
+        &self,
+        zone_id: i32,
+    ) -> Box<dyn Future<Item = crate::models::Zones, Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/zones/{ZoneId}",
-            configuration.base_path,
+            self.configuration.base_path,
             ZoneId = zone_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::Zones, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
-    fn list_zones(&self) -> Box<Future<Item = ::models::ZonesExtended, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/platform/3/zones", configuration.base_path);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|body| {
-                    let parsed: Result<::models::ZonesExtended, _> = serde_json::from_slice(&body);
-                    parsed.map_err(|e| Error::from(e))
-                })
-                .map_err(|e| Error::from(e)),
+    fn list_zones(&self) -> Box<dyn Future<Item = crate::models::ZonesExtended, Error = Error>> {
+        let uri_str = format!("{}/platform/3/zones", self.configuration.base_path);
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &"",
+            hyper::Method::GET,
         )
     }
 
     fn update_zone(
         &self,
-        zone: ::models::Zone,
+        zone: crate::models::Zone,
         zone_id: i32,
-    ) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
+    ) -> Box<dyn Future<Item = (), Error = Error>> {
         let uri_str = format!(
             "{}/platform/3/zones/{ZoneId}",
-            configuration.base_path,
+            self.configuration.base_path,
             ZoneId = zone_id
         );
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-        configuration.set_session(&mut req).unwrap();
-
-        let serialized = serde_json::to_string(&zone).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut()
-            .set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-            configuration
-                .client
-                .request(req)
-                .and_then(|res| res.body().concat2())
-                .map_err(|e| Error::from(e))
-                .and_then(|_| futures::future::ok(())),
+        query(
+            self.configuration.borrow(),
+            &uri_str,
+            &zone,
+            hyper::Method::PUT,
         )
     }
 }
