@@ -193,12 +193,12 @@ pub use self::zones_summary_api::{ZonesSummaryApi, ZonesSummaryApiClient};
 pub mod client;
 pub mod configuration;
 
-fn query<T, R, C: hyper::client::connect::Connect + 'static>(
+async fn query<T, R, C: hyper::client::connect::Connect + 'static>(
     config: &configuration::Configuration<C>,
     url: &str,
     body: &T,
     method: hyper::Method,
-) -> Box<dyn Future<Item = R, Error = Error>>
+) -> Result<R, Error>
 where
     T: Serialize,
     R: DeserializeOwned + 'static,
@@ -215,8 +215,12 @@ where
         .body(body)
         .unwrap();
     config.set_session(&mut req).unwrap();
+    let res = config.client.request(req).await?;
+    let body = hyper::body::to_bytes(res.into_body()).await?;
+    let parsed: Result<R, _> = serde_json::from_slice(&body);
+    parsed
 
-    Box::new(
+    /*Box::new(
         config
             .client
             .request(req)
@@ -227,14 +231,14 @@ where
                 parsed.map_err(|e| Error::from(e))
             })
             .map_err(|e| Error::from(e)),
-    )
+    )*/
 }
 
-fn put<T, C: hyper::client::connect::Connect + 'static>(
+async fn put<T, C: hyper::client::connect::Connect + 'static>(
     config: &configuration::Configuration<C>,
     url: &str,
     body: &T,
-) -> Box<dyn Future<Item = (), Error = Error>>
+) -> Result<(), Error>
 where
     T: Serialize,
 {
@@ -250,24 +254,27 @@ where
         .body(body)
         .unwrap();
     config.set_session(&mut req).unwrap();
+    let res = config.request(req).await?;
+    res.into_body().await?;
+    Ok(())
 
-    Box::new(
+    /*Box::new(
         config
             .client
             .request(req)
             .and_then(|res| res.into_body().concat2())
             .map_err(|e| Error::from(e))
             .and_then(|_| futures::future::ok(())),
-    )
+    )*/
 }
 
-fn custom_query<T, R, C: hyper::client::connect::Connect + 'static>(
+async fn custom_query<T, R, C: hyper::client::connect::Connect + 'static>(
     config: &configuration::Configuration<C>,
     url: &str,
     body: &T,
     method: hyper::Method,
     headers: HashMap<String, String>,
-) -> Box<dyn Future<Item = R, Error = Error>>
+) -> Result<R, Error>
 where
     T: Serialize,
     R: DeserializeOwned + 'static,
@@ -290,8 +297,12 @@ where
 
     let mut req = req.body(body).unwrap();
     config.set_session(&mut req).unwrap();
+    let res = config.client.request(req).await?;
+    let body = hyper::body::to_bytes(res.into_body()).await?;
+    let parsed: Result<R, _> = serde_json::from_slice(&body);
+    parsed
 
-    Box::new(
+    /*Box::new(
         config
             .client
             .request(req)
@@ -302,5 +313,5 @@ where
                 parsed.map_err(|e| Error::from(e))
             })
             .map_err(|e| Error::from(e)),
-    )
+    )*/
 }
