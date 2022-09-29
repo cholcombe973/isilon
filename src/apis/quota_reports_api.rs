@@ -33,14 +33,14 @@ pub trait QuotaReportsApi {
     fn get_report_about(
         &self,
         rid: &str,
-    ) -> Box<dyn Future<Item = crate::models::ReportAbout, Error = Error>>;
+    ) -> Result<crate::models::ReportAbout, Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> QuotaReportsApi for QuotaReportsApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> QuotaReportsApi for QuotaReportsApiClient<C> {
     fn get_report_about(
         &self,
         rid: &str,
-    ) -> Box<dyn Future<Item = crate::models::ReportAbout, Error = Error>> {
+    ) -> Result<crate::models::ReportAbout, Error> {
         let uri_str = format!(
             "{}/platform/1/quota/reports/{Rid}/about",
             self.configuration.base_path,

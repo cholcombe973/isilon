@@ -194,7 +194,7 @@ pub use self::zones_summary_api::{ZonesSummaryApi, ZonesSummaryApiClient};
 pub mod client;
 pub mod configuration;
 
-fn query<T, R, C: hyper::client::connect::Connect + 'static>(
+fn query<T, R, C: hyper::client::connect::Connect + 'static + Clone + std::marker::Send + Sync>(
     config: &configuration::Configuration<C>,
     url: &str,
     body: &T,
@@ -218,15 +218,15 @@ where
         .unwrap();
     config.set_session(&mut req).unwrap();
     let parsed= rt.block_on(async {
-        let req = config.client.request(req).await?;
-        let body = hyper::body::to_bytes(res.into_body()).await?;
+        let res = config.client.request(req).await.map_err(|e| Error::from(e)).unwrap();
+        let body = hyper::body::to_bytes(res.into_body()).await.map_err(|e| Error::from(e)).unwrap();
         let parsed: Result<R, _> = serde_json::from_slice(&body);
         parsed
     });
-    return Ok(parsed)
+    return Ok(parsed.unwrap())
 }
 
-fn put<T, C: hyper::client::connect::Connect + 'static>(
+fn put<T, C: hyper::client::connect::Connect + 'static + Clone + std::marker::Send + Sync>(
     config: &configuration::Configuration<C>,
     url: &str,
     body: &T,
@@ -248,34 +248,36 @@ where
         .unwrap();
     config.set_session(&mut req).unwrap();
     let parsed= rt.block_on(async {
-        let req = config.client.request(req).await?;
-        let body = hyper::body::to_bytes(res.into_body()).await?;
-        let parsed: Result<R, _> = serde_json::from_slice(&body);
-        parsed
+        let res = config.client.request(req).await.map_err(|e| Error::from(e)).unwrap();
+        let body = hyper::body::to_bytes(res.into_body()).await.map_err(|e| Error::from(e)).unwrap();
     });
-    return Ok(parsed)
+    return Ok(())
     
 }
 
-fn custom_query<T, R, C: hyper::client::connect::Connect + 'static>(
+fn custom_query<T, R, C: hyper::client::connect::Connect + 'static + Clone + std::marker::Send + std::marker::Sync>(
     config: &configuration::Configuration<C>,
     url: &str,
     body: &T,
     method: hyper::Method,
     headers: HashMap<String, String>,
-) -> Result<R, Error>{
+) -> Result<R, Error>
+where
+    T: Serialize,
+    R: DeserializeOwned + 'static,
+{
     let rt = Runtime::new()?;
     let serialized = serde_json::to_string(&body).unwrap();
     let body = hyper::Body::from(serialized.clone());
-    let mut req = Request::builder();
-    req.method(method);
-    req.uri(url);
-    req.header(
+    let mut req = Request::builder()
+    .method(method)
+    .uri(url)
+    .header(
         hyper::header::CONTENT_TYPE,
         HeaderValue::from_static("Application/json"),
     );
     for (key, value) in headers {
-        req.header(
+        req = req.header(
             HeaderName::from_bytes(&key.as_bytes()).unwrap(),
             HeaderValue::from_str(&value).unwrap(),
         );
@@ -283,11 +285,11 @@ fn custom_query<T, R, C: hyper::client::connect::Connect + 'static>(
     let mut req = req.body(body).unwrap();
     config.set_session(&mut req).unwrap();
     let parsed= rt.block_on( async {
-        let req = config.client.request(req).await?;
-        let body = hyper::body::to_bytes(res.into_body()).await?;
-        let parsed: Result<R, _> = serde_json::from_slice(&body);
+        let res = config.client.request(req).await.map_err(|e| Error::from(e)).unwrap();
+        let body = hyper::body::to_bytes(res.into_body()).await.map_err(|e| Error::from(e));
+        let parsed: Result<R, _> = serde_json::from_slice(&body.unwrap());
         parsed
     });
-    return Ok(parsed)
+    return Ok(parsed.unwrap())
 }
 

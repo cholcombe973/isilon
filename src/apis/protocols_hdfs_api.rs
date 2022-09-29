@@ -35,34 +35,34 @@ pub trait ProtocolsHdfsApi {
         proxyusers_name_member: crate::models::AuthAccessAccessItemFileGroup,
         name: &str,
         zone: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn delete_proxyusers_name_member(
         &self,
         proxyusers_name_member_id: &str,
         name: &str,
         zone: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn list_proxyusers_name_members(
         &self,
         name: &str,
         zone: &str,
-    ) -> Box<dyn Future<Item = crate::models::GroupMembers, Error = Error>>;
+    ) -> Result<crate::models::GroupMembers, Error>;
     fn update_proxyusers_name_member(
         &self,
         proxyusers_name_member: crate::models::Empty,
         proxyusers_name_member_id: &str,
         name: &str,
         zone: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> ProtocolsHdfsApi for ProtocolsHdfsApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> ProtocolsHdfsApi for ProtocolsHdfsApiClient<C> {
     fn create_proxyusers_name_member(
         &self,
         proxyusers_name_member: crate::models::AuthAccessAccessItemFileGroup,
         name: &str,
         zone: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
@@ -85,7 +85,7 @@ impl<C: hyper::client::connect::Connect + 'static> ProtocolsHdfsApi for Protocol
         proxyusers_name_member_id: &str,
         name: &str,
         zone: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
@@ -108,7 +108,7 @@ impl<C: hyper::client::connect::Connect + 'static> ProtocolsHdfsApi for Protocol
         &self,
         name: &str,
         zone: &str,
-    ) -> Box<dyn Future<Item = crate::models::GroupMembers, Error = Error>> {
+    ) -> Result<crate::models::GroupMembers, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
@@ -133,7 +133,7 @@ impl<C: hyper::client::connect::Connect + 'static> ProtocolsHdfsApi for Protocol
         proxyusers_name_member_id: &str,
         name: &str,
         zone: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();

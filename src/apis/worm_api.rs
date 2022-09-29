@@ -33,37 +33,37 @@ pub trait WormApi {
     fn create_worm_domain(
         &self,
         worm_domain: crate::models::WormDomainCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::WormDomainExtended, Error = Error>>;
+    ) -> Result<crate::models::WormDomainExtended, Error>;
     fn get_worm_domain(
         &self,
         worm_domain_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::WormDomains, Error = Error>>;
+    ) -> Result<crate::models::WormDomains, Error>;
     fn get_worm_settings(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::WormSettings, Error = Error>>;
+    ) -> Result<crate::models::WormSettings, Error>;
     fn list_worm_domains(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::WormDomainsExtended, Error = Error>>;
+    ) -> Result<crate::models::WormDomainsExtended, Error>;
     fn update_worm_domain(
         &self,
         worm_domain: crate::models::WormDomain,
         worm_domain_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_worm_settings(
         &self,
         worm_settings: crate::models::WormSettingsExtended,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> WormApi for WormApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> WormApi for WormApiClient<C> {
     fn create_worm_domain(
         &self,
         worm_domain: crate::models::WormDomainCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::WormDomainExtended, Error = Error>> {
+    ) -> Result<crate::models::WormDomainExtended, Error> {
         let uri_str = format!("{}/platform/1/worm/domains", self.configuration.base_path);
         query(
             self.configuration.borrow(),
@@ -76,7 +76,7 @@ impl<C: hyper::client::connect::Connect + 'static> WormApi for WormApiClient<C> 
     fn get_worm_domain(
         &self,
         worm_domain_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::WormDomains, Error = Error>> {
+    ) -> Result<crate::models::WormDomains, Error> {
         let uri_str = format!(
             "{}/platform/1/worm/domains/{WormDomainId}",
             self.configuration.base_path,
@@ -92,7 +92,7 @@ impl<C: hyper::client::connect::Connect + 'static> WormApi for WormApiClient<C> 
 
     fn get_worm_settings(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::WormSettings, Error = Error>> {
+    ) -> Result<crate::models::WormSettings, Error> {
         let uri_str = format!("{}/platform/1/worm/settings", self.configuration.base_path);
         query(
             self.configuration.borrow(),
@@ -108,7 +108,7 @@ impl<C: hyper::client::connect::Connect + 'static> WormApi for WormApiClient<C> 
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::WormDomainsExtended, Error = Error>> {
+    ) -> Result<crate::models::WormDomainsExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
@@ -131,7 +131,7 @@ impl<C: hyper::client::connect::Connect + 'static> WormApi for WormApiClient<C> 
         &self,
         worm_domain: crate::models::WormDomain,
         worm_domain_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/1/worm/domains/{WormDomainId}",
             self.configuration.base_path,
@@ -143,7 +143,7 @@ impl<C: hyper::client::connect::Connect + 'static> WormApi for WormApiClient<C> 
     fn update_worm_settings(
         &self,
         worm_settings: crate::models::WormSettingsExtended,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!("{}/platform/1/worm/settings", self.configuration.base_path);
         put(self.configuration.borrow(), &uri_str, &worm_settings)
     }

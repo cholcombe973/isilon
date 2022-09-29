@@ -34,12 +34,12 @@ pub trait SyncTargetApi {
         &self,
         policies_policy_cancel_item: crate::models::Empty,
         policy: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateResponse, Error>;
     fn get_reports_report_subreport(
         &self,
         reports_report_subreport_id: &str,
         rid: &str,
-    ) -> Box<dyn Future<Item = crate::models::ReportsReportSubreports, Error = Error>>;
+    ) -> Result<crate::models::ReportsReportSubreports, Error>;
     fn get_reports_report_subreports(
         &self,
         rid: &str,
@@ -49,15 +49,15 @@ pub trait SyncTargetApi {
         state: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::ReportsReportSubreportsExtended, Error = Error>>;
+    ) -> Result<crate::models::ReportsReportSubreportsExtended, Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> SyncTargetApi for SyncTargetApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> SyncTargetApi for SyncTargetApiClient<C> {
     fn create_policies_policy_cancel_item(
         &self,
         policies_policy_cancel_item: crate::models::Empty,
         policy: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateResponse, Error> {
         let uri_str = format!(
             "{}/platform/1/sync/target/policies/{Policy}/cancel",
             self.configuration.base_path,
@@ -75,7 +75,7 @@ impl<C: hyper::client::connect::Connect + 'static> SyncTargetApi for SyncTargetA
         &self,
         reports_report_subreport_id: &str,
         rid: &str,
-    ) -> Box<dyn Future<Item = crate::models::ReportsReportSubreports, Error = Error>> {
+    ) -> Result<crate::models::ReportsReportSubreports, Error> {
         let uri_str = format!(
             "{}/platform/4/sync/target/reports/{Rid}/subreports/{ReportsReportSubreportId}",
             self.configuration.base_path,
@@ -99,7 +99,7 @@ impl<C: hyper::client::connect::Connect + 'static> SyncTargetApi for SyncTargetA
         state: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::ReportsReportSubreportsExtended, Error = Error>> {
+    ) -> Result<crate::models::ReportsReportSubreportsExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("resume", &resume.to_string())

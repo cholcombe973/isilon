@@ -33,18 +33,18 @@ pub trait ZonesSummaryApi {
     fn get_zones_summary(
         &self,
         groupnet: &str,
-    ) -> Box<dyn Future<Item = crate::models::ZonesSummaryExtended, Error = Error>>;
+    ) -> Result<crate::models::ZonesSummaryExtended, Error>;
     fn get_zones_summary_zone(
         &self,
         zones_summary_zone: i32,
-    ) -> Box<dyn Future<Item = crate::models::ZonesSummary, Error = Error>>;
+    ) -> Result<crate::models::ZonesSummary, Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> ZonesSummaryApi for ZonesSummaryApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> ZonesSummaryApi for ZonesSummaryApiClient<C> {
     fn get_zones_summary(
         &self,
         groupnet: &str,
-    ) -> Box<dyn Future<Item = crate::models::ZonesSummaryExtended, Error = Error>> {
+    ) -> Result<crate::models::ZonesSummaryExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("groupnet", &groupnet.to_string())
             .finish();
@@ -63,7 +63,7 @@ impl<C: hyper::client::connect::Connect + 'static> ZonesSummaryApi for ZonesSumm
     fn get_zones_summary_zone(
         &self,
         zones_summary_zone: i32,
-    ) -> Box<dyn Future<Item = crate::models::ZonesSummary, Error = Error>> {
+    ) -> Result<crate::models::ZonesSummary, Error> {
         let uri_str = format!(
             "{}/platform/1/zones-summary/{ZonesSummaryZone}",
             self.configuration.base_path,

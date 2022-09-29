@@ -56,7 +56,7 @@ pub struct APIClient<C: hyper::client::connect::Connect> {
     zones_summary_api: Box<dyn crate::apis::ZonesSummaryApi>,
 }
 
-impl<C: hyper::client::connect::Connect + 'static> APIClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> APIClient<C> {
     pub fn new(configuration: Configuration<C>) -> APIClient<C> {
         let rc = Rc::new(configuration);
 

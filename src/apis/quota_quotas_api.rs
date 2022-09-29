@@ -34,41 +34,41 @@ pub trait QuotaQuotasApi {
         &self,
         quota_notification: crate::models::QuotaNotificationCreateParams,
         qid: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateResponse, Error>;
     fn delete_quota_notification(
         &self,
         quota_notification_id: &str,
         qid: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
-    fn delete_quota_notifications(&self, qid: &str) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
+    fn delete_quota_notifications(&self, qid: &str) -> Result<(), Error>;
     fn get_quota_notification(
         &self,
         quota_notification_id: &str,
         qid: &str,
-    ) -> Box<dyn Future<Item = crate::models::QuotaNotifications, Error = Error>>;
+    ) -> Result<crate::models::QuotaNotifications, Error>;
     fn list_quota_notifications(
         &self,
         qid: &str,
-    ) -> Box<dyn Future<Item = crate::models::QuotaNotificationsExtended, Error = Error>>;
+    ) -> Result<crate::models::QuotaNotificationsExtended, Error>;
     fn update_quota_notification(
         &self,
         quota_notification: crate::models::QuotaNotification,
         quota_notification_id: &str,
         qid: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_quota_notifications(
         &self,
         quota_notifications: crate::models::Empty,
         qid: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> QuotaQuotasApi for QuotaQuotasApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> QuotaQuotasApi for QuotaQuotasApiClient<C> {
     fn create_quota_notification(
         &self,
         quota_notification: crate::models::QuotaNotificationCreateParams,
         qid: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateResponse, Error> {
         let uri_str = format!(
             "{}/platform/1/quota/quotas/{Qid}/notifications",
             self.configuration.base_path,
@@ -86,7 +86,7 @@ impl<C: hyper::client::connect::Connect + 'static> QuotaQuotasApi for QuotaQuota
         &self,
         quota_notification_id: &str,
         qid: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/1/quota/quotas/{Qid}/notifications/{QuotaNotificationId}",
             self.configuration.base_path,
@@ -101,7 +101,7 @@ impl<C: hyper::client::connect::Connect + 'static> QuotaQuotasApi for QuotaQuota
         )
     }
 
-    fn delete_quota_notifications(&self, qid: &str) -> Box<dyn Future<Item = (), Error = Error>> {
+    fn delete_quota_notifications(&self, qid: &str) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/1/quota/quotas/{Qid}/notifications",
             self.configuration.base_path,
@@ -119,7 +119,7 @@ impl<C: hyper::client::connect::Connect + 'static> QuotaQuotasApi for QuotaQuota
         &self,
         quota_notification_id: &str,
         qid: &str,
-    ) -> Box<dyn Future<Item = crate::models::QuotaNotifications, Error = Error>> {
+    ) -> Result<crate::models::QuotaNotifications, Error> {
         let uri_str = format!(
             "{}/platform/1/quota/quotas/{Qid}/notifications/{QuotaNotificationId}",
             self.configuration.base_path,
@@ -137,7 +137,7 @@ impl<C: hyper::client::connect::Connect + 'static> QuotaQuotasApi for QuotaQuota
     fn list_quota_notifications(
         &self,
         qid: &str,
-    ) -> Box<dyn Future<Item = crate::models::QuotaNotificationsExtended, Error = Error>> {
+    ) -> Result<crate::models::QuotaNotificationsExtended, Error> {
         let uri_str = format!(
             "{}/platform/1/quota/quotas/{Qid}/notifications",
             self.configuration.base_path,
@@ -156,7 +156,7 @@ impl<C: hyper::client::connect::Connect + 'static> QuotaQuotasApi for QuotaQuota
         quota_notification: crate::models::QuotaNotification,
         quota_notification_id: &str,
         qid: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/1/quota/quotas/{Qid}/notifications/{QuotaNotificationId}",
             self.configuration.base_path,
@@ -170,7 +170,7 @@ impl<C: hyper::client::connect::Connect + 'static> QuotaQuotasApi for QuotaQuota
         &self,
         quota_notifications: crate::models::Empty,
         qid: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/1/quota/quotas/{Qid}/notifications",
             self.configuration.base_path,

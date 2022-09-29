@@ -32,13 +32,13 @@ impl<C: hyper::client::connect::Connect> LocalApiClient<C> {
 pub trait LocalApi {
     fn get_cluster_time(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::ClusterTimeExtendedExtended, Error = Error>>;
+    ) -> Result<crate::models::ClusterTimeExtendedExtended, Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> LocalApi for LocalApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> LocalApi for LocalApiClient<C> {
     fn get_cluster_time(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::ClusterTimeExtendedExtended, Error = Error>> {
+    ) -> Result<crate::models::ClusterTimeExtendedExtended, Error> {
         let uri_str = format!(
             "{}/platform/3/local/cluster/time",
             self.configuration.base_path

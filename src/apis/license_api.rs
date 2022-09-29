@@ -33,28 +33,28 @@ pub trait LicenseApi {
     fn create_license_license(
         &self,
         license_license: crate::models::LicenseLicenseCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn get_license_generate(
         &self,
         action: &str,
         licenses_to_include: &str,
         licenses_to_exclude: &str,
         only_these_licenses: &str,
-    ) -> Box<dyn Future<Item = crate::models::LicenseGenerate, Error = Error>>;
+    ) -> Result<crate::models::LicenseGenerate, Error>;
     fn get_license_license(
         &self,
         license_license_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::LicenseLicenses, Error = Error>>;
+    ) -> Result<crate::models::LicenseLicenses, Error>;
     fn list_license_licenses(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::LicenseLicensesExtended, Error = Error>>;
+    ) -> Result<crate::models::LicenseLicensesExtended, Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> LicenseApi for LicenseApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> LicenseApi for LicenseApiClient<C> {
     fn create_license_license(
         &self,
         license_license: crate::models::LicenseLicenseCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!(
             "{}/platform/5/license/licenses",
             self.configuration.base_path
@@ -74,7 +74,7 @@ impl<C: hyper::client::connect::Connect + 'static> LicenseApi for LicenseApiClie
         licenses_to_include: &str,
         licenses_to_exclude: &str,
         only_these_licenses: &str,
-    ) -> Box<dyn Future<Item = crate::models::LicenseGenerate, Error = Error>> {
+    ) -> Result<crate::models::LicenseGenerate, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("action", &action.to_string())
             .append_pair("licenses_to_include", &licenses_to_include.to_string())
@@ -96,7 +96,7 @@ impl<C: hyper::client::connect::Connect + 'static> LicenseApi for LicenseApiClie
     fn get_license_license(
         &self,
         license_license_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::LicenseLicenses, Error = Error>> {
+    ) -> Result<crate::models::LicenseLicenses, Error> {
         let uri_str = format!(
             "{}/platform/5/license/licenses/{LicenseLicenseId}",
             self.configuration.base_path,
@@ -112,7 +112,7 @@ impl<C: hyper::client::connect::Connect + 'static> LicenseApi for LicenseApiClie
 
     fn list_license_licenses(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::LicenseLicensesExtended, Error = Error>> {
+    ) -> Result<crate::models::LicenseLicensesExtended, Error> {
         let uri_str = format!(
             "{}/platform/5/license/licenses",
             self.configuration.base_path

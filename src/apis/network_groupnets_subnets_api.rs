@@ -38,35 +38,35 @@ pub trait NetworkGroupnetsSubnetsApi {
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn create_pools_pool_rule(
         &self,
         pools_pool_rule: crate::models::PoolsPoolRuleCreateParams,
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateResponse, Error>;
     fn create_pools_pool_sc_resume_node(
         &self,
         pools_pool_sc_resume_node: crate::models::PoolsPoolScResumeNode,
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn create_pools_pool_sc_suspend_node(
         &self,
         pools_pool_sc_suspend_node: crate::models::PoolsPoolScResumeNode,
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn delete_pools_pool_rule(
         &self,
         pools_pool_rule_id: &str,
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn get_pools_pool_interfaces(
         &self,
         groupnet: &str,
@@ -77,14 +77,14 @@ pub trait NetworkGroupnetsSubnetsApi {
         limit: i32,
         dir: &str,
         lnns: &str,
-    ) -> Box<dyn Future<Item = crate::models::PoolsPoolInterfaces, Error = Error>>;
+    ) -> Result<crate::models::PoolsPoolInterfaces, Error>;
     fn get_pools_pool_rule(
         &self,
         pools_pool_rule_id: &str,
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<dyn Future<Item = crate::models::PoolsPoolRules, Error = Error>>;
+    ) -> Result<crate::models::PoolsPoolRules, Error>;
     fn list_pools_pool_rules(
         &self,
         groupnet: &str,
@@ -94,7 +94,7 @@ pub trait NetworkGroupnetsSubnetsApi {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::PoolsPoolRulesExtended, Error = Error>>;
+    ) -> Result<crate::models::PoolsPoolRulesExtended, Error>;
     fn update_pools_pool_rule(
         &self,
         pools_pool_rule: crate::models::PoolsPoolRule,
@@ -102,10 +102,10 @@ pub trait NetworkGroupnetsSubnetsApi {
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsSubnetsApi
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> NetworkGroupnetsSubnetsApi
     for NetworkGroupnetsSubnetsApiClient<C>
 {
     fn create_pools_pool_rebalance_ip(
@@ -114,7 +114,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsSubnetsApi
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/rebalance-ips" , self.configuration.base_path, Groupnet=groupnet, Subnet=subnet, Pool=pool);
         query(
             self.configuration.borrow(),
@@ -130,7 +130,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsSubnetsApi
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateResponse, Error> {
         let uri_str = format!(
             "{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/rules",
             self.configuration.base_path,
@@ -152,7 +152,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsSubnetsApi
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/sc-resume-nodes" , self.configuration.base_path, Groupnet=groupnet, Subnet=subnet, Pool=pool);
         query(
             self.configuration.borrow(),
@@ -168,7 +168,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsSubnetsApi
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/sc-suspend-nodes" , self.configuration.base_path, Groupnet=groupnet, Subnet=subnet, Pool=pool);
         query(
             self.configuration.borrow(),
@@ -184,7 +184,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsSubnetsApi
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/rules/{PoolsPoolRuleId}" , self.configuration.base_path, PoolsPoolRuleId=pools_pool_rule_id, Groupnet=groupnet, Subnet=subnet, Pool=pool);
         query(
             self.configuration.borrow(),
@@ -204,7 +204,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsSubnetsApi
         limit: i32,
         dir: &str,
         lnns: &str,
-    ) -> Box<dyn Future<Item = crate::models::PoolsPoolInterfaces, Error = Error>> {
+    ) -> Result<crate::models::PoolsPoolInterfaces, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("resume", &resume.to_string())
@@ -234,7 +234,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsSubnetsApi
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<dyn Future<Item = crate::models::PoolsPoolRules, Error = Error>> {
+    ) -> Result<crate::models::PoolsPoolRules, Error> {
         let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/rules/{PoolsPoolRuleId}" , self.configuration.base_path, PoolsPoolRuleId=pools_pool_rule_id, Groupnet=groupnet, Subnet=subnet, Pool=pool);
         query(
             self.configuration.borrow(),
@@ -253,7 +253,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsSubnetsApi
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::PoolsPoolRulesExtended, Error = Error>> {
+    ) -> Result<crate::models::PoolsPoolRulesExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
@@ -283,7 +283,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsSubnetsApi
         groupnet: &str,
         subnet: &str,
         pool: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{Pool}/rules/{PoolsPoolRuleId}" , self.configuration.base_path, PoolsPoolRuleId=pools_pool_rule_id, Groupnet=groupnet, Subnet=subnet, Pool=pool);
         put(self.configuration.borrow(), &uri_str, &pools_pool_rule)
     }

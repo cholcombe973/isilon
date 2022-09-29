@@ -43,7 +43,7 @@ pub trait StatisticsApi {
         key: Vec<String>,
         degraded: bool,
         nodes: Vec<String>,
-    ) -> Box<dyn Future<Item = crate::models::StatisticsCurrent, Error = Error>>;
+    ) -> Result<crate::models::StatisticsCurrent, Error>;
     fn get_statistics_history(
         &self,
         begin: i32,
@@ -62,26 +62,26 @@ pub trait StatisticsApi {
         show_nodes: bool,
         resolution: i32,
         nodes: Vec<String>,
-    ) -> Box<dyn Future<Item = crate::models::StatisticsHistory, Error = Error>>;
+    ) -> Result<crate::models::StatisticsHistory, Error>;
     fn get_statistics_key(
         &self,
         statistics_key_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::StatisticsKeys, Error = Error>>;
+    ) -> Result<crate::models::StatisticsKeys, Error>;
     fn get_statistics_keys(
         &self,
         count: bool,
         limit: i32,
         queryable: bool,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::StatisticsKeysExtended, Error = Error>>;
+    ) -> Result<crate::models::StatisticsKeysExtended, Error>;
     fn get_statistics_operations(
         &self,
         protocols: Vec<String>,
-    ) -> Box<dyn Future<Item = crate::models::StatisticsOperations, Error = Error>>;
+    ) -> Result<crate::models::StatisticsOperations, Error>;
     fn get_statistics_protocols(
         &self,
         _type: &str,
-    ) -> Box<dyn Future<Item = crate::models::StatisticsProtocols, Error = Error>>;
+    ) -> Result<crate::models::StatisticsProtocols, Error>;
     fn get_summary_client(
         &self,
         sort: &str,
@@ -98,7 +98,7 @@ pub trait StatisticsApi {
         remote_names: &str,
         nodes: &str,
         protocols: &str,
-    ) -> Box<dyn Future<Item = crate::models::SummaryClient, Error = Error>>;
+    ) -> Result<crate::models::SummaryClient, Error>;
     fn get_summary_drive(
         &self,
         sort: &str,
@@ -106,7 +106,7 @@ pub trait StatisticsApi {
         _type: &str,
         nodes: &str,
         timeout: i32,
-    ) -> Box<dyn Future<Item = crate::models::SummaryDrive, Error = Error>>;
+    ) -> Result<crate::models::SummaryDrive, Error>;
     fn get_summary_heat(
         &self,
         sort: &str,
@@ -120,7 +120,7 @@ pub trait StatisticsApi {
         timeout: i32,
         nodes: &str,
         degraded: bool,
-    ) -> Box<dyn Future<Item = crate::models::SummaryHeat, Error = Error>>;
+    ) -> Result<crate::models::SummaryHeat, Error>;
     fn get_summary_protocol(
         &self,
         operations: &str,
@@ -132,14 +132,14 @@ pub trait StatisticsApi {
         degraded: bool,
         nodes: &str,
         protocols: &str,
-    ) -> Box<dyn Future<Item = crate::models::SummaryProtocol, Error = Error>>;
+    ) -> Result<crate::models::SummaryProtocol, Error>;
     fn get_summary_protocol_stats(
         &self,
         degraded: bool,
         protocol: Option<&str>,
         nodes: Option<&str>,
         timeout: i32,
-    ) -> Box<dyn Future<Item = crate::models::SummaryProtocolStats, Error = Error>>;
+    ) -> Result<crate::models::SummaryProtocolStats, Error>;
     fn get_summary_system(
         &self,
         sort: &str,
@@ -147,7 +147,7 @@ pub trait StatisticsApi {
         degraded: bool,
         nodes: &str,
         timeout: i32,
-    ) -> Box<dyn Future<Item = crate::models::SummarySystem, Error = Error>>;
+    ) -> Result<crate::models::SummarySystem, Error>;
     fn get_summary_workload(
         &self,
         sort: &str,
@@ -157,10 +157,10 @@ pub trait StatisticsApi {
         degraded: bool,
         nodes: &str,
         system_names: &str,
-    ) -> Box<dyn Future<Item = crate::models::SummaryWorkload, Error = Error>>;
+    ) -> Result<crate::models::SummaryWorkload, Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> StatisticsApi for StatisticsApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> StatisticsApi for StatisticsApiClient<C> {
     fn get_statistics_current(
         &self,
         timeout: i32,
@@ -174,7 +174,7 @@ impl<C: hyper::client::connect::Connect + 'static> StatisticsApi for StatisticsA
         key: Vec<String>,
         degraded: bool,
         nodes: Vec<String>,
-    ) -> Box<dyn Future<Item = crate::models::StatisticsCurrent, Error = Error>> {
+    ) -> Result<crate::models::StatisticsCurrent, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("timeout", &timeout.to_string())
             .append_pair("show_nodes", &show_nodes.to_string())
@@ -218,7 +218,7 @@ impl<C: hyper::client::connect::Connect + 'static> StatisticsApi for StatisticsA
         show_nodes: bool,
         resolution: i32,
         nodes: Vec<String>,
-    ) -> Box<dyn Future<Item = crate::models::StatisticsHistory, Error = Error>> {
+    ) -> Result<crate::models::StatisticsHistory, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("begin", &begin.to_string())
             .append_pair("interval", &interval.to_string())
@@ -252,7 +252,7 @@ impl<C: hyper::client::connect::Connect + 'static> StatisticsApi for StatisticsA
     fn get_statistics_key(
         &self,
         statistics_key_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::StatisticsKeys, Error = Error>> {
+    ) -> Result<crate::models::StatisticsKeys, Error> {
         let uri_str = format!(
             "{}/platform/1/statistics/keys/{StatisticsKeyId}",
             self.configuration.base_path,
@@ -272,7 +272,7 @@ impl<C: hyper::client::connect::Connect + 'static> StatisticsApi for StatisticsA
         limit: i32,
         queryable: bool,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::StatisticsKeysExtended, Error = Error>> {
+    ) -> Result<crate::models::StatisticsKeysExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("count", &count.to_string())
             .append_pair("limit", &limit.to_string())
@@ -294,7 +294,7 @@ impl<C: hyper::client::connect::Connect + 'static> StatisticsApi for StatisticsA
     fn get_statistics_operations(
         &self,
         protocols: Vec<String>,
-    ) -> Box<dyn Future<Item = crate::models::StatisticsOperations, Error = Error>> {
+    ) -> Result<crate::models::StatisticsOperations, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("protocols", &protocols.join(",").to_string())
             .finish();
@@ -313,7 +313,7 @@ impl<C: hyper::client::connect::Connect + 'static> StatisticsApi for StatisticsA
     fn get_statistics_protocols(
         &self,
         _type: &str,
-    ) -> Box<dyn Future<Item = crate::models::StatisticsProtocols, Error = Error>> {
+    ) -> Result<crate::models::StatisticsProtocols, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("type", &_type.to_string())
             .finish();
@@ -345,7 +345,7 @@ impl<C: hyper::client::connect::Connect + 'static> StatisticsApi for StatisticsA
         remote_names: &str,
         nodes: &str,
         protocols: &str,
-    ) -> Box<dyn Future<Item = crate::models::SummaryClient, Error = Error>> {
+    ) -> Result<crate::models::SummaryClient, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("totalby", &totalby.to_string())
@@ -381,7 +381,7 @@ impl<C: hyper::client::connect::Connect + 'static> StatisticsApi for StatisticsA
         _type: &str,
         nodes: &str,
         timeout: i32,
-    ) -> Box<dyn Future<Item = crate::models::SummaryDrive, Error = Error>> {
+    ) -> Result<crate::models::SummaryDrive, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("degraded", &degraded.to_string())
@@ -414,7 +414,7 @@ impl<C: hyper::client::connect::Connect + 'static> StatisticsApi for StatisticsA
         timeout: i32,
         nodes: &str,
         degraded: bool,
-    ) -> Box<dyn Future<Item = crate::models::SummaryHeat, Error = Error>> {
+    ) -> Result<crate::models::SummaryHeat, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("convertlin", &convertlin.to_string())
@@ -451,7 +451,7 @@ impl<C: hyper::client::connect::Connect + 'static> StatisticsApi for StatisticsA
         degraded: bool,
         nodes: &str,
         protocols: &str,
-    ) -> Box<dyn Future<Item = crate::models::SummaryProtocol, Error = Error>> {
+    ) -> Result<crate::models::SummaryProtocol, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("operations", &operations.to_string())
             .append_pair("sort", &sort.to_string())
@@ -481,7 +481,7 @@ impl<C: hyper::client::connect::Connect + 'static> StatisticsApi for StatisticsA
         protocol: Option<&str>,
         nodes: Option<&str>,
         timeout: i32,
-    ) -> Box<dyn Future<Item = crate::models::SummaryProtocolStats, Error = Error>> {
+    ) -> Result<crate::models::SummaryProtocolStats, Error> {
         let buff = String::new();
         let mut q = ::url::form_urlencoded::Serializer::new(buff);
         q.append_pair("degraded", &degraded.to_string());
@@ -514,7 +514,7 @@ impl<C: hyper::client::connect::Connect + 'static> StatisticsApi for StatisticsA
         degraded: bool,
         nodes: &str,
         timeout: i32,
-    ) -> Box<dyn Future<Item = crate::models::SummarySystem, Error = Error>> {
+    ) -> Result<crate::models::SummarySystem, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("oprates", &oprates.to_string())
@@ -543,7 +543,7 @@ impl<C: hyper::client::connect::Connect + 'static> StatisticsApi for StatisticsA
         degraded: bool,
         nodes: &str,
         system_names: &str,
-    ) -> Box<dyn Future<Item = crate::models::SummaryWorkload, Error = Error>> {
+    ) -> Result<crate::models::SummaryWorkload, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("job_types", &job_types.join(",").to_string())

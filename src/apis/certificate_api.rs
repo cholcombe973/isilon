@@ -33,34 +33,34 @@ pub trait CertificateApi {
     fn create_certificate_server_item(
         &self,
         certificate_server_item: crate::models::CertificateServerItem,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateResponse, Error>;
     fn delete_certificate_server_by_id(
         &self,
         certificate_server_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn get_certificate_server_by_id(
         &self,
         certificate_server_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::CertificateServer, Error = Error>>;
+    ) -> Result<crate::models::CertificateServer, Error>;
     fn list_certificate_server(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::CertificateServerExtended, Error = Error>>;
+    ) -> Result<crate::models::CertificateServerExtended, Error>;
     fn update_certificate_server_by_id(
         &self,
         certificate_server_id_params: crate::models::CertificateServerIdParams,
         certificate_server_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> CertificateApi for CertificateApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> CertificateApi for CertificateApiClient<C> {
     fn create_certificate_server_item(
         &self,
         certificate_server_item: crate::models::CertificateServerItem,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateResponse, Error> {
         let uri_str = format!(
             "{}/platform/4/certificate/server",
             self.configuration.base_path
@@ -76,7 +76,7 @@ impl<C: hyper::client::connect::Connect + 'static> CertificateApi for Certificat
     fn delete_certificate_server_by_id(
         &self,
         certificate_server_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let uri_str = format!(
             "{}/platform/4/certificate/server/{CertificateServerId}",
             self.configuration.base_path,
@@ -93,7 +93,7 @@ impl<C: hyper::client::connect::Connect + 'static> CertificateApi for Certificat
     fn get_certificate_server_by_id(
         &self,
         certificate_server_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::CertificateServer, Error = Error>> {
+    ) -> Result<crate::models::CertificateServer, Error> {
         let uri_str = format!(
             "{}/platform/4/certificate/server/{CertificateServerId}",
             self.configuration.base_path,
@@ -115,7 +115,7 @@ impl<C: hyper::client::connect::Connect + 'static> CertificateApi for Certificat
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::CertificateServerExtended, Error = Error>> {
+    ) -> Result<crate::models::CertificateServerExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
@@ -138,7 +138,7 @@ impl<C: hyper::client::connect::Connect + 'static> CertificateApi for Certificat
         &self,
         certificate_server_id_params: crate::models::CertificateServerIdParams,
         certificate_server_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let uri_str = format!(
             "{}/platform/4/certificate/server/{CertificateServerId}",
             self.configuration.base_path,

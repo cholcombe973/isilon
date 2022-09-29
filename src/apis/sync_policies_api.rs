@@ -34,15 +34,15 @@ pub trait SyncPoliciesApi {
         &self,
         policy_reset_item: crate::models::Empty,
         policy: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateResponse, Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> SyncPoliciesApi for SyncPoliciesApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> SyncPoliciesApi for SyncPoliciesApiClient<C> {
     fn create_policy_reset_item(
         &self,
         policy_reset_item: crate::models::Empty,
         policy: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateResponse, Error> {
         let uri_str = format!(
             "{}/platform/1/sync/policies/{Policy}/reset",
             self.configuration.base_path,

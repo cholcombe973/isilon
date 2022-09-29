@@ -33,23 +33,23 @@ pub trait ZonesApi {
     fn create_zone(
         &self,
         zone: crate::models::ZoneCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
-    fn delete_zone(&self, zone_id: i32) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<crate::models::CreateResponse, Error>;
+    fn delete_zone(&self, zone_id: i32) -> Result<(), Error>;
     fn get_zone(&self, zone_id: i32)
-        -> Box<dyn Future<Item = crate::models::Zones, Error = Error>>;
-    fn list_zones(&self) -> Box<dyn Future<Item = crate::models::ZonesExtended, Error = Error>>;
+        -> Result<crate::models::Zones, Error>;
+    fn list_zones(&self) -> Result<crate::models::ZonesExtended, Error>;
     fn update_zone(
         &self,
         zone: crate::models::Zone,
         zone_id: i32,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> ZonesApi for ZonesApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> ZonesApi for ZonesApiClient<C> {
     fn create_zone(
         &self,
         zone: crate::models::ZoneCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateResponse, Error> {
         let uri_str = format!("{}/platform/3/zones", self.configuration.base_path);
         query(
             self.configuration.borrow(),
@@ -59,7 +59,7 @@ impl<C: hyper::client::connect::Connect + 'static> ZonesApi for ZonesApiClient<C
         )
     }
 
-    fn delete_zone(&self, zone_id: i32) -> Box<dyn Future<Item = (), Error = Error>> {
+    fn delete_zone(&self, zone_id: i32) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/3/zones/{ZoneId}",
             self.configuration.base_path,
@@ -76,7 +76,7 @@ impl<C: hyper::client::connect::Connect + 'static> ZonesApi for ZonesApiClient<C
     fn get_zone(
         &self,
         zone_id: i32,
-    ) -> Box<dyn Future<Item = crate::models::Zones, Error = Error>> {
+    ) -> Result<crate::models::Zones, Error> {
         let uri_str = format!(
             "{}/platform/3/zones/{ZoneId}",
             self.configuration.base_path,
@@ -90,7 +90,7 @@ impl<C: hyper::client::connect::Connect + 'static> ZonesApi for ZonesApiClient<C
         )
     }
 
-    fn list_zones(&self) -> Box<dyn Future<Item = crate::models::ZonesExtended, Error = Error>> {
+    fn list_zones(&self) -> Result<crate::models::ZonesExtended, Error> {
         let uri_str = format!("{}/platform/3/zones", self.configuration.base_path);
         query(
             self.configuration.borrow(),
@@ -104,7 +104,7 @@ impl<C: hyper::client::connect::Connect + 'static> ZonesApi for ZonesApiClient<C
         &self,
         zone: crate::models::Zone,
         zone_id: i32,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/3/zones/{ZoneId}",
             self.configuration.base_path,

@@ -32,17 +32,17 @@ impl<C: hyper::client::connect::Connect> RemotesupportApiClient<C> {
 pub trait RemotesupportApi {
     fn get_remotesupport_connectemc(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::RemotesupportConnectemc, Error = Error>>;
+    ) -> Result<crate::models::RemotesupportConnectemc, Error>;
     fn update_remotesupport_connectemc(
         &self,
         remotesupport_connectemc: crate::models::RemotesupportConnectemcConnectemc,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> RemotesupportApi for RemotesupportApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> RemotesupportApi for RemotesupportApiClient<C> {
     fn get_remotesupport_connectemc(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::RemotesupportConnectemc, Error = Error>> {
+    ) -> Result<crate::models::RemotesupportConnectemc, Error> {
         let uri_str = format!(
             "{}/platform/1/remotesupport/connectemc",
             self.configuration.base_path
@@ -58,7 +58,7 @@ impl<C: hyper::client::connect::Connect + 'static> RemotesupportApi for Remotesu
     fn update_remotesupport_connectemc(
         &self,
         remotesupport_connectemc: crate::models::RemotesupportConnectemcConnectemc,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/1/remotesupport/connectemc",
             self.configuration.base_path

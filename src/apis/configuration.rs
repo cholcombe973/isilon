@@ -11,7 +11,7 @@
 use base64::encode;
 use cookie::{Cookie, CookieJar};
 use futures;
-use futures::{Future, IntoFuture};
+use futures::{Future};
 use hyper;
 use hyper::header::{HeaderName, HeaderValue};
 use reqwest;
@@ -33,7 +33,7 @@ pub struct Configuration<C: hyper::client::connect::Connect> {
     ssl_cert: Option<::std::path::PathBuf>,
 }
 
-impl<C: hyper::client::connect::Connect + 'static> Configuration<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> Configuration<C> {
     /// The Isilon docs say basic authorization is slow and resource intensive.  
     /// The default here is to use session tokens but you can fall back on basic
     /// authorization if need be by setting basic_authorization to true
@@ -210,7 +210,7 @@ impl<C: hyper::client::connect::Connect + 'static> Configuration<C> {
         Ok(())
     }
 
-    pub fn logout(&self) -> Box<dyn Future<Item = (), Error = Error>> {
+    pub fn logout(&self) -> Result<(), Error>{
         let mut headers: HashMap<String, String> = HashMap::new();
         let uri_str = format!("{}/session/1/session", self.base_path);
 
@@ -221,12 +221,10 @@ impl<C: hyper::client::connect::Connect + 'static> Configuration<C> {
                 headers.insert("Cookie".into(), isi_cookie.into());
             }
             None => {
-                return Box::new(
+                return 
                     Err(Error::E(
                         "Unable to find isisessid cookie from isilon server".to_string(),
-                    ))
-                    .into_future(),
-                );
+                    ));
             }
         };
         custom_query(&self, &uri_str, &"", hyper::Method::DELETE, headers)
