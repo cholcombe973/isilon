@@ -11,7 +11,6 @@
 use base64::encode;
 use cookie::{Cookie, CookieJar};
 use futures;
-use futures::{Future};
 use hyper;
 use hyper::header::{HeaderName, HeaderValue};
 use reqwest;
@@ -22,7 +21,7 @@ use std::io::Read;
 
 pub struct Configuration<C: hyper::client::connect::Connect> {
     pub base_path: String,
-    pub client: hyper::client::Client<C>,
+    pub client: hyper::Client<C>,
     cookie_jar: CookieJar,
     server: String,
     // If current time is > session_timeout we need to login again
@@ -38,7 +37,7 @@ impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::mar
     /// The default here is to use session tokens but you can fall back on basic
     /// authorization if need be by setting basic_authorization to true
     pub fn new(
-        client: hyper::client::Client<C>,
+        client: hyper::Client<C>,
         server: &str,
         basic_authorization: bool,
         user: &str,
