@@ -247,9 +247,9 @@ where
         .body(body)
         .unwrap();
     config.set_session(&mut req).unwrap();
-    let parsed= rt.block_on(async {
+    let _parsed= rt.block_on(async {
         let res = config.client.request(req).await.map_err(|e| Error::from(e)).unwrap();
-        let body = hyper::body::to_bytes(res.into_body()).await.map_err(|e| Error::from(e)).unwrap();
+        hyper::body::to_bytes(res.into_body()).await.map_err(|e| Error::from(e)).unwrap();
     });
     return Ok(())
     
