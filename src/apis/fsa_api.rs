@@ -30,32 +30,32 @@ impl<C: hyper::client::connect::Connect> FsaApiClient<C> {
 }
 
 pub trait FsaApi {
-    fn delete_fsa_result(&self, fsa_result_id: &str) -> Box<dyn Future<Item = (), Error = Error>>;
-    fn delete_fsa_settings(&self) -> Box<dyn Future<Item = (), Error = Error>>;
+    fn delete_fsa_result(&self, fsa_result_id: &str) -> Result<(), Error>;
+    fn delete_fsa_settings(&self) -> Result<(), Error>;
     fn get_fsa_result(
         &self,
         fsa_result_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::FsaResults, Error = Error>>;
+    ) -> Result<crate::models::FsaResults, Error>;
     fn get_fsa_results(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::FsaResultsExtended, Error = Error>>;
+    ) -> Result<crate::models::FsaResultsExtended, Error>;
     fn get_fsa_settings(
         &self,
         scope: &str,
-    ) -> Box<dyn Future<Item = crate::models::FsaSettings, Error = Error>>;
+    ) -> Result<crate::models::FsaSettings, Error>;
     fn update_fsa_result(
         &self,
         fsa_result: crate::models::FsaResult,
         fsa_result_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_fsa_settings(
         &self,
         fsa_settings: crate::models::FsaSettingsSettings,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> FsaApi for FsaApiClient<C> {
-    fn delete_fsa_result(&self, fsa_result_id: &str) -> Box<dyn Future<Item = (), Error = Error>> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> FsaApi for FsaApiClient<C> {
+    fn delete_fsa_result(&self, fsa_result_id: &str) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/3/fsa/results/{FsaResultId}",
             self.configuration.base_path,
@@ -69,7 +69,7 @@ impl<C: hyper::client::connect::Connect + 'static> FsaApi for FsaApiClient<C> {
         )
     }
 
-    fn delete_fsa_settings(&self) -> Box<dyn Future<Item = (), Error = Error>> {
+    fn delete_fsa_settings(&self) -> Result<(), Error> {
         let uri_str = format!("{}/platform/1/fsa/settings", self.configuration.base_path);
         query(
             self.configuration.borrow(),
@@ -82,7 +82,7 @@ impl<C: hyper::client::connect::Connect + 'static> FsaApi for FsaApiClient<C> {
     fn get_fsa_result(
         &self,
         fsa_result_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::FsaResults, Error = Error>> {
+    ) -> Result<crate::models::FsaResults, Error> {
         let uri_str = format!(
             "{}/platform/3/fsa/results/{FsaResultId}",
             self.configuration.base_path,
@@ -98,7 +98,7 @@ impl<C: hyper::client::connect::Connect + 'static> FsaApi for FsaApiClient<C> {
 
     fn get_fsa_results(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::FsaResultsExtended, Error = Error>> {
+    ) -> Result<crate::models::FsaResultsExtended, Error> {
         let uri_str = format!("{}/platform/3/fsa/results", self.configuration.base_path);
         query(
             self.configuration.borrow(),
@@ -111,7 +111,7 @@ impl<C: hyper::client::connect::Connect + 'static> FsaApi for FsaApiClient<C> {
     fn get_fsa_settings(
         &self,
         scope: &str,
-    ) -> Box<dyn Future<Item = crate::models::FsaSettings, Error = Error>> {
+    ) -> Result<crate::models::FsaSettings, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
@@ -131,7 +131,7 @@ impl<C: hyper::client::connect::Connect + 'static> FsaApi for FsaApiClient<C> {
         &self,
         fsa_result: crate::models::FsaResult,
         fsa_result_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/3/fsa/results/{FsaResultId}",
             self.configuration.base_path,
@@ -143,7 +143,7 @@ impl<C: hyper::client::connect::Connect + 'static> FsaApi for FsaApiClient<C> {
     fn update_fsa_settings(
         &self,
         fsa_settings: crate::models::FsaSettingsSettings,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!("{}/platform/1/fsa/settings", self.configuration.base_path);
 
         put(self.configuration.borrow(), &uri_str, &fsa_settings)

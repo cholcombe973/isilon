@@ -33,7 +33,7 @@ pub trait IdResolutionApi {
     fn get_id_resolution_path(
         &self,
         id_resolution_path_id: i32,
-    ) -> Box<dyn Future<Item = crate::models::IdResolutionPaths, Error = Error>>;
+    ) -> Result<crate::models::IdResolutionPaths, Error>;
     fn get_id_resolution_paths(
         &self,
         sort: &str,
@@ -41,14 +41,14 @@ pub trait IdResolutionApi {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::IdResolutionPathsExtended, Error = Error>>;
+    ) -> Result<crate::models::IdResolutionPathsExtended, Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> IdResolutionApi for IdResolutionApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> IdResolutionApi for IdResolutionApiClient<C> {
     fn get_id_resolution_path(
         &self,
         id_resolution_path_id: i32,
-    ) -> Box<dyn Future<Item = crate::models::IdResolutionPaths, Error = Error>> {
+    ) -> Result<crate::models::IdResolutionPaths, Error> {
         let uri_str = format!(
             "{}/platform/4/id-resolution/paths/{IdResolutionPathId}",
             self.configuration.base_path,
@@ -69,7 +69,7 @@ impl<C: hyper::client::connect::Connect + 'static> IdResolutionApi for IdResolut
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::IdResolutionPathsExtended, Error = Error>> {
+    ) -> Result<crate::models::IdResolutionPathsExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("lins", &lins.to_string())

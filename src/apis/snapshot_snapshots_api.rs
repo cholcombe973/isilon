@@ -36,18 +36,18 @@ pub trait SnapshotSnapshotsApi {
         &self,
         snapshot_lock: crate::models::SnapshotLockCreateParams,
         sid: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotLockResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateSnapshotLockResponse, Error>;
     fn delete_snapshot_lock(
         &self,
         snapshot_lock_id: &str,
         sid: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
-    fn delete_snapshot_locks(&self, sid: &str) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
+    fn delete_snapshot_locks(&self, sid: &str) -> Result<(), Error>;
     fn get_snapshot_lock(
         &self,
         snapshot_lock_id: &str,
         sid: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotLocks, Error = Error>>;
+    ) -> Result<crate::models::SnapshotLocks, Error>;
     fn list_snapshot_locks(
         &self,
         sid: &str,
@@ -55,23 +55,23 @@ pub trait SnapshotSnapshotsApi {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotLocksExtended, Error = Error>>;
+    ) -> Result<crate::models::SnapshotLocksExtended, Error>;
     fn update_snapshot_lock(
         &self,
         snapshot_lock: crate::models::SnapshotLock,
         snapshot_lock_id: &str,
         sid: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> SnapshotSnapshotsApi
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> SnapshotSnapshotsApi
     for SnapshotSnapshotsApiClient<C>
 {
     fn create_snapshot_lock(
         &self,
         snapshot_lock: crate::models::SnapshotLockCreateParams,
         sid: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotLockResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateSnapshotLockResponse, Error> {
         let uri_str = format!(
             "{}/platform/1/snapshot/snapshots/{Sid}/locks",
             self.configuration.base_path,
@@ -89,7 +89,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotSnapshotsApi
         &self,
         snapshot_lock_id: &str,
         sid: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/1/snapshot/snapshots/{Sid}/locks/{SnapshotLockId}",
             self.configuration.base_path,
@@ -104,7 +104,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotSnapshotsApi
         )
     }
 
-    fn delete_snapshot_locks(&self, sid: &str) -> Box<dyn Future<Item = (), Error = Error>> {
+    fn delete_snapshot_locks(&self, sid: &str) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/1/snapshot/snapshots/{Sid}/locks",
             self.configuration.base_path,
@@ -122,7 +122,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotSnapshotsApi
         &self,
         snapshot_lock_id: &str,
         sid: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotLocks, Error = Error>> {
+    ) -> Result<crate::models::SnapshotLocks, Error> {
         let uri_str = format!(
             "{}/platform/1/snapshot/snapshots/{Sid}/locks/{SnapshotLockId}",
             self.configuration.base_path,
@@ -144,7 +144,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotSnapshotsApi
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotLocksExtended, Error = Error>> {
+    ) -> Result<crate::models::SnapshotLocksExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
@@ -170,7 +170,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotSnapshotsApi
         snapshot_lock: crate::models::SnapshotLock,
         snapshot_lock_id: &str,
         sid: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/1/snapshot/snapshots/{Sid}/locks/{SnapshotLockId}",
             self.configuration.base_path,

@@ -35,166 +35,166 @@ pub trait ClusterNodesApi {
         drives_drive_add_item: crate::models::Empty,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn create_drives_drive_firmware_update_item(
         &self,
         drives_drive_firmware_update_item: crate::models::DrivesDriveFirmwareUpdateItem,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn create_drives_drive_format_item(
         &self,
         drives_drive_format_item: crate::models::DrivesDriveFormatItem,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn create_drives_drive_purpose_item(
         &self,
         drives_drive_purpose_item: crate::models::DrivesDrivePurposeItem,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn create_drives_drive_smartfail_item(
         &self,
         drives_drive_smartfail_item: crate::models::Empty,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn create_drives_drive_stopfail_item(
         &self,
         drives_drive_stopfail_item: crate::models::Empty,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn create_drives_drive_suspend_item(
         &self,
         drives_drive_suspend_item: crate::models::Empty,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn create_node_reboot_item(
         &self,
         node_reboot_item: crate::models::Empty,
         lnn: i32,
         force: bool,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn create_node_shutdown_item(
         &self,
         node_shutdown_item: crate::models::Empty,
         lnn: i32,
         force: bool,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn get_drives_drive_firmware(
         &self,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::DrivesDriveFirmware, Error = Error>>;
+    ) -> Result<crate::models::DrivesDriveFirmware, Error>;
     fn get_node_drive(
         &self,
         node_drive_id: &str,
         lnn: i32,
         timeout: f32,
-    ) -> Box<dyn Future<Item = crate::models::NodeDrives, Error = Error>>;
+    ) -> Result<crate::models::NodeDrives, Error>;
     fn get_node_driveconfig(
         &self,
         lnn: i32,
         timeout: f32,
-    ) -> Box<dyn Future<Item = crate::models::NodeDriveconfig, Error = Error>>;
+    ) -> Result<crate::models::NodeDriveconfig, Error>;
     fn get_node_drives(
         &self,
         lnn: i32,
         timeout: f32,
-    ) -> Box<dyn Future<Item = crate::models::NodeDrives, Error = Error>>;
+    ) -> Result<crate::models::NodeDrives, Error>;
     fn get_node_drives_purposelist(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodeDrivesPurposelist, Error = Error>>;
+    ) -> Result<crate::models::NodeDrivesPurposelist, Error>;
     fn get_node_hardware(
         &self,
         lnn: i32,
         timeout: f32,
-    ) -> Box<dyn Future<Item = crate::models::NodeHardware, Error = Error>>;
+    ) -> Result<crate::models::NodeHardware, Error>;
     fn get_node_hardware_fast(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodeHardwareFast, Error = Error>>;
+    ) -> Result<crate::models::NodeHardwareFast, Error>;
     fn get_node_partitions(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodePartitions, Error = Error>>;
+    ) -> Result<crate::models::NodePartitions, Error>;
     fn get_node_sensors(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodeSensors, Error = Error>>;
+    ) -> Result<crate::models::NodeSensors, Error>;
     fn get_node_sled(
         &self,
         node_sled_id: &str,
         lnn: i32,
         timeout: f32,
-    ) -> Box<dyn Future<Item = crate::models::NodeSleds, Error = Error>>;
+    ) -> Result<crate::models::NodeSleds, Error>;
     fn get_node_sleds(
         &self,
         lnn: i32,
         timeout: f32,
-    ) -> Box<dyn Future<Item = crate::models::NodeSleds, Error = Error>>;
+    ) -> Result<crate::models::NodeSleds, Error>;
     fn get_node_state(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodeState, Error = Error>>;
+    ) -> Result<crate::models::NodeState, Error>;
     fn get_node_state_readonly(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodeStateReadonly, Error = Error>>;
+    ) -> Result<crate::models::NodeStateReadonly, Error>;
     fn get_node_state_servicelight(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodeStateServicelight, Error = Error>>;
+    ) -> Result<crate::models::NodeStateServicelight, Error>;
     fn get_node_state_smartfail(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodeStateSmartfail, Error = Error>>;
+    ) -> Result<crate::models::NodeStateSmartfail, Error>;
     fn get_node_status(
         &self,
         lnn: Option<i32>,
-    ) -> Box<dyn Future<Item = crate::models::NodeStatus, Error = Error>>;
+    ) -> Result<crate::models::NodeStatus, Error>;
     fn get_node_status_batterystatus(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodeStatusBatterystatus, Error = Error>>;
+    ) -> Result<crate::models::NodeStatusBatterystatus, Error>;
     fn list_drives_drive_firmware_update(
         &self,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::DrivesDriveFirmwareUpdate, Error = Error>>;
+    ) -> Result<crate::models::DrivesDriveFirmwareUpdate, Error>;
     fn update_node_driveconfig(
         &self,
         node_driveconfig: crate::models::NodeDriveconfigExtended,
         lnn: i32,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_node_state_readonly(
         &self,
         node_state_readonly: crate::models::NodeStateReadonlyExtended,
         lnn: i32,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_node_state_servicelight(
         &self,
         node_state_servicelight: crate::models::NodeStateServicelightExtended,
         lnn: i32,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_node_state_smartfail(
         &self,
         node_state_smartfail: crate::models::NodeStateSmartfailExtended,
         lnn: i32,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNodesApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static  + std::marker::Sync + std::marker::Send + Clone> ClusterNodesApi for ClusterNodesApiClient<C> {
     fn create_drives_drive_add_item(
         &self,
         drives_drive_add_item: crate::models::Empty,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/add",
             self.configuration.base_path,
@@ -215,7 +215,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         drives_drive_firmware_update_item: crate::models::DrivesDriveFirmwareUpdateItem,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/firmware/update",
             self.configuration.base_path,
@@ -236,7 +236,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         drives_drive_format_item: crate::models::DrivesDriveFormatItem,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/format",
             self.configuration.base_path,
@@ -257,7 +257,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         drives_drive_purpose_item: crate::models::DrivesDrivePurposeItem,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/purpose",
             self.configuration.base_path,
@@ -278,7 +278,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         drives_drive_smartfail_item: crate::models::Empty,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/smartfail",
             self.configuration.base_path,
@@ -299,7 +299,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         drives_drive_stopfail_item: crate::models::Empty,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/stopfail",
             self.configuration.base_path,
@@ -320,7 +320,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         drives_drive_suspend_item: crate::models::Empty,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/suspend",
             self.configuration.base_path,
@@ -341,7 +341,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         node_reboot_item: crate::models::Empty,
         lnn: i32,
         force: bool,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .finish();
@@ -365,7 +365,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         node_shutdown_item: crate::models::Empty,
         lnn: i32,
         force: bool,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .finish();
@@ -388,7 +388,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         &self,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::DrivesDriveFirmware, Error = Error>> {
+    ) -> Result<crate::models::DrivesDriveFirmware, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/firmware",
             self.configuration.base_path,
@@ -409,7 +409,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         node_drive_id: &str,
         lnn: i32,
         timeout: f32,
-    ) -> Box<dyn Future<Item = crate::models::NodeDrives, Error = Error>> {
+    ) -> Result<crate::models::NodeDrives, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("timeout", &timeout.to_string())
             .finish();
@@ -433,7 +433,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         &self,
         lnn: i32,
         timeout: f32,
-    ) -> Box<dyn Future<Item = crate::models::NodeDriveconfig, Error = Error>> {
+    ) -> Result<crate::models::NodeDriveconfig, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("timeout", &timeout.to_string())
             .finish();
@@ -456,7 +456,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         &self,
         lnn: i32,
         timeout: f32,
-    ) -> Box<dyn Future<Item = crate::models::NodeDrives, Error = Error>> {
+    ) -> Result<crate::models::NodeDrives, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("timeout", &timeout.to_string())
             .finish();
@@ -478,7 +478,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
     fn get_node_drives_purposelist(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodeDrivesPurposelist, Error = Error>> {
+    ) -> Result<crate::models::NodeDrivesPurposelist, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives-purposelist",
             self.configuration.base_path,
@@ -497,7 +497,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         &self,
         lnn: i32,
         timeout: f32,
-    ) -> Box<dyn Future<Item = crate::models::NodeHardware, Error = Error>> {
+    ) -> Result<crate::models::NodeHardware, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("timeout", &timeout.to_string())
             .finish();
@@ -519,7 +519,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
     fn get_node_hardware_fast(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodeHardwareFast, Error = Error>> {
+    ) -> Result<crate::models::NodeHardwareFast, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/hardware-fast",
             self.configuration.base_path,
@@ -537,7 +537,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
     fn get_node_partitions(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodePartitions, Error = Error>> {
+    ) -> Result<crate::models::NodePartitions, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/partitions",
             self.configuration.base_path,
@@ -555,7 +555,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
     fn get_node_sensors(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodeSensors, Error = Error>> {
+    ) -> Result<crate::models::NodeSensors, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/sensors",
             self.configuration.base_path,
@@ -575,7 +575,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         node_sled_id: &str,
         lnn: i32,
         timeout: f32,
-    ) -> Box<dyn Future<Item = crate::models::NodeSleds, Error = Error>> {
+    ) -> Result<crate::models::NodeSleds, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("timeout", &timeout.to_string())
             .finish();
@@ -599,7 +599,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         &self,
         lnn: i32,
         timeout: f32,
-    ) -> Box<dyn Future<Item = crate::models::NodeSleds, Error = Error>> {
+    ) -> Result<crate::models::NodeSleds, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("timeout", &timeout.to_string())
             .finish();
@@ -621,7 +621,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
     fn get_node_state(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodeState, Error = Error>> {
+    ) -> Result<crate::models::NodeState, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/state",
             self.configuration.base_path,
@@ -639,7 +639,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
     fn get_node_state_readonly(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodeStateReadonly, Error = Error>> {
+    ) -> Result<crate::models::NodeStateReadonly, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/state/readonly",
             self.configuration.base_path,
@@ -657,7 +657,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
     fn get_node_state_servicelight(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodeStateServicelight, Error = Error>> {
+    ) -> Result<crate::models::NodeStateServicelight, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/state/servicelight",
             self.configuration.base_path,
@@ -675,7 +675,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
     fn get_node_state_smartfail(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodeStateSmartfail, Error = Error>> {
+    ) -> Result<crate::models::NodeStateSmartfail, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/state/smartfail",
             self.configuration.base_path,
@@ -693,7 +693,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
     fn get_node_status(
         &self,
         lnn: Option<i32>,
-    ) -> Box<dyn Future<Item = crate::models::NodeStatus, Error = Error>> {
+    ) -> Result<crate::models::NodeStatus, Error> {
         let uri_str = match lnn {
             Some(lnn) => format!(
                 "{}/platform/3/cluster/nodes/{Lnn}/status",
@@ -717,7 +717,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
     fn get_node_status_batterystatus(
         &self,
         lnn: i32,
-    ) -> Box<dyn Future<Item = crate::models::NodeStatusBatterystatus, Error = Error>> {
+    ) -> Result<crate::models::NodeStatusBatterystatus, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/status/batterystatus",
             self.configuration.base_path,
@@ -736,7 +736,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         &self,
         lnn: i32,
         driveid: &str,
-    ) -> Box<dyn Future<Item = crate::models::DrivesDriveFirmwareUpdate, Error = Error>> {
+    ) -> Result<crate::models::DrivesDriveFirmwareUpdate, Error> {
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/drives/{Driveid}/firmware/update",
             self.configuration.base_path,
@@ -756,7 +756,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         &self,
         node_driveconfig: crate::models::NodeDriveconfigExtended,
         lnn: i32,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let uri_str = format!(
             "{}/platform/5/cluster/nodes/{Lnn}/driveconfig",
             self.configuration.base_path,
@@ -770,7 +770,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         &self,
         node_state_readonly: crate::models::NodeStateReadonlyExtended,
         lnn: i32,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/state/readonly",
             self.configuration.base_path,
@@ -784,7 +784,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         &self,
         node_state_servicelight: crate::models::NodeStateServicelightExtended,
         lnn: i32,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/state/servicelight",
             self.configuration.base_path,
@@ -802,7 +802,7 @@ impl<C: hyper::client::connect::Connect + 'static> ClusterNodesApi for ClusterNo
         &self,
         node_state_smartfail: crate::models::NodeStateSmartfailExtended,
         lnn: i32,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let uri_str = format!(
             "{}/platform/3/cluster/nodes/{Lnn}/state/smartfail",
             self.configuration.base_path,

@@ -21,7 +21,7 @@ pub struct FsaResultsApiClient<C: hyper::client::connect::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::connect::Connect + 'static> FsaResultsApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> FsaResultsApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> FsaResultsApiClient<C> {
         FsaResultsApiClient {
             configuration: configuration,
@@ -34,7 +34,7 @@ pub trait FsaResultsApi {
         &self,
         id: &str,
         stat: &str,
-    ) -> Box<dyn Future<Item = crate::models::HistogramStatBy, Error = Error>>;
+    ) -> Result<crate::models::HistogramStatBy, Error>;
     fn get_histogram_stat_by_breakout(
         &self,
         histogram_stat_by_breakout: &str,
@@ -52,7 +52,7 @@ pub trait FsaResultsApi {
         path_ext_filter: &str,
         ctime_filter: i32,
         atime_filter: i32,
-    ) -> Box<dyn Future<Item = crate::models::HistogramStatBy, Error = Error>>;
+    ) -> Result<crate::models::HistogramStatBy, Error>;
     fn get_result_directories(
         &self,
         id: &str,
@@ -61,7 +61,7 @@ pub trait FsaResultsApi {
         limit: i32,
         comp_report: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::ResultDirectories, Error = Error>>;
+    ) -> Result<crate::models::ResultDirectories, Error>;
     fn get_result_directory(
         &self,
         result_directory_id: i32,
@@ -70,11 +70,11 @@ pub trait FsaResultsApi {
         limit: i32,
         comp_report: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::ResultDirectories, Error = Error>>;
+    ) -> Result<crate::models::ResultDirectories, Error>;
     fn get_result_histogram(
         &self,
         id: &str,
-    ) -> Box<dyn Future<Item = crate::models::ResultHistogram, Error = Error>>;
+    ) -> Result<crate::models::ResultHistogram, Error>;
     fn get_result_histogram_stat(
         &self,
         result_histogram_stat: &str,
@@ -90,7 +90,7 @@ pub trait FsaResultsApi {
         path_ext_filter: &str,
         ctime_filter: i32,
         atime_filter: i32,
-    ) -> Box<dyn Future<Item = crate::models::ResultHistogram, Error = Error>>;
+    ) -> Result<crate::models::ResultHistogram, Error>;
     fn get_result_top_dir(
         &self,
         result_top_dir_id: &str,
@@ -100,11 +100,11 @@ pub trait FsaResultsApi {
         limit: i32,
         comp_report: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::ResultTopDirs, Error = Error>>;
+    ) -> Result<crate::models::ResultTopDirs, Error>;
     fn get_result_top_dirs(
         &self,
         id: &str,
-    ) -> Box<dyn Future<Item = crate::models::ResultTopDirs, Error = Error>>;
+    ) -> Result<crate::models::ResultTopDirs, Error>;
     fn get_result_top_file(
         &self,
         result_top_file_id: &str,
@@ -114,19 +114,19 @@ pub trait FsaResultsApi {
         limit: i32,
         comp_report: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::ResultTopFiles, Error = Error>>;
+    ) -> Result<crate::models::ResultTopFiles, Error>;
     fn get_result_top_files(
         &self,
         id: &str,
-    ) -> Box<dyn Future<Item = crate::models::ResultTopFiles, Error = Error>>;
+    ) -> Result<crate::models::ResultTopFiles, Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> FsaResultsApi for FsaResultsApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> FsaResultsApi for FsaResultsApiClient<C> {
     fn get_histogram_stat_by(
         &self,
         id: &str,
         stat: &str,
-    ) -> Box<dyn Future<Item = crate::models::HistogramStatBy, Error = Error>> {
+    ) -> Result<crate::models::HistogramStatBy, Error> {
         let uri_str = format!(
             "{}/platform/3/fsa/results/{Id}/histogram/{Stat}/by",
             self.configuration.base_path,
@@ -158,7 +158,7 @@ impl<C: hyper::client::connect::Connect + 'static> FsaResultsApi for FsaResultsA
         path_ext_filter: &str,
         ctime_filter: i32,
         atime_filter: i32,
-    ) -> Box<dyn Future<Item = crate::models::HistogramStatBy, Error = Error>> {
+    ) -> Result<crate::models::HistogramStatBy, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("directory_filter", &directory_filter.to_string())
             .append_pair("attribute_filter", &attribute_filter.to_string())
@@ -197,7 +197,7 @@ impl<C: hyper::client::connect::Connect + 'static> FsaResultsApi for FsaResultsA
         limit: i32,
         comp_report: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::ResultDirectories, Error = Error>> {
+    ) -> Result<crate::models::ResultDirectories, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("path", &path.to_string())
@@ -227,7 +227,7 @@ impl<C: hyper::client::connect::Connect + 'static> FsaResultsApi for FsaResultsA
         limit: i32,
         comp_report: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::ResultDirectories, Error = Error>> {
+    ) -> Result<crate::models::ResultDirectories, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
@@ -252,7 +252,7 @@ impl<C: hyper::client::connect::Connect + 'static> FsaResultsApi for FsaResultsA
     fn get_result_histogram(
         &self,
         id: &str,
-    ) -> Box<dyn Future<Item = crate::models::ResultHistogram, Error = Error>> {
+    ) -> Result<crate::models::ResultHistogram, Error> {
         let uri_str = format!(
             "{}/platform/3/fsa/results/{Id}/histogram",
             self.configuration.base_path,
@@ -281,7 +281,7 @@ impl<C: hyper::client::connect::Connect + 'static> FsaResultsApi for FsaResultsA
         path_ext_filter: &str,
         ctime_filter: i32,
         atime_filter: i32,
-    ) -> Box<dyn Future<Item = crate::models::ResultHistogram, Error = Error>> {
+    ) -> Result<crate::models::ResultHistogram, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("directory_filter", &directory_filter.to_string())
             .append_pair("attribute_filter", &attribute_filter.to_string())
@@ -319,7 +319,7 @@ impl<C: hyper::client::connect::Connect + 'static> FsaResultsApi for FsaResultsA
         limit: i32,
         comp_report: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::ResultTopDirs, Error = Error>> {
+    ) -> Result<crate::models::ResultTopDirs, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("start", &start.to_string())
@@ -345,7 +345,7 @@ impl<C: hyper::client::connect::Connect + 'static> FsaResultsApi for FsaResultsA
     fn get_result_top_dirs(
         &self,
         id: &str,
-    ) -> Box<dyn Future<Item = crate::models::ResultTopDirs, Error = Error>> {
+    ) -> Result<crate::models::ResultTopDirs, Error> {
         let uri_str = format!(
             "{}/platform/3/fsa/results/{Id}/top-dirs",
             self.configuration.base_path,
@@ -368,7 +368,7 @@ impl<C: hyper::client::connect::Connect + 'static> FsaResultsApi for FsaResultsA
         limit: i32,
         comp_report: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::ResultTopFiles, Error = Error>> {
+    ) -> Result<crate::models::ResultTopFiles, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("start", &start.to_string())
@@ -394,7 +394,7 @@ impl<C: hyper::client::connect::Connect + 'static> FsaResultsApi for FsaResultsA
     fn get_result_top_files(
         &self,
         id: &str,
-    ) -> Box<dyn Future<Item = crate::models::ResultTopFiles, Error = Error>> {
+    ) -> Result<crate::models::ResultTopFiles, Error> {
         let uri_str = format!(
             "{}/platform/3/fsa/results/{Id}/top-files",
             self.configuration.base_path,

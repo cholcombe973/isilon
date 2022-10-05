@@ -38,16 +38,16 @@ pub trait SnapshotChangelistsApi {
         changelist: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::ChangelistLins, Error = Error>>;
+    ) -> Result<crate::models::ChangelistLins, Error>;
     fn get_changelist_lins(
         &self,
         changelist: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::ChangelistLinsExtended, Error = Error>>;
+    ) -> Result<crate::models::ChangelistLinsExtended, Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> SnapshotChangelistsApi
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> SnapshotChangelistsApi
     for SnapshotChangelistsApiClient<C>
 {
     fn get_changelist_lin(
@@ -56,7 +56,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotChangelistsApi
         changelist: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::ChangelistLins, Error = Error>> {
+    ) -> Result<crate::models::ChangelistLins, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("limit", &limit.to_string())
             .append_pair("resume", &resume.to_string())
@@ -81,7 +81,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotChangelistsApi
         changelist: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::ChangelistLinsExtended, Error = Error>> {
+    ) -> Result<crate::models::ChangelistLinsExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("limit", &limit.to_string())
             .append_pair("resume", &resume.to_string())

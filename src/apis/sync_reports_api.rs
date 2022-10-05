@@ -34,7 +34,7 @@ pub trait SyncReportsApi {
         &self,
         report_subreport_id: &str,
         rid: &str,
-    ) -> Box<dyn Future<Item = crate::models::ReportSubreports, Error = Error>>;
+    ) -> Result<crate::models::ReportSubreports, Error>;
     fn get_report_subreports(
         &self,
         rid: &str,
@@ -44,15 +44,15 @@ pub trait SyncReportsApi {
         state: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::ReportSubreportsExtended, Error = Error>>;
+    ) -> Result<crate::models::ReportSubreportsExtended, Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> SyncReportsApi for SyncReportsApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> SyncReportsApi for SyncReportsApiClient<C> {
     fn get_report_subreport(
         &self,
         report_subreport_id: &str,
         rid: &str,
-    ) -> Box<dyn Future<Item = crate::models::ReportSubreports, Error = Error>> {
+    ) -> Result<crate::models::ReportSubreports, Error> {
         let uri_str = format!(
             "{}/platform/4/sync/reports/{Rid}/subreports/{ReportSubreportId}",
             self.configuration.base_path,
@@ -76,7 +76,7 @@ impl<C: hyper::client::connect::Connect + 'static> SyncReportsApi for SyncReport
         state: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::ReportSubreportsExtended, Error = Error>> {
+    ) -> Result<crate::models::ReportSubreportsExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("resume", &resume.to_string())

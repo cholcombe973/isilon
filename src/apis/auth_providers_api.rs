@@ -33,17 +33,17 @@ pub trait AuthProvidersApi {
         &self,
         id: &str,
         groupnet: &str,
-    ) -> Box<dyn Future<Item = crate::models::AdsProviderControllers, Error = Error>>;
+    ) -> Result<crate::models::AdsProviderControllers, Error>;
     fn get_ads_provider_domain(
         &self,
         ads_provider_domain_id: &str,
         id: &str,
-    ) -> Box<dyn Future<Item = crate::models::AdsProviderDomains, Error = Error>>;
+    ) -> Result<crate::models::AdsProviderDomains, Error>;
     fn get_ads_provider_domains(
         &self,
         id: &str,
         scope: &str,
-    ) -> Box<dyn Future<Item = crate::models::AdsProviderDomains, Error = Error>>;
+    ) -> Result<crate::models::AdsProviderDomains, Error>;
     fn get_ads_provider_search(
         &self,
         id: &str,
@@ -56,15 +56,15 @@ pub trait AuthProvidersApi {
         user: &str,
         password: &str,
         search_groups: bool,
-    ) -> Box<dyn Future<Item = crate::models::AdsProviderSearch, Error = Error>>;
+    ) -> Result<crate::models::AdsProviderSearch, Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> AuthProvidersApi for AuthProvidersApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> AuthProvidersApi for AuthProvidersApiClient<C> {
     fn get_ads_provider_controllers(
         &self,
         id: &str,
         groupnet: &str,
-    ) -> Box<dyn Future<Item = crate::models::AdsProviderControllers, Error = Error>> {
+    ) -> Result<crate::models::AdsProviderControllers, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("groupnet", &groupnet.to_string())
             .finish();
@@ -87,7 +87,7 @@ impl<C: hyper::client::connect::Connect + 'static> AuthProvidersApi for AuthProv
         &self,
         ads_provider_domain_id: &str,
         id: &str,
-    ) -> Box<dyn Future<Item = crate::models::AdsProviderDomains, Error = Error>> {
+    ) -> Result<crate::models::AdsProviderDomains, Error> {
         let uri_str = format!(
             "{}/platform/3/auth/providers/ads/{Id}/domains/{AdsProviderDomainId}",
             self.configuration.base_path,
@@ -107,7 +107,7 @@ impl<C: hyper::client::connect::Connect + 'static> AuthProvidersApi for AuthProv
         &self,
         id: &str,
         scope: &str,
-    ) -> Box<dyn Future<Item = crate::models::AdsProviderDomains, Error = Error>> {
+    ) -> Result<crate::models::AdsProviderDomains, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("scope", &scope.to_string())
             .finish();
@@ -138,7 +138,7 @@ impl<C: hyper::client::connect::Connect + 'static> AuthProvidersApi for AuthProv
         user: &str,
         password: &str,
         search_groups: bool,
-    ) -> Box<dyn Future<Item = crate::models::AdsProviderSearch, Error = Error>> {
+    ) -> Result<crate::models::AdsProviderSearch, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("domain", &domain.to_string())
             .append_pair("description", &description.to_string())

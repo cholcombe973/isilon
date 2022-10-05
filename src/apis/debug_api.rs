@@ -30,12 +30,12 @@ impl<C: hyper::client::connect::Connect> DebugApiClient<C> {
 }
 
 pub trait DebugApi {
-    fn delete_debug_stats(&self) -> Box<dyn Future<Item = (), Error = Error>>;
-    fn get_debug_stats(&self) -> Box<dyn Future<Item = crate::models::DebugStats, Error = Error>>;
+    fn delete_debug_stats(&self) -> Result<(), Error>;
+    fn get_debug_stats(&self) -> Result<crate::models::DebugStats, Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> DebugApi for DebugApiClient<C> {
-    fn delete_debug_stats(&self) -> Box<dyn Future<Item = (), Error = Error>> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> DebugApi for DebugApiClient<C> {
+    fn delete_debug_stats(&self) -> Result<(), Error>{
         let uri_str = format!("{}/platform/1/debug/stats", self.configuration.base_path);
         query(
             self.configuration.borrow(),
@@ -45,7 +45,7 @@ impl<C: hyper::client::connect::Connect + 'static> DebugApi for DebugApiClient<C
         )
     }
 
-    fn get_debug_stats(&self) -> Box<dyn Future<Item = crate::models::DebugStats, Error = Error>> {
+    fn get_debug_stats(&self) -> Result<crate::models::DebugStats, Error> {
         let uri_str = format!("{}/platform/1/debug/stats", self.configuration.base_path);
         query(
             self.configuration.borrow(),

@@ -33,58 +33,58 @@ pub trait EventApi {
     fn create_event_alert_condition(
         &self,
         event_alert_condition: crate::models::EventAlertConditionCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateResponse, Error>;
     fn create_event_channel(
         &self,
         event_channel: crate::models::EventChannelCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateResponse, Error>;
     fn create_event_event(
         &self,
         event_event: crate::models::EventEvent,
-    ) -> Box<dyn Future<Item = crate::models::CreateQuotaReportResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateQuotaReportResponse, Error>;
     fn delete_event_alert_condition(
         &self,
         event_alert_condition_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn delete_event_alert_conditions(
         &self,
         channel: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn delete_event_channel(
         &self,
         event_channel_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn get_event_alert_condition(
         &self,
         event_alert_condition_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventAlertConditions, Error = Error>>;
+    ) -> Result<crate::models::EventAlertConditions, Error>;
     fn get_event_categories(
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventCategoriesExtended, Error = Error>>;
+    ) -> Result<crate::models::EventCategoriesExtended, Error>;
     fn get_event_category(
         &self,
         event_category_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventCategories, Error = Error>>;
+    ) -> Result<crate::models::EventCategories, Error>;
     fn get_event_channel(
         &self,
         event_channel_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventChannels, Error = Error>>;
+    ) -> Result<crate::models::EventChannels, Error>;
     fn get_event_eventgroup_definition(
         &self,
         event_eventgroup_definition_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventEventgroupDefinitions, Error = Error>>;
+    ) -> Result<crate::models::EventEventgroupDefinitions, Error>;
     fn get_event_eventgroup_definitions(
         &self,
         category: i32,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventEventgroupDefinitionsExtended, Error = Error>>;
+    ) -> Result<crate::models::EventEventgroupDefinitionsExtended, Error>;
     fn get_event_eventgroup_occurrence(
         &self,
         event_eventgroup_occurrence_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventEventgroupOccurrences, Error = Error>>;
+    ) -> Result<crate::models::EventEventgroupOccurrences, Error>;
     fn get_event_eventgroup_occurrences(
         &self,
         resolved: bool,
@@ -98,20 +98,20 @@ pub trait EventApi {
         resolver: &str,
         cause: &str,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventEventgroupOccurrencesExtended, Error = Error>>;
+    ) -> Result<crate::models::EventEventgroupOccurrencesExtended, Error>;
     fn get_event_eventlist(
         &self,
         event_eventlist_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventEventlists, Error = Error>>;
+    ) -> Result<crate::models::EventEventlists, Error>;
     fn get_event_eventlists(
         &self,
         event_instance: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventEventlistsExtended, Error = Error>>;
+    ) -> Result<crate::models::EventEventlistsExtended, Error>;
     fn get_event_settings(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::EventSettings, Error = Error>>;
+    ) -> Result<crate::models::EventSettings, Error>;
     fn list_event_alert_conditions(
         &self,
         channels: &str,
@@ -119,44 +119,44 @@ pub trait EventApi {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventAlertConditionsExtended, Error = Error>>;
+    ) -> Result<crate::models::EventAlertConditionsExtended, Error>;
     fn list_event_channels(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventChannelsExtended, Error = Error>>;
+    ) -> Result<crate::models::EventChannelsExtended, Error>;
     fn update_event_alert_condition(
         &self,
         event_alert_condition: crate::models::EventAlertCondition,
         event_alert_condition_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_event_channel(
         &self,
         event_channel: crate::models::EventChannel,
         event_channel_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_event_eventgroup_occurrence(
         &self,
         event_eventgroup_occurrence: crate::models::EventEventgroupOccurrence,
         event_eventgroup_occurrence_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_event_eventgroup_occurrences(
         &self,
         event_eventgroup_occurrences: crate::models::EventEventgroupOccurrence,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_event_settings(
         &self,
         event_settings: crate::models::EventSettings,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> EventApi for EventApiClient<C> {
     fn create_event_alert_condition(
         &self,
         event_alert_condition: crate::models::EventAlertConditionCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateResponse, Error> {
         let uri_str = format!(
             "{}/platform/4/event/alert-conditions",
             self.configuration.base_path
@@ -172,7 +172,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
     fn create_event_channel(
         &self,
         event_channel: crate::models::EventChannelCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateResponse, Error> {
         let uri_str = format!("{}/platform/3/event/channels", self.configuration.base_path);
         query(
             self.configuration.borrow(),
@@ -185,7 +185,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
     fn create_event_event(
         &self,
         event_event: crate::models::EventEvent,
-    ) -> Box<dyn Future<Item = crate::models::CreateQuotaReportResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateQuotaReportResponse, Error> {
         let uri_str = format!("{}/platform/3/event/events", self.configuration.base_path);
         query(
             self.configuration.borrow(),
@@ -198,7 +198,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
     fn delete_event_alert_condition(
         &self,
         event_alert_condition_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/4/event/alert-conditions/{EventAlertConditionId}",
             self.configuration.base_path,
@@ -215,7 +215,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
     fn delete_event_alert_conditions(
         &self,
         channel: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("channel", &channel.to_string())
             .finish();
@@ -234,7 +234,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
     fn delete_event_channel(
         &self,
         event_channel_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/3/event/channels/{EventChannelId}",
             self.configuration.base_path,
@@ -251,7 +251,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
     fn get_event_alert_condition(
         &self,
         event_alert_condition_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventAlertConditions, Error = Error>> {
+    ) -> Result<crate::models::EventAlertConditions, Error> {
         let uri_str = format!(
             "{}/platform/4/event/alert-conditions/{EventAlertConditionId}",
             self.configuration.base_path,
@@ -269,7 +269,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventCategoriesExtended, Error = Error>> {
+    ) -> Result<crate::models::EventCategoriesExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("limit", &limit.to_string())
             .append_pair("resume", &resume.to_string())
@@ -289,7 +289,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
     fn get_event_category(
         &self,
         event_category_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventCategories, Error = Error>> {
+    ) -> Result<crate::models::EventCategories, Error> {
         let uri_str = format!(
             "{}/platform/3/event/categories/{EventCategoryId}",
             self.configuration.base_path,
@@ -306,7 +306,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
     fn get_event_channel(
         &self,
         event_channel_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventChannels, Error = Error>> {
+    ) -> Result<crate::models::EventChannels, Error> {
         let uri_str = format!(
             "{}/platform/3/event/channels/{EventChannelId}",
             self.configuration.base_path,
@@ -323,7 +323,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
     fn get_event_eventgroup_definition(
         &self,
         event_eventgroup_definition_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventEventgroupDefinitions, Error = Error>> {
+    ) -> Result<crate::models::EventEventgroupDefinitions, Error> {
         let uri_str = format!(
             "{}/platform/4/event/eventgroup-definitions/{EventEventgroupDefinitionId}",
             self.configuration.base_path,
@@ -342,7 +342,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
         category: i32,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventEventgroupDefinitionsExtended, Error = Error>>
+    ) -> Result<crate::models::EventEventgroupDefinitionsExtended, Error>
     {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("category", &category.to_string())
@@ -364,7 +364,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
     fn get_event_eventgroup_occurrence(
         &self,
         event_eventgroup_occurrence_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventEventgroupOccurrences, Error = Error>> {
+    ) -> Result<crate::models::EventEventgroupOccurrences, Error> {
         let uri_str = format!(
             "{}/platform/3/event/eventgroup-occurrences/{EventEventgroupOccurrenceId}",
             self.configuration.base_path,
@@ -391,7 +391,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
         resolver: &str,
         cause: &str,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventEventgroupOccurrencesExtended, Error = Error>>
+    ) -> Result<crate::models::EventEventgroupOccurrencesExtended, Error>
     {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("resolved", &resolved.to_string())
@@ -421,7 +421,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
     fn get_event_eventlist(
         &self,
         event_eventlist_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventEventlists, Error = Error>> {
+    ) -> Result<crate::models::EventEventlists, Error> {
         let uri_str = format!(
             "{}/platform/3/event/eventlists/{EventEventlistId}",
             self.configuration.base_path,
@@ -440,7 +440,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
         event_instance: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventEventlistsExtended, Error = Error>> {
+    ) -> Result<crate::models::EventEventlistsExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("event_instance", &event_instance.to_string())
             .append_pair("limit", &limit.to_string())
@@ -460,7 +460,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
 
     fn get_event_settings(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::EventSettings, Error = Error>> {
+    ) -> Result<crate::models::EventSettings, Error> {
         let uri_str = format!("{}/platform/3/event/settings", self.configuration.base_path);
         query(
             self.configuration.borrow(),
@@ -477,7 +477,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventAlertConditionsExtended, Error = Error>> {
+    ) -> Result<crate::models::EventAlertConditionsExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("channels", &channels.to_string())
             .append_pair("sort", &sort.to_string())
@@ -503,7 +503,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::EventChannelsExtended, Error = Error>> {
+    ) -> Result<crate::models::EventChannelsExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
@@ -526,7 +526,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
         &self,
         event_alert_condition: crate::models::EventAlertCondition,
         event_alert_condition_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/4/event/alert-conditions/{EventAlertConditionId}",
             self.configuration.base_path,
@@ -543,7 +543,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
         &self,
         event_channel: crate::models::EventChannel,
         event_channel_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/3/event/channels/{EventChannelId}",
             self.configuration.base_path,
@@ -556,7 +556,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
         &self,
         event_eventgroup_occurrence: crate::models::EventEventgroupOccurrence,
         event_eventgroup_occurrence_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/3/event/eventgroup-occurrences/{EventEventgroupOccurrenceId}",
             self.configuration.base_path,
@@ -572,7 +572,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
     fn update_event_eventgroup_occurrences(
         &self,
         event_eventgroup_occurrences: crate::models::EventEventgroupOccurrence,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/3/event/eventgroup-occurrences",
             self.configuration.base_path
@@ -587,7 +587,7 @@ impl<C: hyper::client::connect::Connect + 'static> EventApi for EventApiClient<C
     fn update_event_settings(
         &self,
         event_settings: crate::models::EventSettings,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!("{}/platform/3/event/settings", self.configuration.base_path);
         put(self.configuration.borrow(), &uri_str, &event_settings)
     }

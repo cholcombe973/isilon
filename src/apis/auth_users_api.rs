@@ -36,37 +36,37 @@ pub trait AuthUsersApi {
         user: &str,
         zone: &str,
         provider: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateResponse, Error>;
     fn delete_user_member_of_member_of(
         &self,
         user_member_of_member_of: &str,
         user: &str,
         zone: &str,
         provider: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn list_user_member_of(
         &self,
         user: &str,
         resolve_names: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<dyn Future<Item = crate::models::UserMemberOf, Error = Error>>;
+    ) -> Result<crate::models::UserMemberOf, Error>;
     fn update_user_change_password(
         &self,
         user_change_password: crate::models::UserChangePassword,
         user: &str,
         zone: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> AuthUsersApi for AuthUsersApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> AuthUsersApi for AuthUsersApiClient<C> {
     fn create_user_member_of_item(
         &self,
         user_member_of_item: crate::models::AuthAccessAccessItemFileGroup,
         user: &str,
         zone: &str,
         provider: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateResponse, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .append_pair("provider", &provider.to_string())
@@ -92,7 +92,7 @@ impl<C: hyper::client::connect::Connect + 'static> AuthUsersApi for AuthUsersApi
         user: &str,
         zone: &str,
         provider: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .append_pair("provider", &provider.to_string())
@@ -118,7 +118,7 @@ impl<C: hyper::client::connect::Connect + 'static> AuthUsersApi for AuthUsersApi
         resolve_names: bool,
         zone: &str,
         provider: &str,
-    ) -> Box<dyn Future<Item = crate::models::UserMemberOf, Error = Error>> {
+    ) -> Result<crate::models::UserMemberOf, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("resolve_names", &resolve_names.to_string())
             .append_pair("zone", &zone.to_string())
@@ -144,7 +144,7 @@ impl<C: hyper::client::connect::Connect + 'static> AuthUsersApi for AuthUsersApi
         user_change_password: crate::models::UserChangePassword,
         user: &str,
         zone: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();

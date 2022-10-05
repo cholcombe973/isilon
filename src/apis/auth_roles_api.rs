@@ -34,39 +34,39 @@ pub trait AuthRolesApi {
         &self,
         role_member: crate::models::AuthAccessAccessItemFileGroup,
         role: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateResponse, Error>;
     fn create_role_privilege(
         &self,
         role_privilege: crate::models::AuthIdNtokenPrivilegeItem,
         role: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateResponse, Error>;
     fn delete_role_member(
         &self,
         role_member_id: &str,
         role: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn delete_role_privilege(
         &self,
         role_privilege_id: &str,
         role: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn list_role_members(
         &self,
         role: &str,
         resolve_names: bool,
-    ) -> Box<dyn Future<Item = crate::models::GroupMembers, Error = Error>>;
+    ) -> Result<crate::models::GroupMembers, Error>;
     fn list_role_privileges(
         &self,
         role: &str,
-    ) -> Box<dyn Future<Item = crate::models::RolePrivileges, Error = Error>>;
+    ) -> Result<crate::models::RolePrivileges, Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> AuthRolesApi for AuthRolesApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> AuthRolesApi for AuthRolesApiClient<C> {
     fn create_role_member(
         &self,
         role_member: crate::models::AuthAccessAccessItemFileGroup,
         role: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateResponse, Error> {
         let uri_str = format!(
             "{}/platform/1/auth/roles/{Role}/members",
             self.configuration.base_path,
@@ -85,7 +85,7 @@ impl<C: hyper::client::connect::Connect + 'static> AuthRolesApi for AuthRolesApi
         &self,
         role_privilege: crate::models::AuthIdNtokenPrivilegeItem,
         role: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateResponse, Error> {
         let uri_str = format!(
             "{}/platform/1/auth/roles/{Role}/privileges",
             self.configuration.base_path,
@@ -104,7 +104,7 @@ impl<C: hyper::client::connect::Connect + 'static> AuthRolesApi for AuthRolesApi
         &self,
         role_member_id: &str,
         role: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let uri_str = format!(
             "{}/platform/1/auth/roles/{Role}/members/{RoleMemberId}",
             self.configuration.base_path,
@@ -123,7 +123,7 @@ impl<C: hyper::client::connect::Connect + 'static> AuthRolesApi for AuthRolesApi
         &self,
         role_privilege_id: &str,
         role: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let uri_str = format!(
             "{}/platform/1/auth/roles/{Role}/privileges/{RolePrivilegeId}",
             self.configuration.base_path,
@@ -142,7 +142,7 @@ impl<C: hyper::client::connect::Connect + 'static> AuthRolesApi for AuthRolesApi
         &self,
         role: &str,
         resolve_names: bool,
-    ) -> Box<dyn Future<Item = crate::models::GroupMembers, Error = Error>> {
+    ) -> Result<crate::models::GroupMembers, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("resolve_names", &resolve_names.to_string())
             .finish();
@@ -165,7 +165,7 @@ impl<C: hyper::client::connect::Connect + 'static> AuthRolesApi for AuthRolesApi
     fn list_role_privileges(
         &self,
         role: &str,
-    ) -> Box<dyn Future<Item = crate::models::RolePrivileges, Error = Error>> {
+    ) -> Result<crate::models::RolePrivileges, Error> {
         let uri_str = format!(
             "{}/platform/1/auth/roles/{Role}/privileges",
             self.configuration.base_path,

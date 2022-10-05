@@ -38,7 +38,7 @@ pub trait NamespaceApi {
         overwrite: bool,
         merge: bool,
         _continue: bool,
-    ) -> Box<dyn Future<Item = crate::models::CopyErrors, Error = Error>>;
+    ) -> Result<crate::models::CopyErrors, Error>;
     fn copy_file(
         &self,
         file_copy_target: &str,
@@ -46,12 +46,12 @@ pub trait NamespaceApi {
         clone: bool,
         snapshot: &str,
         overwrite: bool,
-    ) -> Box<dyn Future<Item = crate::models::CopyErrors, Error = Error>>;
+    ) -> Result<crate::models::CopyErrors, Error>;
     fn create_access_point(
         &self,
         access_point_name: &str,
         access_point: crate::models::AccessPointCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn create_directory(
         &self,
         directory_path: &str,
@@ -60,7 +60,7 @@ pub trait NamespaceApi {
         x_isi_ifs_node_pool_name: &str,
         recursive: bool,
         overwrite: bool,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn create_file(
         &self,
         file_path: &str,
@@ -70,32 +70,32 @@ pub trait NamespaceApi {
         content_encoding: &str,
         content_type: &str,
         overwrite: bool,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn delete_access_point(
         &self,
         access_point_name: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn delete_directory(
         &self,
         directory_path: &str,
         recursive: bool,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn delete_file(
         &self,
         file_path: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn get_acl(
         &self,
         namespace_path: &str,
         acl: bool,
         nsaccess: bool,
-    ) -> Box<dyn Future<Item = crate::models::NamespaceAcl, Error = Error>>;
+    ) -> Result<crate::models::NamespaceAcl, Error>;
     fn get_directory_attributes(
         &self,
         directory_path: &str,
         if_modified_since: &str,
         if_unmodified_since: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn get_directory_contents(
         &self,
         directory_path: &str,
@@ -106,49 +106,49 @@ pub trait NamespaceApi {
         dir: &str,
         _type: &str,
         hidden: bool,
-    ) -> Box<dyn Future<Item = crate::models::NamespaceObjects, Error = Error>>;
+    ) -> Result<crate::models::NamespaceObjects, Error>;
     fn get_directory_metadata(
         &self,
         directory_metadata_path: &str,
         metadata: bool,
-    ) -> Box<dyn Future<Item = crate::models::NamespaceMetadataList, Error = Error>>;
+    ) -> Result<crate::models::NamespaceMetadataList, Error>;
     fn get_file_attributes(
         &self,
         file_path: &str,
         if_modified_since: &str,
         if_unmodified_since: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn get_file_contents(
         &self,
         file_path: &str,
         range: &str,
         if_modified_since: &str,
         if_unmodified_since: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn get_file_metadata(
         &self,
         file_metadata_path: &str,
         metadata: bool,
-    ) -> Box<dyn Future<Item = crate::models::NamespaceMetadataList, Error = Error>>;
+    ) -> Result<crate::models::NamespaceMetadataList, Error>;
     fn get_worm_properties(
         &self,
         worm_file_path: &str,
         worm: bool,
-    ) -> Box<dyn Future<Item = crate::models::WormProperties, Error = Error>>;
+    ) -> Result<crate::models::WormProperties, Error>;
     fn list_access_points(
         &self,
         versions: bool,
-    ) -> Box<dyn Future<Item = crate::models::NamespaceAccessPoints, Error = Error>>;
+    ) -> Result<crate::models::NamespaceAccessPoints, Error>;
     fn move_directory(
         &self,
         directory_path: &str,
         x_isi_ifs_set_location: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn move_file(
         &self,
         file_path: &str,
         x_isi_ifs_set_location: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn query_directory(
         &self,
         query_path: &str,
@@ -157,35 +157,35 @@ pub trait NamespaceApi {
         limit: i32,
         detail: &str,
         max_depth: i32,
-    ) -> Box<dyn Future<Item = crate::models::NamespaceObjects, Error = Error>>;
+    ) -> Result<crate::models::NamespaceObjects, Error>;
     fn set_acl(
         &self,
         namespace_path: &str,
         acl: bool,
         namespace_acl: crate::models::NamespaceAcl,
         nsaccess: bool,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn set_directory_metadata(
         &self,
         directory_metadata_path: &str,
         metadata: bool,
         directory_metadata: crate::models::NamespaceMetadata,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn set_file_metadata(
         &self,
         file_metadata_path: &str,
         metadata: bool,
         file_metadata: crate::models::NamespaceMetadata,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn set_worm_properties(
         &self,
         worm_file_path: &str,
         worm: bool,
         worm_properties: crate::models::WormCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> NamespaceApi for NamespaceApiClient<C> {
     fn copy_directory(
         &self,
         directory_copy_target: &str,
@@ -193,7 +193,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         overwrite: bool,
         merge: bool,
         _continue: bool,
-    ) -> Box<dyn Future<Item = crate::models::CopyErrors, Error = Error>> {
+    ) -> Result<crate::models::CopyErrors, Error> {
         let mut headers: HashMap<String, String> = HashMap::new();
 
         let q = ::url::form_urlencoded::Serializer::new(String::new())
@@ -226,7 +226,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         clone: bool,
         snapshot: &str,
         overwrite: bool,
-    ) -> Box<dyn Future<Item = crate::models::CopyErrors, Error = Error>> {
+    ) -> Result<crate::models::CopyErrors, Error> {
         let mut headers: HashMap<String, String> = HashMap::new();
 
         let q = ::url::form_urlencoded::Serializer::new(String::new())
@@ -256,7 +256,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         &self,
         access_point_name: &str,
         access_point: crate::models::AccessPointCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!(
             "{}/namespace/{AccessPointName}",
             self.configuration.base_path,
@@ -278,7 +278,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         x_isi_ifs_node_pool_name: &str,
         recursive: bool,
         overwrite: bool,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let mut headers: HashMap<String, String> = HashMap::new();
 
         let q = ::url::form_urlencoded::Serializer::new(String::new())
@@ -319,7 +319,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         content_encoding: &str,
         content_type: &str,
         overwrite: bool,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let mut headers: HashMap<String, String> = HashMap::new();
 
         let q = ::url::form_urlencoded::Serializer::new(String::new())
@@ -351,7 +351,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
     fn delete_access_point(
         &self,
         access_point_name: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!(
             "{}/namespace/{AccessPointName}",
             self.configuration.base_path,
@@ -369,7 +369,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         &self,
         directory_path: &str,
         recursive: bool,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("recursive", &recursive.to_string())
             .finish();
@@ -390,7 +390,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
     fn delete_file(
         &self,
         file_path: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!(
             "{}/namespace/{FilePath}",
             self.configuration.base_path,
@@ -409,7 +409,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         namespace_path: &str,
         acl: bool,
         nsaccess: bool,
-    ) -> Box<dyn Future<Item = crate::models::NamespaceAcl, Error = Error>> {
+    ) -> Result<crate::models::NamespaceAcl, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("acl", &acl.to_string())
             .append_pair("nsaccess", &nsaccess.to_string())
@@ -433,7 +433,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         directory_path: &str,
         if_modified_since: &str,
         if_unmodified_since: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let mut headers: HashMap<String, String> = HashMap::new();
 
         let uri_str = format!(
@@ -463,7 +463,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         dir: &str,
         _type: &str,
         hidden: bool,
-    ) -> Box<dyn Future<Item = crate::models::NamespaceObjects, Error = Error>> {
+    ) -> Result<crate::models::NamespaceObjects, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("detail", &detail.to_string())
             .append_pair("limit", &limit.to_string())
@@ -491,7 +491,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         &self,
         directory_metadata_path: &str,
         metadata: bool,
-    ) -> Box<dyn Future<Item = crate::models::NamespaceMetadataList, Error = Error>> {
+    ) -> Result<crate::models::NamespaceMetadataList, Error> {
 
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("metadata", &metadata.to_string())
@@ -515,7 +515,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         file_path: &str,
         if_modified_since: &str,
         if_unmodified_since: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!(
             "{}/namespace/{FilePath}",
             self.configuration.base_path,
@@ -540,7 +540,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         range: &str,
         if_modified_since: &str,
         if_unmodified_since: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!(
             "{}/namespace/{FilePath}",
             self.configuration.base_path,
@@ -568,7 +568,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         &self,
         file_metadata_path: &str,
         metadata: bool,
-    ) -> Box<dyn Future<Item = crate::models::NamespaceMetadataList, Error = Error>> {
+    ) -> Result<crate::models::NamespaceMetadataList, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("metadata", &metadata.to_string())
             .finish();
@@ -590,7 +590,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         &self,
         worm_file_path: &str,
         worm: bool,
-    ) -> Box<dyn Future<Item = crate::models::WormProperties, Error = Error>> {
+    ) -> Result<crate::models::WormProperties, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("worm", &worm.to_string())
             .finish();
@@ -611,7 +611,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
     fn list_access_points(
         &self,
         versions: bool,
-    ) -> Box<dyn Future<Item = crate::models::NamespaceAccessPoints, Error = Error>> {
+    ) -> Result<crate::models::NamespaceAccessPoints, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("versions", &versions.to_string())
             .finish();
@@ -628,7 +628,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         &self,
         directory_path: &str,
         x_isi_ifs_set_location: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let mut headers: HashMap<String, String> = HashMap::new();
         headers.insert(
             "x-isi-ifs-set-location".into(),
@@ -654,7 +654,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         &self,
         file_path: &str,
         x_isi_ifs_set_location: &str,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let mut headers: HashMap<String, String> = HashMap::new();
         headers.insert(
             "x-isi-ifs-set-location".into(),
@@ -684,7 +684,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         limit: i32,
         detail: &str,
         max_depth: i32,
-    ) -> Box<dyn Future<Item = crate::models::NamespaceObjects, Error = Error>> {
+    ) -> Result<crate::models::NamespaceObjects, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("query", &query.to_string())
             .append_pair("limit", &limit.to_string())
@@ -711,7 +711,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         acl: bool,
         namespace_acl: crate::models::NamespaceAcl,
         nsaccess: bool,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("acl", &acl.to_string())
             .append_pair("nsaccess", &nsaccess.to_string())
@@ -736,7 +736,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         directory_metadata_path: &str,
         metadata: bool,
         directory_metadata: crate::models::NamespaceMetadata,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("metadata", &metadata.to_string())
             .finish();
@@ -760,7 +760,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         file_metadata_path: &str,
         metadata: bool,
         file_metadata: crate::models::NamespaceMetadata,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("metadata", &metadata.to_string())
             .finish();
@@ -784,7 +784,7 @@ impl<C: hyper::client::connect::Connect + 'static> NamespaceApi for NamespaceApi
         worm_file_path: &str,
         worm: bool,
         worm_properties: crate::models::WormCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("worm", &worm.to_string())
             .finish();

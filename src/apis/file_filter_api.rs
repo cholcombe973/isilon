@@ -33,19 +33,19 @@ pub trait FileFilterApi {
     fn get_file_filter_settings(
         &self,
         zone: &str,
-    ) -> Box<dyn Future<Item = crate::models::FileFilterSettings, Error = Error>>;
+    ) -> Result<crate::models::FileFilterSettings, Error>;
     fn update_file_filter_settings(
         &self,
         file_filter_settings: crate::models::FileFilterSettingsExtended,
         zone: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> FileFilterApi for FileFilterApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> FileFilterApi for FileFilterApiClient<C> {
     fn get_file_filter_settings(
         &self,
         zone: &str,
-    ) -> Box<dyn Future<Item = crate::models::FileFilterSettings, Error = Error>> {
+    ) -> Result<crate::models::FileFilterSettings, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();
@@ -65,7 +65,7 @@ impl<C: hyper::client::connect::Connect + 'static> FileFilterApi for FileFilterA
         &self,
         file_filter_settings: crate::models::FileFilterSettingsExtended,
         zone: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("zone", &zone.to_string())
             .finish();

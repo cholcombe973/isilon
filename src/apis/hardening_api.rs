@@ -33,30 +33,30 @@ pub trait HardeningApi {
     fn create_hardening_apply_item(
         &self,
         hardening_apply_item: crate::models::HardeningApplyItem,
-    ) -> Box<dyn Future<Item = crate::models::CreateHardeningApplyItemResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateHardeningApplyItemResponse, Error>;
     fn create_hardening_resolve_item(
         &self,
         hardening_resolve_item: crate::models::HardeningResolveItem,
         accept: bool,
-    ) -> Box<dyn Future<Item = crate::models::CreateHardeningResolveItemResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateHardeningResolveItemResponse, Error>;
     fn create_hardening_revert_item(
         &self,
         hardening_revert_item: crate::models::Empty,
         force: bool,
-    ) -> Box<dyn Future<Item = crate::models::CreateHardeningRevertItemResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateHardeningRevertItemResponse, Error>;
     fn get_hardening_state(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::HardeningState, Error = Error>>;
+    ) -> Result<crate::models::HardeningState, Error>;
     fn get_hardening_status(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::HardeningStatus, Error = Error>>;
+    ) -> Result<crate::models::HardeningStatus, Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> HardeningApi for HardeningApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> HardeningApi for HardeningApiClient<C> {
     fn create_hardening_apply_item(
         &self,
         hardening_apply_item: crate::models::HardeningApplyItem,
-    ) -> Box<dyn Future<Item = crate::models::CreateHardeningApplyItemResponse, Error = Error>>
+    ) -> Result<crate::models::CreateHardeningApplyItemResponse, Error>
     {
         let uri_str = format!(
             "{}/platform/3/hardening/apply",
@@ -74,7 +74,7 @@ impl<C: hyper::client::connect::Connect + 'static> HardeningApi for HardeningApi
         &self,
         hardening_resolve_item: crate::models::HardeningResolveItem,
         accept: bool,
-    ) -> Box<dyn Future<Item = crate::models::CreateHardeningResolveItemResponse, Error = Error>>
+    ) -> Result<crate::models::CreateHardeningResolveItemResponse, Error>
     {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("accept", &accept.to_string())
@@ -95,7 +95,7 @@ impl<C: hyper::client::connect::Connect + 'static> HardeningApi for HardeningApi
         &self,
         hardening_revert_item: crate::models::Empty,
         force: bool,
-    ) -> Box<dyn Future<Item = crate::models::CreateHardeningRevertItemResponse, Error = Error>>
+    ) -> Result<crate::models::CreateHardeningRevertItemResponse, Error>
     {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
@@ -114,7 +114,7 @@ impl<C: hyper::client::connect::Connect + 'static> HardeningApi for HardeningApi
 
     fn get_hardening_state(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::HardeningState, Error = Error>> {
+    ) -> Result<crate::models::HardeningState, Error> {
         let uri_str = format!(
             "{}/platform/3/hardening/state",
             self.configuration.base_path
@@ -129,7 +129,7 @@ impl<C: hyper::client::connect::Connect + 'static> HardeningApi for HardeningApi
 
     fn get_hardening_status(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::HardeningStatus, Error = Error>> {
+    ) -> Result<crate::models::HardeningStatus, Error> {
         let uri_str = format!(
             "{}/platform/3/hardening/status",
             self.configuration.base_path

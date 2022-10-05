@@ -33,60 +33,60 @@ pub trait CloudApi {
     fn create_cloud_access_item(
         &self,
         cloud_access_item: crate::models::CloudAccessItem,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn create_cloud_account(
         &self,
         cloud_account: crate::models::CloudAccountCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateCloudAccountResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateCloudAccountResponse, Error>;
     fn create_cloud_job(
         &self,
         cloud_job: crate::models::CloudJobCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateCloudJobResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateCloudJobResponse, Error>;
     fn create_cloud_pool(
         &self,
         cloud_pool: crate::models::CloudPoolCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateCloudPoolResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateCloudPoolResponse, Error>;
     fn create_cloud_proxy(
         &self,
         cloud_proxy: crate::models::CloudProxyCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateCloudProxyResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateCloudProxyResponse, Error>;
     fn create_settings_encryption_key_item(
         &self,
         settings_encryption_key_item: crate::models::Empty,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn create_settings_reporting_eula_item(
         &self,
         settings_reporting_eula_item: crate::models::SettingsReportingEulaItem,
-    ) -> Box<dyn Future<Item = crate::models::SettingsReportingEulaItem, Error = Error>>;
+    ) -> Result<crate::models::SettingsReportingEulaItem, Error>;
     fn delete_cloud_access_guid(
         &self,
         cloud_access_guid: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn delete_cloud_account(
         &self,
         cloud_account_id: &str,
         acknowledge_force_delete: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn delete_cloud_pool(
         &self,
         cloud_pool_id: &str,
         acknowledge_force_delete: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn delete_cloud_proxy(&self, cloud_proxy_id: &str)
-        -> Box<dyn Future<Item = (), Error = Error>>;
-    fn delete_settings_reporting_eula(&self) -> Box<dyn Future<Item = (), Error = Error>>;
+        -> Result<(), Error>;
+    fn delete_settings_reporting_eula(&self) -> Result<(), Error>;
     fn get_cloud_access_guid(
         &self,
         cloud_access_guid: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudAccess, Error = Error>>;
+    ) -> Result<crate::models::CloudAccess, Error>;
     fn get_cloud_account(
         &self,
         cloud_account_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudAccounts, Error = Error>>;
+    ) -> Result<crate::models::CloudAccounts, Error>;
     fn get_cloud_job(
         &self,
         cloud_job_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudJobs, Error = Error>>;
+    ) -> Result<crate::models::CloudJobs, Error>;
     fn get_cloud_jobs_file(
         &self,
         cloud_jobs_file_id: &str,
@@ -96,82 +96,82 @@ pub trait CloudApi {
         limit: i32,
         page: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudJobsFiles, Error = Error>>;
+    ) -> Result<crate::models::CloudJobsFiles, Error>;
     fn get_cloud_pool(
         &self,
         cloud_pool_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudPools, Error = Error>>;
+    ) -> Result<crate::models::CloudPools, Error>;
     fn get_cloud_proxy(
         &self,
         cloud_proxy_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudProxies, Error = Error>>;
+    ) -> Result<crate::models::CloudProxies, Error>;
     fn get_cloud_settings(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::CloudSettings, Error = Error>>;
+    ) -> Result<crate::models::CloudSettings, Error>;
     fn list_cloud_access(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudAccessExtended, Error = Error>>;
+    ) -> Result<crate::models::CloudAccessExtended, Error>;
     fn list_cloud_accounts(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudAccountsExtended, Error = Error>>;
+    ) -> Result<crate::models::CloudAccountsExtended, Error>;
     fn list_cloud_jobs(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudJobsExtended, Error = Error>>;
+    ) -> Result<crate::models::CloudJobsExtended, Error>;
     fn list_cloud_pools(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudPoolsExtended, Error = Error>>;
+    ) -> Result<crate::models::CloudPoolsExtended, Error>;
     fn list_cloud_proxies(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudProxiesExtended, Error = Error>>;
+    ) -> Result<crate::models::CloudProxiesExtended, Error>;
     fn list_settings_reporting_eula(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::SettingsReportingEulaItem, Error = Error>>;
+    ) -> Result<crate::models::SettingsReportingEulaItem, Error>;
     fn update_cloud_account(
         &self,
         cloud_account: crate::models::CloudAccount,
         cloud_account_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_cloud_job(
         &self,
         cloud_job: crate::models::CloudJob,
         cloud_job_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_cloud_pool(
         &self,
         cloud_pool: crate::models::CloudPool,
         cloud_pool_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_cloud_proxy(
         &self,
         cloud_proxy: crate::models::CloudProxy,
         cloud_proxy_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_cloud_settings(
         &self,
         cloud_settings: crate::models::CloudSettingsSettings,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> CloudApi for CloudApiClient<C> {
     fn create_cloud_access_item(
         &self,
         cloud_access_item: crate::models::CloudAccessItem,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!("{}/platform/3/cloud/access", self.configuration.base_path);
 
         query(
@@ -185,7 +185,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
     fn create_cloud_account(
         &self,
         cloud_account: crate::models::CloudAccountCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateCloudAccountResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateCloudAccountResponse, Error> {
         let uri_str = format!("{}/platform/4/cloud/accounts", self.configuration.base_path);
 
         query(
@@ -199,7 +199,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
     fn create_cloud_job(
         &self,
         cloud_job: crate::models::CloudJobCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateCloudJobResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateCloudJobResponse, Error> {
         let uri_str = format!("{}/platform/3/cloud/jobs", self.configuration.base_path);
 
         query(
@@ -213,7 +213,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
     fn create_cloud_pool(
         &self,
         cloud_pool: crate::models::CloudPoolCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateCloudPoolResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateCloudPoolResponse, Error> {
         let uri_str = format!("{}/platform/3/cloud/pools", self.configuration.base_path);
 
         query(
@@ -227,7 +227,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
     fn create_cloud_proxy(
         &self,
         cloud_proxy: crate::models::CloudProxyCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateCloudProxyResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateCloudProxyResponse, Error> {
         let uri_str = format!("{}/platform/4/cloud/proxies", self.configuration.base_path);
 
         query(
@@ -241,7 +241,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
     fn create_settings_encryption_key_item(
         &self,
         settings_encryption_key_item: crate::models::Empty,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!(
             "{}/platform/3/cloud/settings/encryption-key",
             self.configuration.base_path
@@ -258,7 +258,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
     fn create_settings_reporting_eula_item(
         &self,
         settings_reporting_eula_item: crate::models::SettingsReportingEulaItem,
-    ) -> Box<dyn Future<Item = crate::models::SettingsReportingEulaItem, Error = Error>> {
+    ) -> Result<crate::models::SettingsReportingEulaItem, Error> {
         let uri_str = format!(
             "{}/platform/3/cloud/settings/reporting-eula",
             self.configuration.base_path
@@ -275,7 +275,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
     fn delete_cloud_access_guid(
         &self,
         cloud_access_guid: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let uri_str = format!(
             "{}/platform/3/cloud/access/{CloudAccessGuid}",
             self.configuration.base_path,
@@ -293,7 +293,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
         &self,
         cloud_account_id: &str,
         acknowledge_force_delete: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair(
                 "acknowledge_force_delete",
@@ -318,7 +318,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
         &self,
         cloud_pool_id: &str,
         acknowledge_force_delete: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair(
                 "acknowledge_force_delete",
@@ -342,7 +342,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
     fn delete_cloud_proxy(
         &self,
         cloud_proxy_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let uri_str = format!(
             "{}/platform/4/cloud/proxies/{CloudProxyId}",
             self.configuration.base_path,
@@ -356,7 +356,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
         )
     }
 
-    fn delete_settings_reporting_eula(&self) -> Box<dyn Future<Item = (), Error = Error>> {
+    fn delete_settings_reporting_eula(&self) -> Result<(), Error>{
         let uri_str = format!(
             "{}/platform/3/cloud/settings/reporting-eula",
             self.configuration.base_path
@@ -372,7 +372,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
     fn get_cloud_access_guid(
         &self,
         cloud_access_guid: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudAccess, Error = Error>> {
+    ) -> Result<crate::models::CloudAccess, Error> {
         let uri_str = format!(
             "{}/platform/3/cloud/access/{CloudAccessGuid}",
             self.configuration.base_path,
@@ -390,7 +390,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
     fn get_cloud_account(
         &self,
         cloud_account_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudAccounts, Error = Error>> {
+    ) -> Result<crate::models::CloudAccounts, Error> {
         let uri_str = format!(
             "{}/platform/4/cloud/accounts/{CloudAccountId}",
             self.configuration.base_path,
@@ -408,7 +408,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
     fn get_cloud_job(
         &self,
         cloud_job_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudJobs, Error = Error>> {
+    ) -> Result<crate::models::CloudJobs, Error> {
         let uri_str = format!(
             "{}/platform/3/cloud/jobs/{CloudJobId}",
             self.configuration.base_path,
@@ -432,7 +432,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
         limit: i32,
         page: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudJobsFiles, Error = Error>> {
+    ) -> Result<crate::models::CloudJobsFiles, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("resume", &resume.to_string())
@@ -459,7 +459,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
     fn get_cloud_pool(
         &self,
         cloud_pool_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudPools, Error = Error>> {
+    ) -> Result<crate::models::CloudPools, Error> {
         let uri_str = format!(
             "{}/platform/3/cloud/pools/{CloudPoolId}",
             self.configuration.base_path,
@@ -477,7 +477,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
     fn get_cloud_proxy(
         &self,
         cloud_proxy_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudProxies, Error = Error>> {
+    ) -> Result<crate::models::CloudProxies, Error> {
         let uri_str = format!(
             "{}/platform/4/cloud/proxies/{CloudProxyId}",
             self.configuration.base_path,
@@ -494,7 +494,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
 
     fn get_cloud_settings(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::CloudSettings, Error = Error>> {
+    ) -> Result<crate::models::CloudSettings, Error> {
         let uri_str = format!("{}/platform/3/cloud/settings", self.configuration.base_path);
 
         query(
@@ -510,7 +510,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudAccessExtended, Error = Error>> {
+    ) -> Result<crate::models::CloudAccessExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
@@ -534,7 +534,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudAccountsExtended, Error = Error>> {
+    ) -> Result<crate::models::CloudAccountsExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
@@ -558,7 +558,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudJobsExtended, Error = Error>> {
+    ) -> Result<crate::models::CloudJobsExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
@@ -582,7 +582,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudPoolsExtended, Error = Error>> {
+    ) -> Result<crate::models::CloudPoolsExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
@@ -606,7 +606,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
         sort: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::CloudProxiesExtended, Error = Error>> {
+    ) -> Result<crate::models::CloudProxiesExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
@@ -627,7 +627,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
 
     fn list_settings_reporting_eula(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::SettingsReportingEulaItem, Error = Error>> {
+    ) -> Result<crate::models::SettingsReportingEulaItem, Error> {
         let uri_str = format!(
             "{}/platform/3/cloud/settings/reporting-eula",
             self.configuration.base_path
@@ -645,7 +645,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
         &self,
         cloud_account: crate::models::CloudAccount,
         cloud_account_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let uri = format!(
             "{}/platform/4/cloud/accounts/{CloudAccountId}",
             self.configuration.base_path,
@@ -658,7 +658,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
         &self,
         cloud_job: crate::models::CloudJob,
         cloud_job_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let uri = format!(
             "{}/platform/3/cloud/jobs/{CloudJobId}",
             self.configuration.base_path,
@@ -671,7 +671,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
         &self,
         cloud_pool: crate::models::CloudPool,
         cloud_pool_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let uri = format!(
             "{}/platform/3/cloud/pools/{CloudPoolId}",
             self.configuration.base_path,
@@ -684,7 +684,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
         &self,
         cloud_proxy: crate::models::CloudProxy,
         cloud_proxy_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let uri = format!(
             "{}/platform/4/cloud/proxies/{CloudProxyId}",
             self.configuration.base_path,
@@ -696,7 +696,7 @@ impl<C: hyper::client::connect::Connect + 'static> CloudApi for CloudApiClient<C
     fn update_cloud_settings(
         &self,
         cloud_settings: crate::models::CloudSettingsSettings,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error>{
         let uri = format!("{}/platform/3/cloud/settings", self.configuration.base_path);
         put(self.configuration.borrow(), &uri, &cloud_settings)
     }

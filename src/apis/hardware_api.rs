@@ -38,22 +38,22 @@ pub trait HardwareApi {
         port: i32,
         timeout: f32,
         reconcile: bool,
-    ) -> Box<dyn Future<Item = crate::models::CreateHardwareTapeNameResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateHardwareTapeNameResponse, Error>;
     fn delete_hardware_tape_name(
         &self,
         hardware_tape_name: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn get_hardware_fcport(
         &self,
         hardware_fcport_id: i32,
         lnn: &str,
-    ) -> Box<dyn Future<Item = crate::models::HardwareFcports, Error = Error>>;
+    ) -> Result<crate::models::HardwareFcports, Error>;
     fn get_hardware_fcports(
         &self,
         lnn: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::HardwareFcports, Error = Error>>;
+    ) -> Result<crate::models::HardwareFcports, Error>;
     fn get_hardware_tapes(
         &self,
         node: &str,
@@ -62,21 +62,21 @@ pub trait HardwareApi {
         limit: i32,
         activepath: &str,
         _type: &str,
-    ) -> Box<dyn Future<Item = crate::models::HardwareTapes, Error = Error>>;
+    ) -> Result<crate::models::HardwareTapes, Error>;
     fn update_hardware_fcport(
         &self,
         hardware_fcport: crate::models::HardwareFcport,
         hardware_fcport_id: i32,
         lnn: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_hardware_tape_name(
         &self,
         hardware_tape_name_params: crate::models::HardwareTapeNameParams,
         hardware_tape_name: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> HardwareApi for HardwareApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> HardwareApi for HardwareApiClient<C> {
     fn create_hardware_tape_name(
         &self,
         hardware_tape_name: crate::models::Empty,
@@ -85,7 +85,7 @@ impl<C: hyper::client::connect::Connect + 'static> HardwareApi for HardwareApiCl
         port: i32,
         timeout: f32,
         reconcile: bool,
-    ) -> Box<dyn Future<Item = crate::models::CreateHardwareTapeNameResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateHardwareTapeNameResponse, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("lnn", &lnn.to_string())
             .append_pair("port", &port.to_string())
@@ -109,7 +109,7 @@ impl<C: hyper::client::connect::Connect + 'static> HardwareApi for HardwareApiCl
     fn delete_hardware_tape_name(
         &self,
         hardware_tape_name: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/3/hardware/tape/{HardwareTapeName}",
             self.configuration.base_path,
@@ -127,7 +127,7 @@ impl<C: hyper::client::connect::Connect + 'static> HardwareApi for HardwareApiCl
         &self,
         hardware_fcport_id: i32,
         lnn: &str,
-    ) -> Box<dyn Future<Item = crate::models::HardwareFcports, Error = Error>> {
+    ) -> Result<crate::models::HardwareFcports, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("lnn", &lnn.to_string())
             .finish();
@@ -150,7 +150,7 @@ impl<C: hyper::client::connect::Connect + 'static> HardwareApi for HardwareApiCl
         lnn: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::HardwareFcports, Error = Error>> {
+    ) -> Result<crate::models::HardwareFcports, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("lnn", &lnn.to_string())
             .append_pair("limit", &limit.to_string())
@@ -176,7 +176,7 @@ impl<C: hyper::client::connect::Connect + 'static> HardwareApi for HardwareApiCl
         limit: i32,
         activepath: &str,
         _type: &str,
-    ) -> Box<dyn Future<Item = crate::models::HardwareTapes, Error = Error>> {
+    ) -> Result<crate::models::HardwareTapes, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("node", &node.to_string())
             .append_pair("resume", &resume.to_string())
@@ -202,7 +202,7 @@ impl<C: hyper::client::connect::Connect + 'static> HardwareApi for HardwareApiCl
         hardware_fcport: crate::models::HardwareFcport,
         hardware_fcport_id: i32,
         lnn: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("lnn", &lnn.to_string())
             .finish();
@@ -219,7 +219,7 @@ impl<C: hyper::client::connect::Connect + 'static> HardwareApi for HardwareApiCl
         &self,
         hardware_tape_name_params: crate::models::HardwareTapeNameParams,
         hardware_tape_name: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/3/hardware/tape/{HardwareTapeName}",
             self.configuration.base_path,

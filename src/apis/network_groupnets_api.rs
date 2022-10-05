@@ -34,37 +34,37 @@ pub trait NetworkGroupnetsApi {
         &self,
         groupnet_subnet: crate::models::GroupnetSubnetCreateParams,
         groupnet: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateResponse, Error>;
     fn create_subnets_subnet_pool(
         &self,
         subnets_subnet_pool: crate::models::SubnetsSubnetPoolCreateParams,
         groupnet: &str,
         subnet: &str,
         force: bool,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateResponse, Error>;
     fn delete_groupnet_subnet(
         &self,
         groupnet_subnet_id: &str,
         groupnet: &str,
         force: bool,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn delete_subnets_subnet_pool(
         &self,
         subnets_subnet_pool_id: &str,
         groupnet: &str,
         subnet: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn get_groupnet_subnet(
         &self,
         groupnet_subnet_id: &str,
         groupnet: &str,
-    ) -> Box<dyn Future<Item = crate::models::GroupnetSubnets, Error = Error>>;
+    ) -> Result<crate::models::GroupnetSubnets, Error>;
     fn get_subnets_subnet_pool(
         &self,
         subnets_subnet_pool_id: &str,
         groupnet: &str,
         subnet: &str,
-    ) -> Box<dyn Future<Item = crate::models::SubnetsSubnetPools, Error = Error>>;
+    ) -> Result<crate::models::SubnetsSubnetPools, Error>;
     fn list_groupnet_subnets(
         &self,
         groupnet: &str,
@@ -72,7 +72,7 @@ pub trait NetworkGroupnetsApi {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::GroupnetSubnetsExtended, Error = Error>>;
+    ) -> Result<crate::models::GroupnetSubnetsExtended, Error>;
     fn list_subnets_subnet_pools(
         &self,
         groupnet: &str,
@@ -83,14 +83,14 @@ pub trait NetworkGroupnetsApi {
         alloc_method: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::SubnetsSubnetPoolsExtended, Error = Error>>;
+    ) -> Result<crate::models::SubnetsSubnetPoolsExtended, Error>;
     fn update_groupnet_subnet(
         &self,
         groupnet_subnet: crate::models::GroupnetSubnet,
         groupnet_subnet_id: &str,
         groupnet: &str,
         force: bool,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_subnets_subnet_pool(
         &self,
         subnets_subnet_pool: crate::models::SubnetsSubnetPool,
@@ -98,17 +98,17 @@ pub trait NetworkGroupnetsApi {
         groupnet: &str,
         subnet: &str,
         force: bool,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsApi
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> NetworkGroupnetsApi
     for NetworkGroupnetsApiClient<C>
 {
     fn create_groupnet_subnet(
         &self,
         groupnet_subnet: crate::models::GroupnetSubnetCreateParams,
         groupnet: &str,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateResponse, Error> {
         let uri_str = format!(
             "{}/platform/4/network/groupnets/{Groupnet}/subnets",
             self.configuration.base_path,
@@ -129,7 +129,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsApi
         groupnet: &str,
         subnet: &str,
         force: bool,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateResponse, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .finish();
@@ -154,7 +154,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsApi
         groupnet_subnet_id: &str,
         groupnet: &str,
         force: bool,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .finish();
@@ -178,7 +178,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsApi
         subnets_subnet_pool_id: &str,
         groupnet: &str,
         subnet: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{SubnetsSubnetPoolId}" , self.configuration.base_path, SubnetsSubnetPoolId=subnets_subnet_pool_id, Groupnet=groupnet, Subnet=subnet);
         query(
             self.configuration.borrow(),
@@ -192,7 +192,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsApi
         &self,
         groupnet_subnet_id: &str,
         groupnet: &str,
-    ) -> Box<dyn Future<Item = crate::models::GroupnetSubnets, Error = Error>> {
+    ) -> Result<crate::models::GroupnetSubnets, Error> {
         let uri_str = format!(
             "{}/platform/4/network/groupnets/{Groupnet}/subnets/{GroupnetSubnetId}",
             self.configuration.base_path,
@@ -214,7 +214,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsApi
         subnets_subnet_pool_id: &str,
         groupnet: &str,
         subnet: &str,
-    ) -> Box<dyn Future<Item = crate::models::SubnetsSubnetPools, Error = Error>> {
+    ) -> Result<crate::models::SubnetsSubnetPools, Error> {
         let uri_str = format!("{}/platform/3/network/groupnets/{Groupnet}/subnets/{Subnet}/pools/{SubnetsSubnetPoolId}" , self.configuration.base_path, SubnetsSubnetPoolId=subnets_subnet_pool_id, Groupnet=groupnet, Subnet=subnet);
 
         query(
@@ -232,7 +232,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsApi
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::GroupnetSubnetsExtended, Error = Error>> {
+    ) -> Result<crate::models::GroupnetSubnetsExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
@@ -266,7 +266,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsApi
         alloc_method: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::SubnetsSubnetPoolsExtended, Error = Error>> {
+    ) -> Result<crate::models::SubnetsSubnetPoolsExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("resume", &resume.to_string())
@@ -297,7 +297,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsApi
         groupnet_subnet_id: &str,
         groupnet: &str,
         force: bool,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .finish();
@@ -319,7 +319,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkGroupnetsApi
         groupnet: &str,
         subnet: &str,
         force: bool,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("force", &force.to_string())
             .finish();

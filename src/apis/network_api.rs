@@ -33,29 +33,29 @@ pub trait NetworkApi {
     fn create_dnscache_flush_item(
         &self,
         dnscache_flush_item: crate::models::Empty,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn create_network_groupnet(
         &self,
         network_groupnet: crate::models::NetworkGroupnetCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateResponse, Error>;
     fn create_network_sc_rebalance_all_item(
         &self,
         network_sc_rebalance_all_item: crate::models::Empty,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>>;
+    ) -> Result<crate::models::Empty, Error>;
     fn delete_network_groupnet(
         &self,
         network_groupnet_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn get_network_dnscache(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::NetworkDnscache, Error = Error>>;
+    ) -> Result<crate::models::NetworkDnscache, Error>;
     fn get_network_external(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::NetworkExternal, Error = Error>>;
+    ) -> Result<crate::models::NetworkExternal, Error>;
     fn get_network_groupnet(
         &self,
         network_groupnet_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::NetworkGroupnets, Error = Error>>;
+    ) -> Result<crate::models::NetworkGroupnets, Error>;
     fn get_network_interfaces(
         &self,
         sort: &str,
@@ -65,7 +65,7 @@ pub trait NetworkApi {
         alloc_method: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::PoolsPoolInterfaces, Error = Error>>;
+    ) -> Result<crate::models::PoolsPoolInterfaces, Error>;
     fn get_network_pools(
         &self,
         sort: &str,
@@ -76,7 +76,7 @@ pub trait NetworkApi {
         limit: i32,
         groupnet: &str,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::NetworkPools, Error = Error>>;
+    ) -> Result<crate::models::NetworkPools, Error>;
     fn get_network_rules(
         &self,
         sort: &str,
@@ -86,7 +86,7 @@ pub trait NetworkApi {
         dir: &str,
         groupnet: &str,
         pool: &str,
-    ) -> Box<dyn Future<Item = crate::models::PoolsPoolRulesExtended, Error = Error>>;
+    ) -> Result<crate::models::PoolsPoolRulesExtended, Error>;
     fn get_network_subnets(
         &self,
         sort: &str,
@@ -94,34 +94,34 @@ pub trait NetworkApi {
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::GroupnetSubnetsExtended, Error = Error>>;
+    ) -> Result<crate::models::GroupnetSubnetsExtended, Error>;
     fn list_network_groupnets(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::NetworkGroupnetsExtended, Error = Error>>;
+    ) -> Result<crate::models::NetworkGroupnetsExtended, Error>;
     fn update_network_dnscache(
         &self,
         network_dnscache: crate::models::NetworkDnscacheExtended,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_network_external(
         &self,
         network_external: crate::models::NetworkExternalExtended,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_network_groupnet(
         &self,
         network_groupnet: crate::models::NetworkGroupnet,
         network_groupnet_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> NetworkApi for NetworkApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> NetworkApi for NetworkApiClient<C> {
     fn create_dnscache_flush_item(
         &self,
         dnscache_flush_item: crate::models::Empty,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!(
             "{}/platform/3/network/dnscache/flush",
             self.configuration.base_path
@@ -137,7 +137,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkApi for NetworkApiClie
     fn create_network_groupnet(
         &self,
         network_groupnet: crate::models::NetworkGroupnetCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateResponse, Error> {
         let uri_str = format!(
             "{}/platform/3/network/groupnets",
             self.configuration.base_path
@@ -153,7 +153,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkApi for NetworkApiClie
     fn create_network_sc_rebalance_all_item(
         &self,
         network_sc_rebalance_all_item: crate::models::Empty,
-    ) -> Box<dyn Future<Item = crate::models::Empty, Error = Error>> {
+    ) -> Result<crate::models::Empty, Error> {
         let uri_str = format!(
             "{}/platform/3/network/sc-rebalance-all",
             self.configuration.base_path
@@ -169,7 +169,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkApi for NetworkApiClie
     fn delete_network_groupnet(
         &self,
         network_groupnet_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/3/network/groupnets/{NetworkGroupnetId}",
             self.configuration.base_path,
@@ -185,7 +185,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkApi for NetworkApiClie
 
     fn get_network_dnscache(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::NetworkDnscache, Error = Error>> {
+    ) -> Result<crate::models::NetworkDnscache, Error> {
         let uri_str = format!(
             "{}/platform/3/network/dnscache",
             self.configuration.base_path
@@ -200,7 +200,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkApi for NetworkApiClie
 
     fn get_network_external(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::NetworkExternal, Error = Error>> {
+    ) -> Result<crate::models::NetworkExternal, Error> {
         let uri_str = format!(
             "{}/platform/3/network/external",
             self.configuration.base_path
@@ -216,7 +216,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkApi for NetworkApiClie
     fn get_network_groupnet(
         &self,
         network_groupnet_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::NetworkGroupnets, Error = Error>> {
+    ) -> Result<crate::models::NetworkGroupnets, Error> {
         let uri_str = format!(
             "{}/platform/3/network/groupnets/{NetworkGroupnetId}",
             self.configuration.base_path,
@@ -239,7 +239,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkApi for NetworkApiClie
         alloc_method: &str,
         limit: i32,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::PoolsPoolInterfaces, Error = Error>> {
+    ) -> Result<crate::models::PoolsPoolInterfaces, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("network", &network.to_string())
@@ -271,7 +271,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkApi for NetworkApiClie
         limit: i32,
         groupnet: &str,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::NetworkPools, Error = Error>> {
+    ) -> Result<crate::models::NetworkPools, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("subnet", &subnet.to_string())
@@ -303,7 +303,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkApi for NetworkApiClie
         dir: &str,
         groupnet: &str,
         pool: &str,
-    ) -> Box<dyn Future<Item = crate::models::PoolsPoolRulesExtended, Error = Error>> {
+    ) -> Result<crate::models::PoolsPoolRulesExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("subnet", &subnet.to_string())
@@ -332,7 +332,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkApi for NetworkApiClie
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::GroupnetSubnetsExtended, Error = Error>> {
+    ) -> Result<crate::models::GroupnetSubnetsExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("groupnet", &groupnet.to_string())
@@ -358,7 +358,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkApi for NetworkApiClie
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::NetworkGroupnetsExtended, Error = Error>> {
+    ) -> Result<crate::models::NetworkGroupnetsExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
@@ -380,7 +380,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkApi for NetworkApiClie
     fn update_network_dnscache(
         &self,
         network_dnscache: crate::models::NetworkDnscacheExtended,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/3/network/dnscache",
             self.configuration.base_path
@@ -391,7 +391,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkApi for NetworkApiClie
     fn update_network_external(
         &self,
         network_external: crate::models::NetworkExternalExtended,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/3/network/external",
             self.configuration.base_path
@@ -403,7 +403,7 @@ impl<C: hyper::client::connect::Connect + 'static> NetworkApi for NetworkApiClie
         &self,
         network_groupnet: crate::models::NetworkGroupnet,
         network_groupnet_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/3/network/groupnets/{NetworkGroupnetId}",
             self.configuration.base_path,

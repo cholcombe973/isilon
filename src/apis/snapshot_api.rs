@@ -33,63 +33,63 @@ pub trait SnapshotApi {
     fn create_snapshot_alias(
         &self,
         snapshot_alias: crate::models::SnapshotAliasCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotAliasResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateSnapshotAliasResponse, Error>;
     fn create_snapshot_changelist(
         &self,
         snapshot_changelist: crate::models::SnapshotChangelists,
-    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotChangelistResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateSnapshotChangelistResponse, Error>;
     fn create_snapshot_repstate(
         &self,
         snapshot_repstate: crate::models::SnapshotRepstates,
-    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotRepstateResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateSnapshotRepstateResponse, Error>;
     fn create_snapshot_schedule(
         &self,
         snapshot_schedule: crate::models::SnapshotScheduleCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotScheduleResponse, Error = Error>>;
+    ) -> Result<crate::models::CreateSnapshotScheduleResponse, Error>;
     fn create_snapshot_snapshot(
         &self,
         snapshot_snapshot: crate::models::SnapshotSnapshotCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotSnapshotExtended, Error = Error>>;
+    ) -> Result<crate::models::SnapshotSnapshotExtended, Error>;
     fn delete_snapshot_alias(
         &self,
         snapshot_alias_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
-    fn delete_snapshot_aliases(&self) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
+    fn delete_snapshot_aliases(&self) -> Result<(), Error>;
     fn delete_snapshot_changelist(
         &self,
         snapshot_changelist_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn delete_snapshot_repstate(
         &self,
         snapshot_repstate_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn delete_snapshot_schedule(
         &self,
         snapshot_schedule_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
-    fn delete_snapshot_schedules(&self) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
+    fn delete_snapshot_schedules(&self) -> Result<(), Error>;
     fn delete_snapshot_snapshot(
         &self,
         snapshot_snapshot_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn delete_snapshot_snapshots(
         &self,
         _type: &str,
         schedule: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn get_snapshot_alias(
         &self,
         snapshot_alias_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotAliases, Error = Error>>;
+    ) -> Result<crate::models::SnapshotAliases, Error>;
     fn get_snapshot_changelist(
         &self,
         snapshot_changelist_id: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotChangelists, Error = Error>>;
+    ) -> Result<crate::models::SnapshotChangelists, Error>;
     fn get_snapshot_license(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::LicenseLicense, Error = Error>>;
+    ) -> Result<crate::models::LicenseLicense, Error>;
     fn get_snapshot_pending(
         &self,
         limit: i32,
@@ -97,51 +97,51 @@ pub trait SnapshotApi {
         schedule: &str,
         end: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotPending, Error = Error>>;
+    ) -> Result<crate::models::SnapshotPending, Error>;
     fn get_snapshot_repstate(
         &self,
         snapshot_repstate_id: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotRepstates, Error = Error>>;
+    ) -> Result<crate::models::SnapshotRepstates, Error>;
     fn get_snapshot_schedule(
         &self,
         snapshot_schedule_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotSchedules, Error = Error>>;
+    ) -> Result<crate::models::SnapshotSchedules, Error>;
     fn get_snapshot_settings(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotSettings, Error = Error>>;
+    ) -> Result<crate::models::SnapshotSettings, Error>;
     fn get_snapshot_snapshot(
         &self,
         snapshot_snapshot_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotSnapshots, Error = Error>>;
+    ) -> Result<crate::models::SnapshotSnapshots, Error>;
     fn get_snapshot_snapshots_summary(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotSnapshotsSummary, Error = Error>>;
+    ) -> Result<crate::models::SnapshotSnapshotsSummary, Error>;
     fn list_snapshot_aliases(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotAliasesExtended, Error = Error>>;
+    ) -> Result<crate::models::SnapshotAliasesExtended, Error>;
     fn list_snapshot_changelists(
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotChangelistsExtended, Error = Error>>;
+    ) -> Result<crate::models::SnapshotChangelistsExtended, Error>;
     fn list_snapshot_repstates(
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotRepstatesExtended, Error = Error>>;
+    ) -> Result<crate::models::SnapshotRepstatesExtended, Error>;
     fn list_snapshot_schedules(
         &self,
         sort: &str,
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotSchedulesExtended, Error = Error>>;
+    ) -> Result<crate::models::SnapshotSchedulesExtended, Error>;
     fn list_snapshot_snapshots(
         &self,
         sort: &str,
@@ -151,33 +151,33 @@ pub trait SnapshotApi {
         limit: i32,
         _type: &str,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotSnapshotsExtended, Error = Error>>;
+    ) -> Result<crate::models::SnapshotSnapshotsExtended, Error>;
     fn update_snapshot_alias(
         &self,
         snapshot_alias: crate::models::SnapshotAlias,
         snapshot_alias_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_snapshot_schedule(
         &self,
         snapshot_schedule: crate::models::SnapshotSchedule,
         snapshot_schedule_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_snapshot_settings(
         &self,
         snapshot_settings: crate::models::SnapshotSettingsExtended,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
     fn update_snapshot_snapshot(
         &self,
         snapshot_snapshot: crate::models::SnapshotSnapshot,
         snapshot_snapshot_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>>;
+    ) -> Result<(), Error>;
 }
 
-impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiClient<C> {
+impl<C: hyper::client::connect::Connect + 'static + std::marker::Sync + std::marker::Send + Clone> SnapshotApi for SnapshotApiClient<C> {
     fn create_snapshot_alias(
         &self,
         snapshot_alias: crate::models::SnapshotAliasCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotAliasResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateSnapshotAliasResponse, Error> {
         let uri_str = format!(
             "{}/platform/1/snapshot/aliases",
             self.configuration.base_path
@@ -193,7 +193,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
     fn create_snapshot_changelist(
         &self,
         snapshot_changelist: crate::models::SnapshotChangelists,
-    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotChangelistResponse, Error = Error>>
+    ) -> Result<crate::models::CreateSnapshotChangelistResponse, Error>
     {
         let uri_str = format!(
             "{}/platform/1/snapshot/changelists",
@@ -210,7 +210,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
     fn create_snapshot_repstate(
         &self,
         snapshot_repstate: crate::models::SnapshotRepstates,
-    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotRepstateResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateSnapshotRepstateResponse, Error> {
         let uri_str = format!(
             "{}/platform/1/snapshot/repstates",
             self.configuration.base_path
@@ -226,7 +226,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
     fn create_snapshot_schedule(
         &self,
         snapshot_schedule: crate::models::SnapshotScheduleCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::CreateSnapshotScheduleResponse, Error = Error>> {
+    ) -> Result<crate::models::CreateSnapshotScheduleResponse, Error> {
         let uri_str = format!(
             "{}/platform/3/snapshot/schedules",
             self.configuration.base_path
@@ -242,7 +242,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
     fn create_snapshot_snapshot(
         &self,
         snapshot_snapshot: crate::models::SnapshotSnapshotCreateParams,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotSnapshotExtended, Error = Error>> {
+    ) -> Result<crate::models::SnapshotSnapshotExtended, Error> {
         let uri_str = format!(
             "{}/platform/1/snapshot/snapshots",
             self.configuration.base_path
@@ -258,7 +258,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
     fn delete_snapshot_alias(
         &self,
         snapshot_alias_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/1/snapshot/aliases/{SnapshotAliasId}",
             self.configuration.base_path,
@@ -272,7 +272,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
         )
     }
 
-    fn delete_snapshot_aliases(&self) -> Box<dyn Future<Item = (), Error = Error>> {
+    fn delete_snapshot_aliases(&self) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/1/snapshot/aliases",
             self.configuration.base_path
@@ -288,7 +288,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
     fn delete_snapshot_changelist(
         &self,
         snapshot_changelist_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/1/snapshot/changelists/{SnapshotChangelistId}",
             self.configuration.base_path,
@@ -305,7 +305,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
     fn delete_snapshot_repstate(
         &self,
         snapshot_repstate_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/1/snapshot/repstates/{SnapshotRepstateId}",
             self.configuration.base_path,
@@ -322,7 +322,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
     fn delete_snapshot_schedule(
         &self,
         snapshot_schedule_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/3/snapshot/schedules/{SnapshotScheduleId}",
             self.configuration.base_path,
@@ -336,7 +336,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
         )
     }
 
-    fn delete_snapshot_schedules(&self) -> Box<dyn Future<Item = (), Error = Error>> {
+    fn delete_snapshot_schedules(&self) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/3/snapshot/schedules",
             self.configuration.base_path
@@ -352,7 +352,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
     fn delete_snapshot_snapshot(
         &self,
         snapshot_snapshot_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri_str = format!(
             "{}/platform/1/snapshot/snapshots/{SnapshotSnapshotId}",
             self.configuration.base_path,
@@ -370,7 +370,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
         &self,
         _type: &str,
         schedule: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("type", &_type.to_string())
             .append_pair("schedule", &schedule.to_string())
@@ -390,7 +390,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
     fn get_snapshot_alias(
         &self,
         snapshot_alias_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotAliases, Error = Error>> {
+    ) -> Result<crate::models::SnapshotAliases, Error> {
         let uri_str = format!(
             "{}/platform/1/snapshot/aliases/{SnapshotAliasId}",
             self.configuration.base_path,
@@ -409,7 +409,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
         snapshot_changelist_id: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotChangelists, Error = Error>> {
+    ) -> Result<crate::models::SnapshotChangelists, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("limit", &limit.to_string())
             .append_pair("resume", &resume.to_string())
@@ -430,7 +430,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
 
     fn get_snapshot_license(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::LicenseLicense, Error = Error>> {
+    ) -> Result<crate::models::LicenseLicense, Error> {
         let uri_str = format!(
             "{}/platform/5/snapshot/license",
             self.configuration.base_path
@@ -450,7 +450,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
         schedule: &str,
         end: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotPending, Error = Error>> {
+    ) -> Result<crate::models::SnapshotPending, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("limit", &limit.to_string())
             .append_pair("begin", &begin.to_string())
@@ -475,7 +475,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
         snapshot_repstate_id: &str,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotRepstates, Error = Error>> {
+    ) -> Result<crate::models::SnapshotRepstates, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("limit", &limit.to_string())
             .append_pair("resume", &resume.to_string())
@@ -497,7 +497,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
     fn get_snapshot_schedule(
         &self,
         snapshot_schedule_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotSchedules, Error = Error>> {
+    ) -> Result<crate::models::SnapshotSchedules, Error> {
         let uri_str = format!(
             "{}/platform/3/snapshot/schedules/{SnapshotScheduleId}",
             self.configuration.base_path,
@@ -513,7 +513,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
 
     fn get_snapshot_settings(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotSettings, Error = Error>> {
+    ) -> Result<crate::models::SnapshotSettings, Error> {
         let uri_str = format!(
             "{}/platform/1/snapshot/settings",
             self.configuration.base_path
@@ -529,7 +529,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
     fn get_snapshot_snapshot(
         &self,
         snapshot_snapshot_id: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotSnapshots, Error = Error>> {
+    ) -> Result<crate::models::SnapshotSnapshots, Error> {
         let uri_str = format!(
             "{}/platform/1/snapshot/snapshots/{SnapshotSnapshotId}",
             self.configuration.base_path,
@@ -545,7 +545,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
 
     fn get_snapshot_snapshots_summary(
         &self,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotSnapshotsSummary, Error = Error>> {
+    ) -> Result<crate::models::SnapshotSnapshotsSummary, Error> {
         let uri_str = format!(
             "{}/platform/1/snapshot/snapshots-summary",
             self.configuration.base_path
@@ -564,7 +564,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotAliasesExtended, Error = Error>> {
+    ) -> Result<crate::models::SnapshotAliasesExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
@@ -587,7 +587,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotChangelistsExtended, Error = Error>> {
+    ) -> Result<crate::models::SnapshotChangelistsExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("limit", &limit.to_string())
             .append_pair("resume", &resume.to_string())
@@ -608,7 +608,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
         &self,
         limit: i32,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotRepstatesExtended, Error = Error>> {
+    ) -> Result<crate::models::SnapshotRepstatesExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("limit", &limit.to_string())
             .append_pair("resume", &resume.to_string())
@@ -631,7 +631,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
         limit: i32,
         dir: &str,
         resume: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotSchedulesExtended, Error = Error>> {
+    ) -> Result<crate::models::SnapshotSchedulesExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("limit", &limit.to_string())
@@ -659,7 +659,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
         limit: i32,
         _type: &str,
         dir: &str,
-    ) -> Box<dyn Future<Item = crate::models::SnapshotSnapshotsExtended, Error = Error>> {
+    ) -> Result<crate::models::SnapshotSnapshotsExtended, Error> {
         let q = ::url::form_urlencoded::Serializer::new(String::new())
             .append_pair("sort", &sort.to_string())
             .append_pair("schedule", &schedule.to_string())
@@ -685,7 +685,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
         &self,
         snapshot_alias: crate::models::SnapshotAlias,
         snapshot_alias_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri = format!(
             "{}/platform/1/snapshot/aliases/{SnapshotAliasId}",
             self.configuration.base_path,
@@ -698,7 +698,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
         &self,
         snapshot_schedule: crate::models::SnapshotSchedule,
         snapshot_schedule_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri = format!(
             "{}/platform/3/snapshot/schedules/{SnapshotScheduleId}",
             self.configuration.base_path,
@@ -710,7 +710,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
     fn update_snapshot_settings(
         &self,
         snapshot_settings: crate::models::SnapshotSettingsExtended,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri = format!(
             "{}/platform/1/snapshot/settings",
             self.configuration.base_path
@@ -722,7 +722,7 @@ impl<C: hyper::client::connect::Connect + 'static> SnapshotApi for SnapshotApiCl
         &self,
         snapshot_snapshot: crate::models::SnapshotSnapshot,
         snapshot_snapshot_id: &str,
-    ) -> Box<dyn Future<Item = (), Error = Error>> {
+    ) -> Result<(), Error> {
         let uri = format!(
             "{}/platform/1/snapshot/snapshots/{SnapshotSnapshotId}",
             self.configuration.base_path,
